@@ -101,7 +101,7 @@ const routeGroups: RouteGroup[] = [
     icon: Stethoscope,
     routes: [
       { label: 'Physician dashboard', path: '/physician/dashboard', type: 'Primary' },
-      { label: 'Protocol review', path: '/physician/medication-review/:id', samplePath: '/physician/medication-review/1', type: 'Flow' },
+      { label: 'Protocol review', path: '/physician/protocols/:id', samplePath: '/physician/protocols/1', type: 'Flow' },
       { label: 'Escalations inbox', path: '/physician/escalations', type: 'Primary' },
       { label: 'Report co-signature', path: '/physician/co-sign/:id', samplePath: '/physician/co-sign/1', type: 'Flow' },
       { label: 'Schedule configuration', path: '/physician/schedule', type: 'Primary' },
@@ -382,7 +382,7 @@ const scenarioLinks = [
   { label: 'Secretary Dashboard (HASANA)', icon: MessageSquare, path: '/secretary/home' },
   { label: 'Import Students (Emirates ID)', icon: UploadCloud, path: '/secretary/import-students' },
   { label: 'Physician Dashboard', icon: Stethoscope, path: '/physician/dashboard' },
-  { label: 'Physician Protocol Review', icon: ShieldCheck, path: '/physician/medication-review/1' },
+  { label: 'Physician Protocol Review', icon: ShieldCheck, path: '/physician/protocols/1' },
   { label: 'Medication administration', icon: Pill, path: '/nurse/daily-doses' },
   { label: 'Emergency escalation', icon: AlertTriangle, path: '/nurse/clinic/emergency-escalation' },
   { label: 'Parent document upload', icon: UploadCloud, path: '/parent/app/document-upload' },

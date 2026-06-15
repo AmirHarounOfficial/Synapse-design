@@ -794,7 +794,11 @@ export const router = createBrowserRouter([
         Component: PhysicianDashboard
       },
       {
-        path: 'medication-review/:id',
+        path: 'protocols',
+        Component: MedicationProtocolReview
+      },
+      {
+        path: 'protocols/:id',
         Component: MedicationProtocolReview
       },
       {

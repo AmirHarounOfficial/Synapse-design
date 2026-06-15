@@ -182,7 +182,7 @@ export function PhysicianDashboard() {
             {pendingProtocols.map((protocol) => (
               <div 
                 key={protocol.id}
-                onClick={() => navigate(`/physician/medication-review/${protocol.id}`)}
+                onClick={() => navigate(`/physician/protocols/${protocol.id}`)}
                 className="bg-white border border-[#E2E8F0] rounded-xl p-4 shadow-sm hover:border-[#0D9488] transition-all cursor-pointer flex justify-between items-center"
               >
                 <div className="space-y-1 text-left">
