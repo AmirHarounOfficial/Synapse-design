@@ -404,6 +404,44 @@ const typeStyles = {
   Legacy: 'bg-[#FEF3C7] text-[#92400E]',
 };
 
+const uaeUpdates = [
+  {
+    title: 'School Physician Role',
+    description: 'A completely new user workflow implementing the DHA-mandated on-site and on-call Physician portal. Features medication protocol approvals, clinical emergency escalations, report co-signatures, and on-site scheduling.',
+    path: '/physician/dashboard',
+    badge: 'New Role (6 Screens)',
+    icon: Stethoscope,
+  },
+  {
+    title: 'Bilingual RTL Layout & Auth',
+    description: 'Fully bidirectional RTL layout system with a bilingual language toggle (English ↔ Arabic). Includes customized confidentiality agreements reflecting UAE PDPL & Medical Liability laws, and a UAE Pass e-signature option.',
+    path: '/login',
+    badge: 'RTL + i18n',
+    icon: Sparkles,
+  },
+  {
+    title: 'Ramadan Mode & Trends',
+    description: 'Interactive system-level Ramadan state banner displaying adjusted school hours and daily dose reminders. Adds counselor tags for Ramadan fatigue and vertical seasonal markers in Principal analytics.',
+    path: '/system/ramadan',
+    badge: 'Ramadan Mode',
+    icon: Moon,
+  },
+  {
+    title: 'DHA HASANA Sync Widget',
+    description: 'Live sync status widget (Synced, Pending, Failed) for Dubai schools, embedded directly into Secretary and Principal dashboards for real-time compliance tracking.',
+    path: '/secretary/home',
+    badge: 'HASANA Integration',
+    icon: ShieldCheck,
+  },
+  {
+    title: 'UAE Compliance & Fields',
+    description: 'Validations and inputs for 15-digit Emirates IDs, UAE health insurance schemes, UAE phone numbers (+971), PO Box requirements, AED pricing display, and school curriculum selections.',
+    path: '/principal/legal-documents',
+    badge: 'PDPL & Compliance',
+    icon: FileCheck2,
+  },
+];
+
 export function SynapseNavigationMap() {
   const [query, setQuery] = useState('');
 
@@ -465,6 +503,59 @@ export function SynapseNavigationMap() {
               placeholder="Search by role, flow, screen, or route"
               className="h-12 w-full rounded-lg border border-[#CBD5E1] bg-white pl-10 pr-4 text-[15px] outline-none transition focus:border-[#2563EB] focus:ring-4 focus:ring-[#DBEAFE]"
             />
+          </div>
+        </div>
+      </section>
+
+      {/* UAE Market Adaptation Updates Section */}
+      <section className="mx-auto w-full max-w-7xl px-4 pt-6 sm:px-6 lg:px-8">
+        <div className="rounded-xl border border-[#006C35]/30 bg-gradient-to-br from-[#F8FAF9] to-[#ECFDF5] p-5 shadow-sm">
+          <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-center gap-3">
+              <span className="flex h-8 w-12 items-center justify-center rounded bg-[#006C35] text-[13px] text-white font-bold shadow-sm">
+                UAE
+              </span>
+              <div>
+                <h2 className="text-[18px] font-semibold text-[#006C35]">UAE Market Adaptation Updates</h2>
+                <p className="text-[13px] text-[#047857]">
+                  Key updates implemented to comply with UAE Ministry of Education (MoE), DHA, and federal directives.
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+            {uaeUpdates.map((update) => {
+              const Icon = update.icon;
+              return (
+                <Link
+                  key={update.title}
+                  to={update.path}
+                  className="group flex flex-col justify-between rounded-lg border border-[#E2E8F0] bg-white p-4 shadow-sm transition hover:border-[#006C35] hover:bg-[#F9FDFB] focus:outline-none focus:ring-2 focus:ring-[#006C35]/50"
+                >
+                  <div>
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="flex h-8 w-8 items-center justify-center rounded bg-[#E6F4EA] text-[#006C35]">
+                        <Icon className="h-4 w-4" />
+                      </span>
+                      <span className="rounded-full bg-[#E6F4EA] px-2 py-0.5 text-[10px] font-medium text-[#006C35]">
+                        {update.badge}
+                      </span>
+                    </div>
+                    <h3 className="mt-3 text-[14px] font-semibold text-[#0F172A] group-hover:text-[#006C35]">
+                      {update.title}
+                    </h3>
+                    <p className="mt-1.5 text-[12px] leading-relaxed text-[#64748B]">
+                      {update.description}
+                    </p>
+                  </div>
+                  <div className="mt-4 flex items-center gap-1 text-[12px] font-semibold text-[#006C35] opacity-80 group-hover:opacity-100">
+                    <span>Explore Screen</span>
+                    <ArrowRight className="h-3 w-3 transition group-hover:translate-x-0.5" />
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>
