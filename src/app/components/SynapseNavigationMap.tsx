@@ -36,6 +36,7 @@ import {
   Moon,
 } from 'lucide-react';
 import { useMemo, useState } from 'react';
+import { useLanguage } from '../../context/LanguageContext';
 
 type RouteItem = {
   label: string;
@@ -443,6 +444,7 @@ const uaeUpdates = [
 ];
 
 export function SynapseNavigationMap() {
+  const { language, toggleLanguage } = useLanguage();
   const [query, setQuery] = useState('');
 
   const normalizedQuery = query.trim().toLowerCase();
@@ -466,9 +468,19 @@ export function SynapseNavigationMap() {
         <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-4 py-6 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
-              <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-[#ECFDF5] px-3 py-1 text-[13px] font-medium text-[#047857]">
-                <Sparkles className="h-4 w-4" />
-                Main prototype navigation
+              <div className="mb-3 flex flex-wrap items-center gap-2">
+                <div className="inline-flex items-center gap-2 rounded-full bg-[#ECFDF5] px-3 py-1 text-[13px] font-medium text-[#047857]">
+                  <Sparkles className="h-4 w-4" />
+                  Main prototype navigation
+                </div>
+                
+                <button
+                  type="button"
+                  onClick={toggleLanguage}
+                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#F1F5F9] border border-[#E2E8F0] hover:border-[#CBD5E1] text-[12px] font-semibold text-[#475569] transition-all cursor-pointer"
+                >
+                  <span>{language === 'en' ? 'Switch to العربية' : 'Switch to English'}</span>
+                </button>
               </div>
               <h1 className="text-[34px] font-semibold leading-tight tracking-normal text-[#0F172A] sm:text-[44px]">
                 Synapse Navigation Map
