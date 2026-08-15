@@ -1,0 +1,57 @@
+name: schookeep
+description: "SchooKeep — UAE K-12 school health management app."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.11.5
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+
+  # State management
+  flutter_bloc: ^9.0.0
+  equatable: ^2.0.7
+
+  # Routing
+  go_router: ^14.6.2
+
+  # Dependency injection
+  get_it: ^8.0.3
+
+  # i18n / formatting
+  intl: any
+
+  # Persistence (replaces localStorage)
+  shared_preferences: ^2.3.4
+
+  # Icons (matches lucide-react) & fonts (Inter)
+  lucide_icons: ^0.257.0
+  google_fonts: ^6.2.1
+
+  # Feature packages
+  signature: ^5.5.0
+  mobile_scanner: ^6.0.2
+  image_picker: ^1.1.2
+  fl_chart: ^0.69.2
+  hijri: ^3.0.0
+  flutter_map: ^7.0.2      # OpenStreetMap-based maps (no API key needed)
+  latlong2: ^0.9.1
+
+  # API layer (wired later; mock repositories used initially)
+  dio: ^5.7.0
+  file_picker: ^11.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true

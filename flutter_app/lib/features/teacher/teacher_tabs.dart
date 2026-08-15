@@ -1,0 +1,11 @@
+import 'package:lucide_icons/lucide_icons.dart';
+
+import '../../core/widgets/schookeep_bottom_nav.dart';
+
+/// Bottom-nav tabs for the Teacher role (ported from `TeacherLayout.tsx`).
+const teacherTabs = <SchooKeepTab>[
+  SchooKeepTab(icon: LucideIcons.home, label: 'Home', route: '/teacher/home'),
+  SchooKeepTab(icon: LucideIcons.users, label: 'Attendance', route: '/teacher/attendance'),
+  SchooKeepTab(icon: LucideIcons.bell, label: 'Alerts', route: '/teacher/weather-restriction'),
+  SchooKeepTab(icon: LucideIcons.stethoscope, label: 'Referrals', route: '/teacher/clinic-referral'),
+];

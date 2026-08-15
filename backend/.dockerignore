@@ -1,0 +1,16 @@
+.git
+.gitignore
+vendor
+node_modules
+storage/*.key
+storage/logs/*
+storage/framework/cache/data/*
+storage/framework/sessions/*
+storage/framework/views/*
+database/database.sqlite
+.env
+.env.backup
+.phpunit.result.cache
+Dockerfile
+docker-compose.yml
+README.md

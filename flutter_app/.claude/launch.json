@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "schookeep-web",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["-y", "serve", "-s", "build/web", "-l", "8091"],
+      "port": 8091
+    }
+  ]
+}
