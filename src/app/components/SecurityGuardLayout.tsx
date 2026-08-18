@@ -2,6 +2,8 @@ import { Outlet, useLocation, useNavigate } from 'react-router';
 import { Users, ScanLine, Clock, Settings } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 
+import { FloatingAiButton } from './FloatingAiButton';
+
 export function SecurityGuardLayout() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -33,6 +35,7 @@ export function SecurityGuardLayout() {
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
       <Outlet />
+      <FloatingAiButton />
 
       {/* Bottom Tab Bar */}
       <nav className="fixed bottom-0 left-0 right-0 h-[83px] bg-white border-t border-gray-200 flex items-start pt-2">

@@ -3,6 +3,8 @@ import { Outlet, Link, useLocation } from 'react-router';
 import { Home, Pill, AlertTriangle, Settings } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 
+import { FloatingAiButton } from './FloatingAiButton';
+
 export function PhysicianLayout() {
   const location = useLocation();
   const { isRTL } = useLanguage();
@@ -19,6 +21,7 @@ export function PhysicianLayout() {
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
       <Outlet />
+      <FloatingAiButton />
 
       {/* Bottom Tab Bar */}
       <div className="fixed bottom-0 left-0 right-0 bg-[#FFFFFF] border-t border-[#E2E8F0] pb-[env(safe-area-inset-bottom)] z-50">

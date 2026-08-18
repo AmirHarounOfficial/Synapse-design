@@ -2,6 +2,8 @@ import { Outlet, useLocation, useNavigate } from 'react-router';
 import { Home, Heart, Pill, FileText, MessageCircle } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 
+import { FloatingAiButton } from './FloatingAiButton';
+
 export function ParentAppLayout() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -27,6 +29,7 @@ export function ParentAppLayout() {
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
       <Outlet />
+      <FloatingAiButton />
 
       {/* Bottom Tab Bar */}
       <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 safe-area-inset-bottom">

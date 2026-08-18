@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate, useSearchParams } from 'react-router';
 import { ArrowLeft, Send, Paperclip, Sparkles, Loader2, Brain, ChevronDown, ChevronUp, Plus, History, Trash2, X, MessageSquare } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 import { chatStorage, ChatThread, ChatMessage } from '../services/chatStorage';
@@ -18,8 +18,10 @@ interface AiFetchResult {
   reasoning?: string;
 }
 
-export function SchooKeepAiAssistant({ role = 'general', title }: SchooKeepAiAssistantProps) {
+export function SchooKeepAiAssistant({ role: propRole, title }: SchooKeepAiAssistantProps) {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const role = propRole || searchParams.get('role') || 'general';
   const { isRTL } = useLanguage();
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);

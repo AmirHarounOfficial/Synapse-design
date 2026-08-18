@@ -2,6 +2,8 @@ import { Outlet, useLocation, useNavigate } from 'react-router';
 import { Home, Users, MessageCircle, Bot, Settings } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 
+import { FloatingAiButton } from './FloatingAiButton';
+
 export function SecretaryLayout() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -11,7 +13,7 @@ export function SecretaryLayout() {
     { id: 'home', label: 'Home', icon: Home, path: '/secretary/home' },
     { id: 'students', label: 'Students', icon: Users, path: '/secretary/students' },
     { id: 'messages', label: 'Messages', icon: MessageCircle, path: '/secretary/messages' },
-    { id: 'chatbot', label: 'Chatbot', icon: Bot, path: '/secretary/chatbot' },
+    { id: 'chatbot', label: 'AI Assistant', icon: Bot, path: '/ai-assistant?role=secretary' },
     { id: 'settings', label: 'Settings', icon: Settings, path: '/secretary/settings' }
   ];
 
@@ -27,6 +29,7 @@ export function SecretaryLayout() {
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
       <Outlet />
+      <FloatingAiButton />
 
       {/* Bottom Tab Bar */}
       <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 safe-area-inset-bottom">
