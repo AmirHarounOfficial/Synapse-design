@@ -22,19 +22,35 @@ class OpenRouterService
      *
      * @param string $userMessage
      * @param array $history Array of [['role' => 'user'|'assistant', 'content' => '...']]
+     * @param string $role Role context: physician, nurse, parent, teacher, principal, vice_principal, counselor, secretary, security, bus_driver, cafeteria, system
      * @return string AI response content
      */
-    public function chat(string $userMessage, array $history = []): string
+    public function chat(string $userMessage, array $history = [], string $role = 'parent'): string
     {
+        $roleContext = match (strtolower($role)) {
+            'physician' => 'School Physician Assistant. Guide on clinical diagnosis logs, medication prescriptions, DHA/DOH UAE medical compliance, emergency triage, and health clearance certificates.',
+            'nurse' => 'School Nurse Assistant. Guide on daily clinic visits, student vital signs, first-aid administration, immunization tracking, and parent notifications.',
+            'teacher' => 'Teacher Health & Safety Assistant. Guide on classroom illness isolation, student medical action plans (asthma/allergies), emergency assembly, and health excusals.',
+            'principal', 'viceprincipal', 'vice_principal' => 'School Principal Executive Assistant. Guide on campus health compliance audits, incident escalation logs, clinic staffing reports, and UAE health authority inspections.',
+            'counselor' => 'School Mental Health & Counseling Assistant. Guide on student wellness protocols, anti-bullying guidelines, emotional support resources, and confidential referral workflows.',
+            'secretary' => 'School Administrative Assistant. Guide on appointment scheduling, parent communication logs, student sick leave documentation, and health record transfers.',
+            'security' => 'Campus Safety & Security Assistant. Guide on perimeter health screening, visitor check-in safety protocols, emergency assembly points, and ambulance access control.',
+            'busdriver', 'bus_driver' => 'School Transportation Health & Safety Assistant. Guide on bus medical emergency procedures, motion sickness protocols, heat exhaustion prevention, and first-aid kit management.',
+            'cafeteria' => 'School Nutrition & Cafeteria Assistant. Guide on 100% Halal food certification, food allergen isolation (nuts, dairy, gluten), hygienic meal preparation, and student dietary plans.',
+            default => 'School Health & Safety AI Assistant for Parents and Guardians. Guide on clinic operating hours, medication submissions, sick leave notices, and UAE health protocols.',
+        };
+
         $systemPrompt = <<<PROMPT
 You are SchooKeep AI — an intelligent, empathetic K-12 School Health & Safety AI Assistant for schools in the UAE.
 
+Active Context: Assisting a user in the role of "$roleContext".
+
 Key Guidelines & Context:
-1. Primary Role: Help parents and guardians with school health procedures, clinic visit inquiries, medication submission protocols, Halal cafeteria rules, Ramadan operating hours, and UAE medical compliance.
-2. Identity: Always refer to yourself as "SchooKeep AI". Never mention internal technical model names, providers, or infrastructure in your messages to parents.
+1. Primary Role: Provide role-specific guidance tailored to the user's responsibilities while maintaining UAE K-12 health & safety standards.
+2. Identity: Always refer to yourself as "SchooKeep AI". Never mention internal technical model names, providers, or infrastructure.
 3. Clinic Hours: Standard school days 08:00 AM – 03:30 PM. During Ramadan mode: 08:00 AM – 01:30 PM.
 4. Emergency Numbers: UAE Ambulance 998, UAE Police 999. Always emphasize calling 998 for severe medical emergencies.
-5. Disclaimer: You do not provide binding clinical diagnoses. Nurse or Physician review is required for prescriptions and treatments.
+5. Disclaimer: Provide informational guidance. Nurse or Physician review is required for clinical prescriptions and treatments.
 6. Language: Always respond in the language used by the user (Arabic if user speaks Arabic, English if user speaks English). Keep responses concise, clear, and professional.
 PROMPT;
 
@@ -61,14 +77,12 @@ PROMPT;
         try {
             $response = Http::withHeaders([
                 'Authorization' => 'Bearer ' . $this->apiKey,
-                'HTTP-Referer' => config('app.url', 'http://localhost'),
-                'X-Title' => 'SchooKeep Health App (UAE)',
                 'Content-Type' => 'application/json',
             ])->timeout(15)->post($this->baseUrl, [
                 'model' => $this->model,
                 'messages' => $messages,
                 'temperature' => 0.7,
-                'max_tokens' => 500,
+                'max_tokens' => 600,
             ]);
 
             if ($response->successful()) {

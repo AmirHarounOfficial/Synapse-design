@@ -2,70 +2,114 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../core/di/service_locator.dart';
 import '../../../core/localization/l10n_ext.dart';
 import '../../../core/localization/locale_cubit.dart';
 import '../../../core/network/api_client.dart';
+import '../../../core/storage/chat_storage_service.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
 import 'package:schookeep/core/router/safe_back.dart';
 
-const String _kOpenRouterKey =
-    String.fromEnvironment('OPENROUTER_API_KEY', defaultValue: '');
+const String _kOpenRouterKey = String.fromEnvironment(
+  'OPENROUTER_API_KEY',
+  defaultValue: '',
+);
 const String _kOpenRouterModel = 'nvidia/nemotron-3-nano-30b-a3b:free';
 
-/// Ported from `ParentChatbotAssistant.tsx`. Full-screen AI chat with
-/// "SchooKeep AI", connected to OpenRouter API (Nvidia Nemotron Nano model).
+/// Universal SchooKeep AI Assistant Screen supporting multi-session saved chats,
+/// History Drawer, New Chat thread creation, and role context.
 class ParentChatbotAssistantScreen extends StatefulWidget {
-  const ParentChatbotAssistantScreen({super.key});
+  const ParentChatbotAssistantScreen({super.key, this.role = 'parent'});
+
+  final String role;
 
   @override
   State<ParentChatbotAssistantScreen> createState() =>
       _ParentChatbotAssistantScreenState();
 }
 
-class _ChatMessage {
-  _ChatMessage({
-    required this.id,
-    required this.text,
-    required this.isBot,
-    required this.timestamp,
-  });
+class _AiResponseResult {
+  final String content;
+  final String? reasoning;
 
-  final String id;
-  final String text;
-  final bool isBot;
-  final String timestamp;
+  _AiResponseResult({required this.content, this.reasoning});
 }
 
 class _ParentChatbotAssistantScreenState
     extends State<ParentChatbotAssistantScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final TextEditingController _controller = TextEditingController();
   final ScrollController _scrollController = ScrollController();
   final ApiClient _apiClient = sl<ApiClient>();
 
-  static const bool _isSchoolClosed = false;
-
-  int? _conversationId;
+  late ChatStorageService _storage;
+  FlutterChatThread? _currentThread;
+  List<FlutterChatThread> _threads = [];
   bool _sending = false;
-
-  late final List<_ChatMessage> _messages;
 
   @override
   void initState() {
     super.initState();
+    _initStorage();
+  }
+
+  Future<void> _initStorage() async {
+    final prefs = await SharedPreferences.getInstance();
+    _storage = ChatStorageService(prefs);
+    _reloadThreads();
+  }
+
+  void _reloadThreads() {
     final isRTL = context.read<LocaleCubit>().state.isRTL;
-    _messages = [
-      _ChatMessage(
-        id: 'greeting',
-        text: isRTL
-            ? 'مرحباً! أنا مساعد سكوكيب الذكي (SchooKeep AI). كيف يمكنني مساعدتك اليوم؟'
-            : 'Hello! I am SchooKeep AI. How can I help you today?',
-        isBot: true,
-        timestamp: _now(),
-      ),
-    ];
+    final loaded = _storage.getThreads(role: widget.role);
+    setState(() {
+      _threads = loaded;
+      if (loaded.isNotEmpty) {
+        _currentThread = loaded.first;
+      } else {
+        _currentThread = _storage.createNewThread(role: widget.role, isRTL: isRTL);
+        _threads = [_currentThread!];
+      }
+    });
+  }
+
+  void _handleNewChat() {
+    final isRTL = context.read<LocaleCubit>().state.isRTL;
+    final newThread = _storage.createNewThread(role: widget.role, isRTL: isRTL);
+    setState(() {
+      _currentThread = newThread;
+      _threads = _storage.getThreads(role: widget.role);
+    });
+    if (_scaffoldKey.currentState?.isDrawerOpen ?? false) {
+      Navigator.of(context).pop();
+    }
+  }
+
+  void _handleSelectThread(FlutterChatThread thread) {
+    setState(() {
+      _currentThread = thread;
+    });
+    Navigator.of(context).pop();
+  }
+
+  void _handleDeleteThread(String id) {
+    _storage.deleteThread(id);
+    final loaded = _storage.getThreads(role: widget.role);
+    final isRTL = context.read<LocaleCubit>().state.isRTL;
+    setState(() {
+      _threads = loaded;
+      if (_currentThread?.id == id) {
+        if (loaded.isNotEmpty) {
+          _currentThread = loaded.first;
+        } else {
+          _currentThread = _storage.createNewThread(role: widget.role, isRTL: isRTL);
+          _threads = [_currentThread!];
+        }
+      }
+    });
   }
 
   @override
@@ -75,10 +119,8 @@ class _ParentChatbotAssistantScreenState
     super.dispose();
   }
 
-  String _now() => _formatTime(DateTime.now());
-
-  static String _formatTime(DateTime? dt) {
-    final local = (dt ?? DateTime.now()).toLocal();
+  String _now() {
+    final local = DateTime.now().toLocal();
     final h = local.hour % 12 == 0 ? 12 : local.hour % 12;
     final m = local.minute.toString().padLeft(2, '0');
     final period = local.hour < 12 ? 'AM' : 'PM';
@@ -93,18 +135,18 @@ class _ParentChatbotAssistantScreenState
     });
   }
 
-  /// Calls OpenRouter API directly from Flutter client when backend service is offline
-  Future<String?> _fetchOpenRouterDirect(
-      String userText, List<_ChatMessage> history) async {
+  /// Calls OpenRouter API directly from Flutter client
+  Future<_AiResponseResult?> _fetchOpenRouterDirect(
+      String userText, List<FlutterChatMessage> history) async {
     try {
-      const systemPrompt = '''You are SchooKeep AI — an intelligent, empathetic K-12 School Health & Safety AI Assistant for schools in the UAE.
-Key Guidelines & Context:
-1. Primary Role: Help parents and guardians with school health procedures, clinic visit inquiries, medication submission protocols, Halal cafeteria rules, Ramadan operating hours, and UAE medical compliance.
-2. Identity: Always refer to yourself as "SchooKeep AI". Never mention internal technical model names, providers, or infrastructure in your messages to parents.
+      final systemPrompt = '''You are SchooKeep AI — an intelligent, empathetic K-12 School Health & Safety AI Assistant for schools in the UAE.
+Active Role Context: "${widget.role}". Tailor your advice for this role while maintaining UAE medical & safety compliance.
+Key Guidelines:
+1. Primary Role: Provide role-specific guidance.
+2. Identity: Always refer to yourself as "SchooKeep AI". Never mention model names or infrastructure.
 3. Clinic Hours: Standard school days 08:00 AM – 03:30 PM. During Ramadan mode: 08:00 AM – 01:30 PM.
-4. Emergency Numbers: UAE Ambulance 998, UAE Police 999. Always emphasize calling 998 for severe medical emergencies.
-5. Disclaimer: You do not provide binding clinical diagnoses. Nurse or Physician review is required for prescriptions and treatments.
-6. Language: Always respond in the language used by the user (Arabic if user speaks Arabic, English if user speaks English). Keep responses concise, clear, and professional.''';
+4. Emergency Numbers: UAE Ambulance 998, UAE Police 999.
+5. Language: Always respond in the language used by the user.''';
 
       final apiMessages = [
         {'role': 'system', 'content': systemPrompt},
@@ -115,24 +157,24 @@ Key Guidelines & Context:
         {'role': 'user', 'content': userText},
       ];
 
-      final dio = Dio();
-      final response = await dio.post<Map<String, dynamic>>(
-        'https://openrouter.ai/api/v1/chat/completions',
-        options: Options(
+      final dio = Dio(
+        BaseOptions(
+          connectTimeout: const Duration(seconds: 15),
+          receiveTimeout: const Duration(seconds: 15),
           headers: {
             'Authorization': 'Bearer $_kOpenRouterKey',
             'Content-Type': 'application/json',
-            'HTTP-Referer': 'https://schookeep.com',
-            'X-Title': 'SchooKeep Health App',
           },
-          sendTimeout: const Duration(seconds: 12),
-          receiveTimeout: const Duration(seconds: 12),
         ),
+      );
+
+      final response = await dio.post<Map<String, dynamic>>(
+        'https://openrouter.ai/api/v1/chat/completions',
         data: {
           'model': _kOpenRouterModel,
           'messages': apiMessages,
           'temperature': 0.7,
-          'max_tokens': 500,
+          'max_tokens': 600,
         },
       );
 
@@ -141,11 +183,25 @@ Key Guidelines & Context:
         if (choices != null && choices.isNotEmpty) {
           final firstChoice = choices[0] as Map<String, dynamic>?;
           final msg = firstChoice?['message'] as Map<String, dynamic>?;
-          return msg?['content'] as String?;
+          String? rawContent = msg?['content'] as String?;
+          String? reasoning = (msg?['reasoning'] ?? firstChoice?['reasoning']) as String?;
+
+          if (rawContent != null && rawContent.contains('<think>')) {
+            final thinkRegex = RegExp(r'<think>(.*?)</think>', dotAll: true);
+            final match = thinkRegex.firstMatch(rawContent);
+            if (match != null) {
+              reasoning = match.group(1)?.trim();
+              rawContent = rawContent.replaceAll(thinkRegex, '').trim();
+            }
+          }
+
+          if (rawContent != null && rawContent.isNotEmpty) {
+            return _AiResponseResult(content: rawContent, reasoning: reasoning);
+          }
         }
       }
     } catch (e) {
-      debugPrint('Direct OpenRouter fetch exception: $e');
+      debugPrint('[SchooKeep AI] Direct fetch exception: $e');
     }
     return null;
   }
@@ -153,77 +209,92 @@ Key Guidelines & Context:
   Future<void> _handleSend() async {
     final isRTL = context.read<LocaleCubit>().state.isRTL;
     final text = _controller.text.trim();
-    if (text.isEmpty || _sending) return;
+    if (text.isEmpty || _sending || _currentThread == null) return;
 
     _controller.clear();
     final tempId = 'local-${DateTime.now().millisecondsSinceEpoch}';
+    final userMsg = FlutterChatMessage(
+      id: tempId,
+      text: text,
+      isBot: false,
+      timestamp: _now(),
+    );
+
     setState(() {
       _sending = true;
-      _messages.add(_ChatMessage(
-        id: tempId,
-        text: text,
-        isBot: false,
-        timestamp: _now(),
-      ));
+      _currentThread!.messages.add(userMsg);
+      if (_currentThread!.messages.length <= 2) {
+        _currentThread!.title = text.length > 30 ? '${text.substring(0, 30)}...' : text;
+      }
+      _currentThread!.updatedAt = DateTime.now().toIso8601String();
     });
+    _storage.saveThread(_currentThread!);
     _scrollToBottom();
 
     try {
-      String? aiReply;
+      _AiResponseResult? result;
 
-      // 1. Try backend server API
-      try {
-        final res = await _apiClient.dio.post<Map<String, dynamic>>(
-          '/chatbot/ask',
-          data: {
-            'message': text,
-            'history': _messages.map((m) => {
-                  'role': m.isBot ? 'bot' : 'user',
-                  'content': m.text,
-                }).toList(),
-            if (_conversationId != null) 'conversation_id': _conversationId,
-          },
-        );
+      // 1. Direct OpenRouter AI call FIRST
+      result = await _fetchOpenRouterDirect(text, _currentThread!.messages);
 
-        if (res.data != null) {
-          aiReply = (res.data!['reply'] ?? res.data!['response']) as String?;
-        }
-      } catch (_) {
-        // Local backend endpoint offline or unreachable
+      // 2. Fallback to backend API
+      if (result == null) {
+        try {
+          final res = await _apiClient.dio.post<Map<String, dynamic>>(
+            '/chatbot/ask',
+            data: {
+              'message': text,
+              'history': _currentThread!.messages.map((m) => {
+                    'role': m.isBot ? 'bot' : 'user',
+                    'content': m.text,
+                  }).toList(),
+              'role': widget.role,
+            },
+          );
+
+          if (res.data != null) {
+            final content = (res.data!['reply'] ?? res.data!['response']) as String?;
+            if (content != null && content.isNotEmpty) {
+              result = _AiResponseResult(content: content);
+            }
+          }
+        } catch (_) {}
       }
 
-      // 2. Direct OpenRouter AI call
-      if (aiReply == null || aiReply.isEmpty) {
-        aiReply = await _fetchOpenRouterDirect(text, _messages);
-      }
-
-      // 3. Fallback only if both network attempts fail
-      if (aiReply == null || aiReply.isEmpty) {
+      // 3. Fallback message if network calls fail
+      if (result == null) {
         final lower = text.toLowerCase();
+        String fallbackContent;
         if (lower.contains('hour') || lower.contains('time') || lower.contains('open') || text.contains('ساعات') || text.contains('وقت')) {
-          aiReply = isRTL
+          fallbackContent = isRTL
               ? 'تعمل العيادة المدرسية من الساعة 08:00 صباحاً حتى 03:30 مساءً خلال أيام الدراسة (ومن 08:00 صباحاً حتى 01:30 مساءً في رمضان).'
               : 'The school clinic operates from 8:00 AM to 3:30 PM on school days (8:00 AM to 1:30 PM during Ramadan).';
         } else if (lower.contains('medication') || lower.contains('dose') || text.contains('دواء') || text.contains('جرعة')) {
-          aiReply = isRTL
-              ? 'يمكنك تسجيل مواعيد الأدوية والجرعات عبر تبويب الأدوية. تتطلب كافة الأدوية موافقة طبيب المدرسة والممرضة.'
-              : 'You can submit medication schedules and doses in the Medications tab. All school doses require physician and nurse approval.';
+          fallbackContent = isRTL
+              ? 'يمكنك تسجيل مواعيد الأدوية والجرعات عبر تبويب الأدوية. تتطلب كافة الأدوية موافقة الفريق الطبي.'
+              : 'You can submit medication schedules and doses in the Medications tab. All school doses require medical approval.';
         } else {
-          aiReply = isRTL
+          fallbackContent = isRTL
               ? 'أنا مساعد سكوكيب الذكي (SchooKeep AI). تمت مراجعة واستلام استفسارك وسيتم إفادتك فوراً حسب معايير الصحة المدرسية.'
               : 'I am SchooKeep AI. Your inquiry has been processed per UAE school health standards.';
         }
+        result = _AiResponseResult(content: fallbackContent);
       }
 
       if (!mounted) return;
+      final botMsg = FlutterChatMessage(
+        id: 'ai-${DateTime.now().millisecondsSinceEpoch}',
+        text: result.content,
+        isBot: true,
+        timestamp: _now(),
+        reasoning: result.reasoning,
+      );
+
       setState(() {
-        _messages.add(_ChatMessage(
-          id: 'ai-${DateTime.now().millisecondsSinceEpoch}',
-          text: aiReply!,
-          isBot: true,
-          timestamp: _now(),
-        ));
+        _currentThread!.messages.add(botMsg);
+        _currentThread!.updatedAt = DateTime.now().toIso8601String();
       });
+      _storage.saveThread(_currentThread!);
       _scrollToBottom();
     } catch (e) {
       if (!mounted) return;
@@ -239,10 +310,12 @@ Key Guidelines & Context:
   Widget build(BuildContext context) {
     final isRTL = context.isRTL;
 
-    return SchooKeepScaffold(
-      scrollable: false,
+    return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: SchooKeepColors.background,
-      appBar: SchooKeepAppBar(
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(56),
+        child: SchooKeepAppBar(
         onBack: () => context.safeBack(),
         titleWidget: Row(
           children: [
@@ -261,25 +334,46 @@ Key Guidelines & Context:
                       color: Colors.white)),
             ),
             const SizedBox(width: 8),
-            Text(
-              isRTL ? 'مساعد سكوكيب الذكي' : 'SchooKeep AI',
-              style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: SchooKeepColors.textPrimary),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  isRTL ? 'مساعد سكوكيب الذكي' : 'SchooKeep AI',
+                  style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                      color: SchooKeepColors.textPrimary),
+                ),
+                Text(
+                  '${widget.role.toUpperCase()} Mode',
+                  style: const TextStyle(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w500,
+                      color: SchooKeepColors.primary),
+                ),
+              ],
             ),
           ],
         ),
-        actions: const [
-          SizedBox(
-            width: 44,
-            height: 44,
-            child: Icon(LucideIcons.info,
-                size: 24, color: SchooKeepColors.textPrimary),
+        actions: [
+          IconButton(
+            onPressed: () => _scaffoldKey.currentState?.openDrawer(),
+            icon: const Icon(LucideIcons.history,
+                size: 22, color: SchooKeepColors.textPrimary),
+            tooltip: isRTL ? 'المحادثات المحفوظة' : 'Chat History',
+          ),
+          IconButton(
+            onPressed: _handleNewChat,
+            icon: const Icon(LucideIcons.plusCircle,
+                size: 22, color: SchooKeepColors.primary),
+            tooltip: isRTL ? 'محادثة جديدة' : 'New Chat',
           ),
         ],
       ),
-      bottomBar: Column(
+    ),
+      drawer: _buildHistoryDrawer(isRTL),
+      bottomNavigationBar: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
@@ -380,40 +474,19 @@ Key Guidelines & Context:
       ),
       body: Column(
         children: [
-          if (_isSchoolClosed)
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              decoration: const BoxDecoration(
-                color: SchooKeepColors.amberChipBg,
-                border:
-                    Border(bottom: BorderSide(color: SchooKeepColors.warning)),
-              ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Icon(LucideIcons.alertTriangle,
-                      size: 16, color: SchooKeepColors.warning),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Text(
-                      isRTL
-                          ? '⚠ المدرسة مغلقة. سيرد المساعد على الأسئلة العامة. في حالات الطوارئ اتصل بـ 998.'
-                          : '⚠ School is closed. The assistant will respond to general questions. For emergencies, call 998.',
-                      style: const TextStyle(
-                          fontSize: 12, color: SchooKeepColors.amberText),
-                    ),
-                  ),
-                ],
-              ),
-            ),
           Expanded(
             child: ListView.separated(
               controller: _scrollController,
               padding: const EdgeInsets.all(16),
-              itemCount: _messages.length,
+              itemCount: (_currentThread?.messages.length ?? 0) + (_sending ? 1 : 0),
               separatorBuilder: (_, _) => const SizedBox(height: 16),
-              itemBuilder: (context, index) => _bubble(_messages[index]),
+              itemBuilder: (context, index) {
+                final msgs = _currentThread?.messages ?? [];
+                if (index < msgs.length) {
+                  return _bubble(msgs[index]);
+                }
+                return _thinkingIndicator(isRTL);
+              },
             ),
           ),
         ],
@@ -421,11 +494,219 @@ Key Guidelines & Context:
     );
   }
 
-  Widget _bubble(_ChatMessage msg) {
+  Widget _buildHistoryDrawer(bool isRTL) {
+    return Drawer(
+      child: SafeArea(
+        child: Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: const BoxDecoration(
+                color: SchooKeepColors.surface,
+                border: Border(bottom: BorderSide(color: SchooKeepColors.border)),
+              ),
+              child: Row(
+                children: [
+                  const Icon(LucideIcons.history, color: SchooKeepColors.primary, size: 20),
+                  const SizedBox(width: 8),
+                  Text(
+                    isRTL ? 'المحادثات المحفوظة' : 'Saved Chats',
+                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(12),
+              child: SizedBox(
+                width: double.infinity,
+                child: ElevatedButton.icon(
+                  onPressed: _handleNewChat,
+                  icon: const Icon(LucideIcons.plus, size: 18),
+                  label: Text(isRTL ? 'بدء محادثة جديدة' : 'Start New Chat'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: SchooKeepColors.primary,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              child: _threads.isEmpty
+                  ? Center(
+                      child: Text(
+                        isRTL ? 'لا توجد محادثات' : 'No saved chats',
+                        style: const TextStyle(color: SchooKeepColors.textSecondary),
+                      ),
+                    )
+                  : ListView.builder(
+                      itemCount: _threads.length,
+                      itemBuilder: (context, index) {
+                        final thread = _threads[index];
+                        final isSelected = _currentThread?.id == thread.id;
+                        return ListTile(
+                          selected: isSelected,
+                          selectedTileColor: const Color(0xFFEFF6FF),
+                          leading: Icon(
+                            LucideIcons.messageSquare,
+                            color: isSelected ? SchooKeepColors.primary : SchooKeepColors.textSecondary,
+                            size: 18,
+                          ),
+                          title: Text(
+                            thread.title,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                              color: isSelected ? SchooKeepColors.primary : SchooKeepColors.textPrimary,
+                            ),
+                          ),
+                          trailing: IconButton(
+                            icon: const Icon(LucideIcons.trash2, size: 16, color: Colors.grey),
+                            onPressed: () => _handleDeleteThread(thread.id),
+                          ),
+                          onTap: () => _handleSelectThread(thread),
+                        );
+                      },
+                    ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _thinkingIndicator(bool isRTL) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          margin: const EdgeInsets.only(top: 4),
+          width: 32,
+          height: 32,
+          decoration: const BoxDecoration(
+            color: Color(0xFFEFF6FF),
+            shape: BoxShape.circle,
+          ),
+          alignment: Alignment.center,
+          child: const Icon(LucideIcons.sparkles,
+              size: 16, color: SchooKeepColors.primary),
+        ),
+        const SizedBox(width: 8),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border.all(color: SchooKeepColors.border),
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SizedBox(
+                width: 14,
+                height: 14,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  color: SchooKeepColors.primary,
+                ),
+              ),
+              const SizedBox(width: 8),
+              Text(
+                isRTL ? 'يفكر SchooKeep AI في الإجابة...' : 'SchooKeep AI is thinking...',
+                style: const TextStyle(
+                  fontSize: 13,
+                  fontStyle: FontStyle.italic,
+                  color: SchooKeepColors.textSecondary,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _bubble(FlutterChatMessage msg) {
+    final isRTL = context.isRTL;
+
     final bubble = Column(
       crossAxisAlignment:
           msg.isBot ? CrossAxisAlignment.start : CrossAxisAlignment.end,
       children: [
+        // Collapsible AI Reasoning / Thought Process Box (if available)
+        if (msg.isBot && msg.reasoning != null && msg.reasoning!.isNotEmpty) ...[
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                msg.showThinking = !msg.showThinking;
+              });
+            },
+            child: Container(
+              margin: const EdgeInsets.only(bottom: 6),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              decoration: BoxDecoration(
+                color: const Color(0xFFF1F5F9),
+                border: Border.all(color: const Color(0xFFE2E8F0)),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(LucideIcons.brain, size: 14, color: Color(0xFF64748B)),
+                      const SizedBox(width: 6),
+                      Text(
+                        isRTL ? 'عملية التفكير الذكي' : 'Thought Process',
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xFF475569),
+                        ),
+                      ),
+                      const SizedBox(width: 6),
+                      Icon(
+                        msg.showThinking
+                            ? LucideIcons.chevronUp
+                            : LucideIcons.chevronDown,
+                        size: 14,
+                        color: const Color(0xFF64748B),
+                      ),
+                    ],
+                  ),
+                  if (msg.showThinking) ...[
+                    const SizedBox(height: 6),
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: const Color(0xFFCBD5E1)),
+                      ),
+                      child: Text(
+                        msg.reasoning!,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontFamily: 'monospace',
+                          height: 1.4,
+                          color: Color(0xFF334155),
+                        ),
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          ),
+        ],
+
+        // Message Content Bubble
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           decoration: BoxDecoration(

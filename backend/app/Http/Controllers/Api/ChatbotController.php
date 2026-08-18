@@ -98,14 +98,16 @@ class ChatbotController extends Controller
         $data = $request->validate([
             'message' => ['required', 'string'],
             'history' => ['sometimes', 'array'],
+            'role' => ['sometimes', 'string'],
             'conversation_id' => ['sometimes', 'nullable', 'string'],
         ]);
 
         $userMessage = $data['message'];
         $history = $data['history'] ?? [];
+        $role = $data['role'] ?? ($request->user()?->role ?? 'parent');
 
-        // Call OpenRouter API with Nvidia Nemotron Nano model
-        $aiResponse = $aiService->chat($userMessage, $history);
+        // Call OpenRouter API with role context
+        $aiResponse = $aiService->chat($userMessage, $history, $role);
 
         // Optionally record in conversation if conversation_id provided and user logged in
         if ($request->user() && !empty($data['conversation_id'])) {
