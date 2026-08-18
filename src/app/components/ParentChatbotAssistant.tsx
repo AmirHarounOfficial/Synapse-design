@@ -8,8 +8,10 @@ interface Message {
   text: string;
   isBot: boolean;
   timestamp: string;
-  isTransfer?: boolean;
 }
+
+const OPENROUTER_KEY = import.meta.env.VITE_OPENROUTER_API_KEY || '';
+const OPENROUTER_MODEL = 'nvidia/nemotron-3-nano-30b-a3b:free';
 
 export function ParentChatbotAssistant() {
   const navigate = useNavigate();
@@ -26,6 +28,49 @@ export function ParentChatbotAssistant() {
       timestamp: new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })
     }
   ]);
+
+  const fetchOpenRouterAi = async (userText: string, history: Array<{ role: string; content: string }>): Promise<string | null> => {
+    try {
+      const systemPrompt = `You are SchooKeep AI — an intelligent, empathetic K-12 School Health & Safety AI Assistant for schools in the UAE.
+Key Guidelines & Context:
+1. Primary Role: Help parents and guardians with school health procedures, clinic visit inquiries, medication submission protocols, Halal cafeteria rules, Ramadan operating hours, and UAE medical compliance.
+2. Identity: Always refer to yourself as "SchooKeep AI". Never mention internal technical model names, providers, or infrastructure in your messages to parents.
+3. Clinic Hours: Standard school days 08:00 AM – 03:30 PM. During Ramadan mode: 08:00 AM – 01:30 PM.
+4. Emergency Numbers: UAE Ambulance 998, UAE Police 999. Always emphasize calling 998 for severe medical emergencies.
+5. Disclaimer: You do not provide binding clinical diagnoses. Nurse or Physician review is required for prescriptions and treatments.
+6. Language: Always respond in the language used by the user (Arabic if user speaks Arabic, English if user speaks English). Keep responses concise, clear, and professional.`;
+
+      const apiMessages = [
+        { role: 'system', content: systemPrompt },
+        ...history.map(h => ({ role: h.role === 'bot' ? 'assistant' : h.role, content: h.content })),
+        { role: 'user', content: userText }
+      ];
+
+      const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${OPENROUTER_KEY}`,
+          'Content-Type': 'application/json',
+          'HTTP-Referer': 'https://schookeep.com',
+          'X-Title': 'SchooKeep Health App'
+        },
+        body: JSON.stringify({
+          model: OPENROUTER_MODEL,
+          messages: apiMessages,
+          temperature: 0.7,
+          max_tokens: 500
+        })
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        return data.choices?.[0]?.message?.content || null;
+      }
+    } catch (err) {
+      console.warn('Direct OpenRouter fetch error:', err);
+    }
+    return null;
+  };
 
   const handleSend = async () => {
     const userText = message.trim();
@@ -51,27 +96,36 @@ export function ParentChatbotAssistant() {
     setLoading(true);
 
     try {
-      // Send message to backend OpenRouter API
-      const res = await fetch('/api/chatbot/ask', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          message: userText,
-          history: historyPayload
-        })
-      });
+      let aiReply: string | null = null;
 
-      let aiReply = '';
+      // 1. Try local Laravel backend API first
+      try {
+        const res = await fetch('/api/chatbot/ask', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            message: userText,
+            history: historyPayload
+          })
+        });
 
-      if (res.ok) {
-        const data = await res.json();
-        aiReply = data.reply || data.response || '';
+        if (res.ok) {
+          const data = await res.json();
+          aiReply = data.reply || data.response || null;
+        }
+      } catch (_) {
+        // Backend not running on local port
       }
 
-      // Fallback if backend server is offline or returns empty
+      // 2. Direct OpenRouter AI call if backend API is offline
+      if (!aiReply) {
+        aiReply = await fetchOpenRouterAi(userText, historyPayload);
+      }
+
+      // 3. Fallback only if both network calls fail
       if (!aiReply) {
         const lower = userText.toLowerCase();
         if (lower.includes('hour') || lower.includes('time') || lower.includes('open') || userText.includes('ساعات') || userText.includes('مواعيد')) {
@@ -99,15 +153,6 @@ export function ParentChatbotAssistant() {
       setMessages(prev => [...prev, botMsg]);
     } catch (err) {
       console.error('Chat AI Error:', err);
-      const fallbackMsg: Message = {
-        id: (Date.now() + 1).toString(),
-        text: isRTL 
-          ? 'تعمل العيادة المدرسية من 8:00 ص إلى 3:30 م. في حالات الطوارئ الطبية الحرجة، يرجى الاتصال بالإسعاف 998 مباشرة.'
-          : 'The school clinic operates from 8:00 AM to 3:30 PM. For medical emergencies, please dial 998 immediately.',
-        isBot: true,
-        timestamp: new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })
-      };
-      setMessages(prev => [...prev, fallbackMsg]);
     } finally {
       setLoading(false);
     }

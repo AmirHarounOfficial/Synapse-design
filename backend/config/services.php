@@ -37,7 +37,7 @@ return [
 
     'openrouter' => [
         'api_key' => env('OPENROUTER_API_KEY'),
-        'model' => env('OPENROUTER_MODEL', 'nvidia/nemotron-4-340b-instruct'),
+        'model' => env('OPENROUTER_MODEL', 'nvidia/nemotron-3-nano-30b-a3b:free'),
     ],
 
 ];

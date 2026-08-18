@@ -14,7 +14,7 @@ class OpenRouterService
     public function __construct()
     {
         $this->apiKey = config('services.openrouter.api_key') ?? env('OPENROUTER_API_KEY', '');
-        $this->model = config('services.openrouter.model') ?? env('OPENROUTER_MODEL', 'nvidia/nemotron-4-340b-instruct');
+        $this->model = config('services.openrouter.model') ?? env('OPENROUTER_MODEL', 'nvidia/nemotron-3-nano-30b-a3b:free');
     }
 
     /**

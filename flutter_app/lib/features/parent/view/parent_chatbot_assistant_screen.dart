@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lucide_icons/lucide_icons.dart';
@@ -8,11 +9,14 @@ import '../../../core/localization/locale_cubit.dart';
 import '../../../core/network/api_client.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
-import '../../../data/repositories/chatbot_repository.dart';
 import 'package:schookeep/core/router/safe_back.dart';
 
+const String _kOpenRouterKey =
+    String.fromEnvironment('OPENROUTER_API_KEY', defaultValue: '');
+const String _kOpenRouterModel = 'nvidia/nemotron-3-nano-30b-a3b:free';
+
 /// Ported from `ParentChatbotAssistant.tsx`. Full-screen AI chat with
-/// "SchooKeep AI", connected to backend OpenRouter service.
+/// "SchooKeep AI", connected to OpenRouter API (Nvidia Nemotron Nano model).
 class ParentChatbotAssistantScreen extends StatefulWidget {
   const ParentChatbotAssistantScreen({super.key});
 
@@ -39,7 +43,6 @@ class _ParentChatbotAssistantScreenState
     extends State<ParentChatbotAssistantScreen> {
   final TextEditingController _controller = TextEditingController();
   final ScrollController _scrollController = ScrollController();
-  final ChatbotRepository _repo = sl<ChatbotRepository>();
   final ApiClient _apiClient = sl<ApiClient>();
 
   static const bool _isSchoolClosed = false;
@@ -90,6 +93,63 @@ class _ParentChatbotAssistantScreenState
     });
   }
 
+  /// Calls OpenRouter API directly from Flutter client when backend service is offline
+  Future<String?> _fetchOpenRouterDirect(
+      String userText, List<_ChatMessage> history) async {
+    try {
+      const systemPrompt = '''You are SchooKeep AI — an intelligent, empathetic K-12 School Health & Safety AI Assistant for schools in the UAE.
+Key Guidelines & Context:
+1. Primary Role: Help parents and guardians with school health procedures, clinic visit inquiries, medication submission protocols, Halal cafeteria rules, Ramadan operating hours, and UAE medical compliance.
+2. Identity: Always refer to yourself as "SchooKeep AI". Never mention internal technical model names, providers, or infrastructure in your messages to parents.
+3. Clinic Hours: Standard school days 08:00 AM – 03:30 PM. During Ramadan mode: 08:00 AM – 01:30 PM.
+4. Emergency Numbers: UAE Ambulance 998, UAE Police 999. Always emphasize calling 998 for severe medical emergencies.
+5. Disclaimer: You do not provide binding clinical diagnoses. Nurse or Physician review is required for prescriptions and treatments.
+6. Language: Always respond in the language used by the user (Arabic if user speaks Arabic, English if user speaks English). Keep responses concise, clear, and professional.''';
+
+      final apiMessages = [
+        {'role': 'system', 'content': systemPrompt},
+        ...history.map((m) => {
+              'role': m.isBot ? 'assistant' : 'user',
+              'content': m.text,
+            }),
+        {'role': 'user', 'content': userText},
+      ];
+
+      final dio = Dio();
+      final response = await dio.post<Map<String, dynamic>>(
+        'https://openrouter.ai/api/v1/chat/completions',
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $_kOpenRouterKey',
+            'Content-Type': 'application/json',
+            'HTTP-Referer': 'https://schookeep.com',
+            'X-Title': 'SchooKeep Health App',
+          },
+          sendTimeout: const Duration(seconds: 12),
+          receiveTimeout: const Duration(seconds: 12),
+        ),
+        data: {
+          'model': _kOpenRouterModel,
+          'messages': apiMessages,
+          'temperature': 0.7,
+          'max_tokens': 500,
+        },
+      );
+
+      if (response.statusCode == 200 && response.data != null) {
+        final choices = response.data!['choices'] as List?;
+        if (choices != null && choices.isNotEmpty) {
+          final firstChoice = choices[0] as Map<String, dynamic>?;
+          final msg = firstChoice?['message'] as Map<String, dynamic>?;
+          return msg?['content'] as String?;
+        }
+      }
+    } catch (e) {
+      debugPrint('Direct OpenRouter fetch exception: $e');
+    }
+    return null;
+  }
+
   Future<void> _handleSend() async {
     final isRTL = context.read<LocaleCubit>().state.isRTL;
     final text = _controller.text.trim();
@@ -111,7 +171,7 @@ class _ParentChatbotAssistantScreenState
     try {
       String? aiReply;
 
-      // 1. Try to query backend endpoint with OpenRouter service
+      // 1. Try backend server API
       try {
         final res = await _apiClient.dio.post<Map<String, dynamic>>(
           '/chatbot/ask',
@@ -129,21 +189,16 @@ class _ParentChatbotAssistantScreenState
           aiReply = (res.data!['reply'] ?? res.data!['response']) as String?;
         }
       } catch (_) {
-        // Fallback to repository if direct ask endpoint is unavailable
+        // Local backend endpoint offline or unreachable
       }
 
-      // 2. If no direct API reply, call chatbot repository to persist conversation
+      // 2. Direct OpenRouter AI call
       if (aiReply == null || aiReply.isEmpty) {
-        if (_conversationId == null) {
-          final subject = text.length > 40 ? text.substring(0, 40) : text;
-          final conv = await _repo.start(subject: subject, body: text);
-          if (!mounted) return;
-          _conversationId = conv.id;
-        } else {
-          await _repo.postMessage(_conversationId!, text);
-        }
+        aiReply = await _fetchOpenRouterDirect(text, _messages);
+      }
 
-        // Domain fallback response
+      // 3. Fallback only if both network attempts fail
+      if (aiReply == null || aiReply.isEmpty) {
         final lower = text.toLowerCase();
         if (lower.contains('hour') || lower.contains('time') || lower.contains('open') || text.contains('ساعات') || text.contains('وقت')) {
           aiReply = isRTL
@@ -173,7 +228,7 @@ class _ParentChatbotAssistantScreenState
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(ChatbotRepository.messageFor(e))),
+        SnackBar(content: Text(e.toString())),
       );
     } finally {
       if (mounted) setState(() => _sending = false);
