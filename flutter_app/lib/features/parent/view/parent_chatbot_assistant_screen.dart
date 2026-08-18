@@ -235,40 +235,22 @@ CRITICAL BEHAVIORAL DIRECTIVES:
   Future<void> _handleSend() async {
     final isRTL = context.read<LocaleCubit>().state.isRTL;
     final text = _controller.text.trim();
-    if ((text.isEmpty && _selectedFile == null) || _sending || _currentThread == null) return;
-
-    String finalText = text;
-    Map<String, String>? attachmentData;
-
-    if (_selectedFile != null) {
-      final sizeMb = (_selectedFile!.size / (1024 * 1024)).toStringAsFixed(2);
-      final sizeStr = _selectedFile!.size > 1024 * 1024 ? '$sizeMb MB' : '${(_selectedFile!.size / 1024).round()} KB';
-      attachmentData = {
-        'name': _selectedFile!.name,
-        'size': sizeStr,
-        'type': _selectedFile!.extension ?? 'file',
-      };
-      if (finalText.isEmpty) {
-        finalText = isRTL ? '[تم إرفاق ملف: ${_selectedFile!.name}]' : '[Attached file: ${_selectedFile!.name}]';
-      }
-    }
+    if (text.isEmpty || _sending || _currentThread == null) return;
 
     _controller.clear();
     final tempId = 'local-${DateTime.now().millisecondsSinceEpoch}';
     final userMsg = FlutterChatMessage(
       id: tempId,
-      text: finalText,
+      text: text,
       isBot: false,
       timestamp: _now(),
-      attachment: attachmentData,
     );
 
     setState(() {
-      _selectedFile = null;
       _sending = true;
       _currentThread!.messages.add(userMsg);
       if (_currentThread!.messages.length <= 2) {
-        _currentThread!.title = finalText.length > 30 ? '${finalText.substring(0, 30)}...' : finalText;
+        _currentThread!.title = text.length > 30 ? '${text.substring(0, 30)}...' : text;
       }
       _currentThread!.updatedAt = DateTime.now().toIso8601String();
     });
