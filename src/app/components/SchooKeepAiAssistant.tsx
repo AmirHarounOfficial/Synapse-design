@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router';
 import {
   ArrowLeft,
@@ -9,11 +9,7 @@ import {
   History,
   Plus,
   Trash2,
-  Paperclip,
-  Loader2,
-  FileText,
-  X,
-  Image as ImageIcon
+  Loader2
 } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 import { chatStorage, ChatThread, ChatMessage } from '../services/chatStorage';
@@ -84,8 +80,6 @@ export function SchooKeepAiAssistant({ role: propRole, title }: SchooKeepAiAssis
   const [showDrawer, setShowDrawer] = useState(false);
   const [threads, setThreads] = useState<ChatThread[]>([]);
   const [currentThread, setCurrentThread] = useState<ChatThread | null>(null);
-  const [selectedFile, setSelectedFile] = useState<{ file: File; name: string; size: string; type: string } | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Load or create initial thread
   useEffect(() => {
@@ -518,23 +512,6 @@ CRITICAL BEHAVIORAL DIRECTIVES:
 
       {/* Footer Controls & Input Bar */}
       <div className="fixed bottom-0 left-0 right-0 z-30 bg-white border-t border-gray-200">
-        {/* Selected File Attachment Preview Chip */}
-        {selectedFile && (
-          <div className="px-4 py-2 bg-[#EFF6FF] border-b border-blue-100 flex items-center justify-between text-xs text-[#2563EB]">
-            <div className="flex items-center gap-2 min-w-0">
-              {selectedFile.type === 'image' ? <ImageIcon className="w-4 h-4 flex-shrink-0" /> : <FileText className="w-4 h-4 flex-shrink-0" />}
-              <span className="truncate font-medium">{selectedFile.name}</span>
-              <span className="text-[10px] opacity-70">({selectedFile.size})</span>
-            </div>
-            <button
-              onClick={clearSelectedFile}
-              className="p-1 hover:bg-blue-200 rounded-full cursor-pointer text-gray-500 hover:text-red-600"
-            >
-              <X className="w-4 h-4" />
-            </button>
-          </div>
-        )}
-
         {/* Disclaimer Banner */}
         <div className="bg-[#F8FAFC] px-4 py-1.5 border-b border-gray-100">
           <p className="text-[11px] text-[#64748B] text-center">
@@ -544,25 +521,9 @@ CRITICAL BEHAVIORAL DIRECTIVES:
           </p>
         </div>
 
-        {/* Hidden File Input */}
-        <input
-          type="file"
-          ref={fileInputRef}
-          onChange={handleFileSelect}
-          className="hidden"
-          accept="image/*,.pdf,.doc,.docx,.txt"
-        />
-
         {/* Input Bar */}
         <div className="p-3 bg-white">
           <div className="flex items-center gap-2">
-            <button
-              onClick={() => fileInputRef.current?.click()}
-              className="w-11 h-11 flex items-center justify-center text-[#64748B] hover:text-[#2563EB] hover:bg-gray-100 rounded-full cursor-pointer transition-colors"
-              title={isRTL ? 'إرفاق ملف أو صورة' : 'Attach file or image'}
-            >
-              <Paperclip className="w-5 h-5" />
-            </button>
             <input
               type="text"
               value={message}
@@ -573,7 +534,7 @@ CRITICAL BEHAVIORAL DIRECTIVES:
             />
             <button
               onClick={handleSend}
-              disabled={(!message.trim() && !selectedFile) || loading}
+              disabled={!message.trim() || loading}
               className="w-11 h-11 bg-[#2563EB] text-white rounded-full flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer hover:bg-blue-700 transition-colors shadow-sm"
             >
               {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send className={`w-5 h-5 ${isRTL ? 'rotate-180' : ''}`} />}

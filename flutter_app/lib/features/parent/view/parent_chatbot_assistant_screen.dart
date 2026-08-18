@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lucide_icons/lucide_icons.dart';
@@ -61,29 +60,6 @@ class _ParentChatbotAssistantScreenState
   FlutterChatThread? _currentThread;
   List<FlutterChatThread> _threads = [];
   bool _sending = false;
-  PlatformFile? _selectedFile;
-
-  Future<void> _pickFile() async {
-    try {
-      final result = await FilePicker.pickFiles(
-        type: FileType.custom,
-        allowedExtensions: ['pdf', 'doc', 'docx', 'png', 'jpg', 'jpeg', 'txt'],
-      );
-      if (result != null && result.files.isNotEmpty) {
-        setState(() {
-          _selectedFile = result.files.first;
-        });
-      }
-    } catch (e) {
-      debugPrint('Error picking file: $e');
-    }
-  }
-
-  void _clearSelectedFile() {
-    setState(() {
-      _selectedFile = null;
-    });
-  }
 
   @override
   void initState() {
@@ -471,104 +447,61 @@ CRITICAL BEHAVIORAL DIRECTIVES:
           ),
           Container(
             color: SchooKeepColors.surface,
-            padding: const EdgeInsets.all(12),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
+            padding: const EdgeInsets.all(16),
+            child: Row(
               children: [
-                if (_selectedFile != null) ...[
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                    margin: const EdgeInsets.only(bottom: 8),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFEFF6FF),
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: const Color(0xFFBFDBFE)),
-                    ),
-                    child: Row(
-                      children: [
-                        const Icon(LucideIcons.fileText, size: 16, color: SchooKeepColors.primary),
-                        const SizedBox(width: 8),
-                        Expanded(
-                          child: Text(
-                            _selectedFile!.name,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: SchooKeepColors.primary),
-                          ),
+                Expanded(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(minHeight: 52),
+                    child: TextField(
+                      controller: _controller,
+                      onChanged: (_) => setState(() {}),
+                      onSubmitted: (_) => _handleSend(),
+                      style: const TextStyle(fontSize: 15),
+                      decoration: InputDecoration(
+                        hintText:
+                            isRTL ? 'اكتب رسالتك لـ SchooKeep AI...' : 'Type a message for SchooKeep AI...',
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 12),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(999),
+                          borderSide:
+                              const BorderSide(color: SchooKeepColors.border),
                         ),
-                        GestureDetector(
-                          onTap: _clearSelectedFile,
-                          child: const Icon(LucideIcons.x, size: 16, color: Colors.grey),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(999),
+                          borderSide:
+                              const BorderSide(color: SchooKeepColors.primary),
                         ),
-                      ],
+                      ),
                     ),
                   ),
-                ],
-                Row(
-                  children: [
-                    SizedBox(
-                      width: 44,
-                      height: 44,
-                      child: IconButton(
-                        onPressed: _pickFile,
-                        icon: const Icon(LucideIcons.paperclip,
-                            size: 20, color: SchooKeepColors.textSecondary),
+                ),
+                const SizedBox(width: 8),
+                Opacity(
+                  opacity: _controller.text.trim().isEmpty || _sending ? 0.4 : 1,
+                  child: Material(
+                    color: SchooKeepColors.primary,
+                    shape: const CircleBorder(),
+                    child: InkWell(
+                      customBorder: const CircleBorder(),
+                      onTap: _controller.text.trim().isEmpty || _sending
+                          ? null
+                          : _handleSend,
+                      child: SizedBox(
+                        width: 44,
+                        height: 44,
+                        child: _sending
+                            ? const Padding(
+                                padding: EdgeInsets.all(12),
+                                child: CircularProgressIndicator(
+                                    strokeWidth: 2, color: Colors.white),
+                              )
+                            : const Icon(LucideIcons.send,
+                                size: 20, color: Colors.white),
                       ),
                     ),
-                    Expanded(
-                      child: ConstrainedBox(
-                        constraints: const BoxConstraints(minHeight: 52),
-                        child: TextField(
-                          controller: _controller,
-                          onChanged: (_) => setState(() {}),
-                          onSubmitted: (_) => _handleSend(),
-                          style: const TextStyle(fontSize: 15),
-                          decoration: InputDecoration(
-                            hintText:
-                                isRTL ? 'اكتب رسالتك لـ SchooKeep AI...' : 'Type a message for SchooKeep AI...',
-                            contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 12),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(999),
-                              borderSide:
-                                  const BorderSide(color: SchooKeepColors.border),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(999),
-                              borderSide:
-                                  const BorderSide(color: SchooKeepColors.primary),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    Opacity(
-                      opacity: (_controller.text.trim().isEmpty && _selectedFile == null) || _sending ? 0.4 : 1,
-                      child: Material(
-                        color: SchooKeepColors.primary,
-                        shape: const CircleBorder(),
-                        child: InkWell(
-                          customBorder: const CircleBorder(),
-                          onTap: (_controller.text.trim().isEmpty && _selectedFile == null) || _sending
-                              ? null
-                              : _handleSend,
-                          child: SizedBox(
-                            width: 44,
-                            height: 44,
-                            child: _sending
-                                ? const Padding(
-                                    padding: EdgeInsets.all(12),
-                                    child: CircularProgressIndicator(
-                                        strokeWidth: 2, color: Colors.white),
-                                  )
-                                : const Icon(LucideIcons.send,
-                                    size: 20, color: Colors.white),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ],
             ),
