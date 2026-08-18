@@ -19,6 +19,7 @@ import { CafeteriaLayout } from './components/CafeteriaLayout';
 import { NurseDashboard } from './components/NurseDashboard';
 import { NurseMedications } from './components/NurseMedications';
 import { NurseMedicationDetail } from './components/NurseMedicationDetail';
+import { NursePharmacyInventory } from './components/NursePharmacyInventory';
 import { AddMedicationStep1 } from './components/AddMedicationStep1';
 import { AddMedicationStep2 } from './components/AddMedicationStep2';
 import { AddMedicationStep3 } from './components/AddMedicationStep3';
@@ -235,6 +236,10 @@ export const router = createBrowserRouter([
       {
         path: 'medications',
         Component: NurseMedications
+      },
+      {
+        path: 'medications/inventory',
+        Component: NursePharmacyInventory
       },
       {
         path: 'medications/:id',

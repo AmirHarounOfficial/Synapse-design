@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\DoseAdministrationController;
 use App\Http\Controllers\Api\MedicationController;
+use App\Http\Controllers\Api\PharmacyInventoryController;
 use Illuminate\Support\Facades\Route;
 
 // Auto-included inside the auth:sanctum group. Reads allowed for all authenticated
@@ -22,3 +23,11 @@ Route::post('medications/{medication}/decline', [MedicationController::class, 'd
 Route::get('dose-administrations', [DoseAdministrationController::class, 'index']);
 Route::post('dose-administrations', [DoseAdministrationController::class, 'store'])
     ->middleware('role:nurse');
+
+// ── Nurse-only Pharmacy Inventory Management ──────────────────────────────
+Route::middleware('role:nurse')->group(function () {
+    Route::get('pharmacy-inventory/logs', [PharmacyInventoryController::class, 'logs']);
+    Route::post('pharmacy-inventory/{pharmacy_inventory}/adjust-stock', [PharmacyInventoryController::class, 'adjustStock']);
+    Route::apiResource('pharmacy-inventory', PharmacyInventoryController::class);
+});
+

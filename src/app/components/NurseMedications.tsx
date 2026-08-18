@@ -1,4 +1,4 @@
-import { SlidersHorizontal, Search, Plus, CheckCircle, X, Clock, Calendar, AlertCircle, RefreshCw, Pill } from 'lucide-react';
+import { SlidersHorizontal, Search, Plus, CheckCircle, X, Clock, Calendar, AlertCircle, RefreshCw, Pill, Package } from 'lucide-react';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 
@@ -107,6 +107,26 @@ export function NurseMedications() {
         </button>
       </div>
 
+      {/* Quick Action Navigation Bar for Pharmacy Inventory & Daily Doses */}
+      <div className="bg-[#EFF6FF] px-4 py-2.5 border-b border-[#BFDBFE] flex items-center justify-between gap-2">
+        <button
+          onClick={() => navigate('/nurse/medications/inventory')}
+          className="flex-1 flex items-center justify-center gap-2 py-2 px-3 bg-[#2563EB] text-white rounded-lg text-[13px] font-semibold transition-all hover:bg-[#1D4ED8] shadow-sm min-h-[40px]"
+          style={{ fontWeight: 600 }}
+        >
+          <Package className="w-4 h-4 flex-shrink-0" />
+          <span>Pharmacy Inventory</span>
+        </button>
+        <button
+          onClick={() => navigate('/nurse/daily-doses')}
+          className="flex-1 flex items-center justify-center gap-2 py-2 px-3 bg-white text-[#2563EB] border border-[#BFDBFE] rounded-lg text-[13px] font-semibold transition-all hover:bg-[#F8FAFC] min-h-[40px]"
+          style={{ fontWeight: 600 }}
+        >
+          <Calendar className="w-4 h-4 flex-shrink-0" />
+          <span>Today's Doses</span>
+        </button>
+      </div>
+
       {/* Search Bar */}
       <div className="bg-[#FFFFFF] px-4 py-3 border-b border-[#E2E8F0]">
         <div className="relative">
@@ -124,7 +144,7 @@ export function NurseMedications() {
 
       {/* Filter Chips */}
       <div className="bg-[#FFFFFF] px-4 py-3 border-b border-[#E2E8F0]">
-        <div className="flex gap-2 overflow-x-auto scrollbar-hide mb-3">
+        <div className="flex gap-2 overflow-x-auto scrollbar-hide">
           {filters.map((filter) => (
             <button
               key={filter.id}
@@ -140,15 +160,6 @@ export function NurseMedications() {
             </button>
           ))}
         </div>
-
-        <button
-          onClick={() => navigate('/nurse/daily-doses')}
-          className="w-full flex items-center justify-center gap-2 py-2 text-[13px] text-[#2563EB] font-medium min-h-[44px]"
-          style={{ fontWeight: 500 }}
-        >
-          <Calendar className="w-4 h-4" />
-          View Today's Dose Schedule
-        </button>
       </div>
 
       {/* Error Banner */}

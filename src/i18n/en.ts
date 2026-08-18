@@ -97,7 +97,8 @@ export default {
     weatherAdvisoryHaboob: "Haboob (Sandstorm)",
     onDutyContext: "Physician on duty: Dr. {{name}} • On-site until {{time}}",
     onCallContext: "Physician on-call: Dr. {{name}}",
-    submitForReviewBtn: "Submit for physician review"
+    submitForReviewBtn: "Submit for physician review",
+    pharmacyInventory: "Pharmacy Inventory"
   },
   cafeteria: {
     dashboardTitle: "Allergen & Halal Dashboard",

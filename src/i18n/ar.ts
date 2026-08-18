@@ -97,7 +97,8 @@ export default {
     weatherAdvisoryHaboob: "عاصفة رملية (هبوب)",
     onDutyContext: "الطبيب المناوب: د. {{name}} · في الموقع حتى {{time}}",
     onCallContext: "الطبيب تحت الطلب: د. {{name}}",
-    submitForReviewBtn: "إرسال لمراجعة الطبيب"
+    submitForReviewBtn: "إرسال لمراجعة الطبيب",
+    pharmacyInventory: "مخزون الصيدلية"
   },
   cafeteria: {
     dashboardTitle: "لوحة تحكم المواد الحساسة والحلال",
