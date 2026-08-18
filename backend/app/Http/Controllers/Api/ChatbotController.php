@@ -124,8 +124,6 @@ class ChatbotController extends Controller
 
         return response()->json([
             'success' => true,
-            'model' => env('OPENROUTER_MODEL', 'nvidia/nemotron-4-340b-instruct'),
-            'provider' => 'OpenRouter (Nvidia Nemotron Nano)',
             'reply' => $aiResponse,
             'response' => $aiResponse,
             'timestamp' => now()->toIso8601String(),

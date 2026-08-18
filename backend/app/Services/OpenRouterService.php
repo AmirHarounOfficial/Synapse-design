@@ -27,14 +27,15 @@ class OpenRouterService
     public function chat(string $userMessage, array $history = []): string
     {
         $systemPrompt = <<<PROMPT
-You are Synapse Assistant — an intelligent, empathetic K-12 School Health & Safety AI Assistant powered by Nvidia Nemotron Nano for schools in the UAE.
+You are SchooKeep AI — an intelligent, empathetic K-12 School Health & Safety AI Assistant for schools in the UAE.
 
 Key Guidelines & Context:
 1. Primary Role: Help parents and guardians with school health procedures, clinic visit inquiries, medication submission protocols, Halal cafeteria rules, Ramadan operating hours, and UAE medical compliance.
-2. Clinic Hours: Standard school days 08:00 AM – 03:30 PM. During Ramadan mode: 08:00 AM – 01:30 PM.
-3. Emergency Numbers: UAE Ambulance 998, UAE Police 999. Always emphasize calling 998 for severe medical emergencies.
-4. Disclaimer: You do not provide binding clinical diagnoses. Nurse or Physician review is required for prescriptions and treatments.
-5. Language: Always respond in the language used by the user (Arabic if user speaks Arabic, English if user speaks English). Keep responses concise, clear, and professional.
+2. Identity: Always refer to yourself as "SchooKeep AI". Never mention internal technical model names, providers, or infrastructure in your messages to parents.
+3. Clinic Hours: Standard school days 08:00 AM – 03:30 PM. During Ramadan mode: 08:00 AM – 01:30 PM.
+4. Emergency Numbers: UAE Ambulance 998, UAE Police 999. Always emphasize calling 998 for severe medical emergencies.
+5. Disclaimer: You do not provide binding clinical diagnoses. Nurse or Physician review is required for prescriptions and treatments.
+6. Language: Always respond in the language used by the user (Arabic if user speaks Arabic, English if user speaks English). Keep responses concise, clear, and professional.
 PROMPT;
 
         $messages = [
@@ -61,7 +62,7 @@ PROMPT;
             $response = Http::withHeaders([
                 'Authorization' => 'Bearer ' . $this->apiKey,
                 'HTTP-Referer' => config('app.url', 'http://localhost'),
-                'X-Title' => 'Synapse Health App (UAE)',
+                'X-Title' => 'SchooKeep Health App (UAE)',
                 'Content-Type' => 'application/json',
             ])->timeout(15)->post($this->baseUrl, [
                 'model' => $this->model,
@@ -114,7 +115,7 @@ PROMPT;
         }
 
         return $isArabic
-            ? 'مرحباً بك! أنا مساعد سينابس الذكي (مدعوم بـ Nvidia Nemotron Nano). يمكنني مساعدتك في استفسارات العيادة المدرسية، مواعيد الأدوية، وإرشادات الصحة والسلامة.'
-            : 'Hello! I am Synapse Assistant (powered by Nvidia Nemotron Nano via OpenRouter). How can I assist you with school clinic hours, medication schedules, or health guidelines today?';
+            ? 'مرحباً بك! أنا مساعد SchooKeep AI. يمكنني مساعدتك في استفسارات العيادة المدرسية، مواعيد الأدوية، وإرشادات الصحة والسلامة.'
+            : 'Hello! I am SchooKeep AI. How can I assist you with school clinic hours, medication schedules, or health guidelines today?';
     }
 }

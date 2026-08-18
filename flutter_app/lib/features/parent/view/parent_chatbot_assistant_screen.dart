@@ -8,12 +8,11 @@ import '../../../core/localization/locale_cubit.dart';
 import '../../../core/network/api_client.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
-import '../../../data/models/chatbot.dart';
 import '../../../data/repositories/chatbot_repository.dart';
 import 'package:schookeep/core/router/safe_back.dart';
 
-/// Ported from `ParentChatbotAssistant.tsx`. Full-screen AI chat with the
-/// "SchooKeep Assistant" powered by OpenRouter (Nvidia Nemotron Nano model).
+/// Ported from `ParentChatbotAssistant.tsx`. Full-screen AI chat with
+/// "SchooKeep AI", connected to backend OpenRouter service.
 class ParentChatbotAssistantScreen extends StatefulWidget {
   const ParentChatbotAssistantScreen({super.key});
 
@@ -58,8 +57,8 @@ class _ParentChatbotAssistantScreenState
       _ChatMessage(
         id: 'greeting',
         text: isRTL
-            ? 'مرحباً! أنا مساعد سكوكيب الذكي (مدعوم بنموذج Nvidia Nemotron Nano عبر OpenRouter). كيف يمكنني مساعدتك اليوم؟'
-            : 'Hello! I am SchooKeep Assistant (powered by Nvidia Nemotron Nano via OpenRouter). How can I help you today?',
+            ? 'مرحباً! أنا مساعد سكوكيب الذكي (SchooKeep AI). كيف يمكنني مساعدتك اليوم؟'
+            : 'Hello! I am SchooKeep AI. How can I help you today?',
         isBot: true,
         timestamp: _now(),
       ),
@@ -82,13 +81,6 @@ class _ParentChatbotAssistantScreenState
     final period = local.hour < 12 ? 'AM' : 'PM';
     return '$h:$m $period';
   }
-
-  _ChatMessage _fromApi(ChatbotMessage m) => _ChatMessage(
-        id: m.id.toString(),
-        text: m.body ?? '',
-        isBot: m.sender != 'parent',
-        timestamp: _formatTime(m.createdAt),
-      );
 
   void _scrollToBottom() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -119,7 +111,7 @@ class _ParentChatbotAssistantScreenState
     try {
       String? aiReply;
 
-      // 1. Try to query backend endpoint with OpenRouter Nemotron Nano
+      // 1. Try to query backend endpoint with OpenRouter service
       try {
         final res = await _apiClient.dio.post<Map<String, dynamic>>(
           '/chatbot/ask',
@@ -163,8 +155,8 @@ class _ParentChatbotAssistantScreenState
               : 'You can submit medication schedules and doses in the Medications tab. All school doses require physician and nurse approval.';
         } else {
           aiReply = isRTL
-              ? 'أنا مساعد سكوكيب الذكي (نموذج Nvidia Nemotron Nano). تمت مراجعة واستلام استفسارك وسيتم إفادتك فوراً حسب معايير الصحة المدرسية.'
-              : 'I am SchooKeep AI Assistant (powered by Nvidia Nemotron Nano). Your inquiry has been processed per UAE school health standards.';
+              ? 'أنا مساعد سكوكيب الذكي (SchooKeep AI). تمت مراجعة واستلام استفسارك وسيتم إفادتك فوراً حسب معايير الصحة المدرسية.'
+              : 'I am SchooKeep AI. Your inquiry has been processed per UAE school health standards.';
         }
       }
 
@@ -214,25 +206,12 @@ class _ParentChatbotAssistantScreenState
                       color: Colors.white)),
             ),
             const SizedBox(width: 8),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  isRTL ? 'مساعد سكوكيب' : 'SchooKeep Assistant',
-                  style: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w600,
-                      color: SchooKeepColors.textPrimary),
-                ),
-                Text(
-                  'Nvidia Nemotron Nano · OpenRouter',
-                  style: TextStyle(
-                      fontSize: 10,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.emerald.shade700),
-                ),
-              ],
+            Text(
+              isRTL ? 'مساعد سكوكيب الذكي' : 'SchooKeep AI',
+              style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: SchooKeepColors.textPrimary),
             ),
           ],
         ),
@@ -296,7 +275,7 @@ class _ParentChatbotAssistantScreenState
                       style: const TextStyle(fontSize: 15),
                       decoration: InputDecoration(
                         hintText:
-                            isRTL ? 'اكتب رسالة للمساعد الذكي...' : 'Type a message for Nemotron AI...',
+                            isRTL ? 'اكتب رسالتك لـ SchooKeep AI...' : 'Type a message for SchooKeep AI...',
                         contentPadding: const EdgeInsets.symmetric(
                             horizontal: 16, vertical: 12),
                         enabledBorder: OutlineInputBorder(

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { ArrowLeft, Info, Send, Paperclip, AlertTriangle, Sparkles, Loader2 } from 'lucide-react';
+import { ArrowLeft, Info, Send, Paperclip, Sparkles, Loader2 } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 
 interface Message {
@@ -20,8 +20,8 @@ export function ParentChatbotAssistant() {
     {
       id: '1',
       text: isRTL 
-        ? 'مرحباً بك! أنا مساعد سينابس الذكي (مدعوم بنموذج Nvidia Nemotron Nano عبر OpenRouter). كيف يمكنني مساعدتك اليوم؟'
-        : 'Hello! I am Synapse Assistant (powered by Nvidia Nemotron Nano via OpenRouter). How can I help you today?',
+        ? 'مرحباً بك! أنا مساعد سكوكيب الذكي (SchooKeep AI). كيف يمكنني مساعدتك اليوم؟'
+        : 'Hello! I am SchooKeep AI. How can I help you today?',
       isBot: true,
       timestamp: new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })
     }
@@ -51,7 +51,7 @@ export function ParentChatbotAssistant() {
     setLoading(true);
 
     try {
-      // Send message to Laravel backend endpoint which communicates with OpenRouter (Nvidia Nemotron Nano)
+      // Send message to backend OpenRouter API
       const res = await fetch('/api/chatbot/ask', {
         method: 'POST',
         headers: {
@@ -71,7 +71,7 @@ export function ParentChatbotAssistant() {
         aiReply = data.reply || data.response || '';
       }
 
-      // Fallback if backend dev server is not running directly or returns error
+      // Fallback if backend server is offline or returns empty
       if (!aiReply) {
         const lower = userText.toLowerCase();
         if (lower.includes('hour') || lower.includes('time') || lower.includes('open') || userText.includes('ساعات') || userText.includes('مواعيد')) {
@@ -84,8 +84,8 @@ export function ParentChatbotAssistant() {
             : 'You can log medication schedules and home doses in the Medications tab. All school doses require physician and nurse approvals.';
         } else {
           aiReply = isRTL
-            ? 'شكراً لتواصلك! لقد تلقيت استفسارك وسأقوم بمساعدتك بكل ما يتعلق بسلامة وصحة الطالب في المدرسة (نموذج Nvidia Nemotron Nano).'
-            : 'Thank you for reaching out! I am analyzing your request to provide exact guidance per UAE school health standards (Nvidia Nemotron Nano AI).';
+            ? 'شكراً لتواصلك! لقد تلقيت استفسارك وسأقوم بمساعدتك بكل ما يتعلق بسلامة وصحة الطالب في المدرسة.'
+            : 'Thank you for reaching out! I am analyzing your request to provide exact guidance per UAE school health standards.';
         }
       }
 
@@ -132,12 +132,8 @@ export function ParentChatbotAssistant() {
           </div>
           <div className="min-w-0">
             <h1 className="text-[16px] font-semibold text-gray-900 leading-tight truncate">
-              {isRTL ? 'مساعد سينابس الذكي' : 'Synapse AI Assistant'}
+              {isRTL ? 'مساعد سكوكيب الذكي' : 'SchooKeep AI'}
             </h1>
-            <div className="flex items-center gap-1 text-[11px] text-[#059669] font-medium">
-              <Sparkles className="w-3 h-3 fill-current" />
-              <span>Nvidia Nemotron Nano · OpenRouter</span>
-            </div>
           </div>
         </div>
         <button className="w-10 h-10 -mr-2 flex items-center justify-center text-gray-900">
@@ -182,7 +178,7 @@ export function ParentChatbotAssistant() {
         {loading && (
           <div className="flex items-center gap-2 text-gray-500 text-sm italic pl-2">
             <Loader2 className="w-4 h-4 animate-spin text-[#2563EB]" />
-            <span>{isRTL ? 'Nemotron Nano جاري توليد الإجابة...' : 'Nemotron Nano is thinking...'}</span>
+            <span>{isRTL ? 'جاري الكتابة...' : 'SchooKeep AI is typing...'}</span>
           </div>
         )}
       </div>
@@ -206,7 +202,7 @@ export function ParentChatbotAssistant() {
             type="text"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            placeholder={isRTL ? 'اكتب رسالتك للمساعد الذكي...' : 'Type a message for Nemotron AI...'}
+            placeholder={isRTL ? 'اكتب رسالتك لـ SchooKeep AI...' : 'Type a message for SchooKeep AI...'}
             className="flex-1 min-h-[52px] px-4 border border-gray-200 rounded-full text-[15px] focus:outline-none focus:border-[#2563EB]"
             onKeyPress={(e) => e.key === 'Enter' && handleSend()}
           />
