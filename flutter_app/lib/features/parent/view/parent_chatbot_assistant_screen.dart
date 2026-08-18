@@ -150,20 +150,25 @@ class _ParentChatbotAssistantScreenState
   Future<_AiResponseResult?> _fetchOpenRouterDirect(
       String userText, List<FlutterChatMessage> history, bool isRTL) async {
     try {
+      final now = DateTime.now();
+      final todayDateStr = "${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}";
       final systemPrompt = '''You are SchooKeep AI — an intelligent, empathetic K-12 School Health & Safety AI Assistant for schools in the UAE.
+Today's Current Date: $todayDateStr.
 Active Role Context: "${widget.role}". Accessing system database records for school health, clinic logs, nurse duty schedules, pharmacy inventory, and emergency procedures.
 Key Guidelines & System Knowledge:
-1. DATABASE & SCHEDULE ACCESS: You HAVE full access to system database records and staff schedules. NEVER claim "I cannot access the schedule" or "I don't have access to nurse schedules".
-2. Nurse & Clinic Duty Schedule:
+1. DATE AWARENESS: Today is $todayDateStr. Always answer questions with full awareness of today's date and day of the week.
+2. FORMATTING: Format your responses using clean Markdown with bold headings (**Heading**) and dash bullets (- List item) for schedules and lists.
+3. DATABASE & SCHEDULE ACCESS: You HAVE full access to system database records and staff schedules. NEVER claim "I cannot access the schedule" or "I don't have access to nurse schedules".
+4. Nurse & Clinic Duty Schedule:
    - Regular School Days: 08:00 AM – 03:30 PM (Monday to Friday)
    - Ramadan Mode Hours: 08:00 AM – 01:30 PM (Monday to Friday)
    - Morning Shift (Student Triage & Consultation): 08:00 AM – 11:30 AM
    - Midday Shift (Medication & Dose Administration): 11:30 AM – 01:30 PM
    - Afternoon Shift (Documentation & Parent Follow-ups): 01:30 PM – 03:30 PM
-3. System Database Integration: Provide authoritative answers regarding school clinic operating hours, student medical records, medication stock, cafeteria allergen alerts (100% Halal certified), transportation safety, and emergency contacts (Ambulance 998, Police 999).
-4. Identity: Always refer to yourself as "SchooKeep AI". Never mention internal technical model names or infrastructure.
-5. Emergency Numbers: UAE Ambulance 998, UAE Police 999.
-6. Language: Always respond in the language used by the user.''';
+5. System Database Integration: Provide authoritative answers regarding school clinic operating hours, student medical records, medication stock, cafeteria allergen alerts (100% Halal certified), transportation safety, and emergency contacts (Ambulance 998, Police 999).
+6. Identity: Always refer to yourself as "SchooKeep AI". Never mention internal technical model names or infrastructure.
+7. Emergency Numbers: UAE Ambulance 998, UAE Police 999.
+8. Language: Always respond in the language used by the user.''';
 
       final apiMessages = [
         {'role': 'system', 'content': systemPrompt},
@@ -746,14 +751,7 @@ Key Guidelines & System Knowledge:
                 ? Border.all(color: SchooKeepColors.border)
                 : null,
           ),
-          child: Text(
-            msg.text,
-            style: TextStyle(
-              fontSize: 15,
-              height: 1.4,
-              color: msg.isBot ? SchooKeepColors.textPrimary : Colors.white,
-            ),
-          ),
+          child: _buildFormattedMessage(msg),
         ),
         const SizedBox(height: 4),
         Padding(
@@ -793,6 +791,84 @@ Key Guidelines & System Knowledge:
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildFormattedMessage(FlutterChatMessage msg) {
+    final lines = msg.text.split('\n');
+    final textColor = msg.isBot ? SchooKeepColors.textPrimary : Colors.white;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        for (final line in lines) ...[
+          if (line.trim().isEmpty)
+            const SizedBox(height: 6)
+          else ...[
+            _buildFormattedLine(line.trim(), msg.isBot, textColor),
+          ],
+        ],
+      ],
+    );
+  }
+
+  Widget _buildFormattedLine(String line, bool isBot, Color defaultTextColor) {
+    final isBullet = line.startsWith('- ') || line.startsWith('* ') || line.startsWith('• ');
+    final rawText = isBullet ? line.substring(2).trim() : line;
+
+    final parts = rawText.split(RegExp(r'(\*\*.*?\*\*)'));
+    final List<TextSpan> spans = [];
+
+    for (final part in parts) {
+      if (part.startsWith('**') && part.endsWith('**')) {
+        spans.add(TextSpan(
+          text: part.substring(2, part.length - 2),
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: defaultTextColor,
+          ),
+        ));
+      } else {
+        spans.add(TextSpan(
+          text: part,
+          style: TextStyle(color: defaultTextColor),
+        ));
+      }
+    }
+
+    final richText = RichText(
+      text: TextSpan(
+        style: TextStyle(fontSize: 15, height: 1.4, color: defaultTextColor),
+        children: spans,
+      ),
+    );
+
+    if (isBullet) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 2),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              margin: const EdgeInsets.only(top: 8, right: 6, left: 6),
+              width: 5,
+              height: 5,
+              decoration: BoxDecoration(
+                color: isBot ? SchooKeepColors.primary : Colors.white,
+                shape: BoxShape.circle,
+              ),
+            ),
+            Expanded(child: richText),
+          ],
+        ),
+      );
+    }
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 1),
+      child: richText,
     );
   }
 }

@@ -18,6 +18,45 @@ interface AiFetchResult {
   reasoning?: string;
 }
 
+function FormattedMessageText({ text, isBot }: { text: string; isBot: boolean }) {
+  const lines = text.split('\n');
+
+  return (
+    <div className="space-y-1 text-[15px] leading-relaxed">
+      {lines.map((line, idx) => {
+        const trimmed = line.trim();
+        if (!trimmed) return <div key={idx} className="h-1.5" />;
+
+        const isBullet = trimmed.startsWith('- ') || trimmed.startsWith('* ') || trimmed.startsWith('• ');
+        const rawContent = isBullet ? trimmed.substring(2).trim() : trimmed;
+
+        const parts = rawContent.split(/(\*\*.*?\*\*)/g);
+        const renderedParts = parts.map((part, pIdx) => {
+          if (part.startsWith('**') && part.endsWith('**')) {
+            return (
+              <strong key={pIdx} className={`font-semibold ${isBot ? 'text-gray-900' : 'text-white'}`}>
+                {part.slice(2, -2)}
+              </strong>
+            );
+          }
+          return part;
+        });
+
+        if (isBullet) {
+          return (
+            <div key={idx} className="flex items-start gap-2 my-1">
+              <span className={`inline-block w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0 ${isBot ? 'bg-[#2563EB]' : 'bg-white'}`} />
+              <div className="flex-1">{renderedParts}</div>
+            </div>
+          );
+        }
+
+        return <div key={idx}>{renderedParts}</div>;
+      })}
+    </div>
+  );
+}
+
 export function SchooKeepAiAssistant({ role: propRole, title }: SchooKeepAiAssistantProps) {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -88,21 +127,25 @@ export function SchooKeepAiAssistant({ role: propRole, title }: SchooKeepAiAssis
     history: Array<{ role: string; content: string }>
   ): Promise<AiFetchResult | null> => {
     try {
+      const todayDateStr = new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
       const systemPrompt = `You are SchooKeep AI — an intelligent, empathetic K-12 School Health & Safety AI Assistant for schools in the UAE.
+Today's Current Date: ${todayDateStr}.
 Active Role Context: "${role}". Accessing system database records for school health, clinic logs, nurse duty schedules, pharmacy inventory, and emergency procedures.
 Key Guidelines & System Knowledge:
-1. DATABASE & SCHEDULE ACCESS: You HAVE full access to system database records and staff schedules. NEVER claim "I cannot access the schedule" or "I don't have access to nurse schedules".
-2. Nurse & Clinic Duty Schedule:
+1. DATE AWARENESS: Today is ${todayDateStr}. Always answer questions with full awareness of today's date and day of the week.
+2. FORMATTING: Format your responses with Markdown bold (**Heading**) and dash bullets (- List item) for schedules and lists.
+3. DATABASE & SCHEDULE ACCESS: You HAVE full access to system database records and staff schedules. NEVER claim "I cannot access the schedule" or "I don't have access to nurse schedules".
+4. Nurse & Clinic Duty Schedule:
    - Regular School Days: 08:00 AM – 03:30 PM (Monday to Friday)
    - Ramadan Mode Hours: 08:00 AM – 01:30 PM (Monday to Friday)
    - Morning Shift (Student Triage & Consultation): 08:00 AM – 11:30 AM
    - Midday Shift (Medication & Dose Administration): 11:30 AM – 01:30 PM
    - Afternoon Shift (Documentation & Parent Follow-ups): 01:30 PM – 03:30 PM
-3. System Database Integration: Provide authoritative answers regarding school clinic operating hours, student medical records, medication stock, cafeteria allergen alerts (100% Halal certified), transportation safety, and emergency contacts (Ambulance 998, Police 999).
-4. Identity: Always refer to yourself as "SchooKeep AI". Never mention internal technical model names or infrastructure.
-5. Emergency Numbers: UAE Ambulance 998, UAE Police 999.
-6. Disclaimer: Provide informational guidance. Professional nurse/physician review is required for clinical diagnoses.
-7. Language: Always respond in the language used by the user (Arabic if user speaks Arabic, English if user speaks English).`;
+5. System Database Integration: Provide authoritative answers regarding school clinic operating hours, student medical records, medication stock, cafeteria allergen alerts (100% Halal certified), transportation safety, and emergency contacts (Ambulance 998, Police 999).
+6. Identity: Always refer to yourself as "SchooKeep AI". Never mention internal technical model names or infrastructure.
+7. Emergency Numbers: UAE Ambulance 998, UAE Police 999.
+8. Disclaimer: Provide informational guidance. Professional nurse/physician review is required for clinical diagnoses.
+9. Language: Always respond in the language used by the user (Arabic if user speaks Arabic, English if user speaks English).`;
 
       const apiMessages = [
         { role: 'system', content: systemPrompt },
@@ -434,7 +477,7 @@ Key Guidelines & System Knowledge:
                     : 'bg-[#2563EB] text-white rounded-[18px] rounded-br-sm'
                 }`}
               >
-                <p className="text-[15px] leading-relaxed whitespace-pre-wrap">{msg.text}</p>
+                <FormattedMessageText text={msg.text} isBot={msg.isBot} />
               </div>
 
               {/* Timestamp */}
