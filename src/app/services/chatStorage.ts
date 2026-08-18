@@ -5,6 +5,11 @@ export interface ChatMessage {
   timestamp: string;
   reasoning?: string;
   showThinking?: boolean;
+  attachment?: {
+    name: string;
+    size: string;
+    type: string;
+  };
 }
 
 export interface ChatThread {

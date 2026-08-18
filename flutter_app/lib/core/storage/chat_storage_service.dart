@@ -10,6 +10,7 @@ class FlutterChatMessage {
     required this.timestamp,
     this.reasoning,
     this.showThinking = false,
+    this.attachment,
   });
 
   final String id;
@@ -18,6 +19,7 @@ class FlutterChatMessage {
   final String timestamp;
   final String? reasoning;
   bool showThinking;
+  final Map<String, dynamic>? attachment;
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -25,6 +27,7 @@ class FlutterChatMessage {
         'isBot': isBot,
         'timestamp': timestamp,
         'reasoning': reasoning,
+        'attachment': attachment,
       };
 
   factory FlutterChatMessage.fromJson(Map<String, dynamic> json) =>
@@ -34,6 +37,7 @@ class FlutterChatMessage {
         isBot: json['isBot'] as bool,
         timestamp: json['timestamp'] as String,
         reasoning: json['reasoning'] as String?,
+        attachment: json['attachment'] as Map<String, dynamic>?,
       );
 }
 
