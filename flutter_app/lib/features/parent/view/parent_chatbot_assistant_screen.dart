@@ -357,11 +357,19 @@ Key Guidelines & System Knowledge:
                 shape: BoxShape.circle,
               ),
               alignment: Alignment.center,
-              child: const Text('S',
-                  style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white)),
+              child: ClipOval(
+                child: Image.asset(
+                  'assets/icon.png',
+                  width: 32,
+                  height: 32,
+                  fit: BoxFit.cover,
+                  errorBuilder: (ctx, err, stack) => const Text('S',
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white)),
+                ),
+              ),
             ),
             const SizedBox(width: 8),
             Column(

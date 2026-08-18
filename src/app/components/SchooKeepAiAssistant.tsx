@@ -334,8 +334,8 @@ Key Guidelines & System Knowledge:
         </button>
 
         <div className="flex items-center gap-2 flex-1 min-w-0">
-          <div className="w-8 h-8 rounded-full bg-[#2563EB] flex items-center justify-center flex-shrink-0">
-            <span className="text-[14px] font-semibold text-white">S</span>
+          <div className="w-8 h-8 rounded-full bg-[#2563EB] flex items-center justify-center flex-shrink-0 overflow-hidden border border-blue-200 shadow-sm">
+            <img src="/icon.png" alt="SchooKeep Icon" className="w-full h-full object-cover" />
           </div>
           <div className="min-w-0">
             <h1 className="text-[16px] font-semibold text-gray-900 leading-tight truncate">
