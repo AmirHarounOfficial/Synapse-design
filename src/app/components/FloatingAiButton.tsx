@@ -39,7 +39,7 @@ export function FloatingAiButton() {
 
   return (
     <div
-      className={`fixed bottom-20 z-40 ${
+      className={`fixed bottom-[88px] z-40 ${
         isRTL ? 'left-4' : 'right-4'
       }`}
     >

@@ -84,7 +84,7 @@ class SchooKeepScaffold extends StatelessWidget {
       children: [
         mainLayout,
         Positioned(
-          bottom: reserveBottomNav ? 95 : 24,
+          bottom: reserveBottomNav ? 82 : 12,
           left: isRTL ? 16 : null,
           right: isRTL ? null : 16,
           child: _FloatingAiButton(role: roleContext),
