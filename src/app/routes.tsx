@@ -67,6 +67,7 @@ import { ParentNotificationSettings } from './components/ParentNotificationSetti
 import { ParentDocsTab } from './components/ParentDocsTab';
 import { ParentChatTab } from './components/ParentChatTab';
 import { ParentChatbotAssistant } from './components/ParentChatbotAssistant';
+import { SchooKeepAiAssistant } from './components/SchooKeepAiAssistant';
 import { ParentDocumentUploadScreen } from './components/ParentDocumentUpload';
 import { ParentFullQRCode } from './components/ParentFullQRCode';
 import { ParentDocumentExpiryAlert } from './components/ParentDocumentExpiryAlert';
@@ -379,6 +380,10 @@ export const router = createBrowserRouter([
   },
 
   // Parent App - Full Screen Screens (no bottom nav)
+  {
+    path: '/ai-assistant',
+    Component: SchooKeepAiAssistant
+  },
   {
     path: '/parent/app/chatbot-assistant',
     Component: ParentChatbotAssistant
