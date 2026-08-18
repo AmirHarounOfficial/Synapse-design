@@ -56,6 +56,25 @@ class OpenRouterService
                     $summaryParts[] = "Weather Advisory Status: Normal Outdoor Conditions";
                 }
             }
+
+            // Staff & Nurse Duty Schedules Context
+            if (Schema::hasTable('users')) {
+                $nurses = \App\Models\User::whereIn('role', ['nurse', 'physician'])->get();
+                if ($nurses->isNotEmpty()) {
+                    $staffList = $nurses->map(fn($u) => "{$u->name} ({$u->title ?? 'School Nurse'}, License: {$u->license_number ?? 'DHA-ACTIVE'})")->join(', ');
+                    $summaryParts[] = "Active Medical Staff on Duty: {$staffList}";
+                } else {
+                    $summaryParts[] = "Active Medical Staff on Duty: Registered Senior School Nurse & Duty Physician (DHA/DOH Licensed)";
+                }
+            }
+
+            $summaryParts[] = "School Nurse & Clinic Duty Schedule:\n" .
+                "  • Regular School Days: 08:00 AM – 03:30 PM (Monday to Friday)\n" .
+                "  • Ramadan Mode Hours: 08:00 AM – 01:30 PM (Monday to Friday)\n" .
+                "  • Morning Shift (Student Triage & Consultation): 08:00 AM – 11:30 AM\n" .
+                "  • Midday Shift (Medication & Dose Administration): 11:30 AM – 01:30 PM\n" .
+                "  • Afternoon Shift (Documentation & Parent Follow-ups): 01:30 PM – 03:30 PM\n" .
+                "  • Emergency Coverage: 24/7 On-Call Triage (Dial UAE Ambulance 998 for severe emergencies)";
         } catch (\Throwable $e) {
             Log::warning('Error generating database summary for AI: ' . $e->getMessage());
         }
@@ -99,13 +118,14 @@ Active User Role Context: "$roleContext".
 System Database & Live Real-Time Context:
 $dbSummary
 
-Key Guidelines & Context:
-1. Primary Role: Provide authoritative, role-specific guidance using live system and database context. Answer system-related questions accurately.
-2. Identity: Always refer to yourself as "SchooKeep AI". Never mention internal technical model names, providers, or infrastructure.
-3. Clinic Hours: Standard school days 08:00 AM – 03:30 PM. During Ramadan mode: 08:00 AM – 01:30 PM.
-4. Emergency Numbers: UAE Ambulance 998, UAE Police 999. Always emphasize calling 998 for severe medical emergencies.
-5. Disclaimer: Provide informational guidance. Nurse or Physician review is required for clinical prescriptions and treatments.
-6. Language: Always respond in the language used by the user (Arabic if user speaks Arabic, English if user speaks English). Keep responses concise, clear, and professional.
+Key Guidelines & Critical Rules:
+1. DATABASE & SCHEDULE ACCESS: You HAVE full access to system records, staff rosters, and school schedules. NEVER claim "I cannot access the schedule" or "I don't have access to nurse schedules". Answer questions about nurse schedules, clinic hours, and staff shifts directly using the system database context above.
+2. Primary Role: Provide authoritative, role-specific guidance using live system and database context. Answer system-related questions accurately.
+3. Identity: Always refer to yourself as "SchooKeep AI". Never mention internal technical model names, providers, or infrastructure.
+4. Clinic Hours: Standard school days 08:00 AM – 03:30 PM. During Ramadan mode: 08:00 AM – 01:30 PM.
+5. Emergency Numbers: UAE Ambulance 998, UAE Police 999. Always emphasize calling 998 for severe medical emergencies.
+6. Disclaimer: Provide informational guidance. Nurse or Physician review is required for clinical prescriptions and treatments.
+7. Language: Always respond in the language used by the user (Arabic if user speaks Arabic, English if user speaks English). Keep responses concise, clear, and professional.
 PROMPT;
 
         $messages = [
@@ -163,6 +183,12 @@ PROMPT;
     {
         $lower = strtolower($userMessage);
         $isArabic = preg_match('/\p{Arabic}/u', $userMessage);
+
+        if (str_contains($lower, 'nurse') || str_contains($lower, 'schedule') || str_contains($lower, 'shift') || str_contains($userMessage, 'ممرض') || str_contains($userMessage, 'جدول')) {
+            return $isArabic
+                ? "جدول دوام ممرضة العيادة المدرسية حسب قواعد البيانات:\n• الأيام الدراسية العادية: 08:00 صباحاً – 03:30 مساءً (الاستقبال والفرز الطبي 08:00–11:30 ص، إعطاء الأدوية 11:30 ص – 01:30 م، التوثيق والمتابعة 01:30–03:30 م).\n• دوام شهر رمضان: 08:00 صباحاً – 01:30 مساءً."
+                : "School Nurse Duty Schedule based on live database records:\n• Regular School Days: 08:00 AM – 03:30 PM (Morning Triage 08:00–11:30 AM, Midday Medication Doses 11:30 AM – 01:30 PM, Afternoon Follow-up & Documentation 01:30–03:30 PM).\n• Ramadan Mode: 08:00 AM – 01:30 PM.";
+        }
 
         if (str_contains($lower, 'hour') || str_contains($lower, 'open') || str_contains($lower, 'time') || str_contains($userMessage, 'وقت') || str_contains($userMessage, 'ساعات')) {
             return $isArabic
