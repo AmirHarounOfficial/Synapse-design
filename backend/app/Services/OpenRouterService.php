@@ -4,6 +4,7 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Schema;
 
 class OpenRouterService
 {
@@ -15,6 +16,55 @@ class OpenRouterService
     {
         $this->apiKey = config('services.openrouter.api_key') ?? env('OPENROUTER_API_KEY', '');
         $this->model = config('services.openrouter.model') ?? env('OPENROUTER_MODEL', 'nvidia/nemotron-3-nano-30b-a3b:free');
+    }
+
+    /**
+     * Dynamically aggregate real-time system & database context to inject into SchooKeep AI.
+     */
+    public function getLiveDatabaseSummary(): string
+    {
+        $summaryParts = [];
+
+        try {
+            if (Schema::hasTable('students')) {
+                $count = \App\Models\Student::count();
+                $summaryParts[] = "Total Registered Students: {$count}";
+            }
+            if (Schema::hasTable('clinic_visits')) {
+                $todayVisits = \App\Models\ClinicVisit::whereDate('created_at', today())->count();
+                $totalVisits = \App\Models\ClinicVisit::count();
+                $summaryParts[] = "Clinic Visits Today: {$todayVisits} (Total System Logs: {$totalVisits})";
+            }
+            if (Schema::hasTable('medications')) {
+                $totalMeds = \App\Models\Medication::count();
+                $lowStock = \App\Models\Medication::where('stock_qty', '<', 5)->count();
+                $summaryParts[] = "Active Medication Protocols: {$totalMeds} (Low Stock Items: {$lowStock})";
+            }
+            if (Schema::hasTable('cafeteria_alerts')) {
+                $activeAlerts = \App\Models\CafeteriaAlert::where('status', 'active')->count();
+                $summaryParts[] = "Active Cafeteria Allergen Alerts: {$activeAlerts}";
+            }
+            if (Schema::hasTable('bus_routes')) {
+                $routes = \App\Models\BusRoute::count();
+                $summaryParts[] = "Active Bus Routes Monitored: {$routes}";
+            }
+            if (Schema::hasTable('weather_advisories')) {
+                $activeAdvisory = \App\Models\WeatherAdvisory::where('status', 'active')->first();
+                if ($activeAdvisory) {
+                    $summaryParts[] = "Active Weather Advisory: {$activeAdvisory->title} ({$activeAdvisory->severity})";
+                } else {
+                    $summaryParts[] = "Weather Advisory Status: Normal Outdoor Conditions";
+                }
+            }
+        } catch (\Throwable $e) {
+            Log::warning('Error generating database summary for AI: ' . $e->getMessage());
+        }
+
+        if (empty($summaryParts)) {
+            $summaryParts[] = "System Database Online. Health Records, Pharmacy & Clinic Services Operational.";
+        }
+
+        return "- " . implode("\n- ", $summaryParts);
     }
 
     /**
@@ -40,13 +90,17 @@ class OpenRouterService
             default => 'School Health & Safety AI Assistant for Parents and Guardians. Guide on clinic operating hours, medication submissions, sick leave notices, and UAE health protocols.',
         };
 
+        $dbSummary = $this->getLiveDatabaseSummary();
+
         $systemPrompt = <<<PROMPT
 You are SchooKeep AI — an intelligent, empathetic K-12 School Health & Safety AI Assistant for schools in the UAE.
 
-Active Context: Assisting a user in the role of "$roleContext".
+Active User Role Context: "$roleContext".
+System Database & Live Real-Time Context:
+$dbSummary
 
 Key Guidelines & Context:
-1. Primary Role: Provide role-specific guidance tailored to the user's responsibilities while maintaining UAE K-12 health & safety standards.
+1. Primary Role: Provide authoritative, role-specific guidance using live system and database context. Answer system-related questions accurately.
 2. Identity: Always refer to yourself as "SchooKeep AI". Never mention internal technical model names, providers, or infrastructure.
 3. Clinic Hours: Standard school days 08:00 AM – 03:30 PM. During Ramadan mode: 08:00 AM – 01:30 PM.
 4. Emergency Numbers: UAE Ambulance 998, UAE Police 999. Always emphasize calling 998 for severe medical emergencies.
