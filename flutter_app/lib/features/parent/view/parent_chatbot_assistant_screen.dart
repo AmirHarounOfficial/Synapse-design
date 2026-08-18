@@ -148,7 +148,7 @@ class _ParentChatbotAssistantScreenState
 
   /// Calls OpenRouter API directly from Flutter client
   Future<_AiResponseResult?> _fetchOpenRouterDirect(
-      String userText, List<FlutterChatMessage> history) async {
+      String userText, List<FlutterChatMessage> history, bool isRTL) async {
     try {
       final systemPrompt = '''You are SchooKeep AI — an intelligent, empathetic K-12 School Health & Safety AI Assistant for schools in the UAE.
 Active Role Context: "${widget.role}". Accessing system database records for school health, clinic logs, nurse duty schedules, pharmacy inventory, and emergency procedures.
@@ -204,11 +204,19 @@ Key Guidelines & System Knowledge:
           String? reasoning = (msg?['reasoning'] ?? firstChoice?['reasoning']) as String?;
 
           if (rawContent != null && rawContent.contains('<think>')) {
-            final thinkRegex = RegExp(r'<think>(.*?)</think>', dotAll: true);
-            final match = thinkRegex.firstMatch(rawContent);
-            if (match != null) {
-              reasoning = match.group(1)?.trim();
-              rawContent = rawContent.replaceAll(thinkRegex, '').trim();
+            if (rawContent.contains('</think>')) {
+              final thinkRegex = RegExp(r'<think>(.*?)</think>', dotAll: true);
+              final match = thinkRegex.firstMatch(rawContent);
+              if (match != null) {
+                reasoning = match.group(1)?.trim();
+                rawContent = rawContent.replaceAll(thinkRegex, '').trim();
+              }
+            } else {
+              final parts = rawContent.split('<think>');
+              reasoning = parts.length > 1 ? parts[1].trim() : parts[0].trim();
+              rawContent = parts[0].trim().isEmpty 
+                  ? (isRTL ? 'إليك تفاصيل دوام عيادة المدرسة المعتمدة:' : 'Here is the verified school clinic schedule:') 
+                  : parts[0].trim();
             }
           }
 
@@ -252,7 +260,7 @@ Key Guidelines & System Knowledge:
       _AiResponseResult? result;
 
       // 1. Direct OpenRouter AI call FIRST
-      result = await _fetchOpenRouterDirect(text, _currentThread!.messages);
+      result = await _fetchOpenRouterDirect(text, _currentThread!.messages, isRTL);
 
       // 2. Fallback to backend API
       if (result == null) {

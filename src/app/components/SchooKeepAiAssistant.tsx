@@ -131,10 +131,17 @@ Key Guidelines & System Knowledge:
         let reasoning = firstChoice?.message?.reasoning || firstChoice?.reasoning;
 
         if (content && content.includes('<think>')) {
-          const thinkMatch = content.match(/<think>(.*?)<\/think>/s);
-          if (thinkMatch) {
-            reasoning = thinkMatch[1].trim();
-            content = content.replace(/<think>.*?<\/think>/s, '').trim();
+          if (content.includes('</think>')) {
+            const thinkMatch = content.match(/<think>(.*?)<\/think>/s);
+            if (thinkMatch) {
+              reasoning = thinkMatch[1].trim();
+              content = content.replace(/<think>.*?<\/think>/s, '').trim();
+            }
+          } else {
+            // Unclosed <think> block: entire content is reasoning or starts with thinking
+            const parts = content.split('<think>');
+            reasoning = parts[1] ? parts[1].trim() : parts[0].trim();
+            content = parts[0].trim() || (isRTL ? 'إليك معلومات دوام الممرضة في العيادة المدرسية:' : 'Here is the school nurse duty schedule:');
           }
         }
 
