@@ -15,3 +15,6 @@ Route::middleware('role:secretary,principal,vice_principal,admin')->group(functi
 
 // A parent (any authenticated user) can open a new conversation.
 Route::post('chatbot-conversations', [ChatbotController::class, 'store']);
+
+// AI assistant endpoint (OpenRouter Nemotron Nano)
+Route::post('chatbot/ask', [ChatbotController::class, 'askAi']);

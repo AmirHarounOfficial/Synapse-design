@@ -31,7 +31,33 @@ export default {
     approved: "مقبول",
     mandatory: "إلزامي",
     notConnected: "غير متصل",
-    connected: "متصل"
+    connected: "متصل",
+    filter: "تصفية",
+    refresh: "تحديث",
+    details: "التفاصيل",
+    all: "الكل",
+    close: "إغلاق",
+    export: "تصدير",
+    print: "طباعة",
+    upload: "رفع",
+    date: "التاريخ",
+    time: "الوقت",
+    action: "الإجراء"
+  },
+  navigation: {
+    dashboard: "لوحة التحكم",
+    students: "الطلاب",
+    medications: "الأدوية",
+    clinicVisits: "زيارات العيادة",
+    reports: "التقارير",
+    settings: "الإعدادات",
+    messages: "الرسائل",
+    pickupQueue: "قائمة الانتظار",
+    busRoutes: "مسارات الحافلة",
+    allergens: "المواد الحساسة والحلال",
+    analytics: "التحليلات",
+    auditLogs: "سجلات التدقيق",
+    switchRole: "معرض الأدوار"
   },
   login: {
     title: "تسجيل الدخول إلى سينابس",
@@ -74,7 +100,7 @@ export default {
     submitForReviewBtn: "إرسال لمراجعة الطبيب"
   },
   cafeteria: {
-    dashboardTitle: "لوحة تحكم المواد الحساسة",
+    dashboardTitle: "لوحة تحكم المواد الحساسة والحلال",
     halalCertifiedOk: "جميع الوجبات اليوم معتمدة كحلال ✓",
     nonHalalAlert: "⚠ تم اكتشاف وجبة غير حلال",
     confirmAllHalalCheckbox: "أؤكد أن جميع الوجبات اليوم متوافقة مع الشريعة الإسلامية (حلال)",
@@ -101,5 +127,74 @@ export default {
     pdplRequestAccess: "طلب الوصول إلى البيانات",
     pdplRequestCorrection: "طلب تصحيح البيانات",
     pdplRequestDeletion: "طلب حذف البيانات"
+  },
+  counselor: {
+    dashboardTitle: "لوحة تحكم المرشد الطلابي",
+    studentBehavioralTags: "علامات السلوك والرفاهية الطلابية",
+    tagEntry: "إدخال وملاحظة العلامات",
+    reportsList: "تقارير الإرشاد",
+    generateReport: "إنشاء تقرير الإرشاد",
+    tagHistory: "سجل العلامات والحالات",
+    confidentialNotice: "سجل سري محمي بموجب إرشادات الصحة النفسية الطلابية في دولة الإمارات"
+  },
+  principal: {
+    dashboardTitle: "لوحة تحكم مدير المدرسة للصحة والامتثال",
+    schoolSetup: "ملف المدرسة وهيئة الترخيص",
+    staffManagement: "قائمة الكادر الطبي والإداري",
+    permissionMatrix: "مصفوفة صلاحيات الأدوار",
+    annualReport: "التقرير السنوي للصحة والسلامة",
+    auditLog: "سجل التدقيق الأمني والصحي غير القابل للتعديل",
+    smsWallet: "محفظة اتصالات الرسائل النصية والواتساب",
+    weatherAdvisory: "تنبيهات الأحوال الجوية من المركز الوطني للأرصاد",
+    afterHoursAccess: "تصريح الدخول الطارئ خارج أوقات العمل",
+    studentPromotion: "نقل السجلات الصحية الطلابية للعام الجديد"
+  },
+  vicePrincipal: {
+    dashboardTitle: "لوحة تحكم نائب المدير للعمليات",
+    clinicReadiness: "مؤشر جاهزية العيادة المدرسية",
+    equipmentChecklist: "قائمة فحص معدات الطوارئ والمستلزمات الطبية",
+    permissions: "تفويضات صلاحيات الموظفين",
+    messages: "قائمة رسائل أولياء الأمور والطوارئ"
+  },
+  teacher: {
+    dashboardTitle: "نظرة عامة على صحة الطلاب للمعلم",
+    attendance: "حضور وصحة الطلاب اليومية",
+    clinicReferral: "إحالة طالب إلى العيادة المدرسية",
+    activityExemptions: "إعفاءات التربية البدنية والأنشطة الخارجية",
+    healthConsiderations: "اعتبارات الرعاية الصحية الخاصة للطلاب",
+    weatherRestriction: "تحذير الأنشطة الخارجية حسب الأحوال الجوية",
+    studentReleaseNotice: "إشعار خروج الطالب من العيادة المدرسية"
+  },
+  secretary: {
+    dashboardTitle: "بوابة سكرتير المدرسة",
+    studentList: "دليل الطلاب",
+    importStudents: "استيراد سجلات الطلاب بالجملة",
+    composeMessage: "إرسال إشعار الصحة والسلامة العام",
+    messagesInbox: "صندوق استفسارات وموافقات أولياء الأمور",
+    chatbotQueue: "قائمة تصعيد المساعد الذكي"
+  },
+  security: {
+    dashboardTitle: "بوابة حارس الأمن والتحقق عند البوابة",
+    qrScanner: "مسح رمز الاستجابة السريعة لولي الأمر أو المصرح له",
+    manualVerification: "التحقق اليدوي برقم الهوية الإماراتية",
+    pickupQueue: "قائمة استلام الطلاب النشطة",
+    pickupHistory: "سجل المغادرة عند البوابة",
+    authorizedConfirmation: "تم تأكيد تصريح الاستلام ✓"
+  },
+  busDriver: {
+    dashboardTitle: "بوابة سائق الحافلة والسلامة الطلابية",
+    routeOverview: "المسار النشط وقائمة الطلاب",
+    studentBoarding: "مسح رمز صعود الحافلة",
+    studentDeboarding: "تأكيد نزل الطالب من الحافلة",
+    earlyDismissal: "طلبات المغادرة المبكرة واستلام أولياء الأمور",
+    routeHistory: "سجل الرحلات المكتملة"
+  },
+  system: {
+    ramadanModeTitle: "جدول ومواعيد شهر رمضان المبارك نشط",
+    ramadanModeSub: "تم تعديل ساعات عمل العيادة المدرسية للشهر الفضيل",
+    hasanaSyncTitle: "حالة الربط مع نظام حصانة (DHA HASANA)",
+    afterHoursLockTitle: "قفل السجلات الطبية خارج أوقات العمل",
+    consentPendingTitle: "تتطلب موافقة ولي الأمر على العلاج الطبي",
+    sessionExpiryTitle: "تحذير أمني: قرب انتهاء الجلسة"
   }
 };

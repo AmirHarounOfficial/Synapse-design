@@ -39,7 +39,7 @@ class ApiClient {
   static const String _tokenKey = 'schookeep_token';
   static const String _baseUrl = String.fromEnvironment(
     'API_BASE_URL',
-    defaultValue: 'http://127.0.0.1:8000/api',
+    defaultValue: 'https://api.schookeep.com/api',
   );
 
   final SharedPreferences _prefs;

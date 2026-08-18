@@ -91,4 +91,44 @@ class ChatbotController extends Controller
 
         return new ChatbotConversationResource($conversation->load('messages'));
     }
+
+    /// POST /api/chatbot/ask — Send a message to Nvidia Nemotron Nano AI assistant via OpenRouter.
+    public function askAi(Request $request, \App\Services\OpenRouterService $aiService)
+    {
+        $data = $request->validate([
+            'message' => ['required', 'string'],
+            'history' => ['sometimes', 'array'],
+            'conversation_id' => ['sometimes', 'nullable', 'string'],
+        ]);
+
+        $userMessage = $data['message'];
+        $history = $data['history'] ?? [];
+
+        // Call OpenRouter API with Nvidia Nemotron Nano model
+        $aiResponse = $aiService->chat($userMessage, $history);
+
+        // Optionally record in conversation if conversation_id provided and user logged in
+        if ($request->user() && !empty($data['conversation_id'])) {
+            $conversation = ChatbotConversation::find($data['conversation_id']);
+            if ($conversation && $conversation->school_id === $request->user()->school_id) {
+                $conversation->messages()->create([
+                    'sender' => 'parent',
+                    'body' => $userMessage,
+                ]);
+                $conversation->messages()->create([
+                    'sender' => 'bot',
+                    'body' => $aiResponse,
+                ]);
+            }
+        }
+
+        return response()->json([
+            'success' => true,
+            'model' => env('OPENROUTER_MODEL', 'nvidia/nemotron-4-340b-instruct'),
+            'provider' => 'OpenRouter (Nvidia Nemotron Nano)',
+            'reply' => $aiResponse,
+            'response' => $aiResponse,
+            'timestamp' => now()->toIso8601String(),
+        ]);
+    }
 }

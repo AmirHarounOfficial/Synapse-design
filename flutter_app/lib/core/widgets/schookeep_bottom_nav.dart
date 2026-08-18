@@ -5,10 +5,24 @@ import '../theme/app_theme.dart';
 
 /// A single bottom-nav destination.
 class SchooKeepTab {
-  const SchooKeepTab({required this.icon, required this.label, required this.route});
+  const SchooKeepTab({
+    required this.icon,
+    required this.label,
+    this.arLabel,
+    required this.route,
+  });
   final IconData icon;
   final String label;
+  final String? arLabel;
   final String route; // go_router location for this tab
+
+  String localizedLabel(BuildContext context) {
+    final isRTL = Directionality.of(context) == TextDirection.rtl;
+    if (isRTL && arLabel != null && arLabel!.isNotEmpty) {
+      return arLabel!;
+    }
+    return label;
+  }
 }
 
 /// Fixed 83px bottom tab bar. Tab order reverses in RTL (matching
@@ -94,7 +108,7 @@ class _NavItem extends StatelessWidget {
           children: [
             Icon(tab.icon, size: 24, color: color),
             const SizedBox(height: 4),
-            Text(tab.label, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: color)),
+            Text(tab.localizedLabel(context), style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: color)),
           ],
         ),
       ),

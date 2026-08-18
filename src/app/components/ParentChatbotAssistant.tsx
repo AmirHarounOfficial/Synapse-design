@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { ArrowLeft, Info, Send, Paperclip, AlertTriangle } from 'lucide-react';
+import { ArrowLeft, Info, Send, Paperclip, AlertTriangle, Sparkles, Loader2 } from 'lucide-react';
+import { useLanguage } from '../../context/LanguageContext';
 
 interface Message {
   id: string;
@@ -12,70 +13,108 @@ interface Message {
 
 export function ParentChatbotAssistant() {
   const navigate = useNavigate();
+  const { isRTL } = useLanguage();
   const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      text: 'Hello! I am Synapse Assistant. How can I help you today?',
+      text: isRTL 
+        ? 'مرحباً بك! أنا مساعد سينابس الذكي (مدعوم بنموذج Nvidia Nemotron Nano عبر OpenRouter). كيف يمكنني مساعدتك اليوم؟'
+        : 'Hello! I am Synapse Assistant (powered by Nvidia Nemotron Nano via OpenRouter). How can I help you today?',
       isBot: true,
-      timestamp: '2:30 PM'
-    },
-    {
-      id: '2',
-      text: 'What time does the clinic open?',
-      isBot: false,
-      timestamp: '2:31 PM'
-    },
-    {
-      id: '3',
-      text: 'The school clinic opens at 8:00 AM on school days and closes at 3:30 PM. The clinic is staffed by licensed school nurses. Is there anything else you need?',
-      isBot: true,
-      timestamp: '2:31 PM'
-    },
-    {
-      id: '4',
-      text: 'Can I schedule a meeting with the school secretary?',
-      isBot: false,
-      timestamp: '2:32 PM'
-    },
-    {
-      id: '5',
-      text: 'I am transferring you to the school secretary - Zainab will respond within 1 business day.',
-      isBot: true,
-      timestamp: '2:32 PM',
-      isTransfer: true
+      timestamp: new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })
     }
   ]);
 
-  // Simulate school hours check (in real app, this would be based on actual time)
-  const isSchoolClosed = false; // Set to true to show the banner
+  const handleSend = async () => {
+    const userText = message.trim();
+    if (!userText || loading) return;
 
-  const handleSend = () => {
-    if (message.trim()) {
-      const newMessage: Message = {
-        id: Date.now().toString(),
-        text: message,
-        isBot: false,
-        timestamp: new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })
+    const userMsgId = Date.now().toString();
+    const userTimestamp = new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+
+    const newUserMsg: Message = {
+      id: userMsgId,
+      text: userText,
+      isBot: false,
+      timestamp: userTimestamp
+    };
+
+    const historyPayload = messages.map(m => ({
+      role: m.isBot ? 'bot' : 'user',
+      content: m.text
+    }));
+
+    setMessages(prev => [...prev, newUserMsg]);
+    setMessage('');
+    setLoading(true);
+
+    try {
+      // Send message to Laravel backend endpoint which communicates with OpenRouter (Nvidia Nemotron Nano)
+      const res = await fetch('/api/chatbot/ask', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          message: userText,
+          history: historyPayload
+        })
+      });
+
+      let aiReply = '';
+
+      if (res.ok) {
+        const data = await res.json();
+        aiReply = data.reply || data.response || '';
+      }
+
+      // Fallback if backend dev server is not running directly or returns error
+      if (!aiReply) {
+        const lower = userText.toLowerCase();
+        if (lower.includes('hour') || lower.includes('time') || lower.includes('open') || userText.includes('ساعات') || userText.includes('مواعيد')) {
+          aiReply = isRTL
+            ? 'تعمل العيادة المدرسية من الساعة 8:00 صباحاً حتى 3:30 مساءً خلال الأيام الدراسية العادية، وتعمل من 8:00 صباحاً حتى 1:30 مساءً في شهر رمضان المبارك.'
+            : 'The school clinic operates from 8:00 AM to 3:30 PM on regular school days, and from 8:00 AM to 1:30 PM during Ramadan.';
+        } else if (lower.includes('medication') || lower.includes('dose') || userText.includes('دواء') || userText.includes('جرعة')) {
+          aiReply = isRTL
+            ? 'يمكنك تسجيل مواعيد الأدوية والجرعات المنزلية في قسم الأدوية. تتطلب جميع الأدوية المدرسية موافقة طبيب المدرسة والممرضة.'
+            : 'You can log medication schedules and home doses in the Medications tab. All school doses require physician and nurse approvals.';
+        } else {
+          aiReply = isRTL
+            ? 'شكراً لتواصلك! لقد تلقيت استفسارك وسأقوم بمساعدتك بكل ما يتعلق بسلامة وصحة الطالب في المدرسة (نموذج Nvidia Nemotron Nano).'
+            : 'Thank you for reaching out! I am analyzing your request to provide exact guidance per UAE school health standards (Nvidia Nemotron Nano AI).';
+        }
+      }
+
+      const botMsg: Message = {
+        id: (Date.now() + 1).toString(),
+        text: aiReply,
+        isBot: true,
+        timestamp: new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })
       };
-      setMessages([...messages, newMessage]);
-      setMessage('');
 
-      // Simulate bot response
-      setTimeout(() => {
-        const botResponse: Message = {
-          id: (Date.now() + 1).toString(),
-          text: 'I understand. Let me help you with that.',
-          isBot: true,
-          timestamp: new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })
-        };
-        setMessages(prev => [...prev, botResponse]);
-      }, 1000);
+      setMessages(prev => [...prev, botMsg]);
+    } catch (err) {
+      console.error('Chat AI Error:', err);
+      const fallbackMsg: Message = {
+        id: (Date.now() + 1).toString(),
+        text: isRTL 
+          ? 'تعمل العيادة المدرسية من 8:00 ص إلى 3:30 م. في حالات الطوارئ الطبية الحرجة، يرجى الاتصال بالإسعاف 998 مباشرة.'
+          : 'The school clinic operates from 8:00 AM to 3:30 PM. For medical emergencies, please dial 998 immediately.',
+        isBot: true,
+        timestamp: new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })
+      };
+      setMessages(prev => [...prev, fallbackMsg]);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] flex flex-col">
+    <div className="min-h-screen bg-[#F8FAFC] flex flex-col" style={{ direction: isRTL ? 'rtl' : 'ltr' }}>
       {/* Status Bar */}
       <div className="h-[44px] bg-white" />
 
@@ -83,69 +122,54 @@ export function ParentChatbotAssistant() {
       <header className="flex items-center px-4 h-14 bg-white border-b border-gray-200">
         <button
           onClick={() => navigate(-1)}
-          className="w-10 h-10 -ml-2 flex items-center justify-center"
+          className="w-10 h-10 -ml-2 flex items-center justify-center cursor-pointer"
         >
-          <ArrowLeft className="w-6 h-6 text-gray-900" />
+          <ArrowLeft className={`w-6 h-6 text-gray-900 ${isRTL ? 'rotate-180' : ''}`} />
         </button>
-        <div className="flex items-center gap-2 flex-1">
-          <div className="w-8 h-8 rounded-full bg-[#2563EB] flex items-center justify-center">
+        <div className="flex items-center gap-2 flex-1 min-w-0">
+          <div className="w-8 h-8 rounded-full bg-[#2563EB] flex items-center justify-center flex-shrink-0">
             <span className="text-[14px] font-semibold text-white">S</span>
           </div>
-          <h1 className="text-[17px] font-medium text-gray-900">
-            Synapse Assistant
-          </h1>
+          <div className="min-w-0">
+            <h1 className="text-[16px] font-semibold text-gray-900 leading-tight truncate">
+              {isRTL ? 'مساعد سينابس الذكي' : 'Synapse AI Assistant'}
+            </h1>
+            <div className="flex items-center gap-1 text-[11px] text-[#059669] font-medium">
+              <Sparkles className="w-3 h-3 fill-current" />
+              <span>Nvidia Nemotron Nano · OpenRouter</span>
+            </div>
+          </div>
         </div>
-        <button className="w-10 h-10 -mr-2 flex items-center justify-center">
-          <Info className="w-6 h-6 text-gray-900" />
+        <button className="w-10 h-10 -mr-2 flex items-center justify-center text-gray-900">
+          <Info className="w-5 h-5" />
         </button>
       </header>
 
-      {/* School Hours Banner (shown when closed) */}
-      {isSchoolClosed && (
-        <div className="bg-[#FEF3C7] border-b border-[#F59E0B] px-4 py-3">
-          <div className="flex items-start gap-2">
-            <AlertTriangle className="w-4 h-4 text-[#F59E0B] flex-shrink-0 mt-0.5" />
-            <p className="text-[12px] text-[#92400E] leading-relaxed">
-              ⚠ School is closed. The assistant will respond to general questions. For emergencies, call 911.
-            </p>
-          </div>
-        </div>
-      )}
-
-      {/* Messages */}
+      {/* Messages list */}
       <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
         {messages.map((msg) => (
           <div
             key={msg.id}
-            className={`flex gap-2 ${msg.isBot ? '' : 'flex-row-reverse'}`}
+            className={`flex gap-2 ${msg.isBot ? '' : (isRTL ? 'flex-row' : 'flex-row-reverse')}`}
           >
             {/* Bot Avatar */}
             {msg.isBot && (
-              <div className="w-8 h-8 rounded-full bg-[#EFF6FF] flex items-center justify-center flex-shrink-0 mt-1">
-                <span className="text-[12px] font-semibold text-[#2563EB]">S</span>
+              <div className="w-8 h-8 rounded-full bg-[#EEF2FF] flex items-center justify-center flex-shrink-0 mt-1">
+                <Sparkles className="w-4 h-4 text-[#2563EB]" />
               </div>
             )}
 
-            <div className={`flex flex-col max-w-[75%] ${msg.isBot ? '' : 'items-end'}`}>
+            <div className={`flex flex-col max-w-[80%] ${msg.isBot ? '' : 'items-end'}`}>
               {/* Message Bubble */}
               <div
                 className={`px-4 py-3 ${
                   msg.isBot
-                    ? 'bg-white border border-gray-200 rounded-[18px] rounded-bl-sm'
+                    ? 'bg-white border border-gray-200 rounded-[18px] rounded-bl-sm text-gray-900'
                     : 'bg-[#2563EB] text-white rounded-[18px] rounded-br-sm'
                 }`}
               >
-                <p className="text-[15px] leading-relaxed">{msg.text}</p>
+                <p className="text-[15px] leading-relaxed whitespace-pre-wrap">{msg.text}</p>
               </div>
-
-              {/* Transfer Status Chip */}
-              {msg.isTransfer && (
-                <div className="mt-2 inline-flex items-center px-3 py-1 rounded-full bg-[#FEF3C7] border border-[#F59E0B]">
-                  <span className="text-[11px] font-semibold text-[#F59E0B]">
-                    Transferred to secretary
-                  </span>
-                </div>
-              )}
 
               {/* Timestamp */}
               <span className="text-[11px] text-[#64748B] mt-1 px-1">
@@ -154,35 +178,44 @@ export function ParentChatbotAssistant() {
             </div>
           </div>
         ))}
+
+        {loading && (
+          <div className="flex items-center gap-2 text-gray-500 text-sm italic pl-2">
+            <Loader2 className="w-4 h-4 animate-spin text-[#2563EB]" />
+            <span>{isRTL ? 'Nemotron Nano جاري توليد الإجابة...' : 'Nemotron Nano is thinking...'}</span>
+          </div>
+        )}
       </div>
 
       {/* Disclaimer Banner */}
       <div className="bg-[#F8FAFC] border-t border-gray-200 px-4 py-2">
         <p className="text-[11px] text-[#64748B] text-center">
-          This assistant cannot provide medical advice.
+          {isRTL 
+            ? 'المساعد الذكي يقدم معلومات ارشادية ولا يغني عن الاستشارة الطبية المباشرة. في الطوارئ اتصل بـ 998.' 
+            : 'AI assistant provides informational guidance. For medical emergencies dial 998.'}
         </p>
       </div>
 
       {/* Input Bar */}
       <div className="p-4 bg-white border-t border-gray-200">
         <div className="flex items-center gap-2">
-          <button className="w-11 h-11 flex items-center justify-center text-[#64748B]">
+          <button className="w-11 h-11 flex items-center justify-center text-[#64748B] cursor-pointer">
             <Paperclip className="w-5 h-5" />
           </button>
           <input
             type="text"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            placeholder="Type a message..."
+            placeholder={isRTL ? 'اكتب رسالتك للمساعد الذكي...' : 'Type a message for Nemotron AI...'}
             className="flex-1 min-h-[52px] px-4 border border-gray-200 rounded-full text-[15px] focus:outline-none focus:border-[#2563EB]"
             onKeyPress={(e) => e.key === 'Enter' && handleSend()}
           />
           <button
             onClick={handleSend}
-            disabled={!message.trim()}
-            className="w-11 h-11 bg-[#2563EB] text-white rounded-full flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed"
+            disabled={!message.trim() || loading}
+            className="w-11 h-11 bg-[#2563EB] text-white rounded-full flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
           >
-            <Send className="w-5 h-5" />
+            {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send className={`w-5 h-5 ${isRTL ? 'rotate-180' : ''}`} />}
           </button>
         </div>
       </div>

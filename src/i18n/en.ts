@@ -31,7 +31,33 @@ export default {
     approved: "Approved",
     mandatory: "Mandatory",
     notConnected: "Not connected",
-    connected: "Connected"
+    connected: "Connected",
+    filter: "Filter",
+    refresh: "Refresh",
+    details: "Details",
+    all: "All",
+    close: "Close",
+    export: "Export",
+    print: "Print",
+    upload: "Upload",
+    date: "Date",
+    time: "Time",
+    action: "Action"
+  },
+  navigation: {
+    dashboard: "Dashboard",
+    students: "Students",
+    medications: "Medications",
+    clinicVisits: "Clinic Visits",
+    reports: "Reports",
+    settings: "Settings",
+    messages: "Messages",
+    pickupQueue: "Pickup Queue",
+    busRoutes: "Bus Routes",
+    allergens: "Allergens & Halal",
+    analytics: "Analytics",
+    auditLogs: "Audit Logs",
+    switchRole: "Switch Role Showcase"
   },
   login: {
     title: "Sign in to Synapse",
@@ -74,7 +100,7 @@ export default {
     submitForReviewBtn: "Submit for physician review"
   },
   cafeteria: {
-    dashboardTitle: "Allergen Dashboard",
+    dashboardTitle: "Allergen & Halal Dashboard",
     halalCertifiedOk: "All meals today are Halal-certified ✓",
     nonHalalAlert: "⚠ Non-Halal item detected",
     confirmAllHalalCheckbox: "I confirm all meals today are Halal-certified",
@@ -101,5 +127,74 @@ export default {
     pdplRequestAccess: "Request data access",
     pdplRequestCorrection: "Request data correction",
     pdplRequestDeletion: "Request data deletion"
+  },
+  counselor: {
+    dashboardTitle: "Counselor Dashboard",
+    studentBehavioralTags: "Student Behavioral & Wellness Tags",
+    tagEntry: "Tag Entry & Observation",
+    reportsList: "Counseling Reports",
+    generateReport: "Generate Counselor Report",
+    tagHistory: "Tag History & Case Log",
+    confidentialNotice: "Confidential record protected under UAE Student Mental Health Guidelines"
+  },
+  principal: {
+    dashboardTitle: "Principal Health & Compliance Dashboard",
+    schoolSetup: "School Profile & License Authority",
+    staffManagement: "Medical & Administrative Staff Roster",
+    permissionMatrix: "Role Permission Matrix",
+    annualReport: "Annual Health & Safety Report",
+    auditLog: "Immutable Security & Health Audit Log",
+    smsWallet: "SMS & WhatsApp Communication Wallet",
+    weatherAdvisory: "UAE NCM Weather & Environmental Advisories",
+    afterHoursAccess: "After-Hours Emergency Access Authorization",
+    studentPromotion: "Student Health Record Academic Promotion"
+  },
+  vicePrincipal: {
+    dashboardTitle: "Vice Principal Operations Dashboard",
+    clinicReadiness: "Clinic Operational Readiness Score",
+    equipmentChecklist: "Emergency Equipment & Medical Supplies Checklist",
+    permissions: "Staff Access Delegations",
+    messages: "Parent & Emergency Communications Queue"
+  },
+  teacher: {
+    dashboardTitle: "Teacher Classroom Health Overview",
+    attendance: "Daily Health Attendance",
+    clinicReferral: "Send Student to Clinic",
+    activityExemptions: "Physical Education & Outdoor Exemptions",
+    healthConsiderations: "Student Special Health Care Considerations",
+    weatherRestriction: "Outdoor Activity Weather Warning",
+    studentReleaseNotice: "Clinic Student Release Notification"
+  },
+  secretary: {
+    dashboardTitle: "School Secretary Portal",
+    studentList: "Student Directory",
+    importStudents: "Batch Import Student Records",
+    composeMessage: "Broadcast Health & Safety Notice",
+    messagesInbox: "Parent Inquiry & Consent Inbox",
+    chatbotQueue: "AI Assistant Escalation Queue"
+  },
+  security: {
+    dashboardTitle: "Security & Gate Verification Portal",
+    qrScanner: "Scan Parent / Authorized QR Pass",
+    manualVerification: "Manual Emirates ID Verification",
+    pickupQueue: "Active Student Pickup Queue",
+    pickupHistory: "Gate Departure Log",
+    authorizedConfirmation: "Pickup Authorized ✓"
+  },
+  busDriver: {
+    dashboardTitle: "Bus Student Safety Portal",
+    routeOverview: "Active Route & Student Manifest",
+    studentBoarding: "Boarding QR Scan",
+    studentDeboarding: "Deboarding Verification",
+    earlyDismissal: "Early Dismissal & Parent Pickup Requests",
+    routeHistory: "Completed Trip History"
+  },
+  system: {
+    ramadanModeTitle: "Ramadan Hours & Schedule Active",
+    ramadanModeSub: "Clinic operating hours adjusted for holy month",
+    hasanaSyncTitle: "DHA HASANA Sync Status",
+    afterHoursLockTitle: "After-Hours Medical Log Lock",
+    consentPendingTitle: "Parental Medical Treatment Consent Required",
+    sessionExpiryTitle: "Session Expiry Security Warning"
   }
 };

@@ -1,4 +1,5 @@
 import { Home, Pill, User, Bell } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { useLanguage } from '../../context/LanguageContext';
 
 interface BottomNavigationProps {
@@ -7,12 +8,14 @@ interface BottomNavigationProps {
 }
 
 export function BottomNavigation({ activeTab, onTabChange }: BottomNavigationProps) {
+  const { t } = useTranslation();
   const { isRTL } = useLanguage();
+
   const tabs = [
-    { id: 'dashboard', label: 'Home', icon: Home },
-    { id: 'medications', label: 'Medications', icon: Pill },
-    { id: 'profile', label: 'Profile', icon: User },
-    { id: 'notifications', label: 'Alerts', icon: Bell }
+    { id: 'dashboard', label: t('common.home'), icon: Home },
+    { id: 'medications', label: t('navigation.medications'), icon: Pill },
+    { id: 'profile', label: t('common.settings'), icon: User },
+    { id: 'notifications', label: t('common.notifications'), icon: Bell }
   ];
 
   const tabsToRender = isRTL ? [...tabs].reverse() : tabs;

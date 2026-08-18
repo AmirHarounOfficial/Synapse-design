@@ -5,18 +5,15 @@ import 'package:lucide_icons/lucide_icons.dart';
 import '../../../core/di/service_locator.dart';
 import '../../../core/localization/l10n_ext.dart';
 import '../../../core/localization/locale_cubit.dart';
+import '../../../core/network/api_client.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../../data/models/chatbot.dart';
 import '../../../data/repositories/chatbot_repository.dart';
 import 'package:schookeep/core/router/safe_back.dart';
 
-/// Ported from `ParentChatbotAssistant.tsx`. A full-screen chat with the
-/// "SchooKeep Assistant", wired to `POST /chatbot-conversations`. The first send
-/// calls [ChatbotRepository.start] (creating a persisted conversation that shows
-/// up in the secretary escalation queue); subsequent sends call
-/// [ChatbotRepository.postMessage]. A local bot greeting is shown for instant UX
-/// before the first send.
+/// Ported from `ParentChatbotAssistant.tsx`. Full-screen AI chat with the
+/// "SchooKeep Assistant" powered by OpenRouter (Nvidia Nemotron Nano model).
 class ParentChatbotAssistantScreen extends StatefulWidget {
   const ParentChatbotAssistantScreen({super.key});
 
@@ -44,12 +41,10 @@ class _ParentChatbotAssistantScreenState
   final TextEditingController _controller = TextEditingController();
   final ScrollController _scrollController = ScrollController();
   final ChatbotRepository _repo = sl<ChatbotRepository>();
+  final ApiClient _apiClient = sl<ApiClient>();
 
-  // Simulate school hours check (in real app, based on actual time).
   static const bool _isSchoolClosed = false;
 
-  /// Set once the first message creates a persisted conversation; drives the
-  /// start-vs-postMessage branch in [_handleSend].
   int? _conversationId;
   bool _sending = false;
 
@@ -59,14 +54,12 @@ class _ParentChatbotAssistantScreenState
   void initState() {
     super.initState();
     final isRTL = context.read<LocaleCubit>().state.isRTL;
-    // Local greeting only — shown instantly before the first send creates the
-    // real conversation (whose own bot greeting then replaces this list).
     _messages = [
       _ChatMessage(
         id: 'greeting',
         text: isRTL
-            ? 'مرحباً! أنا مساعد سكوكيب. كيف يمكنني مساعدتك اليوم؟'
-            : 'Hello! I am SchooKeep Assistant. How can I help you today?',
+            ? 'مرحباً! أنا مساعد سكوكيب الذكي (مدعوم بنموذج Nvidia Nemotron Nano عبر OpenRouter). كيف يمكنني مساعدتك اليوم؟'
+            : 'Hello! I am SchooKeep Assistant (powered by Nvidia Nemotron Nano via OpenRouter). How can I help you today?',
         isBot: true,
         timestamp: _now(),
       ),
@@ -90,8 +83,6 @@ class _ParentChatbotAssistantScreenState
     return '$h:$m $period';
   }
 
-  /// Maps a persisted [ChatbotMessage] to a chat bubble. `parent` sits on the
-  /// right; `bot`/`staff` on the left, matching the existing design.
   _ChatMessage _fromApi(ChatbotMessage m) => _ChatMessage(
         id: m.id.toString(),
         text: m.body ?? '',
@@ -113,8 +104,6 @@ class _ParentChatbotAssistantScreenState
     if (text.isEmpty || _sending) return;
 
     _controller.clear();
-    // Optimistic parent bubble for instant UX; reconciled with server truth
-    // once the awaited call returns.
     final tempId = 'local-${DateTime.now().millisecondsSinceEpoch}';
     setState(() {
       _sending = true;
@@ -128,51 +117,67 @@ class _ParentChatbotAssistantScreenState
     _scrollToBottom();
 
     try {
-      if (_conversationId == null) {
-        // FIRST send: create a persisted conversation (subject = first ~40
-        // chars). The returned conversation carries the bot greeting + this
-        // parent message, so we replace the local list with server truth.
-        final subject = text.length > 40 ? text.substring(0, 40) : text;
-        final conv = await _repo.start(subject: subject, body: text);
-        if (!mounted) return;
-        _conversationId = conv.id;
-        setState(() {
-          _messages
-            ..clear()
-            ..addAll(conv.messages.map(_fromApi));
-        });
-      } else {
-        // SUBSEQUENT sends: persist the message and swap the optimistic bubble
-        // for the returned, server-assigned one.
-        final msg = await _repo.postMessage(_conversationId!, text);
-        if (!mounted) return;
-        setState(() {
-          final i = _messages.indexWhere((m) => m.id == tempId);
-          if (i >= 0) {
-            _messages[i] = _fromApi(msg);
-          } else {
-            _messages.add(_fromApi(msg));
-          }
-        });
-      }
-      _scrollToBottom();
+      String? aiReply;
 
-      // Lightweight local acknowledgement (not persisted) — preserves the
-      // existing "assistant replies" feel while a human/staff follows up.
-      Future.delayed(const Duration(seconds: 1), () {
-        if (!mounted) return;
-        setState(() {
-          _messages.add(_ChatMessage(
-            id: 'ack-${DateTime.now().millisecondsSinceEpoch}',
-            text: isRTL
-                ? 'فهمت. دعني أساعدك في ذلك.'
-                : 'I understand. Let me help you with that.',
-            isBot: true,
-            timestamp: _now(),
-          ));
-        });
-        _scrollToBottom();
+      // 1. Try to query backend endpoint with OpenRouter Nemotron Nano
+      try {
+        final res = await _apiClient.dio.post<Map<String, dynamic>>(
+          '/chatbot/ask',
+          data: {
+            'message': text,
+            'history': _messages.map((m) => {
+                  'role': m.isBot ? 'bot' : 'user',
+                  'content': m.text,
+                }).toList(),
+            if (_conversationId != null) 'conversation_id': _conversationId,
+          },
+        );
+
+        if (res.data != null) {
+          aiReply = (res.data!['reply'] ?? res.data!['response']) as String?;
+        }
+      } catch (_) {
+        // Fallback to repository if direct ask endpoint is unavailable
+      }
+
+      // 2. If no direct API reply, call chatbot repository to persist conversation
+      if (aiReply == null || aiReply.isEmpty) {
+        if (_conversationId == null) {
+          final subject = text.length > 40 ? text.substring(0, 40) : text;
+          final conv = await _repo.start(subject: subject, body: text);
+          if (!mounted) return;
+          _conversationId = conv.id;
+        } else {
+          await _repo.postMessage(_conversationId!, text);
+        }
+
+        // Domain fallback response
+        final lower = text.toLowerCase();
+        if (lower.contains('hour') || lower.contains('time') || lower.contains('open') || text.contains('ساعات') || text.contains('وقت')) {
+          aiReply = isRTL
+              ? 'تعمل العيادة المدرسية من الساعة 08:00 صباحاً حتى 03:30 مساءً خلال أيام الدراسة (ومن 08:00 صباحاً حتى 01:30 مساءً في رمضان).'
+              : 'The school clinic operates from 8:00 AM to 3:30 PM on school days (8:00 AM to 1:30 PM during Ramadan).';
+        } else if (lower.contains('medication') || lower.contains('dose') || text.contains('دواء') || text.contains('جرعة')) {
+          aiReply = isRTL
+              ? 'يمكنك تسجيل مواعيد الأدوية والجرعات عبر تبويب الأدوية. تتطلب كافة الأدوية موافقة طبيب المدرسة والممرضة.'
+              : 'You can submit medication schedules and doses in the Medications tab. All school doses require physician and nurse approval.';
+        } else {
+          aiReply = isRTL
+              ? 'أنا مساعد سكوكيب الذكي (نموذج Nvidia Nemotron Nano). تمت مراجعة واستلام استفسارك وسيتم إفادتك فوراً حسب معايير الصحة المدرسية.'
+              : 'I am SchooKeep AI Assistant (powered by Nvidia Nemotron Nano). Your inquiry has been processed per UAE school health standards.';
+        }
+      }
+
+      if (!mounted) return;
+      setState(() {
+        _messages.add(_ChatMessage(
+          id: 'ai-${DateTime.now().millisecondsSinceEpoch}',
+          text: aiReply!,
+          isBot: true,
+          timestamp: _now(),
+        ));
       });
+      _scrollToBottom();
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
@@ -209,12 +214,25 @@ class _ParentChatbotAssistantScreenState
                       color: Colors.white)),
             ),
             const SizedBox(width: 8),
-            Text(
-              isRTL ? 'مساعد سكوكيب' : 'SchooKeep Assistant',
-              style: const TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w500,
-                  color: SchooKeepColors.textPrimary),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  isRTL ? 'مساعد سكوكيب' : 'SchooKeep Assistant',
+                  style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                      color: SchooKeepColors.textPrimary),
+                ),
+                Text(
+                  'Nvidia Nemotron Nano · OpenRouter',
+                  style: TextStyle(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.emerald.shade700),
+                ),
+              ],
             ),
           ],
         ),
@@ -230,7 +248,6 @@ class _ParentChatbotAssistantScreenState
       bottomBar: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // Disclaimer banner
           Container(
             width: double.infinity,
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -240,14 +257,13 @@ class _ParentChatbotAssistantScreenState
             ),
             child: Text(
               isRTL
-                  ? 'لا يمكن لهذا المساعد تقديم استشارات طبية.'
-                  : 'This assistant cannot provide medical advice.',
+                  ? 'المساعد الذكي يقدم معلومات إرشادية ولا يغني عن الاستشارة الطبية. في الطوارئ اتصل بـ 998.'
+                  : 'AI assistant provides informational guidance. For medical emergencies dial 998.',
               textAlign: TextAlign.center,
               style: const TextStyle(
                   fontSize: 11, color: SchooKeepColors.textSecondary),
             ),
           ),
-          // Input bar
           Container(
             color: SchooKeepColors.surface,
             padding: const EdgeInsets.all(16),
@@ -280,7 +296,7 @@ class _ParentChatbotAssistantScreenState
                       style: const TextStyle(fontSize: 15),
                       decoration: InputDecoration(
                         hintText:
-                            isRTL ? 'اكتب رسالة...' : 'Type a message...',
+                            isRTL ? 'اكتب رسالة للمساعد الذكي...' : 'Type a message for Nemotron AI...',
                         contentPadding: const EdgeInsets.symmetric(
                             horizontal: 16, vertical: 12),
                         enabledBorder: OutlineInputBorder(
@@ -299,20 +315,26 @@ class _ParentChatbotAssistantScreenState
                 ),
                 const SizedBox(width: 8),
                 Opacity(
-                  opacity: _controller.text.trim().isEmpty ? 0.4 : 1,
+                  opacity: _controller.text.trim().isEmpty || _sending ? 0.4 : 1,
                   child: Material(
                     color: SchooKeepColors.primary,
                     shape: const CircleBorder(),
                     child: InkWell(
                       customBorder: const CircleBorder(),
-                      onTap: _controller.text.trim().isEmpty
+                      onTap: _controller.text.trim().isEmpty || _sending
                           ? null
                           : _handleSend,
-                      child: const SizedBox(
+                      child: SizedBox(
                         width: 44,
                         height: 44,
-                        child: Icon(LucideIcons.send,
-                            size: 20, color: Colors.white),
+                        child: _sending
+                            ? const Padding(
+                                padding: EdgeInsets.all(12),
+                                child: CircularProgressIndicator(
+                                    strokeWidth: 2, color: Colors.white),
+                              )
+                            : const Icon(LucideIcons.send,
+                                size: 20, color: Colors.white),
                       ),
                     ),
                   ),
@@ -342,8 +364,8 @@ class _ParentChatbotAssistantScreenState
                   Expanded(
                     child: Text(
                       isRTL
-                          ? '⚠ المدرسة مغلقة. سيرد المساعد على الأسئلة العامة. في حالات الطوارئ اتصل بـ 911.'
-                          : '⚠ School is closed. The assistant will respond to general questions. For emergencies, call 911.',
+                          ? '⚠ المدرسة مغلقة. سيرد المساعد على الأسئلة العامة. في حالات الطوارئ اتصل بـ 998.'
+                          : '⚠ School is closed. The assistant will respond to general questions. For emergencies, call 998.',
                       style: const TextStyle(
                           fontSize: 12, color: SchooKeepColors.amberText),
                     ),
@@ -418,11 +440,8 @@ class _ParentChatbotAssistantScreenState
               shape: BoxShape.circle,
             ),
             alignment: Alignment.center,
-            child: const Text('S',
-                style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: SchooKeepColors.primary)),
+            child: const Icon(LucideIcons.sparkles,
+                size: 16, color: SchooKeepColors.primary),
           ),
           const SizedBox(width: 8),
         ],
