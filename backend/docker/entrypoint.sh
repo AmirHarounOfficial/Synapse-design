@@ -22,7 +22,7 @@ set_env() {
 }
 
 set_env APP_ENV "${APP_ENV:-local}"
-set_env APP_URL "${APP_URL:-http://localhost:8000}"
+set_env APP_URL "${APP_URL:-https://api.schookeep.com}"
 set_env DB_CONNECTION "${DB_CONNECTION:-mysql}"
 set_env DB_HOST "${DB_HOST:-db}"
 set_env DB_PORT "${DB_PORT:-3306}"
@@ -33,8 +33,9 @@ set_env SESSION_DRIVER "${SESSION_DRIVER:-database}"
 set_env CACHE_STORE "${CACHE_STORE:-database}"
 set_env QUEUE_CONNECTION "${QUEUE_CONNECTION:-database}"
 
-# Drop any stale caches so the fresh .env is used.
+# Drop any stale caches so fresh .env and templates are used.
 php artisan config:clear >/dev/null 2>&1 || true
+php artisan view:clear >/dev/null 2>&1 || true
 
 # Wait for the database to accept connections before migrating.
 echo "Waiting for database ${DB_HOST}:${DB_PORT}..."
