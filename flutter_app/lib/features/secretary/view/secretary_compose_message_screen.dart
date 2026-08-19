@@ -1,3 +1,4 @@
+// ignore_for_file: avoid_print
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
@@ -93,7 +94,12 @@ class _SecretaryComposeMessageScreenState extends State<SecretaryComposeMessageS
       } else {
         router.go('/secretary/messages');
       }
-    } catch (e) {
+    } catch (e, st) {
+      print('================ [SEND MESSAGE ERROR] ================');
+      print('Error: $e');
+      print('Type: ${e.runtimeType}');
+      print('StackTrace:\n$st');
+      print('======================================================');
       if (!mounted) return;
       setState(() => _sending = false);
       messenger

@@ -1,12 +1,8 @@
+// ignore_for_file: avoid_print
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-/// Thin Dio wrapper for the SchooKeep Laravel API.
-///
-/// Base URL defaults to the local `php artisan serve` address and can be
-/// overridden at build/run time with `--dart-define=API_BASE_URL=...`.
-/// The bearer token is read from [SharedPreferences] and attached to every
-/// request; a 401 clears it.
+/// Thin Dio wrapper for the SchooKeep Laravel API with real-time terminal stdout logging.
 class ApiClient {
   ApiClient(this._prefs) {
     _dio = Dio(
@@ -24,9 +20,23 @@ class ApiClient {
           if (token != null && token.isNotEmpty) {
             options.headers['Authorization'] = 'Bearer $token';
           }
+          // Use print so Flutter Web stdout forwards directly to terminal
+          print('🌐 [API REQUEST] ${options.method} ${options.uri}');
+          if (options.data != null) {
+            print('   Payload: ${options.data}');
+          }
           handler.next(options);
         },
+        onResponse: (response, handler) {
+          print('✅ [API RESPONSE ${response.statusCode}] ${response.requestOptions.method} ${response.requestOptions.uri}');
+          handler.next(response);
+        },
         onError: (e, handler) {
+          print('❌ [API ERROR ${e.response?.statusCode}] ${e.requestOptions.method} ${e.requestOptions.uri}');
+          print('   Details: ${e.message}');
+          if (e.response?.data != null) {
+            print('   Response Data: ${e.response?.data}');
+          }
           if (e.response?.statusCode == 401) {
             _prefs.remove(_tokenKey);
           }
