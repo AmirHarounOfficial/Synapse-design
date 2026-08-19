@@ -10,7 +10,7 @@ export function ParentChatTab() {
     {
       id: '1',
       type: 'bot',
-      name: 'Synapse Assistant',
+      name: 'SchooKeep Assistant',
       lastMessage: 'The school clinic opens at 8:00 AM on school days...',
       time: '2:45 PM',
       unread: 0

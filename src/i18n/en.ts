@@ -60,7 +60,7 @@ export default {
     switchRole: "Switch Role Showcase"
   },
   login: {
-    title: "Sign in to Synapse",
+    title: "Sign in to SchooKeep",
     subtitle: "K-12 School Health Management",
     emailPlaceholder: "Email address",
     passwordPlaceholder: "Password",

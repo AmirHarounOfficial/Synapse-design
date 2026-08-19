@@ -3,16 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 import '../../../core/di/service_locator.dart';
+import '../../../core/localization/l10n_ext.dart';
 import '../../../core/network/data_state.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../../data/repositories/analytics_repository.dart';
 import '../cubit/health_analytics_cubit.dart';
 
-/// Ported from `PrincipalHealthAnalytics.tsx`, wired to `GET /analytics/overview`
-/// and `GET /analytics/health`. Aggregate (FERPA-safe) dashboard: live stat grid,
-/// visit-category breakdown, and medication/dose compliance. The weekly bar chart
-/// and weather-correlation note remain illustrative UAE-context visuals.
 class PrincipalHealthAnalyticsScreen extends StatelessWidget {
   const PrincipalHealthAnalyticsScreen({super.key});
 
@@ -35,17 +32,6 @@ class _PrincipalHealthAnalyticsView extends StatefulWidget {
 class _PrincipalHealthAnalyticsViewState extends State<_PrincipalHealthAnalyticsView> {
   String _dateRange = 'month';
 
-  static const _weeklyVisits = <_WeekVisit>[
-    _WeekVisit('Week 1', 18, false, false),
-    _WeekVisit('Week 2', 22, false, false),
-    _WeekVisit('Week 3', 15, false, false),
-    _WeekVisit('Week 4', 19, false, false),
-    _WeekVisit('Week 5', 42, true, true),
-    _WeekVisit('Week 6', 38, true, true),
-    _WeekVisit('Week 7', 45, true, false),
-    _WeekVisit('Week 8', 21, false, false),
-  ];
-
   static const _ramadanBar = Color(0xFFD97706);
   static const _categoryColors = <Color>[
     SchooKeepColors.primary,
@@ -55,8 +41,6 @@ class _PrincipalHealthAnalyticsViewState extends State<_PrincipalHealthAnalytics
     Color(0xFF8B5CF6),
     SchooKeepColors.textSecondary,
   ];
-
-  int get _maxVisits => _weeklyVisits.map((w) => w.visits).reduce((a, b) => a > b ? a : b);
 
   static int _int(Map<String, dynamic> m, String key) => (m[key] as num?)?.toInt() ?? 0;
 
@@ -68,8 +52,10 @@ class _PrincipalHealthAnalyticsViewState extends State<_PrincipalHealthAnalytics
         titleWidget: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text('Health Analytics',
-                style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
+            Text(
+              context.tr(en: 'Health Analytics', ar: 'التحليلات الصحية'),
+              style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+            ),
             Container(
               height: 36,
               padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -84,10 +70,10 @@ class _PrincipalHealthAnalyticsViewState extends State<_PrincipalHealthAnalytics
                       isDense: true,
                       style: const TextStyle(
                           fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
-                      items: const [
-                        DropdownMenuItem(value: 'month', child: Text('This month')),
-                        DropdownMenuItem(value: 'semester', child: Text('This semester')),
-                        DropdownMenuItem(value: 'year', child: Text('This year')),
+                      items: [
+                        DropdownMenuItem(value: 'month', child: Text(context.tr(en: 'This month', ar: 'هذا الشهر'))),
+                        DropdownMenuItem(value: 'semester', child: Text(context.tr(en: 'This semester', ar: 'هذا الفصل الدراسي'))),
+                        DropdownMenuItem(value: 'year', child: Text(context.tr(en: 'This year', ar: 'هذه السنة'))),
                       ],
                       onChanged: (v) => setState(() => _dateRange = v ?? _dateRange),
                     ),
@@ -105,39 +91,39 @@ class _PrincipalHealthAnalyticsViewState extends State<_PrincipalHealthAnalytics
                 padding: EdgeInsets.all(48),
                 child: Center(child: CircularProgressIndicator()),
               ),
-            DataError(:final message) => _errorBanner(message),
-            DataLoaded(:final data) => _content(data),
+            DataError(:final message) => _errorBanner(context, message),
+            DataLoaded(:final data) => _content(context, data),
           };
         },
       ),
     );
   }
 
-  Widget _content(HealthAnalyticsData data) {
+  Widget _content(BuildContext context, HealthAnalyticsData data) {
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _privacyNotice(),
+          _privacyNotice(context),
           const SizedBox(height: 16),
-          _statGrid(data.overview),
+          _statGrid(context, data.overview),
           const SizedBox(height: 16),
-          _visitChart(),
+          _visitChart(context),
           const SizedBox(height: 16),
-          _weatherCorrelation(),
+          _weatherCorrelation(context),
           const SizedBox(height: 16),
-          _conditionBreakdown(data.health),
+          _conditionBreakdown(context, data.health),
           const SizedBox(height: 16),
-          _medicationCompliance(data.health),
+          _medicationCompliance(context, data.health),
           const SizedBox(height: 16),
-          _healthBreakdowns(data.health),
+          _healthBreakdowns(context, data.health),
         ],
       ),
     );
   }
 
-  Widget _errorBanner(String error) {
+  Widget _errorBanner(BuildContext context, String error) {
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -163,7 +149,7 @@ class _PrincipalHealthAnalyticsViewState extends State<_PrincipalHealthAnalytics
           ),
           const SizedBox(height: 12),
           SchooKeepButton(
-            label: 'Retry',
+            label: context.tr(en: 'Retry', ar: 'إعادة المحاولة'),
             fullWidth: false,
             onPressed: () => context.read<HealthAnalyticsCubit>().load(),
           ),
@@ -172,7 +158,7 @@ class _PrincipalHealthAnalyticsViewState extends State<_PrincipalHealthAnalytics
     );
   }
 
-  Widget _privacyNotice() {
+  Widget _privacyNotice(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -180,15 +166,18 @@ class _PrincipalHealthAnalyticsViewState extends State<_PrincipalHealthAnalytics
         borderRadius: BorderRadius.circular(8),
         border: Border.all(color: const Color(0xFFBFDBFE)),
       ),
-      child: const Row(
+      child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(LucideIcons.info, size: 16, color: SchooKeepColors.primary),
-          SizedBox(width: 8),
+          const Icon(LucideIcons.info, size: 16, color: SchooKeepColors.primary),
+          const SizedBox(width: 8),
           Expanded(
             child: Text(
-              'This dashboard shows aggregate statistics. No individual student data is displayed.',
-              style: TextStyle(fontSize: 11, color: Color(0xFF1E40AF), height: 1.5),
+              context.tr(
+                en: 'This dashboard shows aggregate statistics. No individual student data is displayed.',
+                ar: 'تعرض هذه لوحة التحكم إحصائيات تجميعية فقط. لا يتم عرض بيانات أي طالب فردي.',
+              ),
+              style: const TextStyle(fontSize: 11, color: Color(0xFF1E40AF), height: 1.5),
             ),
           ),
         ],
@@ -196,16 +185,36 @@ class _PrincipalHealthAnalyticsViewState extends State<_PrincipalHealthAnalytics
     );
   }
 
-  Widget _statGrid(Map<String, dynamic> overview) {
+  Widget _statGrid(BuildContext context, Map<String, dynamic> overview) {
     final stats = <_Stat>[
-      _Stat('Total students', '${_int(overview, 'total_students')}', LucideIcons.users,
-          SchooKeepColors.primary, const Color(0xFFDBEAFE)),
-      _Stat('Clinic visits this week', '${_int(overview, 'clinic_visits_this_week')}', LucideIcons.heart,
-          const Color(0xFF14B8A6), const Color(0xFFCCFBF1)),
-      _Stat('Active medications', '${_int(overview, 'active_medications')}', LucideIcons.pill,
-          SchooKeepColors.accent, const Color(0xFFD1FAE5)),
-      _Stat('Pending documents', '${_int(overview, 'pending_documents')}', LucideIcons.fileText,
-          SchooKeepColors.warning, const Color(0xFFFEF3C7)),
+      _Stat(
+        context.tr(en: 'Total students', ar: 'إجمالي الطلاب'),
+        '${_int(overview, 'total_students')}',
+        LucideIcons.users,
+        SchooKeepColors.primary,
+        const Color(0xFFDBEAFE),
+      ),
+      _Stat(
+        context.tr(en: 'Clinic visits this week', ar: 'زيارات العيادة هذا الأسبوع'),
+        '${_int(overview, 'clinic_visits_this_week')}',
+        LucideIcons.heart,
+        const Color(0xFF14B8A6),
+        const Color(0xFFCCFBF1),
+      ),
+      _Stat(
+        context.tr(en: 'Active medications', ar: 'الأدوية النشطة'),
+        '${_int(overview, 'active_medications')}',
+        LucideIcons.pill,
+        SchooKeepColors.accent,
+        const Color(0xFFD1FAE5),
+      ),
+      _Stat(
+        context.tr(en: 'Pending documents', ar: 'المستندات المعلقة'),
+        '${_int(overview, 'pending_documents')}',
+        LucideIcons.fileText,
+        SchooKeepColors.warning,
+        const Color(0xFFFEF3C7),
+      ),
     ];
     return GridView.count(
       crossAxisCount: 2,
@@ -229,8 +238,7 @@ class _PrincipalHealthAnalyticsViewState extends State<_PrincipalHealthAnalytics
                 ),
                 const SizedBox(height: 8),
                 Text(s.value,
-                    style:
-                        const TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
+                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
                 const SizedBox(height: 2),
                 Text(s.label, style: const TextStyle(fontSize: 11, color: SchooKeepColors.textSecondary)),
               ],
@@ -240,33 +248,49 @@ class _PrincipalHealthAnalyticsViewState extends State<_PrincipalHealthAnalytics
     );
   }
 
-  Widget _visitChart() {
+  Widget _visitChart(BuildContext context) {
+    final weeklyVisits = <_WeekVisit>[
+      _WeekVisit(context.tr(en: 'W1', ar: 'الأسبوع 1'), 18, false, false),
+      _WeekVisit(context.tr(en: 'W2', ar: 'الأسبوع 2'), 22, false, false),
+      _WeekVisit(context.tr(en: 'W3', ar: 'الأسبوع 3'), 15, false, false),
+      _WeekVisit(context.tr(en: 'W4', ar: 'الأسبوع 4'), 19, false, false),
+      _WeekVisit(context.tr(en: 'W5', ar: 'الأسبوع 5'), 42, true, true),
+      _WeekVisit(context.tr(en: 'W6', ar: 'الأسبوع 6'), 38, true, true),
+      _WeekVisit(context.tr(en: 'W7', ar: 'الأسبوع 7'), 45, true, false),
+      _WeekVisit(context.tr(en: 'W8', ar: 'الأسبوع 8'), 21, false, false),
+    ];
+    final maxVisits = weeklyVisits.map((w) => w.visits).reduce((a, b) => a > b ? a : b);
+
     return SchooKeepCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Weekly Clinic Visits',
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
+              Text(
+                context.tr(en: 'Weekly Clinic Visits', ar: 'زيارات العيادة الأسبوعية'),
+                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary),
+              ),
               Flexible(
-                child: Text('Source: UAE NCM (المركز الوطني للأرصاد)',
-                    textAlign: TextAlign.end,
-                    style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: Color(0xFF94A3B8))),
+                child: Text(
+                  context.tr(en: 'Source: UAE NCM', ar: 'المصدر: المركز الوطني للأرصاد'),
+                  textAlign: TextAlign.end,
+                  style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: Color(0xFF94A3B8)),
+                ),
               ),
             ],
           ),
           const SizedBox(height: 12),
-          for (final w in _weeklyVisits) _barRow(w),
+          for (final w in weeklyVisits) _barRow(w, maxVisits),
           const SizedBox(height: 12),
           Wrap(
             spacing: 16,
             runSpacing: 8,
             children: [
-              _legend(SchooKeepColors.primary, 'Normal week'),
-              _legend(SchooKeepColors.warning, 'Advisory week'),
-              _legend(_ramadanBar, 'رمضان · Ramadan'),
+              _legend(SchooKeepColors.primary, context.tr(en: 'Normal week', ar: 'أسبوع طبيعي')),
+              _legend(SchooKeepColors.warning, context.tr(en: 'Advisory week', ar: 'أسبوع تنبيهات الأرصاد')),
+              _legend(_ramadanBar, context.tr(en: 'Ramadan', ar: 'رمضان المبارك')),
             ],
           ),
         ],
@@ -274,14 +298,14 @@ class _PrincipalHealthAnalyticsViewState extends State<_PrincipalHealthAnalytics
     );
   }
 
-  Widget _barRow(_WeekVisit w) {
+  Widget _barRow(_WeekVisit w, int maxVisits) {
     final color = w.isRamadan ? _ramadanBar : (w.hasAdvisory ? SchooKeepColors.warning : SchooKeepColors.primary);
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: Row(
         children: [
           SizedBox(
-            width: 48,
+            width: 54,
             child: Text(w.week, style: const TextStyle(fontSize: 10, color: SchooKeepColors.textSecondary)),
           ),
           const SizedBox(width: 8),
@@ -294,7 +318,7 @@ class _PrincipalHealthAnalyticsViewState extends State<_PrincipalHealthAnalytics
                   decoration: BoxDecoration(color: const Color(0xFFF1F5F9), borderRadius: BorderRadius.circular(4)),
                 ),
                 FractionallySizedBox(
-                  widthFactor: w.visits / _maxVisits,
+                  widthFactor: w.visits / maxVisits,
                   child: Container(
                     height: 24,
                     decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(4)),
@@ -338,7 +362,7 @@ class _PrincipalHealthAnalyticsViewState extends State<_PrincipalHealthAnalytics
     );
   }
 
-  Widget _weatherCorrelation() {
+  Widget _weatherCorrelation(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -346,21 +370,26 @@ class _PrincipalHealthAnalyticsViewState extends State<_PrincipalHealthAnalytics
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: SchooKeepColors.warning),
       ),
-      child: const Row(
+      child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(LucideIcons.cloudOff, size: 20, color: SchooKeepColors.warning),
-          SizedBox(width: 12),
+          const Icon(LucideIcons.cloudOff, size: 20, color: SchooKeepColors.warning),
+          const SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Weather Correlation (UAE NCM)',
-                    style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Color(0xFF92400E))),
-                SizedBox(height: 4),
                 Text(
-                  'During the 3 Haboob / عاصفة رملية (Sandstorm) days this month, respiratory clinic visits increased 340% vs. average.',
-                  style: TextStyle(fontSize: 12, color: Color(0xFF92400E), height: 1.5),
+                  context.tr(en: 'Weather Correlation (UAE NCM)', ar: 'ربط الأحوال الجوية (المركز الوطني للأرصاد)'),
+                  style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Color(0xFF92400E)),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  context.tr(
+                    en: 'During the 3 Haboob (Sandstorm) days this month, respiratory clinic visits increased 340% vs. average.',
+                    ar: 'خلال أيام العواصف الرملية الثلاثة هذا الشهر، ارتفعت زيارات الجهاز التنفسي للعيادة بنسبة 340% عن المعدل.',
+                  ),
+                  style: const TextStyle(fontSize: 12, color: Color(0xFF92400E), height: 1.5),
                 ),
               ],
             ),
@@ -370,7 +399,7 @@ class _PrincipalHealthAnalyticsViewState extends State<_PrincipalHealthAnalytics
     );
   }
 
-  Widget _conditionBreakdown(Map<String, dynamic> health) {
+  Widget _conditionBreakdown(BuildContext context, Map<String, dynamic> health) {
     final raw = (health['clinic_visits_by_category'] as Map?) ?? const {};
     final entries = raw.entries
         .map((e) => (category: (e.key ?? 'Unknown').toString(), count: (e.value as num?)?.toInt() ?? 0))
@@ -383,15 +412,19 @@ class _PrincipalHealthAnalyticsViewState extends State<_PrincipalHealthAnalytics
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Visit Categories',
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
+          Text(
+            context.tr(en: 'Visit Categories', ar: 'تصنيفات زيارات العيادة'),
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary),
+          ),
           const SizedBox(height: 12),
           if (entries.isEmpty)
-            const Text('No clinic visits recorded yet.',
-                style: TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary))
+            Text(
+              context.tr(en: 'No clinic visits recorded yet.', ar: 'لا توجد زيارات عيادة مسجلة بعد.'),
+              style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary),
+            )
           else
             for (int i = 0; i < entries.length; i++) ...[
-              Builder(builder: (context) {
+              Builder(builder: (ctx) {
                 final e = entries[i];
                 final pct = total > 0 ? (e.count / total * 100) : 0.0;
                 final color = _categoryColors[i % _categoryColors.length];
@@ -402,12 +435,15 @@ class _PrincipalHealthAnalyticsViewState extends State<_PrincipalHealthAnalytics
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Expanded(
-                          child: Text(e.category,
-                              style: const TextStyle(
-                                  fontSize: 12, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
+                          child: Text(
+                            e.category,
+                            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+                          ),
                         ),
-                        Text('${e.count} visits · ${pct.round()}%',
-                            style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary)),
+                        Text(
+                          context.tr(en: '${e.count} visits · ${pct.round()}%', ar: '${e.count} زيارة · ${pct.round()}%'),
+                          style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary),
+                        ),
                       ],
                     ),
                     const SizedBox(height: 4),
@@ -430,7 +466,7 @@ class _PrincipalHealthAnalyticsViewState extends State<_PrincipalHealthAnalytics
     );
   }
 
-  Widget _medicationCompliance(Map<String, dynamic> health) {
+  Widget _medicationCompliance(BuildContext context, Map<String, dynamic> health) {
     final doses = (health['doses_by_status'] as Map?) ?? const {};
     var total = 0;
     var given = 0;
@@ -445,20 +481,27 @@ class _PrincipalHealthAnalyticsViewState extends State<_PrincipalHealthAnalytics
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Medication Compliance',
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
-              Icon(LucideIcons.pill, size: 20, color: SchooKeepColors.accent),
+              Text(
+                context.tr(en: 'Medication Compliance', ar: 'معدل الالتزام بالأدوية'),
+                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary),
+              ),
+              const Icon(LucideIcons.pill, size: 20, color: SchooKeepColors.accent),
             ],
           ),
           const SizedBox(height: 8),
           Text('${pct.toStringAsFixed(1)}%',
               style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w600, color: SchooKeepColors.accent)),
           const SizedBox(height: 4),
-          Text('$given of $total scheduled doses administered',
-              style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary)),
+          Text(
+            context.tr(
+              en: '$given of $total scheduled doses administered',
+              ar: 'تم إعطاء $given من أصل $total جرعة محدودة',
+            ),
+            style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary),
+          ),
           const SizedBox(height: 12),
           ClipRRect(
             borderRadius: BorderRadius.circular(999),
@@ -474,9 +517,7 @@ class _PrincipalHealthAnalyticsViewState extends State<_PrincipalHealthAnalytics
     );
   }
 
-  /// Additional aggregate breakdowns sourced from `GET /analytics/health`:
-  /// visit severity, medication status, and the students-with-allergens count.
-  Widget _healthBreakdowns(Map<String, dynamic> health) {
+  Widget _healthBreakdowns(BuildContext context, Map<String, dynamic> health) {
     final severity = (health['clinic_visits_by_severity'] as Map?) ?? const {};
     final medStatus = (health['medications_by_status'] as Map?) ?? const {};
     final allergens = _int(health, 'students_with_allergens');
@@ -485,12 +526,14 @@ class _PrincipalHealthAnalyticsViewState extends State<_PrincipalHealthAnalytics
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Health Breakdowns',
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
+          Text(
+            context.tr(en: 'Health Breakdowns', ar: 'تفاصيل الحالة الصحية العامة'),
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary),
+          ),
           const SizedBox(height: 12),
-          _breakdownGroup('Clinic visits by severity', severity),
+          _breakdownGroup(context.tr(en: 'Clinic visits by severity', ar: 'زيارات العيادة حسب درجة الخطورة'), severity),
           const SizedBox(height: 8),
-          _breakdownGroup('Medications by status', medStatus),
+          _breakdownGroup(context.tr(en: 'Medications by status', ar: 'الأدوية حسب حالة المتابعة'), medStatus),
           const SizedBox(height: 4),
           Row(
             children: [
@@ -501,9 +544,11 @@ class _PrincipalHealthAnalyticsViewState extends State<_PrincipalHealthAnalytics
                 child: const Icon(LucideIcons.alertTriangle, size: 16, color: SchooKeepColors.error),
               ),
               const SizedBox(width: 12),
-              const Expanded(
-                child: Text('Students with recorded allergens',
-                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
+              Expanded(
+                child: Text(
+                  context.tr(en: 'Students with recorded allergens', ar: 'الطلاب المسجل لديهم مسببات حساسية'),
+                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+                ),
               ),
               Text('$allergens',
                   style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
@@ -514,7 +559,6 @@ class _PrincipalHealthAnalyticsViewState extends State<_PrincipalHealthAnalytics
     );
   }
 
-  /// A titled set of labeled progress bars derived from a `{label: count}` map.
   Widget _breakdownGroup(String title, Map raw) {
     final entries = raw.entries
         .map((e) => (label: _titleCase((e.key ?? 'Unknown').toString()), count: (e.value as num?)?.toInt() ?? 0))
@@ -533,7 +577,7 @@ class _PrincipalHealthAnalyticsViewState extends State<_PrincipalHealthAnalytics
           const Text('No data yet.', style: TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary))
         else
           for (int i = 0; i < entries.length; i++) ...[
-            Builder(builder: (context) {
+            Builder(builder: (ctx) {
               final e = entries[i];
               final pct = total > 0 ? (e.count / total * 100) : 0.0;
               final color = _categoryColors[i % _categoryColors.length];

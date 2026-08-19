@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 import '../../../core/di/service_locator.dart';
+import '../../../core/localization/l10n_ext.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../../data/repositories/clinic_repository.dart';
@@ -15,10 +16,6 @@ import '../../../data/repositories/student_repository.dart';
 import '../../../features/auth/data/auth_repository.dart';
 import '../cubit/emergency_photo_upload_cubit.dart';
 
-/// Ported from `EmergencyPhotoUpload.tsx`, wired to the API. Real photo capture
-/// via `image_picker`; on submit an emergency clinic visit is created
-/// (`POST /clinic-visits`, is_emergency=true) and the flow continues to the
-/// consent request.
 class EmergencyPhotoUploadScreen extends StatelessWidget {
   const EmergencyPhotoUploadScreen({super.key});
 
@@ -49,15 +46,8 @@ class _EmergencyPhotoUploadViewState extends State<_EmergencyPhotoUploadView> {
   bool _capturing = false;
   String _selectedLocation = '';
   final TextEditingController _description = TextEditingController();
-  String _severity = ''; // minor | moderate | severe
+  String _severity = '';
   bool _isSubmitting = false;
-
-  static const _locations = ['Classroom', 'Hallway', 'Cafeteria', 'Playground', 'Gym', 'Other'];
-  static const _severityOptions = [
-    (level: 'minor', label: 'Minor', description: 'No immediate medical attention needed'),
-    (level: 'moderate', label: 'Moderate', description: 'May require medical evaluation'),
-    (level: 'severe', label: 'Severe', description: 'Requires immediate medical attention'),
-  ];
 
   @override
   void initState() {
@@ -87,7 +77,7 @@ class _EmergencyPhotoUploadViewState extends State<_EmergencyPhotoUploadView> {
       if (!mounted) return;
       ScaffoldMessenger.of(context)
         ..hideCurrentSnackBar()
-        ..showSnackBar(const SnackBar(content: Text('Could not access the camera.')));
+        ..showSnackBar(SnackBar(content: Text(context.tr(en: 'Could not access the camera.', ar: 'تعذر الوصول إلى الكاميرا.'))));
     } finally {
       if (mounted) setState(() => _capturing = false);
     }
@@ -133,37 +123,39 @@ class _EmergencyPhotoUploadViewState extends State<_EmergencyPhotoUploadView> {
         final studentLabel = switch (state) {
           EmergencyUploadReady(:final student) => [
               student.name,
-              if ((student.grade ?? '').isNotEmpty) 'Grade ${student.grade}',
+              if ((student.grade ?? '').isNotEmpty) '${context.tr(en: 'Grade', ar: 'الصف')} ${student.grade}',
             ].join(' · '),
           EmergencyUploadError(:final message) => message,
-          _ => 'Loading…',
+          _ => context.tr(en: 'Loading…', ar: 'جاري التحميل...'),
         };
         return SchooKeepScaffold(
           reserveBottomNav: true,
           appBar: SchooKeepAppBar(
             backgroundColor: SchooKeepColors.error,
-            titleWidget: const Text('Emergency Report',
-                style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.white)),
+            titleWidget: Text(
+              context.tr(en: 'Emergency Report', ar: 'تقرير حادثة طارئة'),
+              style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Colors.white),
+            ),
             onBack: () => context.go('/nurse/clinic'),
           ),
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _emergencyBanner(studentLabel),
+              _emergencyBanner(context, studentLabel),
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 24, 16, 24),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _photoSection(),
+                    _photoSection(context),
                     const SizedBox(height: 24),
-                    _locationSection(),
+                    _locationSection(context),
                     const SizedBox(height: 24),
-                    _descriptionSection(),
+                    _descriptionSection(context),
                     const SizedBox(height: 24),
-                    _severitySection(),
+                    _severitySection(context),
                     const SizedBox(height: 24),
-                    _submitButton(state is EmergencyUploadReady),
+                    _submitButton(context, state is EmergencyUploadReady),
                   ],
                 ),
               ),
@@ -174,16 +166,18 @@ class _EmergencyPhotoUploadViewState extends State<_EmergencyPhotoUploadView> {
     );
   }
 
-  Widget _emergencyBanner(String studentLabel) {
+  Widget _emergencyBanner(BuildContext context, String studentLabel) {
     return Container(
       width: double.infinity,
       color: SchooKeepColors.error,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       child: Column(
         children: [
-          const Text('🚨 Emergency Visit in Progress',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white)),
+          Text(
+            context.tr(en: '🚨 Emergency Visit in Progress', ar: '🚨 زيارة طوارئ قيد المعالجة الآن'),
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white),
+          ),
           const SizedBox(height: 4),
           Text(studentLabel,
               textAlign: TextAlign.center,
@@ -193,13 +187,15 @@ class _EmergencyPhotoUploadViewState extends State<_EmergencyPhotoUploadView> {
     );
   }
 
-  Widget _photoSection() {
+  Widget _photoSection(BuildContext context) {
     return SchooKeepCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Incident Photo/Video *',
-              style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.textSecondary)),
+          Text(
+            context.tr(en: 'Incident Photo/Video *', ar: 'صورة/فيديو الإصابة أو الحادثة *'),
+            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.textSecondary),
+          ),
           const SizedBox(height: 12),
           Container(
             width: double.infinity,
@@ -209,7 +205,7 @@ class _EmergencyPhotoUploadViewState extends State<_EmergencyPhotoUploadView> {
               borderRadius: BorderRadius.circular(12),
             ),
             clipBehavior: Clip.antiAlias,
-            child: _photoContent(),
+            child: _photoContent(context),
           ),
           if (_photo != null) ...[
             const SizedBox(height: 12),
@@ -223,8 +219,10 @@ class _EmergencyPhotoUploadViewState extends State<_EmergencyPhotoUploadView> {
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(color: SchooKeepColors.border),
                 ),
-                child: const Text('Retake',
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.textSecondary)),
+                child: Text(
+                  context.tr(en: 'Retake', ar: 'إعادة الالتقاط'),
+                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.textSecondary),
+                ),
               ),
             ),
           ],
@@ -233,15 +231,18 @@ class _EmergencyPhotoUploadViewState extends State<_EmergencyPhotoUploadView> {
     );
   }
 
-  Widget _photoContent() {
+  Widget _photoContent(BuildContext context) {
     if (_capturing) {
-      return const Center(
+      return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(width: 48, height: 48, child: CircularProgressIndicator(strokeWidth: 4, color: Colors.white)),
-            SizedBox(height: 12),
-            Text('Opening camera…', style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500)),
+            const SizedBox(width: 48, height: 48, child: CircularProgressIndicator(strokeWidth: 4, color: Colors.white)),
+            const SizedBox(height: 12),
+            Text(
+              context.tr(en: 'Opening camera…', ar: 'جاري فتح الكاميرا...'),
+              style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),
+            ),
           ],
         ),
       );
@@ -254,29 +255,42 @@ class _EmergencyPhotoUploadViewState extends State<_EmergencyPhotoUploadView> {
         onTap: _handleCapture,
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: const [
-            Icon(LucideIcons.camera, size: 48, color: SchooKeepColors.textSecondary),
-            SizedBox(height: 8),
-            Text('Tap to capture', style: TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary)),
+          children: [
+            const Icon(LucideIcons.camera, size: 48, color: SchooKeepColors.textSecondary),
+            const SizedBox(height: 8),
+            Text(
+              context.tr(en: 'Tap to capture', ar: 'اضغط للالتقاط'),
+              style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary),
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _locationSection() {
+  Widget _locationSection(BuildContext context) {
+    final locations = [
+      context.tr(en: 'Classroom', ar: 'الفصل الدراسي'),
+      context.tr(en: 'Hallway', ar: 'الممر'),
+      context.tr(en: 'Cafeteria', ar: 'الكافتيريا'),
+      context.tr(en: 'Playground', ar: 'الملعب'),
+      context.tr(en: 'Gym', ar: 'الصالة الرياضية'),
+      context.tr(en: 'Other', ar: 'مكان آخر'),
+    ];
     return SchooKeepCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Student Location *',
-              style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.textSecondary)),
+          Text(
+            context.tr(en: 'Student Location *', ar: 'موقع وقوع الحادثة بالمدرسة *'),
+            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.textSecondary),
+          ),
           const SizedBox(height: 12),
           Wrap(
             spacing: 8,
             runSpacing: 8,
             children: [
-              for (final loc in _locations) _locationChip(loc),
+              for (final loc in locations) _locationChip(loc),
             ],
           ),
         ],
@@ -305,19 +319,21 @@ class _EmergencyPhotoUploadViewState extends State<_EmergencyPhotoUploadView> {
     );
   }
 
-  Widget _descriptionSection() {
+  Widget _descriptionSection(BuildContext context) {
     return SchooKeepCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Incident Description *',
-              style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.textSecondary)),
+          Text(
+            context.tr(en: 'Incident Description *', ar: 'وصف تفصيلي للحادثة والإصابة *'),
+            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.textSecondary),
+          ),
           const SizedBox(height: 8),
           TextField(
             controller: _description,
             maxLines: 5,
             decoration: InputDecoration(
-              hintText: 'Describe the incident in detail...',
+              hintText: context.tr(en: 'Describe the incident in detail...', ar: 'أدخل تفاصيل الإصابة والأعراض المعاينة...'),
               hintStyle: const TextStyle(color: SchooKeepColors.textSecondary),
               contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               border: OutlineInputBorder(
@@ -339,17 +355,25 @@ class _EmergencyPhotoUploadViewState extends State<_EmergencyPhotoUploadView> {
     );
   }
 
-  Widget _severitySection() {
+  Widget _severitySection(BuildContext context) {
+    final severityOptions = [
+      (level: 'minor', label: context.tr(en: 'Minor', ar: 'طفيفة'), description: context.tr(en: 'No immediate medical attention needed', ar: 'لا تتطلب عناية طبية طارئة عاجلة')),
+      (level: 'moderate', label: context.tr(en: 'Moderate', ar: 'متوسطة'), description: context.tr(en: 'May require medical evaluation', ar: 'قد تتطلب تقييماً وطبابة متخصصة')),
+      (level: 'severe', label: context.tr(en: 'Severe', ar: 'حرجة للغاية'), description: context.tr(en: 'Requires immediate medical attention', ar: 'تتطلب عناية وطوارئ فورية')),
+    ];
+
     return SchooKeepCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Severity Assessment *',
-              style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.textSecondary)),
+          Text(
+            context.tr(en: 'Severity Assessment *', ar: 'تقييم درجة خطورة الإصابة *'),
+            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.textSecondary),
+          ),
           const SizedBox(height: 12),
-          for (var i = 0; i < _severityOptions.length; i++) ...[
+          for (var i = 0; i < severityOptions.length; i++) ...[
             if (i > 0) const SizedBox(height: 8),
-            _severityOption(_severityOptions[i]),
+            _severityOption(severityOptions[i]),
           ],
         ],
       ),
@@ -387,7 +411,7 @@ class _EmergencyPhotoUploadViewState extends State<_EmergencyPhotoUploadView> {
     );
   }
 
-  Widget _submitButton(bool ready) {
+  Widget _submitButton(BuildContext context, bool ready) {
     final enabled = _isFormValid && !_isSubmitting && ready;
     return SizedBox(
       width: double.infinity,
@@ -402,22 +426,26 @@ class _EmergencyPhotoUploadViewState extends State<_EmergencyPhotoUploadView> {
         child: _isSubmitting
             ? Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white)),
-                  SizedBox(width: 8),
+                children: [
+                  const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white)),
+                  const SizedBox(width: 8),
                   Flexible(
-                    child: Text('Sending to school administration and parent...',
-                        style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w600)),
+                    child: Text(
+                      context.tr(en: 'Sending to school administration and parent...', ar: 'جاري الإرسال لإدارة المدرسة وولي الأمر...'),
+                      style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w600),
+                    ),
                   ),
                 ],
               )
             : Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Icon(LucideIcons.alertTriangle, size: 20, color: Colors.white),
-                  SizedBox(width: 8),
-                  Text('Send Emergency Report',
-                      style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w600)),
+                children: [
+                  const Icon(LucideIcons.alertTriangle, size: 20, color: Colors.white),
+                  const SizedBox(width: 8),
+                  Text(
+                    context.tr(en: 'Send Emergency Report', ar: 'إرسال بلاغ الحادثة الإسعافي'),
+                    style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w600),
+                  ),
                 ],
               ),
       ),

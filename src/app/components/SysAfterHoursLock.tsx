@@ -86,7 +86,7 @@ export function SysAfterHoursLock({ standalone = true, initialRole = 'Nurse', on
         {/* Background Simulated App Screen (Blurred) */}
         <div className="flex-1 flex flex-col p-4 bg-slate-50 filter blur-[2px] transition-all duration-300">
           <div className="h-10 bg-indigo-600 rounded-lg mb-4 flex items-center px-3 text-white font-bold text-sm">
-            Synapse Dashboard
+            SchooKeep Dashboard
           </div>
           <div className="flex-1 space-y-3">
             <div className="h-28 bg-white border border-slate-200 rounded-xl p-3 shadow-sm space-y-2">
@@ -116,7 +116,7 @@ export function SysAfterHoursLock({ standalone = true, initialRole = 'Nurse', on
                 </p>
                 <div className="inline-flex items-center gap-2 text-xs font-semibold text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-full">
                   <RefreshCw className="w-3.5 h-3.5 animate-spin" />
-                  Loading Synapse Portal...
+                  Loading SchooKeep Portal...
                 </div>
               </div>
             ) : (
@@ -133,7 +133,7 @@ export function SysAfterHoursLock({ standalone = true, initialRole = 'Nurse', on
 
                 {/* Description */}
                 <p className="text-[13px] leading-5 text-slate-500 mb-4 px-1">
-                  Synapse is only accessible during school hours (Mon–Fri, 7:30 AM – 5:00 PM).
+                  SchooKeep is only accessible during school hours (Mon–Fri, 7:30 AM – 5:00 PM).
                 </p>
 
                 {/* School hours next shown */}

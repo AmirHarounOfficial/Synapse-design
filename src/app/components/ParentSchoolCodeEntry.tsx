@@ -47,7 +47,7 @@ export function ParentSchoolCodeEntry() {
         {/* Logo */}
         <div className="flex justify-center mb-10">
           <div className="text-[28px] font-semibold text-[#2563EB]">
-            Synapse
+            SchooKeep
           </div>
         </div>
 

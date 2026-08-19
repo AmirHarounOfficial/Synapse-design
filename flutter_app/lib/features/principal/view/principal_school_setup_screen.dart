@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
+import '../../../core/localization/l10n_ext.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
 import 'package:schookeep/core/router/safe_back.dart';
 
-/// Ported from `PrincipalSchoolSetup.tsx`. School info, branding (logo upload +
-/// primary color), academic calendar with an editable holidays list, and school
-/// hours, plus a pinned Save button.
 class PrincipalSchoolSetupScreen extends StatefulWidget {
   const PrincipalSchoolSetupScreen({super.key});
 
@@ -63,78 +61,78 @@ class _PrincipalSchoolSetupScreenState extends State<PrincipalSchoolSetupScreen>
   Widget build(BuildContext context) {
     return SchooKeepScaffold(
       scrollable: true,
-      title: 'School Settings',
+      title: context.tr(en: 'School Settings', ar: 'إعدادات وملف المدرسة'),
       onBack: () => context.safeBack(),
-      bottomBar: _bottomBar(),
+      bottomBar: _bottomBar(context),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _schoolInfoCard(),
+            _schoolInfoCard(context),
             const SizedBox(height: 16),
-            _brandingCard(),
+            _brandingCard(context),
             const SizedBox(height: 16),
-            _academicCalendarCard(),
+            _academicCalendarCard(context),
             const SizedBox(height: 16),
-            _schoolHoursCard(),
+            _schoolHoursCard(context),
           ],
         ),
       ),
     );
   }
 
-  Widget _schoolInfoCard() {
+  Widget _schoolInfoCard(BuildContext context) {
     return SchooKeepCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const _SectionTitle('School Information'),
+          _SectionTitle(context.tr(en: 'School Information', ar: 'بيانات المدرسة الأساسية')),
           const SizedBox(height: 12),
-          _labeledField('School Name', _schoolName),
+          _labeledField(context.tr(en: 'School Name', ar: 'اسم المدرسة'), _schoolName),
           const SizedBox(height: 12),
-          _labeledField('Address', _address),
+          _labeledField(context.tr(en: 'Address', ar: 'العنوان'), _address),
           const SizedBox(height: 12),
-          _labeledField('Phone', _phone, keyboardType: TextInputType.phone),
+          _labeledField(context.tr(en: 'Phone', ar: 'رقم الهاتف'), _phone, keyboardType: TextInputType.phone),
           const SizedBox(height: 12),
-          _labeledField('Principal Name', _principalName),
+          _labeledField(context.tr(en: 'Principal Name', ar: 'اسم مدير المدرسة'), _principalName),
         ],
       ),
     );
   }
 
-  /// Logo upload — no in-app file picker, so present the source options as a
-  /// bottom sheet with a confirmation snackbar (in-app feedback convention).
-  void _showLogoUploadSheet() {
+  void _showLogoUploadSheet(BuildContext context) {
     showModalBottomSheet<void>(
       context: context,
       builder: (sheetCtx) => SafeArea(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Padding(
-              padding: EdgeInsets.fromLTRB(16, 16, 16, 8),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
               child: Align(
                 alignment: AlignmentDirectional.centerStart,
-                child: Text('Upload school logo',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
+                child: Text(
+                  context.tr(en: 'Upload school logo', ar: 'رفع شعار المدرسة'),
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary),
+                ),
               ),
             ),
             ListTile(
               leading: const Icon(LucideIcons.image, color: SchooKeepColors.primary),
-              title: const Text('Choose from gallery'),
-              subtitle: const Text('PNG or SVG · Max 2MB'),
+              title: Text(context.tr(en: 'Choose from gallery', ar: 'اختيار من معرض الصور')),
+              subtitle: Text(context.tr(en: 'PNG or SVG · Max 2MB', ar: 'صيغة PNG أو SVG (حد أقصى 2 ميجابايت)')),
               onTap: () {
                 Navigator.pop(sheetCtx);
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Logo upload started…')));
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(context.tr(en: 'Logo upload started…', ar: 'بدأ رفع الشعار...'))));
               },
             ),
             ListTile(
               leading: const Icon(LucideIcons.camera, color: SchooKeepColors.primary),
-              title: const Text('Take a photo'),
+              title: Text(context.tr(en: 'Take a photo', ar: 'التقاط صورة جديدة')),
               onTap: () {
                 Navigator.pop(sheetCtx);
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Camera opening…')));
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(context.tr(en: 'Camera opening…', ar: 'جاري فتح الكاميرا...'))));
               },
             ),
             const SizedBox(height: 8),
@@ -144,16 +142,16 @@ class _PrincipalSchoolSetupScreenState extends State<PrincipalSchoolSetupScreen>
     );
   }
 
-  Widget _brandingCard() {
+  Widget _brandingCard(BuildContext context) {
     return SchooKeepCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const _SectionTitle('Branding'),
+          _SectionTitle(context.tr(en: 'Branding', ar: 'الهوية البصرية والشعار')),
           const SizedBox(height: 12),
-          const _FieldLabel('School Logo'),
+          _FieldLabel(context.tr(en: 'School Logo', ar: 'شعار المدرسة')),
           GestureDetector(
-            onTap: _showLogoUploadSheet,
+            onTap: () => _showLogoUploadSheet(context),
             child: Container(
               height: 100,
               decoration: BoxDecoration(
@@ -161,21 +159,26 @@ class _PrincipalSchoolSetupScreenState extends State<PrincipalSchoolSetupScreen>
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(color: const Color(0xFFD1D5DB), style: BorderStyle.solid, width: 2),
               ),
-              child: const Column(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(LucideIcons.upload, size: 24, color: SchooKeepColors.textSecondary),
-                  SizedBox(height: 8),
-                  Text('Tap to upload logo',
-                      style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.textSecondary)),
-                  SizedBox(height: 4),
-                  Text('PNG or SVG, max 2MB', style: TextStyle(fontSize: 11, color: Color(0xFF94A3B8))),
+                  const Icon(LucideIcons.upload, size: 24, color: SchooKeepColors.textSecondary),
+                  const SizedBox(height: 8),
+                  Text(
+                    context.tr(en: 'Tap to upload logo', ar: 'انقر لرفع شعار المدرسة'),
+                    style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.textSecondary),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    context.tr(en: 'PNG or SVG, max 2MB', ar: 'PNG أو SVG بحجم أقصاه 2 ميجابايت'),
+                    style: const TextStyle(fontSize: 11, color: Color(0xFF94A3B8)),
+                  ),
                 ],
               ),
             ),
           ),
           const SizedBox(height: 12),
-          const _FieldLabel('Primary Color'),
+          _FieldLabel(context.tr(en: 'Primary Color', ar: 'اللون الرئيسي للمنصة')),
           Row(
             children: [
               Expanded(
@@ -201,49 +204,53 @@ class _PrincipalSchoolSetupScreenState extends State<PrincipalSchoolSetupScreen>
     );
   }
 
-  Widget _academicCalendarCard() {
+  Widget _academicCalendarCard(BuildContext context) {
     return SchooKeepCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const _SectionTitle('Academic Calendar'),
+          _SectionTitle(context.tr(en: 'Academic Calendar', ar: 'التقويم الأكاديمي والعطلات')),
           const SizedBox(height: 12),
           Row(
             children: [
-              Expanded(child: _labeledField('Year Start', _schoolYearStart)),
+              Expanded(child: _labeledField(context.tr(en: 'Year Start', ar: 'بداية العام الدراسي'), _schoolYearStart)),
               const SizedBox(width: 8),
-              Expanded(child: _labeledField('Year End', _schoolYearEnd)),
+              Expanded(child: _labeledField(context.tr(en: 'Year End', ar: 'نهاية العام الدراسي'), _schoolYearEnd)),
             ],
           ),
           const SizedBox(height: 12),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text('Holidays',
-                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
+              Text(
+                context.tr(en: 'Holidays', ar: 'العطلات والإجازات الرسمية'),
+                style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+              ),
               GestureDetector(
                 onTap: () => setState(() =>
                     _holidays.add(_Holiday((_holidays.length + 1).toString(), '', '', ''))),
-                child: const Row(
+                child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(LucideIcons.plus, size: 16, color: SchooKeepColors.primary),
-                    SizedBox(width: 4),
-                    Text('Add',
-                        style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.primary)),
+                    const Icon(LucideIcons.plus, size: 16, color: SchooKeepColors.primary),
+                    const SizedBox(width: 4),
+                    Text(
+                      context.tr(en: 'Add', ar: 'إضافة'),
+                      style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.primary),
+                    ),
                   ],
                 ),
               ),
             ],
           ),
           const SizedBox(height: 8),
-          for (final h in _holidays) _holidayRow(h),
+          for (final h in _holidays) _holidayRow(context, h),
         ],
       ),
     );
   }
 
-  Widget _holidayRow(_Holiday h) {
+  Widget _holidayRow(BuildContext context, _Holiday h) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: Container(
@@ -255,13 +262,13 @@ class _PrincipalSchoolSetupScreenState extends State<PrincipalSchoolSetupScreen>
             Expanded(
               child: Column(
                 children: [
-                  SizedBox(height: 36, child: _styledField(h.name, 'Holiday name', fontSize: 13)),
+                  SizedBox(height: 36, child: _styledField(h.name, context.tr(en: 'Holiday name', ar: 'اسم العطلة'), fontSize: 13)),
                   const SizedBox(height: 8),
                   Row(
                     children: [
-                      Expanded(child: SizedBox(height: 36, child: _styledField(h.start, 'Start', fontSize: 11))),
+                      Expanded(child: SizedBox(height: 36, child: _styledField(h.start, context.tr(en: 'Start', ar: 'البداية'), fontSize: 11))),
                       const SizedBox(width: 8),
-                      Expanded(child: SizedBox(height: 36, child: _styledField(h.end, 'End', fontSize: 11))),
+                      Expanded(child: SizedBox(height: 36, child: _styledField(h.end, context.tr(en: 'End', ar: 'النهاية'), fontSize: 11))),
                     ],
                   ),
                 ],
@@ -282,21 +289,23 @@ class _PrincipalSchoolSetupScreenState extends State<PrincipalSchoolSetupScreen>
     );
   }
 
-  Widget _schoolHoursCard() {
+  Widget _schoolHoursCard(BuildContext context) {
     return SchooKeepCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const _SectionTitle('School Hours'),
+          _SectionTitle(context.tr(en: 'School Hours', ar: 'ساعات العمل والدوام المدرسي')),
           const SizedBox(height: 4),
-          const Text('Governs system lock/unlock times for staff access',
-              style: TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary)),
+          Text(
+            context.tr(en: 'Governs system lock/unlock times for staff access', ar: 'تحدد مواعيد فتح وإغلاق النظام التلقائي للكادر'),
+            style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary),
+          ),
           const SizedBox(height: 12),
           Row(
             children: [
-              Expanded(child: _labeledField('Start Time', _schoolHoursStart)),
+              Expanded(child: _labeledField(context.tr(en: 'Start Time', ar: 'وقت البدء'), _schoolHoursStart)),
               const SizedBox(width: 12),
-              Expanded(child: _labeledField('End Time', _schoolHoursEnd)),
+              Expanded(child: _labeledField(context.tr(en: 'End Time', ar: 'وقت الانتهاء'), _schoolHoursEnd)),
             ],
           ),
         ],
@@ -304,7 +313,7 @@ class _PrincipalSchoolSetupScreenState extends State<PrincipalSchoolSetupScreen>
     );
   }
 
-  Widget _bottomBar() {
+  Widget _bottomBar(BuildContext context) {
     return Container(
       color: SchooKeepColors.surface,
       padding: const EdgeInsets.all(16),
@@ -316,10 +325,12 @@ class _PrincipalSchoolSetupScreenState extends State<PrincipalSchoolSetupScreen>
             backgroundColor: SchooKeepColors.primary,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           ),
-          onPressed: () =>
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('School settings saved successfully'))),
-          child: const Text('Save Changes',
-              style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: Colors.white)),
+          onPressed: () => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(context.tr(en: 'School settings saved successfully', ar: 'تم حفظ إعدادات المدرسة بنجاح')))),
+          child: Text(
+            context.tr(en: 'Save Changes', ar: 'حفظ التغييرات'),
+            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: Colors.white),
+          ),
         ),
       ),
     );

@@ -39,6 +39,7 @@ class _SecretaryStudentDetailView extends StatelessWidget {
   Widget build(BuildContext context) {
     final isRTL = context.isRTL;
     return SchooKeepScaffold(
+      scrollable: false,
       appBar: SchooKeepAppBar(
         title: isRTL ? 'ملف الطالب' : 'Student Profile',
         centerTitle: true,

@@ -134,7 +134,7 @@ export function ParentPrivacyAgreement() {
                 1. Digital Health Record Storage
               </h3>
               <p className="text-[14px] text-[#64748B] leading-relaxed mb-4">
-                I consent to the digital storage of my child's health records within the Synapse platform. Records are encrypted at rest and in transit using AES-256 encryption and stored on HIPAA-compliant servers located in the United States.
+                I consent to the digital storage of my child's health records within the SchooKeep platform. Records are encrypted at rest and in transit using AES-256 encryption and stored on HIPAA-compliant servers located in the United States.
               </p>
 
               <h3 className="text-[15px] font-semibold text-gray-900 mb-2 mt-6">
@@ -169,7 +169,7 @@ export function ParentPrivacyAgreement() {
                 6. Parent/Guardian Access Rights
               </h3>
               <p className="text-[14px] text-[#64748B] leading-relaxed mb-4">
-                You have 24/7 access to your child's health records through the Synapse parent portal. You will receive real-time notifications for: clinic visits, medication administration, health alerts, and document updates. You may export all records in PDF format at any time.
+                You have 24/7 access to your child's health records through the SchooKeep parent portal. You will receive real-time notifications for: clinic visits, medication administration, health alerts, and document updates. You may export all records in PDF format at any time.
               </p>
 
               <h3 className="text-[15px] font-semibold text-gray-900 mb-2 mt-6">
@@ -183,7 +183,7 @@ export function ParentPrivacyAgreement() {
                 8. Third-Party Service Providers
               </h3>
               <p className="text-[14px] text-[#64748B] leading-relaxed mb-4">
-                Synapse uses HIPAA-compliant third-party services for: cloud hosting (AWS), authentication (Auth0), and analytics (privacy-focused, no personal data shared). All vendors have signed Business Associate Agreements (BAAs).
+                SchooKeep uses HIPAA-compliant third-party services for: cloud hosting (AWS), authentication (Auth0), and analytics (privacy-focused, no personal data shared). All vendors have signed Business Associate Agreements (BAAs).
               </p>
 
               <h3 className="text-[15px] font-semibold text-gray-900 mb-2 mt-6">

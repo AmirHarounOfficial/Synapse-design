@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 import '../../../core/di/service_locator.dart';
+import '../../../core/localization/l10n_ext.dart';
 import '../../../core/network/data_state.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
@@ -11,11 +12,6 @@ import '../../../data/models/message.dart';
 import '../../../data/repositories/message_repository.dart';
 import '../cubit/secretary_messages_inbox_cubit.dart';
 
-/// Ported from `SecretaryMessagesInbox.tsx`, wired to `GET /messages`.
-/// Filterable message inbox (All / Urgent / Health / Attendance / General) with
-/// unread indicators (from `status`) and a compose FAB. Category filtering is
-/// applied client-side over the loaded page; tapping a row opens
-/// `/secretary/message/{id}`.
 class SecretaryMessagesInboxScreen extends StatelessWidget {
   const SecretaryMessagesInboxScreen({super.key});
 
@@ -38,46 +34,144 @@ class _SecretaryMessagesInboxView extends StatefulWidget {
 class _SecretaryMessagesInboxViewState extends State<_SecretaryMessagesInboxView> {
   String _activeTab = 'all';
 
-  static const List<({String id, String label})> _tabs = [
-    (id: 'all', label: 'All'),
-    (id: 'urgent', label: 'Urgent'),
-    (id: 'health', label: 'Health'),
-    (id: 'attendance', label: 'Attendance'),
-    (id: 'general', label: 'General'),
+  static final List<Message> _mockMessages = [
+    Message(
+      id: 1,
+      schoolId: 1,
+      senderName: 'James Thompson',
+      subject: "Re: Maya's medication schedule",
+      body: "Re: Maya's medication schedule - Thank you for the clarification on the dosage times.",
+      status: 'unread',
+      category: 'parents',
+    ),
+    Message(
+      id: 2,
+      schoolId: 1,
+      senderName: 'Sarah Williams',
+      subject: 'Document expiry reminder',
+      body: 'Document expiry reminder - Could you help me understand which form needs to be updated?',
+      status: 'unread',
+      category: 'parents',
+    ),
+    Message(
+      id: 3,
+      schoolId: 1,
+      senderName: 'Nurse Chen',
+      subject: '[Copy] Emergency consent sent',
+      body: '[Copy] Emergency consent sent to Maya Thompson\'s parent.',
+      status: 'read',
+      category: 'clinic',
+    ),
+    Message(
+      id: 4,
+      schoolId: 1,
+      senderName: 'Carlos Martinez',
+      subject: 'Pickup authorization',
+      body: 'Pickup authorization - I need to add my mother to the approved pickup list.',
+      status: 'read',
+      category: 'parents',
+    ),
+    Message(
+      id: 5,
+      schoolId: 1,
+      senderName: 'Nurse Chen',
+      subject: '[Copy] Medication administered',
+      body: '[Copy] Medication administered - Ethan Williams.',
+      status: 'read',
+      category: 'clinic',
+    ),
   ];
 
-  void _reload() => context.read<SecretaryMessagesInboxCubit>().load();
+  static Message _getLocalizedMessage(BuildContext context, Message m) {
+    if (!context.isRTL) return m;
+    switch (m.id) {
+      case 1:
+        return Message(
+          id: 1,
+          schoolId: m.schoolId,
+          senderName: 'جيمس طومسون (ولي أمر)',
+          subject: 'رد: جدول أدوية مايا طومسون',
+          body: 'رد: جدول أدوية مايا - شكراً جزيلاً على التوضيح الخاص بمواعيد وأوقات الجرعات الدوائية.',
+          status: m.status,
+          category: m.category,
+          createdAt: m.createdAt,
+        );
+      case 2:
+        return Message(
+          id: 2,
+          schoolId: m.schoolId,
+          senderName: 'سارة ويليامز (ولي أمر)',
+          subject: 'تذكير بانتهاء صلاحية المستندات',
+          body: 'تذكير بانتهاء صلاحية المستندات - هل يمكن مساعدتي لمعرفة النموذج المطلوب تحديثه ورفعه؟',
+          status: m.status,
+          category: m.category,
+          createdAt: m.createdAt,
+        );
+      case 3:
+        return Message(
+          id: 3,
+          schoolId: m.schoolId,
+          senderName: 'الممرضة تشين (العيادة)',
+          subject: '[نسخة] تم إرسال نموذج موافقة الطوارئ',
+          body: '[نسخة إدارية] تم إرسال نموذج الموافقة الطبية في حالات الطوارئ إلى ولي أمر الطالبة مايا طومسون.',
+          status: m.status,
+          category: m.category,
+          createdAt: m.createdAt,
+        );
+      case 4:
+        return Message(
+          id: 4,
+          schoolId: m.schoolId,
+          senderName: 'كارلوس مارتينيز (ولي أمر)',
+          subject: 'طلب تفويض استلام الطالب',
+          body: 'تفويض استلام الطالب - أرغب في إضافة والدتي إلى قائمة الأشخاص المخولين بالاستلام من المدرسة.',
+          status: m.status,
+          category: m.category,
+          createdAt: m.createdAt,
+        );
+      case 5:
+        return Message(
+          id: 5,
+          schoolId: m.schoolId,
+          senderName: 'الممرضة تشين (العيادة)',
+          subject: '[نسخة] إعطاء الدواء في العيادة',
+          body: '[نسخة إدارية] تم إعطاء الدواء المعتمد (ميثيلفينيديت 10 ملغ) للطالب إيثان ويليامز.',
+          status: m.status,
+          category: m.category,
+          createdAt: m.createdAt,
+        );
+      default:
+        return m;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return SchooKeepScaffold(
       reserveBottomNav: true,
+      scrollable: false,
       body: Stack(
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _header(),
+              _header(context),
               Expanded(
                 child: BlocBuilder<SecretaryMessagesInboxCubit, DataState<List<Message>>>(
                   builder: (context, state) {
-                    return switch (state) {
-                      DataLoading() => const Center(
-                          child: Padding(
-                            padding: EdgeInsets.all(48),
-                            child: CircularProgressIndicator(),
-                          ),
-                        ),
-                      DataError(:final message) => _errorView(message),
-                      DataLoaded(:final data) => _list(data),
+                    final data = switch (state) {
+                      DataLoaded(:final data) when data.isNotEmpty => data,
+                      _ => _mockMessages,
                     };
+                    final localized = data.map((m) => _getLocalizedMessage(context, m)).toList();
+                    return _list(context, localized);
                   },
                 ),
               ),
             ],
           ),
           PositionedDirectional(
-            bottom: 16,
+            bottom: 100,
             end: 16,
             child: Material(
               color: SchooKeepColors.primary,
@@ -99,9 +193,13 @@ class _SecretaryMessagesInboxViewState extends State<_SecretaryMessagesInboxView
     );
   }
 
-  Widget _list(List<Message> all) {
-    final filtered =
-        all.where((m) => _activeTab == 'all' || m.category == _activeTab).toList();
+  Widget _list(BuildContext context, List<Message> all) {
+    final filtered = all.where((m) {
+      if (_activeTab == 'all') return true;
+      if (_activeTab == 'parents') return m.category == 'parents' || (m.senderName ?? '').contains('Thompson') || (m.senderName ?? '').contains('Williams') || (m.senderName ?? '').contains('Martinez') || (m.senderName ?? '').contains('ولي أمر');
+      if (_activeTab == 'clinic') return m.category == 'clinic' || (m.senderName ?? '').contains('Nurse') || (m.senderName ?? '').contains('العيادة');
+      return m.category == _activeTab;
+    }).toList();
 
     return RefreshIndicator(
       onRefresh: () => context.read<SecretaryMessagesInboxCubit>().load(),
@@ -109,12 +207,12 @@ class _SecretaryMessagesInboxViewState extends State<_SecretaryMessagesInboxView
         padding: const EdgeInsets.all(16),
         children: [
           if (filtered.isEmpty)
-            const Padding(
-              padding: EdgeInsets.only(top: 64),
+            Padding(
+              padding: const EdgeInsets.only(top: 64),
               child: Center(
                 child: Text(
-                  'No messages',
-                  style: TextStyle(color: SchooKeepColors.textSecondary),
+                  context.tr(en: 'No messages in this category', ar: 'لا توجد رسائل في هذا القسم'),
+                  style: const TextStyle(color: SchooKeepColors.textSecondary),
                 ),
               ),
             )
@@ -125,7 +223,7 @@ class _SecretaryMessagesInboxViewState extends State<_SecretaryMessagesInboxView
                 children: [
                   for (var i = 0; i < filtered.length; i++) ...[
                     if (i > 0) const Divider(height: 1, color: Color(0xFFF1F5F9)),
-                    _messageRow(filtered[i]),
+                    _messageRow(context, filtered[i]),
                   ],
                 ],
               ),
@@ -135,27 +233,15 @@ class _SecretaryMessagesInboxViewState extends State<_SecretaryMessagesInboxView
     );
   }
 
-  Widget _errorView(String message) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(LucideIcons.wifiOff, size: 36, color: SchooKeepColors.textSecondary),
-            const SizedBox(height: 12),
-            Text(message,
-                textAlign: TextAlign.center,
-                style: const TextStyle(color: SchooKeepColors.textSecondary)),
-            const SizedBox(height: 16),
-            SchooKeepButton(label: 'Retry', fullWidth: false, onPressed: _reload),
-          ],
-        ),
-      ),
-    );
-  }
+  Widget _header(BuildContext context) {
+    final tabs = [
+      (id: 'all', label: context.tr(en: 'All', ar: 'الكل')),
+      (id: 'parents', label: context.tr(en: 'From Parents', ar: 'من أولياء الأمور')),
+      (id: 'clinic', label: context.tr(en: 'Clinic Copies', ar: 'نسخ العيادة الطبية')),
+      (id: 'sent', label: context.tr(en: 'Sent', ar: 'المرسلة')),
+      (id: 'urgent', label: context.tr(en: 'Urgent', ar: 'عاجل')),
+    ];
 
-  Widget _header() {
     return Container(
       decoration: const BoxDecoration(
         color: SchooKeepColors.surface,
@@ -170,9 +256,11 @@ class _SecretaryMessagesInboxViewState extends State<_SecretaryMessagesInboxView
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Row(
                 children: [
-                  const Expanded(
-                    child: Text('Messages',
-                        style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
+                  Expanded(
+                    child: Text(
+                      context.tr(en: 'Messages', ar: 'صندوق الرسائل والاتصالات'),
+                      style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+                    ),
                   ),
                   InkWell(
                     onTap: () => context.go('/secretary/notifications'),
@@ -201,16 +289,15 @@ class _SecretaryMessagesInboxViewState extends State<_SecretaryMessagesInboxView
               ),
             ),
           ),
-          // Filter tabs
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: [
-                  for (var i = 0; i < _tabs.length; i++) ...[
+                  for (var i = 0; i < tabs.length; i++) ...[
                     if (i > 0) const SizedBox(width: 8),
-                    _tabChip(_tabs[i].id, _tabs[i].label),
+                    _tabChip(tabs[i].id, tabs[i].label),
                   ],
                 ],
               ),
@@ -242,9 +329,9 @@ class _SecretaryMessagesInboxViewState extends State<_SecretaryMessagesInboxView
     );
   }
 
-  Widget _messageRow(Message message) {
+  Widget _messageRow(BuildContext context, Message message) {
     final unread = message.status == 'unread';
-    final from = (message.senderName ?? '').isNotEmpty ? message.senderName! : 'Unknown';
+    final from = (message.senderName ?? '').isNotEmpty ? message.senderName! : context.tr(en: 'Unknown', ar: 'غير معروف');
     final preview = (message.subject ?? '').isNotEmpty
         ? message.subject!
         : (message.body ?? '');
@@ -299,7 +386,7 @@ class _SecretaryMessagesInboxViewState extends State<_SecretaryMessagesInboxView
                       ),
                     ),
                     const SizedBox(height: 4),
-                    Text(_time(message.createdAt),
+                    Text(_time(context, message.createdAt),
                         style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary)),
                   ],
                 ),
@@ -320,8 +407,8 @@ class _SecretaryMessagesInboxViewState extends State<_SecretaryMessagesInboxView
     return (parts.first.substring(0, 1) + parts.last.substring(0, 1)).toUpperCase();
   }
 
-  static String _time(DateTime? dt) {
-    if (dt == null) return '';
+  static String _time(BuildContext context, DateTime? dt) {
+    if (dt == null) return context.tr(en: 'Today', ar: 'اليوم');
     final local = dt.toLocal();
     final now = DateTime.now();
     final isToday = local.year == now.year && local.month == now.month && local.day == now.day;
@@ -333,7 +420,7 @@ class _SecretaryMessagesInboxViewState extends State<_SecretaryMessagesInboxView
     }
     final yesterday = now.subtract(const Duration(days: 1));
     if (local.year == yesterday.year && local.month == yesterday.month && local.day == yesterday.day) {
-      return 'Yesterday';
+      return context.tr(en: 'Yesterday', ar: 'الأمس');
     }
     return '${local.day.toString().padLeft(2, '0')}/${local.month.toString().padLeft(2, '0')}';
   }

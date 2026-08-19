@@ -26,9 +26,9 @@ class LocaleState extends Equatable {
 
 class LocaleCubit extends Cubit<LocaleState> {
   LocaleCubit(this._prefs)
-      : super(LocaleState(languageCode: _prefs.getString(_key) ?? 'en'));
+      : super(LocaleState(languageCode: _prefs.getString(_key) ?? _prefs.getString('synapse_lang') ?? 'en'));
 
-  static const String _key = 'synapse_lang';
+  static const String _key = 'schookeep_lang';
   final SharedPreferences _prefs;
 
   Future<void> toggleLanguage() async {

@@ -1,9 +1,11 @@
 import { AlertTriangle } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router';
+import { useLanguage } from '../../context/LanguageContext';
 
 export function ConfidentialityAgreement() {
   const navigate = useNavigate();
+  const { isRTL } = useLanguage();
   const [scrollProgress, setScrollProgress] = useState(0);
   const [isScrolledToBottom, setIsScrolledToBottom] = useState(false);
   const [showPulse, setShowPulse] = useState(false);
@@ -19,7 +21,6 @@ export function ConfidentialityAgreement() {
 
       setScrollProgress(progress);
 
-      // Check if scrolled to bottom (with 10px threshold)
       if (scrollTop + clientHeight >= scrollHeight - 10) {
         if (!isScrolledToBottom) {
           setIsScrolledToBottom(true);
@@ -32,7 +33,6 @@ export function ConfidentialityAgreement() {
     const scrollElement = scrollRef.current;
     if (scrollElement) {
       scrollElement.addEventListener('scroll', handleScroll);
-      // Initial check
       handleScroll();
     }
 
@@ -44,26 +44,26 @@ export function ConfidentialityAgreement() {
   }, [isScrolledToBottom]);
 
   return (
-    <div className="w-full h-screen bg-[#F8FAFC] flex flex-col">
+    <div className="w-full h-screen bg-[#F8FAFC] flex flex-col" dir={isRTL ? 'rtl' : 'ltr'}>
       {/* Status Bar */}
       <div className="h-[44px] bg-[#FFFFFF]" />
 
       {/* App Bar */}
       <div className="h-[56px] bg-[#FFFFFF] px-4 flex items-center justify-between border-b border-[#E2E8F0]">
         <h1 className="text-[17px] font-medium text-[#0F172A]" style={{ fontWeight: 500 }}>
-          Confidentiality Agreement
+          {isRTL ? 'اتفاقية سرية البيانات' : 'Confidentiality Agreement'}
         </h1>
         <span className="text-[12px] text-[#64748B]" style={{ fontWeight: 400 }}>
-          Step 1 of 2
+          {isRTL ? 'الخطوة 1 من 2' : 'Step 1 of 2'}
         </span>
       </div>
 
       {/* Amber info banner */}
       <div className="bg-[#FEF3C7] border-l-8 border-[#F59E0B] p-4">
-        <div className="flex gap-3">
+        <div className="flex gap-3 items-center">
           <AlertTriangle className="w-5 h-5 text-[#F59E0B] flex-shrink-0" />
           <p className="text-[12px] text-[#92400E]" style={{ fontWeight: 400 }}>
-            Please scroll to the bottom to continue
+            {isRTL ? 'يرجى التمرير حتى نهاية الصفحة للمتابعة' : 'Please scroll to the bottom to continue'}
           </p>
         </div>
       </div>
@@ -80,72 +80,42 @@ export function ConfidentialityAgreement() {
       <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-6">
         <div className="text-[14px] text-[#0F172A] space-y-4" style={{ fontWeight: 400, lineHeight: 1.7 }}>
           <h2 className="text-[16px] font-semibold text-[#0F172A] mb-4" style={{ fontWeight: 600 }}>
-            Health Information Privacy & Confidentiality Agreement
+            {isRTL ? 'اتفاقية سرية وخصوصية المعلومات الصحية المدرسية' : 'Health Information Privacy & Confidentiality Agreement'}
           </h2>
 
           <p>
-            This Confidentiality Agreement ("Agreement") is entered into by and between the authorized school health professional ("User") and the educational institution ("School") utilizing the Synapse health management system.
+            {isRTL
+              ? 'تم إبرام اتفاقية السرية هذه ("الاتفاقية") بين الكادر الإداري أو الطبي المصرح له ("المستخدم") والمؤسسة التعليمية ("المدرسة") التي تستخدم نظام إدارة الصحة المدرسية SchooKeep.'
+              : 'This Confidentiality Agreement ("Agreement") is entered into by and between the authorized school health professional ("User") and the educational institution ("School") utilizing the SchooKeep health management system.'}
           </p>
 
           <h3 className="text-[15px] font-semibold text-[#0F172A] mt-6 mb-2" style={{ fontWeight: 600 }}>
-            1. Purpose
+            {isRTL ? '1. الغرض' : '1. Purpose'}
           </h3>
           <p>
-            The User acknowledges that in the course of their duties, they will have access to confidential and sensitive health information regarding students, including but not limited to medical histories, diagnoses, treatment plans, medication records, and other protected health information (PHI) as defined under the Health Insurance Portability and Accountability Act (HIPAA) and the Family Educational Rights and Privacy Act (FERPA).
+            {isRTL
+              ? 'يقر المستخدم بأنه أثناء أداء مهامه، سيكون لديه إمكانية الوصول إلى معلومات صحية سرية وحساسة تتعلق بالطلاب، بما في ذلك السجلات الطبية، والتشخيصات، وخطة الرعاية، وسجلات الأدوية، وغيرها من المعلومات المحمية بموجب قوانين حماية البيانات الصحية في دولة الإمارات العربية المتحدة.'
+              : 'The User acknowledges that in the course of their duties, they will have access to confidential and sensitive health information regarding students, including medical histories, diagnoses, treatment plans, medication records, and other protected health information.'}
           </p>
 
           <h3 className="text-[15px] font-semibold text-[#0F172A] mt-6 mb-2" style={{ fontWeight: 600 }}>
-            2. Confidentiality Obligations
+            {isRTL ? '2. التزامات السرية' : '2. Confidentiality Obligations'}
           </h3>
-          <p>
-            The User agrees to:
-          </p>
-          <ul className="list-disc pl-6 space-y-2">
-            <li>Maintain the confidentiality of all student health information accessed through the Synapse system</li>
-            <li>Use such information solely for the purpose of providing authorized healthcare services to students</li>
-            <li>Not disclose, share, or discuss student health information with unauthorized individuals</li>
-            <li>Access only those records necessary to perform their assigned duties</li>
-            <li>Comply with all applicable federal and state privacy laws, including HIPAA and FERPA</li>
+          <p>{isRTL ? 'يطبق المستخدم القواعد التالية:' : 'The User agrees to:'}</p>
+          <ul className="list-disc pl-6 pr-6 space-y-2">
+            <li>{isRTL ? 'الحفاظ على سرية جميع السجلات الصحية الطلابية المسجلة عبر نظام SchooKeep' : 'Maintain the confidentiality of all student health information accessed through the SchooKeep system'}</li>
+            <li>{isRTL ? 'استخدام المعلومات فقط لأغراض تقديم الخدمات الصحية والتعليمية المصرح بها' : 'Use such information solely for the purpose of providing authorized healthcare services to students'}</li>
+            <li>{isRTL ? 'عدم مشاركة أو مناقشة بيانات الطلاب مع أي أشخاص غير مصرح لهم' : 'Not disclose, share, or discuss student health information with unauthorized individuals'}</li>
+            <li>{isRTL ? 'الالتزام بقانون حماية البيانات الشخصية الإماراتي (PDPL) واللوائح الصحية في الإمارات' : 'Comply with all applicable federal and state privacy laws, including UAE PDPL'}</li>
           </ul>
 
           <h3 className="text-[15px] font-semibold text-[#0F172A] mt-6 mb-2" style={{ fontWeight: 600 }}>
-            3. Security Measures
+            {isRTL ? '3. الإقرار والتأكيد' : '3. Acknowledgment'}
           </h3>
           <p>
-            The User agrees to take all reasonable precautions to prevent unauthorized access to student health information, including:
-          </p>
-          <ul className="list-disc pl-6 space-y-2">
-            <li>Using strong, unique passwords and not sharing login credentials</li>
-            <li>Logging out of the system when not in active use</li>
-            <li>Ensuring physical security of devices used to access the system</li>
-            <li>Reporting any suspected security breaches immediately to the system administrator</li>
-          </ul>
-
-          <h3 className="text-[15px] font-semibold text-[#0F172A] mt-6 mb-2" style={{ fontWeight: 600 }}>
-            4. Consequences of Breach
-          </h3>
-          <p>
-            The User understands that any breach of this Agreement may result in:
-          </p>
-          <ul className="list-disc pl-6 space-y-2">
-            <li>Immediate termination of system access</li>
-            <li>Disciplinary action up to and including termination of employment</li>
-            <li>Civil and/or criminal penalties under applicable law</li>
-            <li>Personal liability for damages resulting from unauthorized disclosure</li>
-          </ul>
-
-          <h3 className="text-[15px] font-semibold text-[#0F172A] mt-6 mb-2" style={{ fontWeight: 600 }}>
-            5. Duration
-          </h3>
-          <p>
-            This Agreement remains in effect for the duration of the User's access to the Synapse system and continues indefinitely with respect to information accessed during such period.
-          </p>
-
-          <h3 className="text-[15px] font-semibold text-[#0F172A] mt-6 mb-2" style={{ fontWeight: 600 }}>
-            6. Acknowledgment
-          </h3>
-          <p>
-            By continuing to the signature page, the User acknowledges that they have read, understood, and agree to be bound by the terms of this Confidentiality Agreement. The User further acknowledges their responsibility to protect student health information and their understanding of the serious nature of these obligations.
+            {isRTL
+              ? 'بالمتابعة إلى صفحة التوقيع، يقر المستخدم بأنه قرأ وفهم ووافق على الالتزام بشروط هذه الاتفاقية ومسؤوليته تجاه سرية البيانات.'
+              : 'By continuing to the signature page, the User acknowledges that they have read, understood, and agree to be bound by the terms of this Confidentiality Agreement.'}
           </p>
 
           <div className="h-8" />
@@ -157,14 +127,14 @@ export function ConfidentialityAgreement() {
         <button
           onClick={() => navigate('/signature')}
           disabled={!isScrolledToBottom}
-          className={`w-full h-[52px] rounded-xl font-semibold transition-all ${
+          className={`w-full h-[52px] rounded-xl font-semibold transition-all cursor-pointer ${
             isScrolledToBottom
               ? 'bg-[#2563EB] text-white'
               : 'bg-[#2563EB] text-white opacity-40 cursor-not-allowed'
           } ${showPulse ? 'animate-pulse-success' : ''}`}
           style={{ fontWeight: 600 }}
         >
-          Continue
+          {isRTL ? 'المتابعة للتوقيع' : 'Continue to Signature'}
         </button>
       </div>
     </div>

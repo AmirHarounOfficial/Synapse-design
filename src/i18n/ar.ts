@@ -60,7 +60,7 @@ export default {
     switchRole: "معرض الأدوار"
   },
   login: {
-    title: "تسجيل الدخول إلى سينابس",
+    title: "تسجيل الدخول إلى SchooKeep",
     subtitle: "إدارة صحة المدارس للحلقة الأولى والثانية",
     emailPlaceholder: "عنوان البريد الإلكتروني",
     passwordPlaceholder: "كلمة المرور",

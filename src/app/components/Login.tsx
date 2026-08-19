@@ -53,13 +53,13 @@ export function Login() {
       <div className="flex-1 flex items-center justify-center w-full">
         <div className="w-full max-w-[345px] bg-[#FFFFFF] rounded-2xl border border-[#E2E8F0] p-6 text-left">
           
-          {/* Synapse Logo & Language Toggle Row */}
+          {/* SchooKeep Logo & Language Toggle Row */}
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 bg-[#2563EB] rounded-lg flex items-center justify-center text-white font-bold text-lg">
                 S
               </div>
-              <span className="text-[16px] font-bold text-[#0f172a]">Synapse</span>
+              <span className="text-[16px] font-bold text-[#0f172a]">SchooKeep</span>
             </div>
             
             <button

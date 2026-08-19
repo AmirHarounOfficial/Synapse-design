@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 import '../../../core/di/service_locator.dart';
+import '../../../core/localization/l10n_ext.dart';
 import '../../../core/network/data_state.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
@@ -11,9 +12,6 @@ import '../../../data/models/clinic_visit.dart';
 import '../../../data/repositories/clinic_repository.dart';
 import '../cubit/clinic_visit_list_cubit.dart';
 
-/// Ported from `ClinicVisitList.tsx`, wired to `GET /clinic-visits`. Tab-root
-/// clinic visit log: filter chips, the live visit list, and a floating
-/// "new visit" action. Filters are applied client-side over the loaded page.
 class ClinicVisitListScreen extends StatelessWidget {
   const ClinicVisitListScreen({super.key});
 
@@ -38,13 +36,6 @@ class _ClinicVisitListViewState extends State<_ClinicVisitListView> {
   DateTime? _selectedDate;
   bool _withNotesOnly = false;
 
-  static const _filters = [
-    (id: 'today', label: 'Today'),
-    (id: 'week', label: 'This Week'),
-    (id: 'emergency', label: 'Emergency'),
-    (id: 'routine', label: 'Routine'),
-  ];
-
   static Color _avatarColor(int seed) {
     const colors = [
       Color(0xFF2563EB),
@@ -57,29 +48,26 @@ class _ClinicVisitListViewState extends State<_ClinicVisitListView> {
     return colors[seed.abs() % colors.length];
   }
 
-  static String _category(ClinicVisit v) {
-    if (v.isEmergency) return 'Emergency';
+  static String _category(BuildContext context, ClinicVisit v) {
+    if (v.isEmergency) return context.tr(en: 'Emergency', ar: 'طوارئ');
     final s = (v.severity ?? '').toLowerCase();
-    if (s.contains('injur')) return 'Injury';
-    if (s.contains('illness') || s.contains('ill')) return 'Illness';
-    if (s.contains('medic')) return 'Medication';
-    return 'Routine';
+    if (s.contains('injur')) return context.tr(en: 'Injury', ar: 'إصابة');
+    if (s.contains('illness') || s.contains('ill')) return context.tr(en: 'Illness', ar: 'مرض');
+    if (s.contains('medic')) return context.tr(en: 'Medication', ar: 'دواء');
+    return context.tr(en: 'Routine', ar: 'روتينية');
   }
 
-  static (Color bg, Color fg) _categoryStyle(String category) {
-    switch (category) {
-      case 'Emergency':
-        return (const Color(0xFFFEE2E2), SchooKeepColors.error);
-      case 'Injury':
-        return (SchooKeepColors.amberChipBg, SchooKeepColors.amberText);
-      case 'Illness':
-        return (const Color(0xFFDBEAFE), const Color(0xFF1E40AF));
-      case 'Medication':
-        return (const Color(0xFFE0E7FF), const Color(0xFF4338CA));
-      case 'Routine':
-        return (SchooKeepColors.greenChipBg, SchooKeepColors.greenChipText);
-      default:
-        return (SchooKeepColors.border, SchooKeepColors.textSecondary);
+  static (Color bg, Color fg) _categoryStyle(String category, BuildContext context) {
+    if (category == context.tr(en: 'Emergency', ar: 'طوارئ')) {
+      return (const Color(0xFFFEE2E2), SchooKeepColors.error);
+    } else if (category == context.tr(en: 'Injury', ar: 'إصابة')) {
+      return (SchooKeepColors.amberChipBg, SchooKeepColors.amberText);
+    } else if (category == context.tr(en: 'Illness', ar: 'مرض')) {
+      return (const Color(0xFFDBEAFE), const Color(0xFF1E40AF));
+    } else if (category == context.tr(en: 'Medication', ar: 'دواء')) {
+      return (const Color(0xFFE0E7FF), const Color(0xFF4338CA));
+    } else {
+      return (SchooKeepColors.greenChipBg, SchooKeepColors.greenChipText);
     }
   }
 
@@ -128,7 +116,7 @@ class _ClinicVisitListViewState extends State<_ClinicVisitListView> {
       initialDate: _selectedDate ?? now,
       firstDate: DateTime(now.year - 2),
       lastDate: now,
-      helpText: 'Filter visits by date',
+      helpText: context.tr(en: 'Filter visits by date', ar: 'تصفية الزيارات حسب التاريخ'),
     );
     if (picked != null) setState(() => _selectedDate = picked);
   }
@@ -136,7 +124,7 @@ class _ClinicVisitListViewState extends State<_ClinicVisitListView> {
   String _formatDate(DateTime d) =>
       '${d.day.toString().padLeft(2, '0')}/${d.month.toString().padLeft(2, '0')}/${d.year}';
 
-  Widget _dateBanner() {
+  Widget _dateBanner(BuildContext context) {
     return Container(
       width: double.infinity,
       color: const Color(0xFFEFF6FF),
@@ -147,7 +135,7 @@ class _ClinicVisitListViewState extends State<_ClinicVisitListView> {
           const SizedBox(width: 8),
           Expanded(
             child: Text(
-              'Showing ${_formatDate(_selectedDate!)}',
+              context.tr(en: 'Showing ${_formatDate(_selectedDate!)}', ar: 'عرض زيارات بتاريخ ${_formatDate(_selectedDate!)}'),
               style: const TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w500,
@@ -157,9 +145,9 @@ class _ClinicVisitListViewState extends State<_ClinicVisitListView> {
           ),
           GestureDetector(
             onTap: () => setState(() => _selectedDate = null),
-            child: const Text(
-              'Clear',
-              style: TextStyle(
+            child: Text(
+              context.tr(en: 'Clear', ar: 'مسح'),
+              style: const TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
                 color: SchooKeepColors.primary,
@@ -172,6 +160,13 @@ class _ClinicVisitListViewState extends State<_ClinicVisitListView> {
   }
 
   void _openFilterSheet() {
+    final filters = [
+      (id: 'today', label: context.tr(en: 'Today', ar: 'اليوم')),
+      (id: 'week', label: context.tr(en: 'This Week', ar: 'هذا الأسبوع')),
+      (id: 'emergency', label: context.tr(en: 'Emergency', ar: 'طوارئ')),
+      (id: 'routine', label: context.tr(en: 'Routine', ar: 'روتينية')),
+    ];
+
     showModalBottomSheet<void>(
       context: context,
       backgroundColor: Colors.transparent,
@@ -191,9 +186,9 @@ class _ClinicVisitListViewState extends State<_ClinicVisitListView> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
-                        'Filter visits',
-                        style: TextStyle(
+                      Text(
+                        context.tr(en: 'Filter visits', ar: 'تصفية زيارات العيادة'),
+                        style: const TextStyle(
                           fontSize: 17,
                           fontWeight: FontWeight.w600,
                           color: SchooKeepColors.textPrimary,
@@ -201,9 +196,9 @@ class _ClinicVisitListViewState extends State<_ClinicVisitListView> {
                       ),
                       GestureDetector(
                         onTap: () => Navigator.of(sheetContext).pop(),
-                        child: const Text(
-                          'Close',
-                          style: TextStyle(
+                        child: Text(
+                          context.tr(en: 'Close', ar: 'إغلاق'),
+                          style: const TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
                             color: SchooKeepColors.textSecondary,
@@ -213,9 +208,9 @@ class _ClinicVisitListViewState extends State<_ClinicVisitListView> {
                     ],
                   ),
                   const SizedBox(height: 8),
-                  const Text(
-                    'Category',
-                    style: TextStyle(
+                  Text(
+                    context.tr(en: 'Category', ar: 'التصنيف'),
+                    style: const TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
                       color: SchooKeepColors.textSecondary,
@@ -226,7 +221,7 @@ class _ClinicVisitListViewState extends State<_ClinicVisitListView> {
                     spacing: 8,
                     runSpacing: 8,
                     children: [
-                      for (final f in _filters)
+                      for (final f in filters)
                         GestureDetector(
                           onTap: () {
                             setState(() {
@@ -267,9 +262,9 @@ class _ClinicVisitListViewState extends State<_ClinicVisitListView> {
                     contentPadding: EdgeInsets.zero,
                     activeThumbColor: Colors.white,
                     activeTrackColor: SchooKeepColors.primary,
-                    title: const Text(
-                      'With notes only',
-                      style: TextStyle(
+                    title: Text(
+                      context.tr(en: 'With notes only', ar: 'التي تحتوي ملاحظات فقط'),
+                      style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                         color: SchooKeepColors.textPrimary,
@@ -283,7 +278,7 @@ class _ClinicVisitListViewState extends State<_ClinicVisitListView> {
                   ),
                   const SizedBox(height: 8),
                   SchooKeepButton(
-                    label: 'Apply',
+                    label: context.tr(en: 'Apply', ar: 'تطبيق التصفية'),
                     onPressed: () => Navigator.of(sheetContext).pop(),
                   ),
                 ],
@@ -299,59 +294,64 @@ class _ClinicVisitListViewState extends State<_ClinicVisitListView> {
   Widget build(BuildContext context) {
     return SchooKeepScaffold(
       reserveBottomNav: true,
+      scrollable: false,
       appBar: SchooKeepAppBar(
-        title: 'Clinic Visits',
+        title: context.tr(en: 'Clinic Visits', ar: 'سجل زيارات العيادة المدرسية'),
         actions: [
           _IconButton(icon: LucideIcons.calendar, onTap: _pickDate),
           _IconButton(icon: LucideIcons.slidersHorizontal, onTap: _openFilterSheet),
         ],
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _filterBar(),
-          if (_selectedDate != null) _dateBanner(),
-          BlocBuilder<ClinicVisitListCubit, DataState<List<ClinicVisit>>>(
-            builder: (context, state) {
-              return switch (state) {
-                DataLoading() => const Padding(
-                  padding: EdgeInsets.all(48),
-                  child: Center(child: CircularProgressIndicator()),
-                ),
-                DataError(:final message) => _errorBanner(message),
-                DataLoaded(:final data) => _list(data),
-              };
-            },
-          ),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _filterBar(context),
+            if (_selectedDate != null) _dateBanner(context),
+            BlocBuilder<ClinicVisitListCubit, DataState<List<ClinicVisit>>>(
+              builder: (context, state) {
+                return switch (state) {
+                  DataLoading() => const Padding(
+                    padding: EdgeInsets.all(48),
+                    child: Center(child: CircularProgressIndicator()),
+                  ),
+                  DataError(:final message) => _errorBanner(context, message),
+                  DataLoaded(:final data) => _list(context, data),
+                };
+              },
+            ),
+          ],
+        ),
       ),
       bottomBar: Padding(
-        padding: const EdgeInsets.only(bottom: 24, right: 16),
-        child: Align(
-          alignment: AlignmentDirectional.centerEnd,
-          child: FloatingActionButton(
-            backgroundColor: SchooKeepColors.primary,
-            foregroundColor: Colors.white,
-            onPressed: () async {
-              await context.push('/nurse/clinic/new-visit');
-              if (context.mounted) _reload();
-            },
-            child: const Icon(LucideIcons.plus, size: 28),
-          ),
+        padding: const EdgeInsets.only(bottom: 24, right: 16, left: 16),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            FloatingActionButton(
+              backgroundColor: SchooKeepColors.primary,
+              foregroundColor: Colors.white,
+              onPressed: () async {
+                await context.push('/nurse/clinic/new-visit');
+                if (context.mounted) _reload();
+              },
+              child: const Icon(LucideIcons.plus, size: 28),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  Widget _list(List<ClinicVisit> all) {
+  Widget _list(BuildContext context, List<ClinicVisit> all) {
     final visits = all.where(_matchesFilter).toList();
     if (visits.isEmpty) {
-      return const Padding(
-        padding: EdgeInsets.all(48),
+      return Padding(
+        padding: const EdgeInsets.all(48),
         child: Center(
           child: Text(
-            'No clinic visits found',
-            style: TextStyle(color: SchooKeepColors.textSecondary),
+            context.tr(en: 'No clinic visits found', ar: 'لا توجد زيارات مسجلة'),
+            style: const TextStyle(color: SchooKeepColors.textSecondary),
           ),
         ),
       );
@@ -365,7 +365,10 @@ class _ClinicVisitListViewState extends State<_ClinicVisitListView> {
             child: Align(
               alignment: AlignmentDirectional.centerStart,
               child: Text(
-                '${visits.length} ${visits.length == 1 ? 'visit' : 'visits'}',
+                context.tr(
+                  en: '${visits.length} ${visits.length == 1 ? 'visit' : 'visits'}',
+                  ar: '${visits.length} زيارة مسجلة',
+                ),
                 style: const TextStyle(
                   fontSize: 13,
                   color: SchooKeepColors.textSecondary,
@@ -374,7 +377,7 @@ class _ClinicVisitListViewState extends State<_ClinicVisitListView> {
             ),
           ),
           for (final v in visits) ...[
-            _visitCard(v),
+            _visitCard(context, v),
             const SizedBox(height: 12),
           ],
         ],
@@ -382,7 +385,13 @@ class _ClinicVisitListViewState extends State<_ClinicVisitListView> {
     );
   }
 
-  Widget _filterBar() {
+  Widget _filterBar(BuildContext context) {
+    final filters = [
+      (id: 'today', label: context.tr(en: 'Today', ar: 'اليوم')),
+      (id: 'week', label: context.tr(en: 'This Week', ar: 'هذا الأسبوع')),
+      (id: 'emergency', label: context.tr(en: 'Emergency', ar: 'طوارئ')),
+      (id: 'routine', label: context.tr(en: 'Routine', ar: 'روتينية')),
+    ];
     return Container(
       width: double.infinity,
       color: SchooKeepColors.surface,
@@ -391,7 +400,7 @@ class _ClinicVisitListViewState extends State<_ClinicVisitListView> {
         scrollDirection: Axis.horizontal,
         child: Row(
           children: [
-            for (final f in _filters) ...[
+            for (final f in filters) ...[
               _filterChip(f.id, f.label),
               const SizedBox(width: 8),
             ],
@@ -426,7 +435,7 @@ class _ClinicVisitListViewState extends State<_ClinicVisitListView> {
     );
   }
 
-  Widget _errorBanner(String error) {
+  Widget _errorBanner(BuildContext context, String error) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
       child: Column(
@@ -461,17 +470,17 @@ class _ClinicVisitListViewState extends State<_ClinicVisitListView> {
             ),
           ),
           const SizedBox(height: 12),
-          SchooKeepButton(label: 'Retry', fullWidth: false, onPressed: _reload),
+          SchooKeepButton(label: context.tr(en: 'Retry', ar: 'إعادة المحاولة'), fullWidth: false, onPressed: _reload),
         ],
       ),
     );
   }
 
-  Widget _visitCard(ClinicVisit visit) {
+  Widget _visitCard(BuildContext context, ClinicVisit visit) {
     final isEmergency = visit.isEmergency;
-    final category = _category(visit);
-    final (chipBg, chipFg) = _categoryStyle(category);
-    final studentLabel = 'Student #${visit.studentId}';
+    final category = _category(context, visit);
+    final (chipBg, chipFg) = _categoryStyle(category, context);
+    final studentLabel = '${context.tr(en: 'Student', ar: 'الطالب')} #${visit.studentId}';
     final initials = '#${visit.studentId}';
     final content = Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -530,16 +539,16 @@ class _ClinicVisitListViewState extends State<_ClinicVisitListView> {
                 const SizedBox(height: 8),
                 Row(
                   mainAxisSize: MainAxisSize.min,
-                  children: const [
-                    Icon(
+                  children: [
+                    const Icon(
                       LucideIcons.paperclip,
                       size: 12,
                       color: SchooKeepColors.warning,
                     ),
-                    SizedBox(width: 4),
+                    const SizedBox(width: 4),
                     Text(
-                      '1 note',
-                      style: TextStyle(
+                      context.tr(en: '1 note', ar: 'ملاحظة واحدة'),
+                      style: const TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
                         color: SchooKeepColors.warning,

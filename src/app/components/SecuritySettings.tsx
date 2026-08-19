@@ -143,7 +143,7 @@ export function SecuritySettings() {
         </button>
 
         <div className="text-[12px] text-[#94A3B8] text-center">
-          Synapse v2.1.0 • Security Portal
+          SchooKeep v2.1.0 • Security Portal
         </div>
       </div>
 
@@ -159,7 +159,7 @@ export function SecuritySettings() {
               <LogOut className="w-8 h-8 text-[#DC2626]" />
             </div>
             <h3 className="text-[17px] font-semibold text-gray-900 mb-2 text-center">
-              Log Out of Synapse?
+              Log Out of SchooKeep?
             </h3>
             <p className="text-[14px] text-[#64748B] mb-6 text-center">
               You will need to re-authenticate with 2FA to access the security portal again.

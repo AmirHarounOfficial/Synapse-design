@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 import '../../../core/di/service_locator.dart';
+import '../../../core/localization/l10n_ext.dart';
 import '../../../core/network/data_state.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
@@ -11,10 +12,6 @@ import '../../../data/repositories/after_hours_repository.dart';
 import '../cubit/after_hours_cubit.dart';
 import 'package:schookeep/core/router/safe_back.dart';
 
-/// Ported from `PrincipalAfterHoursAccess.tsx`, wired to
-/// `GET/POST /after-hours-requests` via [AfterHoursCubit]. Lists real access
-/// requests with their status, lets the principal approve/deny pending ones,
-/// and files new requests with a reason and an optional access window.
 class PrincipalAfterHoursAccessScreen extends StatelessWidget {
   const PrincipalAfterHoursAccessScreen({super.key});
 
@@ -89,22 +86,33 @@ class _PrincipalAfterHoursAccessViewState extends State<_PrincipalAfterHoursAcce
         _windowStart = null;
         _windowEnd = null;
       });
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('Access request submitted.')));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(context.tr(en: 'Access request submitted.', ar: 'تم تقديم طلب تصريح الدخول.')),
+      ));
     } else {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('Could not submit the request.')));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(context.tr(en: 'Could not submit the request.', ar: 'تعذر تقديم الطلب.')),
+      ));
     }
   }
 
   Future<void> _respond(int id, String status) async {
-    final label = status == 'approved' ? 'Approve' : 'Deny';
-    final ok = await _confirm('$label this access request?');
+    final label = status == 'approved'
+        ? context.tr(en: 'Approve', ar: 'موافقة')
+        : context.tr(en: 'Deny', ar: 'رفض');
+    final ok = await _confirm(context.tr(
+      en: '$label this access request?',
+      ar: 'هل ترغب في $label طلب تصريح الدخول هذا؟',
+    ));
     if (!ok || !mounted) return;
     final done = await context.read<AfterHoursCubit>().respond(id, status);
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(done ? 'Request ${status == 'approved' ? 'approved' : 'denied'}.' : 'Action failed.')),
+      SnackBar(content: Text(done
+          ? (status == 'approved'
+              ? context.tr(en: 'Request approved.', ar: 'تمت الموافقة على الطلب.')
+              : context.tr(en: 'Request denied.', ar: 'تم رفض الطلب.'))
+          : context.tr(en: 'Action failed.', ar: 'فشلت العملية.'))),
     );
   }
 
@@ -114,8 +122,8 @@ class _PrincipalAfterHoursAccessViewState extends State<_PrincipalAfterHoursAcce
       builder: (ctx) => AlertDialog(
         content: Text(message),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Cancel')),
-          TextButton(onPressed: () => Navigator.pop(ctx, true), child: const Text('OK')),
+          TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text(context.tr(en: 'Cancel', ar: 'إلغاء'))),
+          TextButton(onPressed: () => Navigator.pop(ctx, true), child: Text(context.tr(en: 'OK', ar: 'موافق'))),
         ],
       ),
     );
@@ -126,17 +134,19 @@ class _PrincipalAfterHoursAccessViewState extends State<_PrincipalAfterHoursAcce
   Widget build(BuildContext context) {
     return SchooKeepScaffold(
       scrollable: true,
-      title: 'After-Hours Access',
+      title: context.tr(en: 'After-Hours Access', ar: 'تصريح الدخول الطارئ خارج أوقات العمل'),
       onBack: () => context.safeBack(),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _infoBox(),
+            _infoBox(context),
             const SizedBox(height: 16),
-            const Text('Access Requests',
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
+            Text(
+              context.tr(en: 'Access Requests', ar: 'طلبات تصريح الدخول'),
+              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary),
+            ),
             const SizedBox(height: 12),
             BlocBuilder<AfterHoursCubit, DataState<List<AfterHoursRequest>>>(
               builder: (context, state) {
@@ -145,20 +155,20 @@ class _PrincipalAfterHoursAccessViewState extends State<_PrincipalAfterHoursAcce
                       padding: EdgeInsets.all(32),
                       child: Center(child: CircularProgressIndicator()),
                     ),
-                  DataError(:final message) => _errorBanner(message),
-                  DataLoaded(:final data) => _requestList(data),
+                  DataError(:final message) => _errorBanner(context, message),
+                  DataLoaded(:final data) => _requestList(context, data),
                 };
               },
             ),
             const SizedBox(height: 16),
-            _createForm(),
+            _createForm(context),
           ],
         ),
       ),
     );
   }
 
-  Widget _infoBox() {
+  Widget _infoBox(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -166,15 +176,18 @@ class _PrincipalAfterHoursAccessViewState extends State<_PrincipalAfterHoursAcce
         borderRadius: BorderRadius.circular(8),
         border: Border.all(color: const Color(0xFFBFDBFE)),
       ),
-      child: const Row(
+      child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(LucideIcons.info, size: 16, color: SchooKeepColors.primary),
-          SizedBox(width: 8),
+          const Icon(LucideIcons.info, size: 16, color: SchooKeepColors.primary),
+          const SizedBox(width: 8),
           Expanded(
             child: Text(
-              'By default, staff access is blocked outside school hours (7:30 AM – 5:00 PM Mon–Fri). Review requests below or file a new one.',
-              style: TextStyle(fontSize: 12, color: Color(0xFF1E40AF), height: 1.5),
+              context.tr(
+                en: 'By default, staff access is blocked outside school hours (7:30 AM – 5:00 PM Mon–Fri). Review requests below or file a new one.',
+                ar: 'افتراضياً، يتم حظر دخول الموظفين للنظام خارج أوقات الدوام المدرسي الرسمي (7:30 ص – 5:00 م). يمكنك مراجعة الطلبات أو تقديم طلب جديد.',
+              ),
+              style: const TextStyle(fontSize: 12, color: Color(0xFF1E40AF), height: 1.5),
             ),
           ),
         ],
@@ -182,7 +195,7 @@ class _PrincipalAfterHoursAccessViewState extends State<_PrincipalAfterHoursAcce
     );
   }
 
-  Widget _errorBanner(String error) {
+  Widget _errorBanner(BuildContext context, String error) {
     return Column(
       children: [
         Container(
@@ -205,12 +218,16 @@ class _PrincipalAfterHoursAccessViewState extends State<_PrincipalAfterHoursAcce
           ),
         ),
         const SizedBox(height: 12),
-        SchooKeepButton(label: 'Retry', fullWidth: false, onPressed: _reload),
+        SchooKeepButton(
+          label: context.tr(en: 'Retry', ar: 'إعادة المحاولة'),
+          fullWidth: false,
+          onPressed: _reload,
+        ),
       ],
     );
   }
 
-  Widget _requestList(List<AfterHoursRequest> requests) {
+  Widget _requestList(BuildContext context, List<AfterHoursRequest> requests) {
     if (requests.isEmpty) {
       return Container(
         width: double.infinity,
@@ -220,23 +237,25 @@ class _PrincipalAfterHoursAccessViewState extends State<_PrincipalAfterHoursAcce
           borderRadius: BorderRadius.circular(12),
           border: Border.all(color: SchooKeepColors.border),
         ),
-        child: const Center(
-          child: Text('No access requests yet.',
-              style: TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary)),
+        child: Center(
+          child: Text(
+            context.tr(en: 'No access requests yet.', ar: 'لا توجد طلبات تصريح دخول بعد.'),
+            style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary),
+          ),
         ),
       );
     }
     return Column(
       children: [
         for (final r in requests) ...[
-          _requestCard(r),
+          _requestCard(context, r),
           const SizedBox(height: 12),
         ],
       ],
     );
   }
 
-  Widget _requestCard(AfterHoursRequest r) {
+  Widget _requestCard(BuildContext context, AfterHoursRequest r) {
     final status = (r.status ?? 'pending').toLowerCase();
     final (bg, fg) = _statusStyle(status);
     final isPending = status == 'pending';
@@ -248,12 +267,12 @@ class _PrincipalAfterHoursAccessViewState extends State<_PrincipalAfterHoursAcce
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
-                child: Text(r.requesterName ?? 'Staff member',
+                child: Text(r.requesterName ?? context.tr(en: 'Staff member', ar: 'موظف مدرسي'),
                     style: const TextStyle(
                         fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
               ),
               const SizedBox(width: 8),
-              SchooKeepBadge(label: _statusLabel(status), background: bg, foreground: fg, fontSize: 11),
+              SchooKeepBadge(label: _statusLabel(context, status), background: bg, foreground: fg, fontSize: 11),
             ],
           ),
           if ((r.reason ?? '').isNotEmpty) ...[
@@ -275,19 +294,21 @@ class _PrincipalAfterHoursAccessViewState extends State<_PrincipalAfterHoursAcce
           ],
           if (r.createdAt != null) ...[
             const SizedBox(height: 4),
-            Text('Requested ${_fmt(r.createdAt)}',
-                style: const TextStyle(fontSize: 11, color: Color(0xFF94A3B8))),
+            Text(
+              context.tr(en: 'Requested ${_fmt(r.createdAt)}', ar: 'مقدم بتاريخ ${_fmt(r.createdAt)}'),
+              style: const TextStyle(fontSize: 11, color: Color(0xFF94A3B8)),
+            ),
           ],
           if (isPending) ...[
             const SizedBox(height: 12),
             Row(
               children: [
                 Expanded(
-                  child: _actionButton('Approve', SchooKeepColors.accent, () => _respond(r.id, 'approved')),
+                  child: _actionButton(context.tr(en: 'Approve', ar: 'موافقة'), SchooKeepColors.accent, () => _respond(r.id, 'approved')),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
-                  child: _actionButton('Deny', SchooKeepColors.error, () => _respond(r.id, 'denied')),
+                  child: _actionButton(context.tr(en: 'Deny', ar: 'رفض'), SchooKeepColors.error, () => _respond(r.id, 'denied')),
                 ),
               ],
             ),
@@ -311,23 +332,25 @@ class _PrincipalAfterHoursAccessViewState extends State<_PrincipalAfterHoursAcce
     );
   }
 
-  Widget _createForm() {
+  Widget _createForm(BuildContext context) {
     final enabled = _reason.text.trim().isNotEmpty && !_submitting;
     return SchooKeepCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('New Request',
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
+          Text(
+            context.tr(en: 'New Request', ar: 'طلب تصريح جديد'),
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary),
+          ),
           const SizedBox(height: 12),
-          _label('Reason (required)'),
+          _label(context.tr(en: 'Reason (required)', ar: 'السبب (مطلوب)')),
           TextField(
             controller: _reason,
             maxLines: 3,
             onChanged: (_) => setState(() {}),
             style: const TextStyle(fontSize: 14, color: SchooKeepColors.textPrimary),
             decoration: InputDecoration(
-              hintText: 'Why is after-hours access needed?',
+              hintText: context.tr(en: 'Why is after-hours access needed?', ar: 'ما هو سبب الحاجة للدخول خارج أوقات العمل؟'),
               hintStyle: const TextStyle(fontSize: 14, color: Color(0xFF94A3B8)),
               contentPadding: const EdgeInsets.all(12),
               filled: true,
@@ -343,12 +366,12 @@ class _PrincipalAfterHoursAccessViewState extends State<_PrincipalAfterHoursAcce
             ),
           ),
           const SizedBox(height: 12),
-          _label('Access window (optional)'),
+          _label(context.tr(en: 'Access window (optional)', ar: 'فترة تصريح الدخول (اختياري)')),
           Row(
             children: [
-              Expanded(child: _windowField('Start', _windowStart, () => _pickWindow(start: true))),
+              Expanded(child: _windowField(context.tr(en: 'Start', ar: 'البداية'), _windowStart, () => _pickWindow(start: true))),
               const SizedBox(width: 8),
-              Expanded(child: _windowField('End', _windowEnd, () => _pickWindow(start: false))),
+              Expanded(child: _windowField(context.tr(en: 'End', ar: 'النهاية'), _windowEnd, () => _pickWindow(start: false))),
             ],
           ),
           const SizedBox(height: 16),
@@ -368,11 +391,14 @@ class _PrincipalAfterHoursAccessViewState extends State<_PrincipalAfterHoursAcce
                       height: 20,
                       child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
                     )
-                  : Text('Submit Request',
+                  : Text(
+                      context.tr(en: 'Submit Request', ar: 'إرسال طلب التصريح'),
                       style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w500,
-                          color: enabled ? Colors.white : const Color(0xFF94A3B8))),
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                        color: enabled ? Colors.white : const Color(0xFF94A3B8),
+                      ),
+                    ),
             ),
           ),
         ],
@@ -428,9 +454,16 @@ class _PrincipalAfterHoursAccessViewState extends State<_PrincipalAfterHoursAcce
     }
   }
 
-  static String _statusLabel(String status) {
-    if (status.isEmpty) return 'Pending';
-    return '${status[0].toUpperCase()}${status.substring(1)}';
+  static String _statusLabel(BuildContext context, String status) {
+    switch (status.toLowerCase()) {
+      case 'approved':
+        return context.tr(en: 'Approved', ar: 'مقبول');
+      case 'denied':
+        return context.tr(en: 'Denied', ar: 'مرفوض');
+      case 'pending':
+      default:
+        return context.tr(en: 'Pending', ar: 'قيد الانتظار');
+    }
   }
 
   static String _fmt(DateTime? dt) {

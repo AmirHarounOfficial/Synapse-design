@@ -106,7 +106,7 @@ class _VicePrincipalSettingsScreenState extends State<VicePrincipalSettingsScree
                     SizedBox(height: 2),
                     Text('Vice Principal', style: TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary)),
                     SizedBox(height: 8),
-                    Text('v.davis@synapse.ae', style: TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary)),
+                    Text('v.davis@schookeep.ae', style: TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary)),
                   ],
                 ),
               ),

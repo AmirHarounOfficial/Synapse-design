@@ -250,7 +250,7 @@ export function PrincipalLegalDocuments() {
                 Platform Data Processing Agreement (DPA)
               </div>
               <div className="text-[11px] text-[#64748B] leading-relaxed">
-                Defines how student data is processed, stored, and protected by the Synapse platform in accordance with the UAE PDPL.
+                Defines how student data is processed, stored, and protected by the SchooKeep platform in accordance with the UAE PDPL.
               </div>
             </div>
             <div>
@@ -258,7 +258,7 @@ export function PrincipalLegalDocuments() {
                 UAE PDPL Controller-Processor Declaration
               </div>
               <div className="text-[11px] text-[#64748B] leading-relaxed">
-                Delineates the responsibilities of the school (Controller) and Synapse (Processor) under the Federal Decree-Law No. 45 of 2021.
+                Delineates the responsibilities of the school (Controller) and SchooKeep (Processor) under the Federal Decree-Law No. 45 of 2021.
               </div>
             </div>
             <div>

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 import '../../../core/di/service_locator.dart';
+import '../../../core/localization/l10n_ext.dart';
 import '../../../core/network/data_state.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
@@ -12,9 +13,6 @@ import '../../../data/repositories/system_repository.dart';
 import '../cubit/audit_log_cubit.dart';
 import 'package:schookeep/core/router/safe_back.dart';
 
-/// Ported from `PrincipalAuditLog.tsx`, wired to `GET /audit-logs`. Tamper-proof
-/// activity log with a category filter (applied client-side over the action
-/// string), an immutability notice, and color-coded, lock-marked entries.
 class PrincipalAuditLogScreen extends StatelessWidget {
   const PrincipalAuditLogScreen({super.key});
 
@@ -37,15 +35,6 @@ class _PrincipalAuditLogView extends StatefulWidget {
 class _PrincipalAuditLogViewState extends State<_PrincipalAuditLogView> {
   String _activeFilter = 'all';
 
-  static const _filters = <(String, String)>[
-    ('all', 'All actions'),
-    ('clinical', 'Clinical'),
-    ('admin', 'Admin'),
-    ('security', 'Security'),
-    ('login', 'Login'),
-  ];
-
-  /// Buckets a raw action string into one of the design categories.
   static String _categoryOf(AuditLog e) {
     final a = e.action.toLowerCase();
     if (a.contains('login') || a.contains('logout') || a.contains('auth')) return 'login';
@@ -69,14 +58,11 @@ class _PrincipalAuditLogViewState extends State<_PrincipalAuditLogView> {
         _ => const Color(0xFF2563EB),
       };
 
-  /// Builds a CSV of the currently-filtered entries and copies it to the
-  /// clipboard (the React export only stubbed a browser download — there is no
-  /// file-system download in-app, so we surface it via clipboard + snackbar).
   Future<void> _exportCsv() async {
     final state = context.read<AuditLogCubit>().state;
     if (state is! DataLoaded<List<AuditLog>>) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Log is still loading — try again in a moment.')),
+        SnackBar(content: Text(context.tr(en: 'Log is still loading — try again in a moment.', ar: 'جاري تحميل السجل — يرجى المحاولة بعد لحظات.'))),
       );
       return;
     }
@@ -88,16 +74,18 @@ class _PrincipalAuditLogViewState extends State<_PrincipalAuditLogView> {
       final subject = e.entityType != null
           ? '${e.entityType}${e.entityId != null ? ' #${e.entityId}' : ''}'
           : (e.userId != null ? 'User #${e.userId}' : '');
-      buffer.writeln('${_csv(e.action)},${_categoryOf(e)},${_csv(subject)},${_csv(_timestamp(e))}');
+      buffer.writeln('${_csv(e.action)},${_categoryOf(e)},${_csv(subject)},${_csv(_timestamp(context, e))}');
     }
     await Clipboard.setData(ClipboardData(text: buffer.toString()));
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('${entries.length} log ${entries.length == 1 ? 'entry' : 'entries'} copied to clipboard as CSV')),
+      SnackBar(content: Text(context.tr(
+        en: '${entries.length} log entry/entries copied to clipboard as CSV',
+        ar: 'تم نسخ ${entries.length} عنصر من السجل للحافظة كملف CSV',
+      ))),
     );
   }
 
-  /// Wraps a CSV cell in quotes if it contains a comma/quote/newline.
   static String _csv(String value) {
     if (value.contains(',') || value.contains('"') || value.contains('\n')) {
       return '"${value.replaceAll('"', '""')}"';
@@ -107,6 +95,14 @@ class _PrincipalAuditLogViewState extends State<_PrincipalAuditLogView> {
 
   @override
   Widget build(BuildContext context) {
+    final filters = <(String, String)>[
+      ('all', context.tr(en: 'All actions', ar: 'جميع الإجراءات')),
+      ('clinical', context.tr(en: 'Clinical', ar: 'سريري وطبي')),
+      ('admin', context.tr(en: 'Admin', ar: 'إداري')),
+      ('security', context.tr(en: 'Security', ar: 'أمان وتصريح')),
+      ('login', context.tr(en: 'Login', ar: 'تسجيل دخول')),
+    ];
+
     return SchooKeepScaffold(
       reserveBottomNav: true,
       scrollable: false,
@@ -115,17 +111,21 @@ class _PrincipalAuditLogViewState extends State<_PrincipalAuditLogView> {
         titleWidget: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text('Audit Log',
-                style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
+            Text(
+              context.tr(en: 'Audit Log', ar: 'سجل التدقيق والنشاطات'),
+              style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+            ),
             GestureDetector(
               onTap: _exportCsv,
-              child: const Row(
+              child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(LucideIcons.download, size: 16, color: SchooKeepColors.primary),
-                  SizedBox(width: 8),
-                  Text('Export CSV',
-                      style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.primary)),
+                  const Icon(LucideIcons.download, size: 16, color: SchooKeepColors.primary),
+                  const SizedBox(width: 8),
+                  Text(
+                    context.tr(en: 'Export CSV', ar: 'تصدير CSV'),
+                    style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.primary),
+                  ),
                 ],
               ),
             ),
@@ -142,7 +142,7 @@ class _PrincipalAuditLogViewState extends State<_PrincipalAuditLogView> {
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: [
-                  for (final f in _filters) ...[
+                  for (final f in filters) ...[
                     _filterChip(f.$1, f.$2),
                     const SizedBox(width: 8),
                   ],
@@ -155,8 +155,8 @@ class _PrincipalAuditLogViewState extends State<_PrincipalAuditLogView> {
               builder: (context, state) {
                 return switch (state) {
                   DataLoading() => const Center(child: CircularProgressIndicator()),
-                  DataError(:final message) => _errorView(message),
-                  DataLoaded(:final data) => _list(data),
+                  DataError(:final message) => _errorView(context, message),
+                  DataLoaded(:final data) => _list(context, data),
                 };
               },
             ),
@@ -166,7 +166,7 @@ class _PrincipalAuditLogViewState extends State<_PrincipalAuditLogView> {
     );
   }
 
-  Widget _errorView(String message) {
+  Widget _errorView(BuildContext context, String message) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(24),
@@ -178,7 +178,7 @@ class _PrincipalAuditLogViewState extends State<_PrincipalAuditLogView> {
             Text(message, textAlign: TextAlign.center, style: const TextStyle(color: SchooKeepColors.textSecondary)),
             const SizedBox(height: 16),
             SchooKeepButton(
-              label: 'Retry',
+              label: context.tr(en: 'Retry', ar: 'إعادة المحاولة'),
               fullWidth: false,
               onPressed: () => context.read<AuditLogCubit>().load(),
             ),
@@ -188,7 +188,7 @@ class _PrincipalAuditLogViewState extends State<_PrincipalAuditLogView> {
     );
   }
 
-  Widget _list(List<AuditLog> all) {
+  Widget _list(BuildContext context, List<AuditLog> all) {
     final entries =
         _activeFilter == 'all' ? all : all.where((e) => _categoryOf(e) == _activeFilter).toList();
     return SingleChildScrollView(
@@ -196,13 +196,16 @@ class _PrincipalAuditLogViewState extends State<_PrincipalAuditLogView> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _immutabilityNotice(),
+          _immutabilityNotice(context),
           const SizedBox(height: 16),
           if (entries.isEmpty)
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 24),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 24),
               child: Center(
-                child: Text('No log entries', style: TextStyle(color: SchooKeepColors.textSecondary)),
+                child: Text(
+                  context.tr(en: 'No log entries', ar: 'لا توجد سجلات بعد'),
+                  style: const TextStyle(color: SchooKeepColors.textSecondary),
+                ),
               ),
             )
           else
@@ -216,7 +219,7 @@ class _PrincipalAuditLogViewState extends State<_PrincipalAuditLogView> {
                 children: [
                   for (int i = 0; i < entries.length; i++) ...[
                     if (i > 0) const Divider(height: 1, thickness: 1, color: Color(0xFFF1F5F9)),
-                    _entryTile(entries[i]),
+                    _entryTile(context, entries[i]),
                   ],
                 ],
               ),
@@ -236,16 +239,19 @@ class _PrincipalAuditLogViewState extends State<_PrincipalAuditLogView> {
           color: active ? SchooKeepColors.primary : const Color(0xFFF1F5F9),
           borderRadius: BorderRadius.circular(999),
         ),
-        child: Text(label,
-            style: TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w500,
-                color: active ? Colors.white : SchooKeepColors.textSecondary)),
+        child: Text(
+          label,
+          style: TextStyle(
+            fontSize: 13,
+            fontWeight: FontWeight.w500,
+            color: active ? Colors.white : SchooKeepColors.textSecondary,
+          ),
+        ),
       ),
     );
   }
 
-  Widget _immutabilityNotice() {
+  Widget _immutabilityNotice(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -253,15 +259,18 @@ class _PrincipalAuditLogViewState extends State<_PrincipalAuditLogView> {
         borderRadius: BorderRadius.circular(8),
         border: Border.all(color: const Color(0xFFFDE68A)),
       ),
-      child: const Row(
+      child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(LucideIcons.info, size: 16, color: SchooKeepColors.warning),
-          SizedBox(width: 8),
+          const Icon(LucideIcons.info, size: 16, color: SchooKeepColors.warning),
+          const SizedBox(width: 8),
           Expanded(
             child: Text(
-              '⚠ This log is tamper-proof. No entry can be deleted or modified by any user, including administrators.',
-              style: TextStyle(fontSize: 11, color: Color(0xFF92400E), height: 1.5),
+              context.tr(
+                en: '⚠ This log is tamper-proof. No entry can be deleted or modified by any user, including administrators.',
+                ar: '⚠ هذا السجل غير قابل للتعديل أو الحذف إطلاقاً من قبل أي موظف أو مسؤول طبقاً للأنظمة الأدمينة.',
+              ),
+              style: const TextStyle(fontSize: 11, color: Color(0xFF92400E), height: 1.5),
             ),
           ),
         ],
@@ -269,7 +278,7 @@ class _PrincipalAuditLogViewState extends State<_PrincipalAuditLogView> {
     );
   }
 
-  static String _timestamp(AuditLog e) {
+  static String _timestamp(BuildContext context, AuditLog e) {
     final d = e.createdAt?.toLocal();
     if (d == null) return '';
     final now = DateTime.now();
@@ -280,11 +289,13 @@ class _PrincipalAuditLogViewState extends State<_PrincipalAuditLogView> {
     final time = '$h:$m:$s $ampm';
     if (d.year == now.year && d.month == now.month && d.day == now.day) return time;
     final y = now.subtract(const Duration(days: 1));
-    if (d.year == y.year && d.month == y.month && d.day == y.day) return 'Yesterday $h:$m $ampm';
+    if (d.year == y.year && d.month == y.month && d.day == y.day) {
+      return context.tr(en: 'Yesterday $h:$m $ampm', ar: 'الأمس $h:$m $ampm');
+    }
     return '${d.month}/${d.day}/${d.year} $time';
   }
 
-  Widget _entryTile(AuditLog e) {
+  Widget _entryTile(BuildContext context, AuditLog e) {
     final category = _categoryOf(e);
     final color = _colorOf(category);
     final subject = e.entityType != null
@@ -312,7 +323,7 @@ class _PrincipalAuditLogViewState extends State<_PrincipalAuditLogView> {
                   Text(subject, style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary)),
                 ],
                 const SizedBox(height: 2),
-                Text(_timestamp(e), style: const TextStyle(fontSize: 11, color: SchooKeepColors.textSecondary)),
+                Text(_timestamp(context, e), style: const TextStyle(fontSize: 11, color: SchooKeepColors.textSecondary)),
               ],
             ),
           ),

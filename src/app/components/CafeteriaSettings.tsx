@@ -339,7 +339,7 @@ export function CafeteriaSettings() {
                 </div>
               </div>
               <div className="text-[12px] text-[#64748B] font-mono">
-                Synapse v1.0.0
+                SchooKeep v1.0.0
               </div>
             </div>
 
@@ -533,8 +533,8 @@ export function CafeteriaSettings() {
                 </p>
                 <p>
                   {isRTL
-                    ? 'بصفتي موظفاً في كافتيريا المدرسة، أقر بأنني قد أطلع على معلومات مسببات الحساسية والقيود الغذائية للطلاب من خلال نظام Synapse.'
-                    : 'As a cafeteria staff member, I understand that I may have access to student allergen and dietary restriction information through the Synapse system.'}
+                    ? 'بصفتي موظفاً في كافتيريا المدرسة، أقر بأنني قد أطلع على معلومات مسببات الحساسية والقيود الغذائية للطلاب من خلال نظام SchooKeep.'
+                    : 'As a cafeteria staff member, I understand that I may have access to student allergen and dietary restriction information through the SchooKeep system.'}
                 </p>
                 <p>
                   {isRTL ? 'أوافق على ما يلي:' : 'I agree to:'}
@@ -641,7 +641,7 @@ export function CafeteriaSettings() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60">
           <div className="bg-white rounded-2xl p-6 max-w-sm w-full text-left space-y-4">
             <h3 className="text-[17px] font-bold text-gray-900">
-              {isRTL ? 'تسجيل الخروج · Sign out?' : 'Sign out of Synapse?'}
+              {isRTL ? 'تسجيل الخروج · Sign out?' : 'Sign out of SchooKeep?'}
             </h3>
             <p className="text-[14px] text-[#64748B] leading-relaxed">
               {isRTL 

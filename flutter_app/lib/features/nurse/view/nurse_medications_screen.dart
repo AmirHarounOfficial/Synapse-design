@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 import '../../../core/di/service_locator.dart';
+import '../../../core/localization/l10n_ext.dart';
 import '../../../core/network/data_state.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
@@ -11,11 +12,6 @@ import '../../../data/models/medication.dart';
 import '../../../data/repositories/medication_repository.dart';
 import '../cubit/medication_list_cubit.dart';
 
-/// Ported from `NurseMedications.tsx`, now wired to the API (`GET /medications`).
-/// Tab-root medications list with a search field, status filter chips, a "view
-/// today's schedule" link, loading/error(retry)/empty states and a floating add
-/// button. The search field filters the loaded page client-side; the status
-/// chips reload from the backend with a `status=` query.
 class NurseMedicationsScreen extends StatelessWidget {
   const NurseMedicationsScreen({super.key});
 
@@ -40,15 +36,6 @@ class _NurseMedicationsViewState extends State<_NurseMedicationsView> {
   final TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
 
-  // Maps the UI filter chips to a backend `status` value (or null for client
-  // side / no filter). The API status field is freeform; these map to it.
-  static const List<({String id, String label, String? status})> _filters = [
-    (id: 'all', label: 'All', status: null),
-    (id: 'pending', label: 'Pending', status: 'pending'),
-    (id: 'approved', label: 'Approved', status: 'approved'),
-    (id: 'declined', label: 'Declined', status: 'declined'),
-  ];
-
   @override
   void dispose() {
     _searchController.dispose();
@@ -60,9 +47,14 @@ class _NurseMedicationsViewState extends State<_NurseMedicationsView> {
     context.read<MedicationListCubit>().load(status: f.status);
   }
 
-  /// Filter icon in the app bar — opens a bottom sheet mirroring the status
-  /// chips, plus a quick clear-search action, for a more discoverable filter UI.
   void _openFilterSheet() {
+    final filters = [
+      (id: 'all', label: context.tr(en: 'All', ar: 'الكل'), status: null),
+      (id: 'pending', label: context.tr(en: 'Pending', ar: 'قيد المراجعة'), status: 'pending'),
+      (id: 'approved', label: context.tr(en: 'Approved', ar: 'معتمدة'), status: 'approved'),
+      (id: 'declined', label: context.tr(en: 'Declined', ar: 'مرفوضة'), status: 'declined'),
+    ];
+
     showModalBottomSheet<void>(
       context: context,
       backgroundColor: SchooKeepColors.surface,
@@ -75,12 +67,14 @@ class _NurseMedicationsViewState extends State<_NurseMedicationsView> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Padding(
-                padding: EdgeInsets.fromLTRB(24, 20, 24, 12),
-                child: Text('Filter by status',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(24, 20, 24, 12),
+                child: Text(
+                  context.tr(en: 'Filter by status', ar: 'تصفية حسب حالة الاعتماد'),
+                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary),
+                ),
               ),
-              for (final f in _filters)
+              for (final f in filters)
                 ListTile(
                   leading: Icon(
                     _activeFilter == f.id ? LucideIcons.checkCircle : LucideIcons.circle,
@@ -97,8 +91,10 @@ class _NurseMedicationsViewState extends State<_NurseMedicationsView> {
               if (_searchQuery.isNotEmpty)
                 ListTile(
                   leading: const Icon(LucideIcons.x, size: 20, color: SchooKeepColors.textSecondary),
-                  title: const Text('Clear search',
-                      style: TextStyle(fontSize: 15, color: SchooKeepColors.textPrimary)),
+                  title: Text(
+                    context.tr(en: 'Clear search', ar: 'مسح نتائج البحث'),
+                    style: const TextStyle(fontSize: 15, color: SchooKeepColors.textPrimary),
+                  ),
                   onTap: () {
                     Navigator.of(sheetContext).pop();
                     _searchController.clear();
@@ -141,9 +137,19 @@ class _NurseMedicationsViewState extends State<_NurseMedicationsView> {
     }
   }
 
-  String _statusLabel(String? status) {
-    if (status == null || status.isEmpty) return 'Unknown';
-    return status[0].toUpperCase() + status.substring(1);
+  String _statusLabel(BuildContext context, String? status) {
+    if (status == null || status.isEmpty) return context.tr(en: 'Unknown', ar: 'غير محدد');
+    switch (status) {
+      case 'approved':
+      case 'active':
+        return context.tr(en: 'Approved', ar: 'معتمد');
+      case 'declined':
+        return context.tr(en: 'Declined', ar: 'مرفوض');
+      case 'pending':
+        return context.tr(en: 'Pending', ar: 'معلق');
+      default:
+        return status[0].toUpperCase() + status.substring(1);
+    }
   }
 
   String _initials(String name) {
@@ -159,7 +165,7 @@ class _NurseMedicationsViewState extends State<_NurseMedicationsView> {
       reserveBottomNav: true,
       scrollable: false,
       appBar: SchooKeepAppBar(
-        title: 'Medications',
+        title: context.tr(en: 'Medications', ar: 'سجل الأدوية والوصفات الطبية'),
         centerTitle: true,
         actions: [
           _AppBarIconButton(
@@ -173,15 +179,15 @@ class _NurseMedicationsViewState extends State<_NurseMedicationsView> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _searchBar(),
-              _filterSection(),
+              _searchBar(context),
+              _filterSection(context),
               Expanded(
                 child: BlocBuilder<MedicationListCubit, DataState<List<Medication>>>(
                   builder: (context, state) {
                     return switch (state) {
                       DataLoading() => _loadingList(),
-                      DataError(:final message) => _errorView(message),
-                      DataLoaded(:final data) => _medicationList(data),
+                      DataError(:final message) => _errorView(context, message),
+                      DataLoaded(:final data) => _medicationList(context, data),
                     };
                   },
                 ),
@@ -198,7 +204,7 @@ class _NurseMedicationsViewState extends State<_NurseMedicationsView> {
     );
   }
 
-  Widget _searchBar() {
+  Widget _searchBar(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: const BoxDecoration(
@@ -214,7 +220,7 @@ class _NurseMedicationsViewState extends State<_NurseMedicationsView> {
           decoration: InputDecoration(
             isDense: true,
             prefixIcon: const Icon(LucideIcons.search, size: 20, color: SchooKeepColors.textSecondary),
-            hintText: 'Search student or medication…',
+            hintText: context.tr(en: 'Search student or medication…', ar: 'ابحث عن اسم الطالب أو الدواء...'),
             hintStyle: const TextStyle(fontSize: 14, color: SchooKeepColors.textSecondary),
             filled: true,
             fillColor: SchooKeepColors.background,
@@ -233,7 +239,14 @@ class _NurseMedicationsViewState extends State<_NurseMedicationsView> {
     );
   }
 
-  Widget _filterSection() {
+  Widget _filterSection(BuildContext context) {
+    final filters = [
+      (id: 'all', label: context.tr(en: 'All', ar: 'الكل'), status: null),
+      (id: 'pending', label: context.tr(en: 'Pending', ar: 'قيد المراجعة'), status: 'pending'),
+      (id: 'approved', label: context.tr(en: 'Approved', ar: 'معتمدة'), status: 'approved'),
+      (id: 'declined', label: context.tr(en: 'Declined', ar: 'مرفوضة'), status: 'declined'),
+    ];
+
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -248,31 +261,61 @@ class _NurseMedicationsViewState extends State<_NurseMedicationsView> {
             scrollDirection: Axis.horizontal,
             child: Row(
               children: [
-                for (final filter in _filters) ...[
+                for (final filter in filters) ...[
                   _filterChip(filter),
-                  if (filter.id != _filters.last.id) const SizedBox(width: 8),
+                  if (filter.id != filters.last.id) const SizedBox(width: 8),
                 ],
               ],
             ),
           ),
           const SizedBox(height: 12),
-          SizedBox(
-            width: double.infinity,
-            height: 44,
-            child: TextButton(
-              onPressed: () => context.go('/nurse/daily-doses'),
-              child: const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(LucideIcons.calendar, size: 16, color: SchooKeepColors.primary),
-                  SizedBox(width: 8),
-                  Text(
-                    "View Today's Dose Schedule",
-                    style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.primary),
+          Row(
+            children: [
+              Expanded(
+                child: SizedBox(
+                  height: 40,
+                  child: ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: SchooKeepColors.primary,
+                      foregroundColor: Colors.white,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                    ),
+                    onPressed: () => context.go('/nurse/medications/inventory'),
+                    icon: const Icon(LucideIcons.package, size: 16),
+                    label: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        context.tr(en: 'Pharmacy Inventory', ar: 'مخزون الصيدلية'),
+                        style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+                      ),
+                    ),
                   ),
-                ],
+                ),
               ),
-            ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: SizedBox(
+                  height: 40,
+                  child: OutlinedButton.icon(
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: SchooKeepColors.primary,
+                      side: const BorderSide(color: Color(0xFFBFDBFE)),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                    ),
+                    onPressed: () => context.go('/nurse/daily-doses'),
+                    icon: const Icon(LucideIcons.calendar, size: 16),
+                    label: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        context.tr(en: "Today's Doses", ar: 'جرعات اليوم'),
+                        style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -316,7 +359,7 @@ class _NurseMedicationsViewState extends State<_NurseMedicationsView> {
     );
   }
 
-  Widget _errorView(String message) {
+  Widget _errorView(BuildContext context, String message) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(24),
@@ -329,10 +372,10 @@ class _NurseMedicationsViewState extends State<_NurseMedicationsView> {
                 textAlign: TextAlign.center, style: const TextStyle(color: SchooKeepColors.textSecondary)),
             const SizedBox(height: 16),
             SchooKeepButton(
-              label: 'Retry',
+              label: context.tr(en: 'Retry', ar: 'إعادة المحاولة'),
               fullWidth: false,
               onPressed: () => context.read<MedicationListCubit>().load(
-                    status: _filters.firstWhere((f) => f.id == _activeFilter).status,
+                    status: _activeFilter == 'all' ? null : _activeFilter,
                   ),
             ),
           ],
@@ -341,7 +384,7 @@ class _NurseMedicationsViewState extends State<_NurseMedicationsView> {
     );
   }
 
-  Widget _medicationList(List<Medication> all) {
+  Widget _medicationList(BuildContext context, List<Medication> all) {
     final q = _searchQuery.trim().toLowerCase();
     final results = q.isEmpty
         ? all
@@ -351,18 +394,18 @@ class _NurseMedicationsViewState extends State<_NurseMedicationsView> {
             .toList();
 
     if (results.isEmpty) {
-      return _emptyState();
+      return _emptyState(context);
     }
 
     return ListView.separated(
       padding: const EdgeInsets.all(16),
       itemCount: results.length,
       separatorBuilder: (_, _) => const SizedBox(height: 12),
-      itemBuilder: (context, i) => _medicationCard(results[i]),
+      itemBuilder: (context, i) => _medicationCard(context, results[i]),
     );
   }
 
-  Widget _emptyState() {
+  Widget _emptyState(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 64),
@@ -375,19 +418,19 @@ class _NurseMedicationsViewState extends State<_NurseMedicationsView> {
               child: const Icon(LucideIcons.pill, size: 32, color: SchooKeepColors.primary),
             ),
             const SizedBox(height: 16),
-            const Text(
-              'No Medications Yet',
-              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+            Text(
+              context.tr(en: 'No Medications Yet', ar: 'لا توجد أدوية مسجلة بعد'),
+              style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
             ),
             const SizedBox(height: 8),
-            const Text(
-              'Add your first medication to get started tracking doses for students.',
+            Text(
+              context.tr(en: 'Add your first medication to get started tracking doses for students.', ar: 'أضف الدواء الأول لبدء تتبع وإدارة الجرعات للطلاب.'),
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 14, color: SchooKeepColors.textSecondary),
+              style: const TextStyle(fontSize: 14, color: SchooKeepColors.textSecondary),
             ),
             const SizedBox(height: 24),
             SchooKeepButton(
-              label: 'Add Medication',
+              label: context.tr(en: 'Add Medication', ar: 'إضافة دواء جديد'),
               icon: LucideIcons.plus,
               fullWidth: false,
               onPressed: () => context.go('/nurse/medications/add/step1'),
@@ -398,11 +441,9 @@ class _NurseMedicationsViewState extends State<_NurseMedicationsView> {
     );
   }
 
-  Widget _medicationCard(Medication med) {
+  Widget _medicationCard(BuildContext context, Medication med) {
     final (bg, fg) = _statusStyle(med.status);
     final icon = _statusIcon(med.status);
-    // The API exposes a student_id but not the student name on this list; show
-    // the medication name as the primary line and dosage as secondary.
     final title = med.name;
     final subtitle = med.dosage ?? '';
     return SchooKeepCard(
@@ -446,7 +487,7 @@ class _NurseMedicationsViewState extends State<_NurseMedicationsView> {
                       borderRadius: BorderRadius.circular(999),
                     ),
                     child: Text(
-                      '${med.supplyCount} doses left',
+                      context.tr(en: '${med.supplyCount} doses left', ar: 'متبقي ${med.supplyCount} جرعة'),
                       style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: SchooKeepColors.amberText),
                     ),
                   ),
@@ -454,7 +495,7 @@ class _NurseMedicationsViewState extends State<_NurseMedicationsView> {
                 if (med.doses.isNotEmpty && med.doses.first.scheduledTime != null) ...[
                   const SizedBox(height: 4),
                   Text(
-                    'Next dose: ${med.doses.first.scheduledTime}',
+                    context.tr(en: 'Next dose: ${med.doses.first.scheduledTime}', ar: 'الجرعة القادمة: ${med.doses.first.scheduledTime}'),
                     style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary),
                   ),
                 ],
@@ -470,7 +511,7 @@ class _NurseMedicationsViewState extends State<_NurseMedicationsView> {
               children: [
                 if (icon != null) ...[Icon(icon, size: 12, color: fg), const SizedBox(width: 4)],
                 Text(
-                  _statusLabel(med.status),
+                  _statusLabel(context, med.status),
                   style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: fg),
                 ),
               ],

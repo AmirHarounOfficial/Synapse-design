@@ -31,13 +31,20 @@ class MessageRepository {
     required String body,
     required String category,
     int? recipientId,
+    String? recipientType,
+    String? targetSector,
+    List<int>? recipientIds,
   }) async {
-    final res = await _api.dio.post('/messages', data: {
+    final payload = <String, dynamic>{
       'subject': subject,
       'body': body,
       'category': category,
       'recipient_id': ?recipientId,
-    });
+      'recipient_type': ?recipientType,
+      'target_sector': ?targetSector,
+      if (recipientIds != null && recipientIds.isNotEmpty) 'recipient_ids': recipientIds,
+    };
+    final res = await _api.dio.post('/messages', data: payload);
     return Message.fromJson((res.data as Map<String, dynamic>)['data'] as Map<String, dynamic>);
   }
 

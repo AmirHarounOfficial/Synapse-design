@@ -3,19 +3,12 @@ import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 import '../../../core/di/service_locator.dart';
+import '../../../core/localization/l10n_ext.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../../data/models/medication.dart';
 import '../../../data/repositories/medication_repository.dart';
 
-/// Ported from `LowSupplyAlert.tsx`, now wired to the API. Supply alert screen
-/// with an amber banner, alert card + supply progress bar, a notify-parent
-/// action, medication details, and reorder information. When reached with a
-/// [medicationId] query param, the supply count / medication details load from
-/// the API (`GET /medications/{id}`); otherwise demo values are shown.
-///
-/// Note: the medications cluster exposes no "notify parent" endpoint, so that
-/// action remains a local confirmation as in the source.
 class LowSupplyAlertScreen extends StatefulWidget {
   const LowSupplyAlertScreen({super.key, this.medicationId});
 
@@ -42,16 +35,13 @@ class _LowSupplyAlertScreenState extends State<LowSupplyAlertScreen> {
           .then((m) {
             if (mounted) setState(() => _medication = m);
           })
-          .catchError((_) {
-            // Fall back to demo values on failure.
-          });
+          .catchError((_) {});
     }
   }
 
   int get _dosesRemaining => _medication?.supplyCount ?? 10;
   int get _totalDoses {
     final threshold = _medication?.lowSupplyThreshold;
-    // Use 3x the low-supply threshold as a sensible "full" baseline when known.
     if (threshold != null && threshold > 0) return threshold * 3;
     return 30;
   }
@@ -62,22 +52,6 @@ class _LowSupplyAlertScreenState extends State<LowSupplyAlertScreen> {
   double get _supplyPercentage =>
       _totalDoses == 0 ? 0 : (_dosesRemaining / _totalDoses).clamp(0.0, 1.0);
 
-  static const List<String> _months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ];
-
-  /// Overflow menu in the app bar — relevant supply-alert actions.
   void _handleMenu() {
     final medId = widget.medicationId;
     showModalBottomSheet<void>(
@@ -95,8 +69,10 @@ class _LowSupplyAlertScreenState extends State<LowSupplyAlertScreen> {
               if (medId != null)
                 ListTile(
                   leading: const Icon(LucideIcons.pill, size: 20, color: SchooKeepColors.primary),
-                  title: const Text('View medication details',
-                      style: TextStyle(fontSize: 15, color: SchooKeepColors.textPrimary)),
+                  title: Text(
+                    context.tr(en: 'View medication details', ar: 'عرض تفاصيل الدواء'),
+                    style: const TextStyle(fontSize: 15, color: SchooKeepColors.textPrimary),
+                  ),
                   onTap: () {
                     Navigator.of(sheetContext).pop();
                     context.go('/nurse/medications/$medId');
@@ -104,8 +80,10 @@ class _LowSupplyAlertScreenState extends State<LowSupplyAlertScreen> {
                 ),
               ListTile(
                 leading: const Icon(LucideIcons.bell, size: 20, color: SchooKeepColors.primary),
-                title: const Text('Notify parent',
-                    style: TextStyle(fontSize: 15, color: SchooKeepColors.textPrimary)),
+                title: Text(
+                  context.tr(en: 'Notify parent', ar: 'إرسال تنبيه لولي الأمر'),
+                  style: const TextStyle(fontSize: 15, color: SchooKeepColors.textPrimary),
+                ),
                 enabled: !_parentNotified,
                 onTap: () {
                   Navigator.of(sheetContext).pop();
@@ -126,8 +104,7 @@ class _LowSupplyAlertScreenState extends State<LowSupplyAlertScreen> {
     final period = now.hour < 12 ? 'AM' : 'PM';
     final hh = hour12.toString().padLeft(2, '0');
     final mm = now.minute.toString().padLeft(2, '0');
-    final formatted =
-        '${_months[now.month - 1]} ${now.day}, ${now.year} at $hh:$mm $period';
+    final formatted = '${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')} $hh:$mm $period';
     setState(() {
       _notificationDate = formatted;
       _parentNotified = true;
@@ -161,19 +138,19 @@ class _LowSupplyAlertScreenState extends State<LowSupplyAlertScreen> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _amberBanner(),
+          _amberBanner(context),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _alertCard(),
+                _alertCard(context),
                 const SizedBox(height: 24),
-                _actionSection(),
+                _actionSection(context),
                 const SizedBox(height: 24),
-                _medicationDetails(),
+                _medicationDetails(context),
                 const SizedBox(height: 24),
-                _reorderInfo(),
+                _reorderInfo(context),
               ],
             ),
           ),
@@ -182,18 +159,18 @@ class _LowSupplyAlertScreenState extends State<LowSupplyAlertScreen> {
     );
   }
 
-  Widget _amberBanner() {
+  Widget _amberBanner(BuildContext context) {
     return Container(
       width: double.infinity,
       color: SchooKeepColors.warning,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      child: const Row(
+      child: Row(
         children: [
-          Icon(LucideIcons.alertTriangle, size: 24, color: Colors.white),
-          SizedBox(width: 12),
+          const Icon(LucideIcons.alertTriangle, size: 24, color: Colors.white),
+          const SizedBox(width: 12),
           Text(
-            'Supply Alert',
-            style: TextStyle(
+            context.tr(en: 'Supply Alert', ar: 'تنبيه انخفاض رصيد المخزون الدوائي'),
+            style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
               color: Colors.white,
@@ -204,7 +181,7 @@ class _LowSupplyAlertScreenState extends State<LowSupplyAlertScreen> {
     );
   }
 
-  Widget _alertCard() {
+  Widget _alertCard(BuildContext context) {
     return AccentCard(
       background: SchooKeepColors.amberBg,
       accentColor: SchooKeepColors.warning,
@@ -231,7 +208,7 @@ class _LowSupplyAlertScreenState extends State<LowSupplyAlertScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Low supply of $_medicationName',
+                      context.tr(en: 'Low supply of $_medicationName', ar: 'انخفاض مخزون دواء $_medicationName'),
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -239,11 +216,11 @@ class _LowSupplyAlertScreenState extends State<LowSupplyAlertScreen> {
                       ),
                     ),
                     const SizedBox(height: 8),
-                    _detailRow('Current count:', '$_dosesRemaining doses'),
+                    _detailRow(context.tr(en: 'Current count:', ar: 'الرصيد المتبقي:'), context.tr(en: '$_dosesRemaining doses', ar: '$_dosesRemaining جرعة')),
                     const SizedBox(height: 8),
-                    _detailRow('Expected depletion:', 'May 24, 2026'),
+                    _detailRow(context.tr(en: 'Expected depletion:', ar: 'تاريخ النفاد المتوقع:'), '2026-05-24'),
                     const SizedBox(height: 8),
-                    _detailRow('Expiry date:', 'June 15, 2026'),
+                    _detailRow(context.tr(en: 'Expiry date:', ar: 'تاريخ انتهاء الصلاحية:'), '2026-06-15'),
                   ],
                 ),
               ),
@@ -253,16 +230,16 @@ class _LowSupplyAlertScreenState extends State<LowSupplyAlertScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                'Supply Status',
-                style: TextStyle(
+              Text(
+                context.tr(en: 'Supply Status', ar: 'حالة المخزون'),
+                style: const TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
                   color: SchooKeepColors.amberText,
                 ),
               ),
               Text(
-                '$_dosesRemaining of $_totalDoses doses',
+                context.tr(en: '$_dosesRemaining of $_totalDoses doses', ar: '$_dosesRemaining من أصل $_totalDoses جرعة'),
                 style: const TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
@@ -311,14 +288,14 @@ class _LowSupplyAlertScreenState extends State<LowSupplyAlertScreen> {
     );
   }
 
-  Widget _actionSection() {
+  Widget _actionSection(BuildContext context) {
     return SchooKeepCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Actions',
-            style: TextStyle(
+          Text(
+            context.tr(en: 'Actions', ar: 'الإجراءات المطلوبة'),
+            style: const TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w600,
               color: SchooKeepColors.textPrimary,
@@ -327,15 +304,18 @@ class _LowSupplyAlertScreenState extends State<LowSupplyAlertScreen> {
           const SizedBox(height: 16),
           if (!_parentNotified) ...[
             SchooKeepButton(
-              label: 'Notify Parent',
+              label: context.tr(en: 'Notify Parent', ar: 'إرسال تنبيه لولي الأمر'),
               icon: LucideIcons.bell,
               onPressed: _handleNotifyParent,
             ),
             const SizedBox(height: 16),
-            const Text(
-              'Sends automatic supply alert to parent via SMS and app notification',
+            Text(
+              context.tr(
+                en: 'Sends automatic supply alert to parent via SMS and app notification',
+                ar: 'يرسل تنبيهاً أوتوماتيكياً لإعادة تزويد الدواء لولي الأمر عبر SMS والتطبيق',
+              ),
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 12,
                 color: SchooKeepColors.textSecondary,
               ),
@@ -365,9 +345,9 @@ class _LowSupplyAlertScreenState extends State<LowSupplyAlertScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            'Parent Notified',
-                            style: TextStyle(
+                          Text(
+                            context.tr(en: 'Parent Notified', ar: 'تم إشعار ولي الأمر ✓'),
+                            style: const TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
                               color: SchooKeepColors.greenChipText,
@@ -393,33 +373,33 @@ class _LowSupplyAlertScreenState extends State<LowSupplyAlertScreen> {
     );
   }
 
-  Widget _medicationDetails() {
+  Widget _medicationDetails(BuildContext context) {
     return SchooKeepCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Medication Details',
-            style: TextStyle(
+          Text(
+            context.tr(en: 'Medication Details', ar: 'بيانات الدواء والوصفة'),
+            style: const TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w600,
               color: SchooKeepColors.textPrimary,
             ),
           ),
           const SizedBox(height: 12),
-          _infoRow('Medication', _medicationName, divider: true),
+          _infoRow(context.tr(en: 'Medication', ar: 'اسم الدواء'), _medicationName, divider: true),
           _infoRow(
-            'Type',
-            _medication?.endDate == null ? 'Permanent' : 'Temporary',
+            context.tr(en: 'Type', ar: 'نوع الوصفة'),
+            _medication?.endDate == null ? context.tr(en: 'Permanent', ar: 'دائم') : context.tr(en: 'Temporary', ar: 'مؤقت'),
             divider: true,
           ),
           _infoRow(
-            'Daily Doses',
-            '${_medication?.doses.length ?? 1} dose(s)',
+            context.tr(en: 'Daily Doses', ar: 'عدد الجرعات اليومية'),
+            context.tr(en: '${_medication?.doses.length ?? 1} dose(s)', ar: '${_medication?.doses.length ?? 1} جرعة'),
             divider: true,
           ),
           _infoRow(
-            'Prescribing Physician',
+            context.tr(en: 'Prescribing Physician', ar: 'الطبيب المعالج والواصف'),
             _medication?.prescribedBy ?? 'Dr. Rodriguez',
             divider: false,
           ),
@@ -461,7 +441,7 @@ class _LowSupplyAlertScreenState extends State<LowSupplyAlertScreen> {
     );
   }
 
-  Widget _reorderInfo() {
+  Widget _reorderInfo(BuildContext context) {
     return SizedBox(
       width: double.infinity,
       child: AccentCard(
@@ -473,31 +453,36 @@ class _LowSupplyAlertScreenState extends State<LowSupplyAlertScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Reorder Information',
-              style: TextStyle(
+            Text(
+              context.tr(en: 'Reorder Information', ar: 'تعليمات إعادة تزويد الشحنة الدوائية'),
+              style: const TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
                 color: Color(0xFF1E40AF),
               ),
             ),
             const SizedBox(height: 8),
-            const Text(
-              'Parents must coordinate with prescribing physician for refill authorization. School policy '
-              'requires 7-day supply buffer.',
-              style: TextStyle(fontSize: 13, color: Color(0xFF1E40AF)),
+            Text(
+              context.tr(
+                en: 'Parents must coordinate with prescribing physician for refill authorization. School policy requires 7-day supply buffer.',
+                ar: 'على أولياء الأمور التنسيق مع الطبيب المعالج لتجديد الوصفة. تتطلب سياسة العيادة المدرسية الاحتفاظ بهامش أمان لمدة 7 أيام على الأقل.',
+              ),
+              style: const TextStyle(fontSize: 13, color: Color(0xFF1E40AF)),
             ),
             const SizedBox(height: 12),
             RichText(
-              text: const TextSpan(
-                style: TextStyle(fontSize: 12, color: Color(0xFF1E40AF)),
+              text: TextSpan(
+                style: const TextStyle(fontSize: 12, color: Color(0xFF1E40AF)),
                 children: [
                   TextSpan(
-                    text: 'Recommended action: ',
-                    style: TextStyle(fontWeight: FontWeight.w600),
+                    text: context.tr(en: 'Recommended action: ', ar: 'الإجراء التوصية: '),
+                    style: const TextStyle(fontWeight: FontWeight.w600),
                   ),
                   TextSpan(
-                    text: 'Notify parent at least 7 days before depletion',
+                    text: context.tr(
+                      en: 'Notify parent at least 7 days before depletion',
+                      ar: 'إشعار ولي الأمر قبل 7 أيام من تاريخ النفاد المتوقع',
+                    ),
                   ),
                 ],
               ),

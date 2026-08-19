@@ -12,12 +12,6 @@ import '../../../data/repositories/system_repository.dart';
 import '../cubit/weather_advisory_cubit.dart';
 import 'package:schookeep/core/router/safe_back.dart';
 
-/// Ported from `PrincipalWeatherAdvisory.tsx`, wired to `/weather-advisories`.
-/// Shows current AQI conditions and an issue/lift advisory flow with a
-/// recipient-selection form (incl. an inlined WhatsApp toggle row). "Issue"
-/// POSTs a new active advisory; "Lift" PATCHes it inactive. The current-active
-/// state is loaded from `GET /weather-advisories?active=1`. Recipient/channel
-/// toggles drive the message only — the API has no per-recipient routing field.
 class PrincipalWeatherAdvisoryScreen extends StatelessWidget {
   const PrincipalWeatherAdvisoryScreen({super.key});
 
@@ -42,33 +36,32 @@ class _PrincipalWeatherAdvisoryViewState extends State<_PrincipalWeatherAdvisory
   bool _busy = false;
   String _advisoryType = 'haboob';
   final Set<String> _affectedGroups = {'asthma'};
-  final _message = TextEditingController(
-      text:
-          'Due to an active Haboob (sandstorm) warning from UAE NCM, students with respiratory conditions must remain indoors. Outdoor recess suspended.');
+  late final TextEditingController _message;
   bool _sendToStaff = true;
   bool _sendToAffectedParents = true;
   bool _sendToAllParents = false;
   bool _sendWhatsApp = true;
 
-  // AQI is "unhealthy" → red palette.
   static const _aqiBg = Color(0xFFFEE2E2);
   static const _aqiText = Color(0xFFDC2626);
   static const _aqiBorder = Color(0xFFDC2626);
 
-  static const _advisoryTypes = <(String, String)>[
-    ('haboob', 'Haboob (Sandstorm) / عاصفة رملية'),
-    ('aqi-dust', 'AQI / Dust'),
-    ('heat', 'Extreme Heat'),
-    ('flooding', 'Flooding'),
-    ('other', 'Other'),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _message = TextEditingController();
+  }
 
-  static const _affectedGroupOptions = <(String, String)>[
-    ('asthma', 'Asthma students'),
-    ('all-students', 'All students'),
-    ('outdoor', 'Outdoor activities'),
-    ('bus', 'Bus routes'),
-  ];
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_message.text.isEmpty) {
+      _message.text = context.tr(
+        en: 'Due to an active Haboob (sandstorm) warning from UAE NCM, students with respiratory conditions must remain indoors. Outdoor recess suspended.',
+        ar: 'نظراً لتنبيه العواصف الرملية النشطة من المركز الوطني للأرصاد، يرجى إبقاء الطلاب المصابين بأمراض تنفسية داخل المبنى وتعليق الأنشطة الخارجية.',
+      );
+    }
+  }
 
   @override
   void dispose() {
@@ -77,7 +70,10 @@ class _PrincipalWeatherAdvisoryViewState extends State<_PrincipalWeatherAdvisory
   }
 
   Future<void> _handleIssueAdvisory() async {
-    final ok = await _confirm('Issue advisory and send alerts to all selected recipients?');
+    final ok = await _confirm(context.tr(
+      en: 'Issue advisory and send alerts to all selected recipients?',
+      ar: 'هل ترغب في إصدار التنبيه وإرسال الإشعارات إلى جميع الجهات المحددة؟',
+    ));
     if (!ok || !mounted || _busy) return;
     setState(() => _busy = true);
     final error = await context.read<WeatherAdvisoryCubit>().issue(
@@ -91,19 +87,28 @@ class _PrincipalWeatherAdvisoryViewState extends State<_PrincipalWeatherAdvisory
       if (error == null) _showForm = false;
     });
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(error ?? 'Advisory issued successfully. Alerts sent to staff and parents.'),
+      content: Text(error ?? context.tr(
+        en: 'Advisory issued successfully. Alerts sent to staff and parents.',
+        ar: 'تم إصدار التنبيه بنجاح وإرسال الإشعارات للكادر وأولياء الأمور.',
+      )),
     ));
   }
 
   Future<void> _handleLiftAdvisory() async {
-    final ok = await _confirm('Lift the current advisory? All recipients will be notified.');
+    final ok = await _confirm(context.tr(
+      en: 'Lift the current advisory? All recipients will be notified.',
+      ar: 'هل ترغب في إلغاء التنبيه الحالي؟ سيتم إشعار كافة الأطراف.',
+    ));
     if (!ok || !mounted || _busy) return;
     setState(() => _busy = true);
     final error = await context.read<WeatherAdvisoryCubit>().lift();
     if (!mounted) return;
     setState(() => _busy = false);
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(error ?? 'Advisory lifted. Notifications sent.'),
+      content: Text(error ?? context.tr(
+        en: 'Advisory lifted. Notifications sent.',
+        ar: 'تم إلغاء التنبيه وإرسال الإشعارات.',
+      )),
     ));
   }
 
@@ -113,8 +118,14 @@ class _PrincipalWeatherAdvisoryViewState extends State<_PrincipalWeatherAdvisory
       builder: (ctx) => AlertDialog(
         content: Text(message),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Cancel')),
-          TextButton(onPressed: () => Navigator.pop(ctx, true), child: const Text('OK')),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: Text(context.tr(en: 'Cancel', ar: 'إلغاء')),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            child: Text(context.tr(en: 'OK', ar: 'موافق')),
+          ),
         ],
       ),
     );
@@ -125,7 +136,7 @@ class _PrincipalWeatherAdvisoryViewState extends State<_PrincipalWeatherAdvisory
   Widget build(BuildContext context) {
     return SchooKeepScaffold(
       scrollable: true,
-      title: 'Weather Advisory',
+      title: context.tr(en: 'Weather Advisory', ar: 'تنبيهات الأحوال الجوية'),
       onBack: () => context.safeBack(),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -134,9 +145,9 @@ class _PrincipalWeatherAdvisoryViewState extends State<_PrincipalWeatherAdvisory
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _currentConditions(),
+                _currentConditions(context),
                 const SizedBox(height: 16),
-                ..._stateSection(state),
+                ..._stateSection(context, state),
               ],
             );
           },
@@ -145,33 +156,33 @@ class _PrincipalWeatherAdvisoryViewState extends State<_PrincipalWeatherAdvisory
     );
   }
 
-  List<Widget> _stateSection(DataState<WeatherAdvisory?> state) {
+  List<Widget> _stateSection(BuildContext context, DataState<WeatherAdvisory?> state) {
     switch (state) {
       case DataLoading():
         return const [Center(child: Padding(padding: EdgeInsets.all(24), child: CircularProgressIndicator()))];
       case DataError(:final message):
-        return [_errorCard(message)];
+        return [_errorCard(context, message)];
       case DataLoaded(:final data):
         final active = data != null;
         return [
-          active ? _activeCard(data) : _noAdvisoryCard(),
+          active ? _activeCard(context, data) : _noAdvisoryCard(context),
           if (_showForm && !active) ...[
             const SizedBox(height: 16),
-            _advisoryTypeCard(),
+            _advisoryTypeCard(context),
             const SizedBox(height: 16),
-            _affectedGroupsCard(),
+            _affectedGroupsCard(context),
             const SizedBox(height: 16),
-            _messageCard(),
+            _messageCard(context),
             const SizedBox(height: 16),
-            _sendToCard(),
+            _sendToCard(context),
             const SizedBox(height: 16),
-            _issueButton(),
+            _issueButton(context),
           ],
         ];
     }
   }
 
-  Widget _errorCard(String message) {
+  Widget _errorCard(BuildContext context, String message) {
     return SchooKeepCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -179,7 +190,7 @@ class _PrincipalWeatherAdvisoryViewState extends State<_PrincipalWeatherAdvisory
           Text(message, style: const TextStyle(fontSize: 14, color: SchooKeepColors.textSecondary)),
           const SizedBox(height: 12),
           SchooKeepButton(
-            label: 'Retry',
+            label: context.tr(en: 'Retry', ar: 'إعادة المحاولة'),
             fullWidth: false,
             onPressed: () => context.read<WeatherAdvisoryCubit>().load(),
           ),
@@ -188,23 +199,25 @@ class _PrincipalWeatherAdvisoryViewState extends State<_PrincipalWeatherAdvisory
     );
   }
 
-  Widget _currentConditions() {
+  Widget _currentConditions(BuildContext context) {
     return SchooKeepCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Current Conditions',
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
+          Text(
+            context.tr(en: 'Current Conditions', ar: 'الأحوال الجوية الحالية'),
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary),
+          ),
           const SizedBox(height: 12),
           Row(
             children: [
-              const Expanded(
+              Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Temperature', style: TextStyle(fontSize: 11, color: SchooKeepColors.textSecondary)),
-                    SizedBox(height: 2),
-                    Text('42°C',
+                    Text(context.tr(en: 'Temperature', ar: 'درجة الحرارة'), style: const TextStyle(fontSize: 11, color: SchooKeepColors.textSecondary)),
+                    const SizedBox(height: 2),
+                    const Text('42°C',
                         style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
                   ],
                 ),
@@ -213,7 +226,7 @@ class _PrincipalWeatherAdvisoryViewState extends State<_PrincipalWeatherAdvisory
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('AQI Score', style: TextStyle(fontSize: 11, color: SchooKeepColors.textSecondary)),
+                    Text(context.tr(en: 'AQI Score', ar: 'مؤشر جودة الهواء'), style: const TextStyle(fontSize: 11, color: SchooKeepColors.textSecondary)),
                     const SizedBox(height: 2),
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -234,21 +247,28 @@ class _PrincipalWeatherAdvisoryViewState extends State<_PrincipalWeatherAdvisory
               borderRadius: BorderRadius.circular(8),
               border: Border.all(color: _aqiBorder),
             ),
-            child: const Text('Haboob / Active Sandstorm Advisory (Source: UAE NCM)',
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: _aqiText)),
+            child: Text(
+              context.tr(
+                en: 'Haboob / Active Sandstorm Advisory (Source: UAE NCM)',
+                ar: 'عاصفة رملية نشطة / تنبيه من المركز الوطني للأرصاد الإماراتي',
+              ),
+              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: _aqiText),
+            ),
           ),
           const SizedBox(height: 12),
           GestureDetector(
             onTap: () => ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Opening UAE NCM forecast…')),
+              SnackBar(content: Text(context.tr(en: 'Opening UAE NCM forecast…', ar: 'جاري فتح نشرة الأرصاد الجوية...'))),
             ),
-            child: const Row(
+            child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text('View full forecast',
-                    style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.primary)),
-                SizedBox(width: 8),
-                Icon(LucideIcons.externalLink, size: 16, color: SchooKeepColors.primary),
+                Text(
+                  context.tr(en: 'View full forecast', ar: 'عرض النشرة الجوية الكاملة'),
+                  style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.primary),
+                ),
+                const SizedBox(width: 8),
+                const Icon(LucideIcons.externalLink, size: 16, color: SchooKeepColors.primary),
               ],
             ),
           ),
@@ -257,17 +277,19 @@ class _PrincipalWeatherAdvisoryViewState extends State<_PrincipalWeatherAdvisory
     );
   }
 
-  Widget _noAdvisoryCard() {
+  Widget _noAdvisoryCard(BuildContext context) {
     return SchooKeepCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(
+          Row(
             children: [
-              Icon(LucideIcons.cloudOff, size: 20, color: SchooKeepColors.textSecondary),
-              SizedBox(width: 8),
-              Text('No active advisory',
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
+              const Icon(LucideIcons.cloudOff, size: 20, color: SchooKeepColors.textSecondary),
+              const SizedBox(width: 8),
+              Text(
+                context.tr(en: 'No active advisory', ar: 'لا يوجد تنبيه جوي نشط'),
+                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+              ),
             ],
           ),
           if (!_showForm) ...[
@@ -281,8 +303,10 @@ class _PrincipalWeatherAdvisoryViewState extends State<_PrincipalWeatherAdvisory
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                 ),
                 onPressed: () => setState(() => _showForm = true),
-                child: const Text('Issue Advisory',
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.white)),
+                child: Text(
+                  context.tr(en: 'Issue Advisory', ar: 'إصدار تنبيه جديد'),
+                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.white),
+                ),
               ),
             ),
           ],
@@ -291,7 +315,7 @@ class _PrincipalWeatherAdvisoryViewState extends State<_PrincipalWeatherAdvisory
     );
   }
 
-  Widget _activeCard(WeatherAdvisory advisory) {
+  Widget _activeCard(BuildContext context, WeatherAdvisory advisory) {
     final since = (advisory.startsAt ?? advisory.createdAt)?.toLocal();
     final sinceLabel = since != null
         ? '${since.hour == 0 ? 12 : (since.hour > 12 ? since.hour - 12 : since.hour)}:'
@@ -315,14 +339,19 @@ class _PrincipalWeatherAdvisoryViewState extends State<_PrincipalWeatherAdvisory
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(sinceLabel != null ? '⚠ Advisory Active since $sinceLabel' : '⚠ Advisory Active',
-                        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Color(0xFF92400E))),
+                    Text(
+                      sinceLabel != null
+                          ? context.tr(en: '⚠ Advisory Active since $sinceLabel', ar: '⚠ تنبيه جوي نشط منذ $sinceLabel')
+                          : context.tr(en: '⚠ Advisory Active', ar: '⚠ تنبيه جوي نشط حالياً'),
+                      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Color(0xFF92400E)),
+                    ),
                     const SizedBox(height: 4),
                     Text(
-                        advisory.message.isNotEmpty
-                            ? advisory.message
-                            : 'All staff and affected parents have been notified',
-                        style: const TextStyle(fontSize: 12, color: Color(0xFF92400E))),
+                      advisory.message.isNotEmpty
+                          ? advisory.message
+                          : context.tr(en: 'All staff and affected parents have been notified', ar: 'تم إشعار الكادر المدرسي وأولياء الأمور المعنيين'),
+                      style: const TextStyle(fontSize: 12, color: Color(0xFF92400E)),
+                    ),
                   ],
                 ),
               ),
@@ -339,8 +368,10 @@ class _PrincipalWeatherAdvisoryViewState extends State<_PrincipalWeatherAdvisory
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
               ),
               onPressed: _busy ? null : _handleLiftAdvisory,
-              child: const Text('Lift advisory',
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Color(0xFF92400E))),
+              child: Text(
+                context.tr(en: 'Lift advisory', ar: 'إلغاء التنبيه الحالي'),
+                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Color(0xFF92400E)),
+              ),
             ),
           ),
         ],
@@ -348,19 +379,29 @@ class _PrincipalWeatherAdvisoryViewState extends State<_PrincipalWeatherAdvisory
     );
   }
 
-  Widget _advisoryTypeCard() {
+  Widget _advisoryTypeCard(BuildContext context) {
+    final advisoryTypes = <(String, String)>[
+      ('haboob', context.tr(en: 'Haboob (Sandstorm)', ar: 'عاصفة رملية (هبوب)')),
+      ('aqi-dust', context.tr(en: 'AQI / Dust', ar: 'غبار وتدني جودة الهواء')),
+      ('heat', context.tr(en: 'Extreme Heat', ar: 'ارتفاع حرارة شديد')),
+      ('flooding', context.tr(en: 'Flooding / Rain', ar: 'أمطار وسيول')),
+      ('other', context.tr(en: 'Other', ar: 'أخرى')),
+    ];
+
     return SchooKeepCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Advisory Type',
-              style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
+          Text(
+            context.tr(en: 'Advisory Type', ar: 'نوع التنبيه الجوي'),
+            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary),
+          ),
           const SizedBox(height: 12),
           Wrap(
             spacing: 8,
             runSpacing: 8,
             children: [
-              for (final t in _advisoryTypes)
+              for (final t in advisoryTypes)
                 GestureDetector(
                   onTap: () => setState(() => _advisoryType = t.$1),
                   child: Container(
@@ -383,15 +424,24 @@ class _PrincipalWeatherAdvisoryViewState extends State<_PrincipalWeatherAdvisory
     );
   }
 
-  Widget _affectedGroupsCard() {
+  Widget _affectedGroupsCard(BuildContext context) {
+    final affectedGroupOptions = <(String, String)>[
+      ('asthma', context.tr(en: 'Asthma / Respiratory students', ar: 'طلاب الربو والأمراض التنفسية')),
+      ('all-students', context.tr(en: 'All students', ar: 'جميع الطلاب')),
+      ('outdoor', context.tr(en: 'Outdoor activities', ar: 'الأنشطة الرياضية والفسحة الخارجية')),
+      ('bus', context.tr(en: 'Bus routes', ar: 'حافلات النقل المدرسي')),
+    ];
+
     return SchooKeepCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Affected Groups',
-              style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
+          Text(
+            context.tr(en: 'Affected Groups', ar: 'الفئات المتأثرة'),
+            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary),
+          ),
           const SizedBox(height: 8),
-          for (final g in _affectedGroupOptions)
+          for (final g in affectedGroupOptions)
             _checkboxRow(g.$2, _affectedGroups.contains(g.$1), () {
               setState(() {
                 if (_affectedGroups.contains(g.$1)) {
@@ -406,13 +456,15 @@ class _PrincipalWeatherAdvisoryViewState extends State<_PrincipalWeatherAdvisory
     );
   }
 
-  Widget _messageCard() {
+  Widget _messageCard(BuildContext context) {
     return SchooKeepCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Advisory Message',
-              style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
+          Text(
+            context.tr(en: 'Advisory Message', ar: 'نص رسالة التنبيه'),
+            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary),
+          ),
           const SizedBox(height: 8),
           TextField(
             controller: _message,
@@ -438,26 +490,28 @@ class _PrincipalWeatherAdvisoryViewState extends State<_PrincipalWeatherAdvisory
     );
   }
 
-  Widget _sendToCard() {
+  Widget _sendToCard(BuildContext context) {
     return SchooKeepCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Send Alerts To',
-              style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
+          Text(
+            context.tr(en: 'Send Alerts To', ar: 'إرسال الإشعارات إلى'),
+            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary),
+          ),
           const SizedBox(height: 12),
-          _checkboxRow('All staff', _sendToStaff, () => setState(() => _sendToStaff = !_sendToStaff)),
-          _checkboxRow('Affected parents only', _sendToAffectedParents,
+          _checkboxRow(context.tr(en: 'All staff', ar: 'جميع الكادر المدرسي'), _sendToStaff, () => setState(() => _sendToStaff = !_sendToStaff)),
+          _checkboxRow(context.tr(en: 'Affected parents only', ar: 'أولياء أمور الطلاب المعنيين فقط'), _sendToAffectedParents,
               () => setState(() => _sendToAffectedParents = !_sendToAffectedParents)),
-          _checkboxRow('All parents', _sendToAllParents, () => setState(() => _sendToAllParents = !_sendToAllParents)),
+          _checkboxRow(context.tr(en: 'All parents', ar: 'جميع أولياء الأمور'), _sendToAllParents, () => setState(() => _sendToAllParents = !_sendToAllParents)),
           const Divider(height: 1, color: Color(0xFFF1F5F9)),
-          _whatsAppRow(),
+          _whatsAppRow(context),
         ],
       ),
     );
   }
 
-  Widget _issueButton() {
+  Widget _issueButton(BuildContext context) {
     final enabled = _affectedGroups.isNotEmpty && _message.text.isNotEmpty && !_busy;
     return SizedBox(
       height: 48,
@@ -470,11 +524,13 @@ class _PrincipalWeatherAdvisoryViewState extends State<_PrincipalWeatherAdvisory
         onPressed: enabled ? _handleIssueAdvisory : null,
         child: _busy
             ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2))
-            : Text('Issue Advisory & Send Alerts',
+            : Text(
+                context.tr(en: 'Issue Advisory & Send Alerts', ar: 'إصدار التنبيه وإرسال الإشعارات'),
                 style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
-                    color: enabled ? SchooKeepColors.error : const Color(0xFF94A3B8))),
+                    color: enabled ? SchooKeepColors.error : const Color(0xFF94A3B8)),
+              ),
       ),
     );
   }
@@ -510,9 +566,7 @@ class _PrincipalWeatherAdvisoryViewState extends State<_PrincipalWeatherAdvisory
     );
   }
 
-  /// Inlined `WhatsAppToggleRow.tsx` — green WhatsApp glyph + UAE-recommended
-  /// chip and a toggle switch.
-  Widget _whatsAppRow() {
+  Widget _whatsAppRow(BuildContext context) {
     final isRTL = context.isRTL;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12),

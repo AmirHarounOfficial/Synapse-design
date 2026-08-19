@@ -3,13 +3,10 @@ import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:signature/signature.dart';
 
+import '../../../core/localization/l10n_ext.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
 
-/// Ported from `ESignature.tsx`. A canvas signature pad (via the `signature`
-/// package), a confidentiality summary, a timestamp, and a Submit button that
-/// shows a spinner then a full-screen success overlay before routing to the
-/// nurse dashboard.
 class ESignatureScreen extends StatefulWidget {
   const ESignatureScreen({super.key});
 
@@ -40,16 +37,11 @@ class _ESignatureScreenState extends State<ESignatureScreen> {
   }
 
   String _formatNow() {
-    const months = [
-      'January', 'February', 'March', 'April', 'May', 'June',
-      'July', 'August', 'September', 'October', 'November', 'December',
-    ];
     final now = DateTime.now();
     final hour12 = now.hour % 12 == 0 ? 12 : now.hour % 12;
     final ampm = now.hour < 12 ? 'AM' : 'PM';
     final minute = now.minute.toString().padLeft(2, '0');
-    return '${months[now.month - 1]} ${now.day}, ${now.year} at '
-        '${hour12.toString().padLeft(2, '0')}:$minute $ampm';
+    return '${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')} ${hour12.toString().padLeft(2, '0')}:$minute $ampm';
   }
 
   @override
@@ -68,7 +60,7 @@ class _ESignatureScreenState extends State<ESignatureScreen> {
         _showSuccess = true;
       });
       Future.delayed(const Duration(milliseconds: 1500), () {
-        if (mounted) context.go('/nurse/dashboard');
+        if (mounted) context.go('/principal/home');
       });
     });
   }
@@ -91,14 +83,17 @@ class _ESignatureScreenState extends State<ESignatureScreen> {
                   color: SchooKeepColors.surface,
                   border: Border(bottom: BorderSide(color: SchooKeepColors.border)),
                 ),
-                child: const Row(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Sign & Confirm',
-                      style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+                      context.tr(en: 'Sign & Confirm', ar: 'التوقيع والتأكيد'),
+                      style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
                     ),
-                    Text('Step 2 of 2', style: TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary)),
+                    Text(
+                      context.tr(en: 'Step 2 of 2', ar: 'الخطوة 2 من 2'),
+                      style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary),
+                    ),
                   ],
                 ),
               ),
@@ -108,7 +103,6 @@ class _ESignatureScreenState extends State<ESignatureScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      // Summary card
                       SchooKeepCard(
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -124,17 +118,19 @@ class _ESignatureScreenState extends State<ESignatureScreen> {
                               child: const Icon(LucideIcons.fileText, size: 20, color: SchooKeepColors.primary),
                             ),
                             const SizedBox(width: 12),
-                            const Expanded(
+                            Expanded(
                               child: Text(
-                                'By signing, you agree to maintain confidentiality of all student health data in your care.',
-                                style: TextStyle(fontSize: 14, color: SchooKeepColors.textSecondary),
+                                context.tr(
+                                  en: 'By signing, you agree to maintain confidentiality of all student health data in your care.',
+                                  ar: 'بالتوقيع أدناه، فإنك توافق على الالتزام بالسرية التامة لجميع البيانات الصحية الطلابية.',
+                                ),
+                                style: const TextStyle(fontSize: 14, color: SchooKeepColors.textSecondary),
                               ),
                             ),
                           ],
                         ),
                       ),
                       const SizedBox(height: 24),
-                      // Signature pad card
                       SchooKeepCard(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -142,15 +138,15 @@ class _ESignatureScreenState extends State<ESignatureScreen> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                const Text(
-                                  'Your Signature',
-                                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary),
+                                Text(
+                                  context.tr(en: 'Your Signature', ar: 'التوقيع الإلكتروني'),
+                                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary),
                                 ),
                                 TextButton(
                                   onPressed: () => _controller.clear(),
-                                  child: const Text(
-                                    'Clear',
-                                    style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.primary),
+                                  child: Text(
+                                    context.tr(en: 'Clear', ar: 'مسح'),
+                                    style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.primary),
                                   ),
                                 ),
                               ],
@@ -168,12 +164,12 @@ class _ESignatureScreenState extends State<ESignatureScreen> {
                                       backgroundColor: SchooKeepColors.surface,
                                     ),
                                     if (!_hasSignature)
-                                      const Positioned.fill(
+                                      Positioned.fill(
                                         child: IgnorePointer(
                                           child: Center(
                                             child: Text(
-                                              'Sign here',
-                                              style: TextStyle(fontSize: 16, color: SchooKeepColors.border),
+                                              context.tr(en: 'Sign here', ar: 'وقع هنا'),
+                                              style: const TextStyle(fontSize: 16, color: SchooKeepColors.border),
                                             ),
                                           ),
                                         ),
@@ -184,14 +180,13 @@ class _ESignatureScreenState extends State<ESignatureScreen> {
                             ),
                             const SizedBox(height: 12),
                             Text(
-                              'Signed: $_signatureTime',
+                              context.tr(en: 'Signed: $_signatureTime', ar: 'تاريخ التوقيع: $_signatureTime'),
                               style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary),
                             ),
                           ],
                         ),
                       ),
                       const SizedBox(height: 16),
-                      // Submit button
                       Opacity(
                         opacity: canSubmit ? 1 : 0.4,
                         child: SizedBox(
@@ -203,21 +198,25 @@ class _ESignatureScreenState extends State<ESignatureScreen> {
                             ),
                             onPressed: canSubmit ? _submit : null,
                             child: _isSubmitting
-                                ? const Row(
+                                ? Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      SizedBox(
+                                      const SizedBox(
                                         width: 20,
                                         height: 20,
                                         child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
                                       ),
-                                      SizedBox(width: 8),
-                                      Text('Submitting...',
-                                          style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.white)),
+                                      const SizedBox(width: 8),
+                                      Text(
+                                        context.tr(en: 'Submitting...', ar: 'جاري الإرسال...'),
+                                        style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.white),
+                                      ),
                                     ],
                                   )
-                                : const Text('Submit Signature',
-                                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.white)),
+                                : Text(
+                                    context.tr(en: 'Submit Signature', ar: 'إرسال التوقيع'),
+                                    style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.white),
+                                  ),
                           ),
                         ),
                       ),
@@ -228,7 +227,6 @@ class _ESignatureScreenState extends State<ESignatureScreen> {
             ],
           ),
         ),
-        // Success overlay
         if (_showSuccess)
           const Positioned.fill(child: _SuccessOverlay()),
       ],
@@ -236,7 +234,6 @@ class _ESignatureScreenState extends State<ESignatureScreen> {
   }
 }
 
-/// A 2px dashed-border container matching the React `border-2 border-dashed`.
 class DottedBorderBox extends StatelessWidget {
   const DottedBorderBox({super.key, required this.child});
   final Widget child;
@@ -296,14 +293,14 @@ class _SuccessOverlay extends StatelessWidget {
               child: const Icon(LucideIcons.checkCircle, size: 48, color: Colors.white),
             ),
             const SizedBox(height: 16),
-            const Text(
-              'Agreement Complete',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary),
+            Text(
+              context.tr(en: 'Agreement Complete', ar: 'تمت الموافقة والتوقيع بنجاح'),
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary),
             ),
             const SizedBox(height: 8),
-            const Text(
-              'Redirecting to dashboard...',
-              style: TextStyle(fontSize: 14, color: SchooKeepColors.textSecondary),
+            Text(
+              context.tr(en: 'Redirecting to dashboard...', ar: 'جاري توجيهك إلى لوحة التحكم...'),
+              style: const TextStyle(fontSize: 14, color: SchooKeepColors.textSecondary),
             ),
           ],
         ),

@@ -3,13 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
+import '../../../core/localization/l10n_ext.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
 import 'package:schookeep/core/router/safe_back.dart';
 
-/// Ported from `SecretaryImportStudents.tsx`. Full-screen import wizard:
-/// download template, upload file (simulated), preview first 5 rows, show UAE
-/// validation errors, fix & re-validate, then import. Inline mock data.
 class SecretaryImportStudentsScreen extends StatefulWidget {
   const SecretaryImportStudentsScreen({super.key});
 
@@ -57,13 +55,15 @@ class _SecretaryImportStudentsScreenState extends State<SecretaryImportStudentsS
     const invalidEid = '784-1234-5678-9';
     setState(() {
       _uploadedFile = 'students_uae_2026.xlsx';
-      _validationErrors = const [
-        (row: 12, error: 'Missing required field: Parent Email / البريد الإلكتروني لولي الأمر مفقود'),
-        (row: 15, error: 'Invalid date format: Birth Date (Must be YYYY-MM-DD) / صيغة تاريخ الميلاد غير صالحة'),
+      _validationErrors = [
+        (row: 12, error: context.tr(en: 'Missing required field: Parent Email', ar: 'البريد الإلكتروني لولي الأمر مفقود')),
+        (row: 15, error: context.tr(en: 'Invalid date format: Birth Date (Must be YYYY-MM-DD)', ar: 'صيغة تاريخ الميلاد غير صالحة (يجب أن تكون YYYY-MM-DD)')),
         (
           row: 18,
-          error:
-              "Invalid Emirates ID: '$invalidEid'. EID must be 15 digits in 784-YYYY-XXXXXXX-X format / رقم الهوية الإماراتية غير صالح: يجب أن يطابق الصيغة 784-YYYY-XXXXXXX-X"
+          error: context.tr(
+            en: "Invalid Emirates ID: '$invalidEid'. EID must be 15 digits in 784-YYYY-XXXXXXX-X format",
+            ar: "رقم الهوية الإماراتية غير صالح: '$invalidEid'. يجب أن تتكون الهوية من 15 رقماً بصيغة 784-YYYY-XXXXXXX-X",
+          ),
         ),
       ];
       _validationPassed = false;
@@ -78,15 +78,12 @@ class _SecretaryImportStudentsScreenState extends State<SecretaryImportStudentsS
   }
 
   void _handleImport() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('45 students imported successfully')),
-    );
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(context.tr(en: '45 students imported successfully', ar: 'تم استيراد 45 طالباً بنجاح')),
+    ));
     context.go('/secretary/students');
   }
 
-  /// The official template columns (UAE required fields). Shown in a sheet and
-  /// copied to the clipboard as a CSV header row, since this build has no
-  /// file-download capability.
   static const List<String> _templateColumns = [
     'Name',
     'Emirates ID (EID)',
@@ -129,9 +126,12 @@ class _SecretaryImportStudentsScreenState extends State<SecretaryImportStudentsS
             const Text('students_uae_template.xlsx',
                 style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
             const SizedBox(height: 8),
-            const Text(
-              'Create your spreadsheet with these columns. The header row has been copied to your clipboard. SSN is not used — UAE schools require Emirates ID instead.',
-              style: TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary, height: 1.5),
+            Text(
+              context.tr(
+                en: 'Create your spreadsheet with these columns. The header row has been copied to your clipboard. SSN is not used — UAE schools require Emirates ID instead.',
+                ar: 'قم بإنشاء جدول البيانات الخاص بك بهذه الأعمدة. تم نسخ صف العناوين إلى الحافظة. تستخدم المدارس الإماراتية رقم الهوية الإماراتية (EID).',
+              ),
+              style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary, height: 1.5),
             ),
             const SizedBox(height: 16),
             for (final col in _templateColumns)
@@ -158,8 +158,10 @@ class _SecretaryImportStudentsScreenState extends State<SecretaryImportStudentsS
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 ),
                 onPressed: () => Navigator.of(ctx).pop(),
-                child: const Text('Got it',
-                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: Colors.white)),
+                child: Text(
+                  context.tr(en: 'Got it', ar: 'حسناً، فهمت'),
+                  style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: Colors.white),
+                ),
               ),
             ),
           ],
@@ -171,7 +173,10 @@ class _SecretaryImportStudentsScreenState extends State<SecretaryImportStudentsS
   @override
   Widget build(BuildContext context) {
     return SchooKeepScaffold(
-      appBar: SchooKeepAppBar(title: 'Import Students', onBack: () => context.safeBack()),
+      appBar: SchooKeepAppBar(
+        title: context.tr(en: 'Import Students', ar: 'استيراد قائمة الطلاب بالدُفعة'),
+        onBack: () => context.safeBack(),
+      ),
       bottomBar: _uploadedFile == null
           ? null
           : Container(
@@ -190,12 +195,14 @@ class _SecretaryImportStudentsScreenState extends State<SecretaryImportStudentsS
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                   ),
                   onPressed: _validationPassed ? _handleImport : null,
-                  child: Text('Import 45 students',
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
-                        color: _validationPassed ? Colors.white : const Color(0xFF9CA3AF),
-                      )),
+                  child: Text(
+                    context.tr(en: 'Import 45 students', ar: 'استيراد 45 طالباً'),
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                      color: _validationPassed ? Colors.white : const Color(0xFF9CA3AF),
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -215,24 +222,31 @@ class _SecretaryImportStudentsScreenState extends State<SecretaryImportStudentsS
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text('Download Template',
-                            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
+                        Text(
+                          context.tr(en: 'Download Template', ar: 'تنزيل النموذج القياسي'),
+                          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary),
+                        ),
                         const SizedBox(height: 4),
-                        const Text(
-                          'Get the official Excel template with UAE required fields: Emirates ID, Emirate, Curriculum, UAE Insurer, and Policy. SSN is not used.',
-                          style: TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary),
+                        Text(
+                          context.tr(
+                            en: 'Get the official Excel template with UAE required fields: Emirates ID, Emirate, Curriculum, UAE Insurer, and Policy.',
+                            ar: 'احصل على نموذج Excel المعتمد المتضمن الحقول الإلزامية بالإمارات: الهوية الإماراتية، الإمارة، المنهاج، والتأمين الصحي.',
+                          ),
+                          style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary),
                         ),
                         const SizedBox(height: 12),
                         InkWell(
                           onTap: _handleDownloadTemplate,
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
-                            children: const [
-                              Icon(LucideIcons.download, size: 16, color: SchooKeepColors.primary),
-                              SizedBox(width: 8),
+                            children: [
+                              const Icon(LucideIcons.download, size: 16, color: SchooKeepColors.primary),
+                              const SizedBox(width: 8),
                               Flexible(
-                                child: Text('Download students_uae_template.xlsx',
-                                    style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.primary)),
+                                child: Text(
+                                  context.tr(en: 'Download students_uae_template.xlsx', ar: 'تنزيل students_uae_template.xlsx'),
+                                  style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.primary),
+                                ),
                               ),
                             ],
                           ),
@@ -258,12 +272,16 @@ class _SecretaryImportStudentsScreenState extends State<SecretaryImportStudentsS
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
-                            Text('Upload File',
-                                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
-                            SizedBox(height: 4),
-                            Text('Accepts .xlsx and .csv files',
-                                style: TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary)),
+                          children: [
+                            Text(
+                              context.tr(en: 'Upload File', ar: 'رفع ملف البيانات'),
+                              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              context.tr(en: 'Accepts .xlsx and .csv files', ar: 'يدعم صيغ .xlsx و .csv'),
+                              style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary),
+                            ),
                           ],
                         ),
                       ),
@@ -271,9 +289,9 @@ class _SecretaryImportStudentsScreenState extends State<SecretaryImportStudentsS
                   ),
                   const SizedBox(height: 12),
                   if (_uploadedFile == null)
-                    _uploadDropzone()
+                    _uploadDropzone(context)
                   else
-                    _uploadedBanner(_uploadedFile!),
+                    _uploadedBanner(context, _uploadedFile!),
                 ],
               ),
             ),
@@ -285,10 +303,12 @@ class _SecretaryImportStudentsScreenState extends State<SecretaryImportStudentsS
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Preview (First 5 rows)',
-                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
+                    Text(
+                      context.tr(en: 'Preview (First 5 rows)', ar: 'معاينة (أول 5 صفوف)'),
+                      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary),
+                    ),
                     const SizedBox(height: 12),
-                    _previewTable(),
+                    _previewTable(context),
                   ],
                 ),
               ),
@@ -319,8 +339,10 @@ class _SecretaryImportStudentsScreenState extends State<SecretaryImportStudentsS
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text('Validation Errors Found',
-                                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Color(0xFF991B1B))),
+                              Text(
+                                context.tr(en: 'Validation Errors Found', ar: 'تم العثور على أخطاء في التحقق من البيانات'),
+                                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Color(0xFF991B1B)),
+                              ),
                               const SizedBox(height: 8),
                               for (final e in _validationErrors)
                                 Padding(
@@ -330,8 +352,9 @@ class _SecretaryImportStudentsScreenState extends State<SecretaryImportStudentsS
                                       style: const TextStyle(fontSize: 12, color: Color(0xFF991B1B), height: 1.4),
                                       children: [
                                         TextSpan(
-                                            text: 'Row ${e.row}: ',
-                                            style: const TextStyle(fontWeight: FontWeight.bold)),
+                                          text: '${context.tr(en: 'Row', ar: 'الصف')} ${e.row}: ',
+                                          style: const TextStyle(fontWeight: FontWeight.bold),
+                                        ),
                                         TextSpan(text: e.error),
                                       ],
                                     ),
@@ -345,13 +368,15 @@ class _SecretaryImportStudentsScreenState extends State<SecretaryImportStudentsS
                     const SizedBox(height: 4),
                     GestureDetector(
                       onTap: _handleFixErrors,
-                      child: const Text('Fix errors and re-validate',
-                          style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w500,
-                            color: SchooKeepColors.error,
-                            decoration: TextDecoration.underline,
-                          )),
+                      child: Text(
+                        context.tr(en: 'Fix errors and re-validate', ar: 'تصحيح الأخطاء وإعادة التحقق'),
+                        style: const TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500,
+                          color: SchooKeepColors.error,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -370,21 +395,25 @@ class _SecretaryImportStudentsScreenState extends State<SecretaryImportStudentsS
                 ),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Padding(
+                  children: [
+                    const Padding(
                       padding: EdgeInsets.only(top: 2),
                       child: Icon(LucideIcons.checkCircle, size: 20, color: SchooKeepColors.accent),
                     ),
-                    SizedBox(width: 12),
+                    const SizedBox(width: 12),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Validation Passed',
-                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Color(0xFF065F46))),
-                          SizedBox(height: 2),
-                          Text('Ready to import 45 students',
-                              style: TextStyle(fontSize: 12, color: Color(0xFF065F46))),
+                          Text(
+                            context.tr(en: 'Validation Passed', ar: 'تم التحقق من البيانات بنجاح ✓'),
+                            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Color(0xFF065F46)),
+                          ),
+                          const SizedBox(height: 2),
+                          Text(
+                            context.tr(en: 'Ready to import 45 students', ar: 'جاهز لاستيراد 45 طالباً إلى النظام'),
+                            style: const TextStyle(fontSize: 12, color: Color(0xFF065F46)),
+                          ),
                         ],
                       ),
                     ),
@@ -407,27 +436,29 @@ class _SecretaryImportStudentsScreenState extends State<SecretaryImportStudentsS
     );
   }
 
-  Widget _uploadDropzone() {
+  Widget _uploadDropzone(BuildContext context) {
     return InkWell(
       onTap: _handleFileUpload,
       borderRadius: BorderRadius.circular(8),
       child: DottedBorderBox(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            Icon(LucideIcons.upload, size: 32, color: SchooKeepColors.textSecondary),
-            SizedBox(height: 8),
-            Text('Tap to upload',
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
-            SizedBox(height: 4),
-            Text('.xlsx or .csv', style: TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary)),
+          children: [
+            const Icon(LucideIcons.upload, size: 32, color: SchooKeepColors.textSecondary),
+            const SizedBox(height: 8),
+            Text(
+              context.tr(en: 'Tap to upload', ar: 'اضغط لرفع الملف'),
+              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+            ),
+            const SizedBox(height: 4),
+            const Text('.xlsx or .csv', style: TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary)),
           ],
         ),
       ),
     );
   }
 
-  Widget _uploadedBanner(String file) {
+  Widget _uploadedBanner(BuildContext context, String file) {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -445,7 +476,10 @@ class _SecretaryImportStudentsScreenState extends State<SecretaryImportStudentsS
               children: [
                 Text(file, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
                 const SizedBox(height: 2),
-                const Text('45 students detected', style: TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary)),
+                Text(
+                  context.tr(en: '45 students detected', ar: 'تم التعرف على 45 طالباً'),
+                  style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary),
+                ),
               ],
             ),
           ),
@@ -454,7 +488,7 @@ class _SecretaryImportStudentsScreenState extends State<SecretaryImportStudentsS
     );
   }
 
-  Widget _previewTable() {
+  Widget _previewTable(BuildContext context) {
     const headerStyle = TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color: SchooKeepColors.textSecondary);
     const cellStyle = TextStyle(fontSize: 11, color: SchooKeepColors.textPrimary);
     const monoStyle = TextStyle(fontSize: 11, color: SchooKeepColors.textPrimary, fontFamily: 'monospace');
@@ -468,16 +502,16 @@ class _SecretaryImportStudentsScreenState extends State<SecretaryImportStudentsS
         dataRowMinHeight: 32,
         dataRowMaxHeight: 40,
         dividerThickness: 1,
-        columns: const [
-          DataColumn(label: Text('Name', style: headerStyle)),
-          DataColumn(label: Text('Emirates ID (EID)', style: headerStyle)),
-          DataColumn(label: Text('Grade', style: headerStyle)),
-          DataColumn(label: Text('DOB', style: headerStyle)),
-          DataColumn(label: Text('Emirate', style: headerStyle)),
-          DataColumn(label: Text('Curriculum', style: headerStyle)),
-          DataColumn(label: Text('Parent Email', style: headerStyle)),
-          DataColumn(label: Text('Insurer', style: headerStyle)),
-          DataColumn(label: Text('Policy No', style: headerStyle)),
+        columns: [
+          DataColumn(label: Text(context.tr(en: 'Name', ar: 'الاسم'), style: headerStyle)),
+          DataColumn(label: Text(context.tr(en: 'Emirates ID (EID)', ar: 'الهوية الإماراتية'), style: headerStyle)),
+          DataColumn(label: Text(context.tr(en: 'Grade', ar: 'الصف'), style: headerStyle)),
+          DataColumn(label: Text(context.tr(en: 'DOB', ar: 'تاريخ الميلاد'), style: headerStyle)),
+          DataColumn(label: Text(context.tr(en: 'Emirate', ar: 'الإمارة'), style: headerStyle)),
+          DataColumn(label: Text(context.tr(en: 'Curriculum', ar: 'المنهاج'), style: headerStyle)),
+          DataColumn(label: Text(context.tr(en: 'Parent Email', ar: 'إيميل ولي الأمر'), style: headerStyle)),
+          DataColumn(label: Text(context.tr(en: 'Insurer', ar: 'شركة التأمين'), style: headerStyle)),
+          DataColumn(label: Text(context.tr(en: 'Policy No', ar: 'رقم الوثيقة'), style: headerStyle)),
         ],
         rows: [
           for (final r in _previewRows)
@@ -498,8 +532,6 @@ class _SecretaryImportStudentsScreenState extends State<SecretaryImportStudentsS
   }
 }
 
-/// A 120px-tall dashed-border dropzone matching the source's
-/// `border-2 border-dashed border-gray-300 rounded-lg bg-[#F8FAFC]`.
 class DottedBorderBox extends StatelessWidget {
   const DottedBorderBox({super.key, required this.child});
   final Widget child;

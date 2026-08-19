@@ -10,7 +10,7 @@ export function PrincipalAddEditStaff() {
 
   const [firstName, setFirstName] = useState(isEditing ? 'Sarah' : '');
   const [lastName, setLastName] = useState(isEditing ? 'Chen' : '');
-  const [email, setEmail] = useState(isEditing ? 'sarah.chen@synapse.ae' : '');
+  const [email, setEmail] = useState(isEditing ? 'sarah.chen@schookeep.ae' : '');
   const [emailValid, setEmailValid] = useState(isEditing);
   const [selectedRole, setSelectedRole] = useState(isEditing ? 'nurse' : '');
   const [isActive, setIsActive] = useState(isEditing ? true : true);
@@ -37,7 +37,7 @@ export function PrincipalAddEditStaff() {
 
   const validateEmail = (email: string) => {
     // Validate AE domains or school domain
-    const isValid = email.includes('@') && (email.endsWith('.ae') || email.endsWith('@synapse.ae') || email.endsWith('@school.ae') || email.endsWith('@lakewood.edu'));
+    const isValid = email.includes('@') && (email.endsWith('.ae') || email.endsWith('@schookeep.ae') || email.endsWith('@school.ae') || email.endsWith('@lakewood.edu'));
     setEmailValid(isValid);
   };
 
@@ -117,7 +117,7 @@ export function PrincipalAddEditStaff() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 onBlur={handleEmailBlur}
-                placeholder="name@synapse.ae"
+                placeholder="name@schookeep.ae"
                 className="w-full h-[44px] px-4 bg-white border border-gray-300 rounded-lg text-[15px] text-[#0F172A] placeholder:text-[#94A3B8] focus:outline-none focus:ring-2 focus:ring-[#2563EB] focus:border-transparent"
               />
               {email && emailValid && (
@@ -129,7 +129,7 @@ export function PrincipalAddEditStaff() {
               {email && !emailValid && (
                 <div className="flex items-center gap-1 mt-2">
                   <AlertTriangle className="w-4 h-4 text-[#DC2626]" />
-                  <span className="text-[12px] text-[#DC2626]">Must use a valid school email address (.ae or @synapse.ae)</span>
+                  <span className="text-[12px] text-[#DC2626]">Must use a valid school email address (.ae or @schookeep.ae)</span>
                 </div>
               )}
             </div>

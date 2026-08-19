@@ -48,8 +48,8 @@ export function CounselorReportPreview() {
           <div className="border-b border-gray-200 pb-4">
             <div className="flex items-center justify-between mb-2">
               <img
-                src="https://via.placeholder.com/120x40/2563EB/FFFFFF?text=SYNAPSE"
-                alt="Synapse"
+                src="https://via.placeholder.com/120x40/2563EB/FFFFFF?text=SCHOOKEEP"
+                alt="SchooKeep"
                 className="h-8"
               />
               <div className="text-[10px] text-[#64748B] text-right">

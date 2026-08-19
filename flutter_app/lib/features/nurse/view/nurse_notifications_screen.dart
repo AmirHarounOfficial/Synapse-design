@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 import '../../../core/di/service_locator.dart';
+import '../../../core/localization/l10n_ext.dart';
 import '../../../core/network/data_state.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
@@ -11,9 +12,6 @@ import '../../../data/models/app_notification.dart';
 import '../../../data/repositories/notification_repository.dart';
 import '../cubit/notifications_cubit.dart';
 
-/// Ported from `NurseNotifications.tsx`, wired to `GET /notifications`. Filter
-/// chips, notifications grouped by Today / Yesterday / Older, mark-all-read
-/// (`POST /notifications/{id}/read`), and an empty state.
 class NurseNotificationsScreen extends StatelessWidget {
   const NurseNotificationsScreen({super.key});
 
@@ -35,14 +33,6 @@ class _NurseNotificationsView extends StatefulWidget {
 
 class _NurseNotificationsViewState extends State<_NurseNotificationsView> {
   String _activeFilter = 'all';
-
-  static const List<({String id, String label})> _filters = [
-    (id: 'all', label: 'All'),
-    (id: 'medication', label: 'Medications'),
-    (id: 'emergency', label: 'Emergency'),
-    (id: 'document', label: 'Documents'),
-    (id: 'system', label: 'System'),
-  ];
 
   ({IconData icon, Color bg}) _iconConfig(String? type) {
     switch (type) {
@@ -98,20 +88,24 @@ class _NurseNotificationsViewState extends State<_NurseNotificationsView> {
                     child: Icon(LucideIcons.bell, size: 24, color: SchooKeepColors.textSecondary),
                   ),
                 ),
-                const Expanded(
-                  child: Text('Notifications',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
+                Expanded(
+                  child: Text(
+                    context.tr(en: 'Notifications', ar: 'الإشعارات والتنبيهات الطبية'),
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+                  ),
                 ),
                 SizedBox(
-                  width: 100,
+                  width: 110,
                   child: unreadCount > 0
                       ? Align(
                           alignment: AlignmentDirectional.centerEnd,
                           child: TextButton(
                             onPressed: () => context.read<NotificationsCubit>().markAllRead(),
-                            child: const Text('Mark all read',
-                                style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.primary)),
+                            child: Text(
+                              context.tr(en: 'Mark all read', ar: 'تحديد الكل كمقروء'),
+                              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: SchooKeepColors.primary),
+                            ),
                           ),
                         )
                       : null,
@@ -123,12 +117,12 @@ class _NurseNotificationsViewState extends State<_NurseNotificationsView> {
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _filterRow(),
+              _filterRow(context),
               Expanded(
                 child: switch (state) {
                   DataLoading() => const Center(child: CircularProgressIndicator()),
-                  DataError(:final message) => _errorView(message),
-                  DataLoaded(:final data) => _content(data),
+                  DataError(:final message) => _errorView(context, message),
+                  DataLoaded(:final data) => _content(context, data),
                 },
               ),
             ],
@@ -138,7 +132,15 @@ class _NurseNotificationsViewState extends State<_NurseNotificationsView> {
     );
   }
 
-  Widget _filterRow() {
+  Widget _filterRow(BuildContext context) {
+    final filters = [
+      (id: 'all', label: context.tr(en: 'All', ar: 'الكل')),
+      (id: 'medication', label: context.tr(en: 'Medications', ar: 'الأدوية')),
+      (id: 'emergency', label: context.tr(en: 'Emergency', ar: 'الطوارئ')),
+      (id: 'document', label: context.tr(en: 'Documents', ar: 'المستندات')),
+      (id: 'system', label: context.tr(en: 'System', ar: 'النظام')),
+    ];
+
     return Container(
       width: double.infinity,
       decoration: const BoxDecoration(
@@ -150,7 +152,7 @@ class _NurseNotificationsViewState extends State<_NurseNotificationsView> {
         scrollDirection: Axis.horizontal,
         child: Row(
           children: [
-            for (final f in _filters) ...[
+            for (final f in filters) ...[
               _filterChip(f.id, f.label),
               const SizedBox(width: 8),
             ],
@@ -160,7 +162,7 @@ class _NurseNotificationsViewState extends State<_NurseNotificationsView> {
     );
   }
 
-  Widget _errorView(String message) {
+  Widget _errorView(BuildContext context, String message) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(24),
@@ -172,7 +174,7 @@ class _NurseNotificationsViewState extends State<_NurseNotificationsView> {
             Text(message, textAlign: TextAlign.center, style: const TextStyle(color: SchooKeepColors.textSecondary)),
             const SizedBox(height: 16),
             SchooKeepButton(
-              label: 'Retry',
+              label: context.tr(en: 'Retry', ar: 'إعادة المحاولة'),
               fullWidth: false,
               onPressed: () => context.read<NotificationsCubit>().load(),
             ),
@@ -182,12 +184,12 @@ class _NurseNotificationsViewState extends State<_NurseNotificationsView> {
     );
   }
 
-  Widget _content(List<AppNotification> all) {
+  Widget _content(BuildContext context, List<AppNotification> all) {
     final filtered =
         _activeFilter == 'all' ? all : all.where((n) => n.type == _activeFilter).toList();
 
     if (filtered.isEmpty) {
-      return _emptyState();
+      return _emptyState(context);
     }
 
     final todayItems = filtered.where((n) => n.createdAt != null && _isToday(n.createdAt!.toLocal())).toList();
@@ -204,15 +206,15 @@ class _NurseNotificationsViewState extends State<_NurseNotificationsView> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _group(todayItems, 'Today'),
-          _group(yesterdayItems, 'Yesterday'),
-          _group(olderItems, 'Older'),
+          _group(todayItems, context.tr(en: 'Today', ar: 'اليوم')),
+          _group(yesterdayItems, context.tr(en: 'Yesterday', ar: 'الأمس')),
+          _group(olderItems, context.tr(en: 'Older', ar: 'سابقاً')),
         ],
       ),
     );
   }
 
-  Widget _emptyState() {
+  Widget _emptyState(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 80),
       child: Center(
@@ -226,12 +228,12 @@ class _NurseNotificationsViewState extends State<_NurseNotificationsView> {
               child: const Icon(LucideIcons.bellOff, size: 32, color: SchooKeepColors.primary),
             ),
             const SizedBox(height: 16),
-            const Text("You're all caught up",
-                style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
+            Text(context.tr(en: "You're all caught up", ar: 'لا توجد إشعارات جديدة الآن'),
+                style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
             const SizedBox(height: 8),
-            const Text('New alerts and notifications will appear here',
+            Text(context.tr(en: 'New alerts and notifications will appear here', ar: 'ستظهر التنبيهات والإشعارات الجديدة في هذه القائمة فور وصولها'),
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 14, color: SchooKeepColors.textSecondary)),
+                style: const TextStyle(fontSize: 14, color: SchooKeepColors.textSecondary)),
           ],
         ),
       ),

@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 import '../../../core/di/service_locator.dart';
+import '../../../core/localization/l10n_ext.dart';
 import '../../../core/network/data_state.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
@@ -12,8 +13,6 @@ import '../../../data/repositories/document_repository.dart';
 import '../cubit/document_viewer_cubit.dart';
 import 'package:schookeep/core/router/safe_back.dart';
 
-/// Ported from `DocumentViewer.tsx`, wired to `GET /documents/{id}` with
-/// approve / mark-incomplete actions hitting `POST /documents/{id}/review`.
 class DocumentViewerScreen extends StatelessWidget {
   const DocumentViewerScreen({super.key, required this.id});
 
@@ -41,19 +40,19 @@ class _DocumentViewerViewState extends State<_DocumentViewerView> {
   static const int _totalPages = 3;
   bool _busy = false;
 
-  static String _typeLabel(Document d) {
+  static String _typeLabel(BuildContext context, Document d) {
     if ((d.title ?? '').isNotEmpty) return d.title!;
     switch (d.type) {
       case 'immunization':
-        return 'Immunization Records';
+        return context.tr(en: 'Immunization Records', ar: 'سجل التطعيمات');
       case 'physician-order':
-        return 'Physician Order';
+        return context.tr(en: 'Physician Order', ar: 'أمر الطبيب المعالج');
       case 'consent':
-        return 'Medication Consent Form';
+        return context.tr(en: 'Medication Consent Form', ar: 'نموذج موافقة إعطاء الدواء');
       case 'insurance':
-        return 'Insurance Card';
+        return context.tr(en: 'Insurance Card', ar: 'بطاقة التأمين الصحي');
       default:
-        return 'Document';
+        return context.tr(en: 'Document', ar: 'مستند');
     }
   }
 
@@ -61,9 +60,12 @@ class _DocumentViewerViewState extends State<_DocumentViewerView> {
     showDialog<void>(
       context: context,
       builder: (ctx) => _ConfirmDialog(
-        title: 'Approve Document?',
-        message: 'This will approve ${_typeLabel(d)} for Student #${d.studentId}. This action cannot be undone.',
-        confirmLabel: 'Approve',
+        title: context.tr(en: 'Approve Document?', ar: 'تأكيد اعتماد المستند؟'),
+        message: context.tr(
+          en: 'This will approve ${_typeLabel(context, d)} for Student #${d.studentId}. This action cannot be undone.',
+          ar: 'سيتم اعتماد مستند ${_typeLabel(context, d)} للطالب #${d.studentId}. لا يمكن التراجع عن هذا الإجراء.',
+        ),
+        confirmLabel: context.tr(en: 'Approve', ar: 'اعتماد المستند'),
         confirmColor: SchooKeepColors.accent,
         onConfirm: () {
           Navigator.of(ctx).pop();
@@ -77,9 +79,12 @@ class _DocumentViewerViewState extends State<_DocumentViewerView> {
     showDialog<void>(
       context: context,
       builder: (ctx) => _ConfirmDialog(
-        title: 'Mark as Incomplete?',
-        message: 'This will notify the parent that ${_typeLabel(d)} needs to be resubmitted.',
-        confirmLabel: 'Mark Incomplete',
+        title: context.tr(en: 'Mark as Incomplete?', ar: 'تعيين كمستند غير مكتمل؟'),
+        message: context.tr(
+          en: 'This will notify the parent that ${_typeLabel(context, d)} needs to be resubmitted.',
+          ar: 'سيتم إشعار ولي الأمر بأن مستند ${_typeLabel(context, d)} يتطلب إعادة التزويد والإرسال.',
+        ),
+        confirmLabel: context.tr(en: 'Mark Incomplete', ar: 'تعيين كغير مكتمل'),
         confirmColor: SchooKeepColors.warning,
         onConfirm: () {
           Navigator.of(ctx).pop();
@@ -118,19 +123,19 @@ class _DocumentViewerViewState extends State<_DocumentViewerView> {
             titleWidget: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(d != null ? _typeLabel(d) : 'Document',
+                Text(d != null ? _typeLabel(context, d) : context.tr(en: 'Document', ar: 'المستند الطبي'),
                     style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
                 if (d != null)
-                  Text('Student #${d.studentId}',
+                  Text('${context.tr(en: 'Student', ar: 'الطالب')} #${d.studentId}',
                       style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary)),
               ],
             ),
           ),
-          bottomBar: d == null ? null : _bottomBar(d, isApproved),
+          bottomBar: d == null ? null : _bottomBar(context, d, isApproved),
           body: switch (state) {
             DataLoading() => const Center(child: Padding(padding: EdgeInsets.all(48), child: CircularProgressIndicator())),
             DataError(:final message) => _errorView(message),
-            DataLoaded(:final data) => _content(data, isApproved),
+            DataLoaded(:final data) => _content(context, data, isApproved),
           },
         );
       },
@@ -149,15 +154,15 @@ class _DocumentViewerViewState extends State<_DocumentViewerView> {
             Text(message, textAlign: TextAlign.center, style: const TextStyle(color: SchooKeepColors.textSecondary)),
             const SizedBox(height: 16),
             SchooKeepButton(
-                label: 'Retry', fullWidth: false, onPressed: () => context.read<DocumentViewerCubit>().load()),
+                label: context.tr(en: 'Retry', ar: 'إعادة المحاولة'), fullWidth: false, onPressed: () => context.read<DocumentViewerCubit>().load()),
           ],
         ),
       ),
     );
   }
 
-  Widget _content(Document d, bool isApproved) {
-    final typeLabel = _typeLabel(d);
+  Widget _content(BuildContext context, Document d, bool isApproved) {
+    final typeLabel = _typeLabel(context, d);
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -172,9 +177,9 @@ class _DocumentViewerViewState extends State<_DocumentViewerView> {
               crossAxisSpacing: 12,
               childAspectRatio: 2.6,
               children: [
-                _metaCell('Student', valueWidget: Text('Student #${d.studentId}',
+                _metaCell(context.tr(en: 'Student', ar: 'الطالب'), valueWidget: Text('${context.tr(en: 'Student', ar: 'الطالب')} #${d.studentId}',
                     style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary))),
-                _metaCell('Document Type', valueWidget: Align(
+                _metaCell(context.tr(en: 'Document Type', ar: 'نوع المستند'), valueWidget: Align(
                   alignment: AlignmentDirectional.centerStart,
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -186,9 +191,9 @@ class _DocumentViewerViewState extends State<_DocumentViewerView> {
                         style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color: Color(0xFF1E40AF))),
                   ),
                 )),
-                _metaCell('Status', valueWidget: Text((d.status ?? 'pending').toUpperCase(),
+                _metaCell(context.tr(en: 'Status', ar: 'الحالة'), valueWidget: Text((d.status ?? 'pending').toUpperCase(),
                     style: const TextStyle(fontSize: 13, color: SchooKeepColors.textPrimary))),
-                _metaCell('Expiry', valueWidget: Text(d.expiryDate ?? '—',
+                _metaCell(context.tr(en: 'Expiry', ar: 'تاريخ النفاد'), valueWidget: Text(d.expiryDate ?? '—',
                     style: const TextStyle(fontSize: 13, color: SchooKeepColors.textPrimary))),
               ],
             ),
@@ -210,8 +215,11 @@ class _DocumentViewerViewState extends State<_DocumentViewerView> {
                   Expanded(
                     child: Text(
                       d.reviewedAt != null
-                          ? 'Approved on ${d.reviewedAt!.month}/${d.reviewedAt!.day}/${d.reviewedAt!.year}'
-                          : 'Approved',
+                          ? context.tr(
+                              en: 'Approved on ${d.reviewedAt!.month}/${d.reviewedAt!.day}/${d.reviewedAt!.year}',
+                              ar: 'تم الاعتماد بتاريخ ${d.reviewedAt!.year}/${d.reviewedAt!.month}/${d.reviewedAt!.day}',
+                            )
+                          : context.tr(en: 'Approved', ar: 'معتمد ✓'),
                       style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.greenChipText),
                     ),
                   ),
@@ -246,7 +254,7 @@ class _DocumentViewerViewState extends State<_DocumentViewerView> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Text('Document Preview', style: TextStyle(fontSize: 14, color: SchooKeepColors.textSecondary)),
+                          Text(context.tr(en: 'Document Preview', ar: 'معاينة المستند'), style: const TextStyle(fontSize: 14, color: SchooKeepColors.textSecondary)),
                           const SizedBox(height: 8),
                           Text(typeLabel, style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary)),
                         ],
@@ -261,8 +269,8 @@ class _DocumentViewerViewState extends State<_DocumentViewerView> {
                     children: [
                       TextButton(
                         onPressed: _currentPage == 1 ? null : () => setState(() => _currentPage--),
-                        child: const Text('Previous',
-                            style: TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary)),
+                        child: Text(context.tr(en: 'Previous', ar: 'السابق'),
+                            style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary)),
                       ),
                       for (var page = 1; page <= _totalPages; page++)
                         GestureDetector(
@@ -278,15 +286,16 @@ class _DocumentViewerViewState extends State<_DocumentViewerView> {
                           ),
                         ),
                       SizedBox(
-                        width: 90,
-                        child: Text('Page $_currentPage of $_totalPages',
+                        width: 110,
+                        child: Text(
+                            context.tr(en: 'Page $_currentPage of $_totalPages', ar: 'صفحة $_currentPage من $_totalPages'),
                             textAlign: TextAlign.center,
                             style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary)),
                       ),
                       TextButton(
                         onPressed: _currentPage == _totalPages ? null : () => setState(() => _currentPage++),
-                        child: const Text('Next',
-                            style: TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary)),
+                        child: Text(context.tr(en: 'Next', ar: 'التالي'),
+                            style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary)),
                       ),
                     ],
                   ),
@@ -311,7 +320,7 @@ class _DocumentViewerViewState extends State<_DocumentViewerView> {
     );
   }
 
-  Widget _bottomBar(Document d, bool isApproved) {
+  Widget _bottomBar(BuildContext context, Document d, bool isApproved) {
     return Container(
       decoration: const BoxDecoration(
         color: SchooKeepColors.surface,
@@ -323,13 +332,15 @@ class _DocumentViewerViewState extends State<_DocumentViewerView> {
               padding: const EdgeInsets.symmetric(vertical: 8),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Icon(LucideIcons.check, size: 20, color: SchooKeepColors.accent),
-                  SizedBox(width: 8),
-                  Icon(LucideIcons.lock, size: 16, color: SchooKeepColors.accent),
-                  SizedBox(width: 8),
-                  Text('Approved ✓',
-                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: SchooKeepColors.accent)),
+                children: [
+                  const Icon(LucideIcons.check, size: 20, color: SchooKeepColors.accent),
+                  const SizedBox(width: 8),
+                  const Icon(LucideIcons.lock, size: 16, color: SchooKeepColors.accent),
+                  const SizedBox(width: 8),
+                  Text(
+                    context.tr(en: 'Approved ✓', ar: 'معتمد رسمياً ✓'),
+                    style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: SchooKeepColors.accent),
+                  ),
                 ],
               ),
             )
@@ -350,10 +361,13 @@ class _DocumentViewerViewState extends State<_DocumentViewerView> {
                             width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
                         : Row(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
-                              Icon(LucideIcons.check, size: 20, color: Colors.white),
-                              SizedBox(width: 8),
-                              Text('Approve', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: Colors.white)),
+                            children: [
+                              const Icon(LucideIcons.check, size: 20, color: Colors.white),
+                              const SizedBox(width: 8),
+                              Text(
+                                context.tr(en: 'Approve', ar: 'اعتماد المستند'),
+                                style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: Colors.white),
+                              ),
                             ],
                           ),
                   ),
@@ -368,8 +382,10 @@ class _DocumentViewerViewState extends State<_DocumentViewerView> {
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                     ),
                     onPressed: _busy ? null : () => _showIncompleteDialog(d),
-                    child: const Text('Mark Incomplete — Request resubmission',
-                        style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: SchooKeepColors.warning)),
+                    child: Text(
+                      context.tr(en: 'Mark Incomplete — Request resubmission', ar: 'تعيين كغير مكتمل — طلب إرسال جديد'),
+                      style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: SchooKeepColors.warning),
+                    ),
                   ),
                 ),
               ],
@@ -418,8 +434,10 @@ class _ConfirmDialog extends StatelessWidget {
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                       ),
                       onPressed: () => Navigator.of(context).pop(),
-                      child: const Text('Cancel',
-                          style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: SchooKeepColors.textSecondary)),
+                      child: Text(
+                        context.tr(en: 'Cancel', ar: 'إلغاء'),
+                        style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: SchooKeepColors.textSecondary),
+                      ),
                     ),
                   ),
                 ),

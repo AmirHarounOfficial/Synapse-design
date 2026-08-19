@@ -131,7 +131,7 @@ export function SystemStateShowcase() {
             <div>
               <div className="flex items-center gap-2">
                 <h1 className="text-xl font-bold tracking-tight text-white sm:text-2xl">
-                  Synapse System States
+                  SchooKeep System States
                 </h1>
                 <span className="bg-indigo-900/60 border border-indigo-700 text-indigo-300 font-extrabold text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full">
                   iPhone 16 Pro Simulator
@@ -658,7 +658,7 @@ export function SystemStateShowcase() {
                     {/* Simulated Background Dashboard */}
                     <div className="flex-1 flex flex-col p-4 bg-slate-50 filter blur-[2.5px] transition-all duration-300 select-none">
                       <div className="h-10 bg-indigo-600 rounded-lg mb-4 flex items-center px-3 text-white font-bold text-sm">
-                        Synapse Dashboard
+                        SchooKeep Dashboard
                       </div>
                       <div className="flex-1 space-y-3">
                         <div className="h-28 bg-white border border-slate-200 rounded-xl p-3 shadow-sm" />
@@ -687,7 +687,7 @@ export function SystemStateShowcase() {
 
                           {/* Description */}
                           <p className="text-[13px] leading-5 text-slate-500 mb-4 px-1">
-                            Synapse is only accessible during school hours (Mon–Fri, 7:30 AM – 5:00 PM).
+                            SchooKeep is only accessible during school hours (Mon–Fri, 7:30 AM – 5:00 PM).
                           </p>
 
                           {/* School hours next shown */}

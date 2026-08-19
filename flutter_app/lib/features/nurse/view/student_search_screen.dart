@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 import '../../../core/di/service_locator.dart';
+import '../../../core/localization/l10n_ext.dart';
 import '../../../core/network/data_state.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
@@ -14,9 +15,6 @@ import '../../../data/repositories/student_repository.dart';
 import '../cubit/student_list_cubit.dart';
 import 'package:schookeep/core/router/safe_back.dart';
 
-/// Ported from `StudentSearch.tsx`, now wired to the API (`GET /students`).
-/// Search + grade filter hit the backend; the "Has Allergies" quick filter is
-/// applied client-side over the loaded page.
 class StudentSearchScreen extends StatelessWidget {
   const StudentSearchScreen({super.key});
 
@@ -42,16 +40,6 @@ class _StudentSearchViewState extends State<_StudentSearchView> {
   String _searchQuery = '';
   String _activeGrade = 'all';
   bool _onlyAllergies = false;
-
-  static const _gradeFilters = [
-    (id: 'all', label: 'All Grades'),
-    (id: '1', label: 'Grade 1'),
-    (id: '2', label: 'Grade 2'),
-    (id: '3', label: 'Grade 3'),
-    (id: '4', label: 'Grade 4'),
-    (id: '5', label: 'Grade 5'),
-    (id: '6', label: 'Grade 6'),
-  ];
 
   @override
   void dispose() {
@@ -89,23 +77,23 @@ class _StudentSearchViewState extends State<_StudentSearchView> {
       reserveBottomNav: true,
       scrollable: false,
       appBar: SchooKeepAppBar(
-        title: 'Students',
+        title: context.tr(en: 'Students', ar: 'دليل الطلاب والملفات الصحية'),
         centerTitle: true,
         onBack: () => context.canPop() ? context.safeBack() : context.go('/nurse/dashboard'),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _searchBar(),
-          _gradeFilterRow(),
-          _quickFilters(),
+          _searchBar(context),
+          _gradeFilterRow(context),
+          _quickFilters(context),
           Expanded(
             child: BlocBuilder<StudentListCubit, DataState<List<Student>>>(
               builder: (context, state) {
                 return switch (state) {
                   DataLoading() => const Center(child: CircularProgressIndicator()),
-                  DataError(:final message) => _errorView(message),
-                  DataLoaded(:final data) => _list(data),
+                  DataError(:final message) => _errorView(context, message),
+                  DataLoaded(:final data) => _list(context, data),
                 };
               },
             ),
@@ -115,7 +103,7 @@ class _StudentSearchViewState extends State<_StudentSearchView> {
     );
   }
 
-  Widget _errorView(String message) {
+  Widget _errorView(BuildContext context, String message) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(24),
@@ -126,18 +114,18 @@ class _StudentSearchViewState extends State<_StudentSearchView> {
             const SizedBox(height: 12),
             Text(message, textAlign: TextAlign.center, style: const TextStyle(color: SchooKeepColors.textSecondary)),
             const SizedBox(height: 16),
-            SchooKeepButton(label: 'Retry', fullWidth: false, onPressed: _reload),
+            SchooKeepButton(label: context.tr(en: 'Retry', ar: 'إعادة المحاولة'), fullWidth: false, onPressed: _reload),
           ],
         ),
       ),
     );
   }
 
-  Widget _list(List<Student> all) {
+  Widget _list(BuildContext context, List<Student> all) {
     final results = _onlyAllergies ? all.where((s) => s.allergens.isNotEmpty).toList() : all;
     if (results.isEmpty) {
-      return const Center(
-        child: Text('No students found', style: TextStyle(color: SchooKeepColors.textSecondary)),
+      return Center(
+        child: Text(context.tr(en: 'No students found', ar: 'لا يوجد طلاب مطابقون للبحث'), style: const TextStyle(color: SchooKeepColors.textSecondary)),
       );
     }
     return ListView.separated(
@@ -148,16 +136,21 @@ class _StudentSearchViewState extends State<_StudentSearchView> {
         if (i == 0) {
           return Padding(
             padding: const EdgeInsets.only(bottom: 4),
-            child: Text('${results.length} ${results.length == 1 ? 'student' : 'students'}',
-                style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary)),
+            child: Text(
+              context.tr(
+                en: '${results.length} ${results.length == 1 ? 'student' : 'students'}',
+                ar: '${results.length} طالب مسجل',
+              ),
+              style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary),
+            ),
           );
         }
-        return _studentCard(results[i - 1]);
+        return _studentCard(context, results[i - 1]);
       },
     );
   }
 
-  Widget _searchBar() {
+  Widget _searchBar(BuildContext context) {
     return Container(
       width: double.infinity,
       color: SchooKeepColors.surface,
@@ -168,7 +161,7 @@ class _StudentSearchViewState extends State<_StudentSearchView> {
           controller: _searchController,
           onChanged: _onSearchChanged,
           decoration: InputDecoration(
-            hintText: 'Search by name, ID, or class…',
+            hintText: context.tr(en: 'Search by name, ID, or class…', ar: 'ابحث باسم الطالب، الهوية، أو الفصل...'),
             hintStyle: const TextStyle(color: SchooKeepColors.textSecondary),
             filled: true,
             fillColor: SchooKeepColors.background,
@@ -201,7 +194,17 @@ class _StudentSearchViewState extends State<_StudentSearchView> {
     );
   }
 
-  Widget _gradeFilterRow() {
+  Widget _gradeFilterRow(BuildContext context) {
+    final gradeFilters = [
+      (id: 'all', label: context.tr(en: 'All Grades', ar: 'جميع الصفوف')),
+      (id: '1', label: '${context.tr(en: 'Grade', ar: 'الصف')} 1'),
+      (id: '2', label: '${context.tr(en: 'Grade', ar: 'الصف')} 2'),
+      (id: '3', label: '${context.tr(en: 'Grade', ar: 'الصف')} 3'),
+      (id: '4', label: '${context.tr(en: 'Grade', ar: 'الصف')} 4'),
+      (id: '5', label: '${context.tr(en: 'Grade', ar: 'الصف')} 5'),
+      (id: '6', label: '${context.tr(en: 'Grade', ar: 'الصف')} 6'),
+    ];
+
     return Container(
       width: double.infinity,
       color: SchooKeepColors.surface,
@@ -210,7 +213,7 @@ class _StudentSearchViewState extends State<_StudentSearchView> {
         scrollDirection: Axis.horizontal,
         child: Row(
           children: [
-            for (final f in _gradeFilters) ...[
+            for (final f in gradeFilters) ...[
               _gradeChip(f.id, f.label),
               const SizedBox(width: 8),
             ],
@@ -246,14 +249,14 @@ class _StudentSearchViewState extends State<_StudentSearchView> {
     );
   }
 
-  Widget _quickFilters() {
+  Widget _quickFilters(BuildContext context) {
     return Container(
       width: double.infinity,
       color: SchooKeepColors.surface,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       child: Row(
         children: [
-          _quickChip('Has Allergies', _onlyAllergies, () => setState(() => _onlyAllergies = !_onlyAllergies)),
+          _quickChip(context.tr(en: 'Has Allergies', ar: 'لديهم حساسيات ومحاذير'), _onlyAllergies, () => setState(() => _onlyAllergies = !_onlyAllergies)),
         ],
       ),
     );
@@ -281,9 +284,9 @@ class _StudentSearchViewState extends State<_StudentSearchView> {
     );
   }
 
-  Widget _studentCard(Student s) {
+  Widget _studentCard(BuildContext context, Student s) {
     final subtitle = [
-      if ((s.grade ?? '').isNotEmpty) s.grade,
+      if ((s.grade ?? '').isNotEmpty) '${context.tr(en: 'Grade', ar: 'الصف')} ${s.grade}',
       if ((s.section ?? '').isNotEmpty) s.section,
       if ((s.emiratesId ?? '').isNotEmpty) s.emiratesId,
     ].whereType<String>().join(' • ');

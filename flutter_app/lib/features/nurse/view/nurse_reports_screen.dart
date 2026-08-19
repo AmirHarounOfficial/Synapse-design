@@ -2,32 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
+import '../../../core/localization/l10n_ext.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
 
-/// Ported from `NurseReports.tsx`. A tab-root list of report sections; some are
-/// navigable, the rest are disabled placeholders. English-only.
 class NurseReportsScreen extends StatelessWidget {
   const NurseReportsScreen({super.key});
 
-  static const List<({String id, String title, String description, int? badge, String? path})> _sections = [
-    (id: 'generate', title: 'Generate Report', description: 'Create daily, weekly, or custom reports', badge: null, path: '/nurse/reports/generate'),
-    (id: 'documents', title: 'Document Review', description: 'Review pending parent submissions', badge: 3, path: '/nurse/documents/review'),
-    (id: 'medication', title: 'Medication Reports', description: 'Dose logs and compliance tracking', badge: null, path: null),
-    (id: 'clinic', title: 'Clinic Visit Reports', description: 'Visit statistics and trends', badge: null, path: null),
-    (id: 'compliance', title: 'Compliance Reports', description: 'Required screenings and documentation', badge: null, path: null),
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final sections = [
+      (id: 'generate', title: context.tr(en: 'Generate Report', ar: 'إنشاء تقرير جديد'), description: context.tr(en: 'Create daily, weekly, or custom reports', ar: 'إعداد تقارير يومية أو أسبوعية أو مخصصة'), badge: null, path: '/nurse/reports/generate'),
+      (id: 'documents', title: context.tr(en: 'Document Review', ar: 'مراجعة المستندات'), description: context.tr(en: 'Review pending parent submissions', ar: 'مراجعة طلبات ومستندات أولياء الأمور المعلقة'), badge: 3, path: '/nurse/documents/review'),
+      (id: 'medication', title: context.tr(en: 'Medication Reports', ar: 'تقارير الأدوية والجرعات'), description: context.tr(en: 'Dose logs and compliance tracking', ar: 'سجلات إعطاء الأدوية وتتبع الالتزام'), badge: null, path: null),
+      (id: 'clinic', title: context.tr(en: 'Clinic Visit Reports', ar: 'تقارير زيارات العيادة'), description: context.tr(en: 'Visit statistics and trends', ar: 'إحصائيات ومؤشرات الزيارات الطبية'), badge: null, path: null),
+      (id: 'compliance', title: context.tr(en: 'Compliance Reports', ar: 'تقارير الامتثال والفحوصات'), description: context.tr(en: 'Required screenings and documentation', ar: 'الفحوصات الشاملة والوثائق المطلوبة'), badge: null, path: null),
+    ];
+
     return SchooKeepScaffold(
       reserveBottomNav: true,
-      appBar: const SchooKeepAppBar(title: 'Reports'),
+      appBar: SchooKeepAppBar(title: context.tr(en: 'Reports', ar: 'التقارير الطبية والصحية')),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(16, 24, 16, 0),
         child: Column(
           children: [
-            for (final s in _sections)
+            for (final s in sections)
               Padding(
                 padding: const EdgeInsets.only(bottom: 12),
                 child: Opacity(

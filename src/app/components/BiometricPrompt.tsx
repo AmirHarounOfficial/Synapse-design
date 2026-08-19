@@ -1,10 +1,13 @@
 import { Scan } from 'lucide-react';
 import { useNavigate } from 'react-router';
+import { useLanguage } from '../../context/LanguageContext';
 
 export function BiometricPrompt() {
   const navigate = useNavigate();
+  const { isRTL } = useLanguage();
+
   return (
-    <div className="w-full h-screen bg-[#F8FAFC] relative">
+    <div className="w-full h-screen bg-[#F8FAFC] relative" dir={isRTL ? 'rtl' : 'ltr'}>
       {/* Overlay backdrop */}
       <div className="absolute inset-0 bg-black/30" onClick={() => navigate('/agreement')} />
 
@@ -24,30 +27,30 @@ export function BiometricPrompt() {
 
         {/* Heading */}
         <h2 className="text-[20px] font-medium text-[#0F172A] text-center mb-3" style={{ fontWeight: 500 }}>
-          Enable Face ID?
+          {isRTL ? 'تفعيل التعرف على الوجه Face ID؟' : 'Enable Face ID?'}
         </h2>
 
         {/* Body text */}
         <p className="text-[14px] text-[#64748B] text-center mb-8" style={{ fontWeight: 400 }}>
-          Sign in faster next time without entering your password.
+          {isRTL ? 'سجل الدخول بشكل أسرع في المرة القادمة دون الحاجة لإدخال كلمة المرور.' : 'Sign in faster next time without entering your password.'}
         </p>
 
         {/* Primary CTA */}
         <button
           onClick={() => navigate('/agreement')}
-          className="w-full h-[52px] bg-[#2563EB] text-white rounded-xl font-semibold mb-4"
+          className="w-full h-[52px] bg-[#2563EB] text-white rounded-xl font-semibold mb-4 cursor-pointer"
           style={{ fontWeight: 600 }}
         >
-          Enable Face ID
+          {isRTL ? 'تفعيل Face ID' : 'Enable Face ID'}
         </button>
 
         {/* Secondary link */}
         <button
           onClick={() => navigate('/agreement')}
-          className="w-full text-[14px] text-[#64748B] font-medium min-h-[44px]"
+          className="w-full text-[14px] text-[#64748B] font-medium min-h-[44px] cursor-pointer"
           style={{ fontWeight: 500 }}
         >
-          Not now
+          {isRTL ? 'ليس الآن' : 'Not now'}
         </button>
       </div>
     </div>

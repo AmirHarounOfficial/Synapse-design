@@ -6,12 +6,10 @@ import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 import '../../../core/config/dev_flags.dart';
+import '../../../core/localization/l10n_ext.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
 
-/// Ported from `TwoFactorAuth.tsx`. Six-box OTP entry with auto-advance,
-/// backspace-to-previous, a 45s resend countdown, and a Verify CTA that
-/// activates once all six digits are present.
 class TwoFactorAuthScreen extends StatefulWidget {
   const TwoFactorAuthScreen({super.key});
 
@@ -106,14 +104,13 @@ class _TwoFactorAuthScreenState extends State<TwoFactorAuthScreen> {
   Widget build(BuildContext context) {
     return SchooKeepScaffold(
       appBar: SchooKeepAppBar(
-        title: 'Verify your identity',
+        title: context.tr(en: 'Verify your identity', ar: 'تأكيد الهوية'),
         centerTitle: true,
         onBack: () => context.go('/login'),
       ),
       padding: const EdgeInsets.fromLTRB(16, 32, 16, 24),
       body: Column(
         children: [
-          // Illustration
           Container(
             width: 60,
             height: 60,
@@ -125,16 +122,19 @@ class _TwoFactorAuthScreenState extends State<TwoFactorAuthScreen> {
             child: const Icon(LucideIcons.shieldCheck, size: 32, color: SchooKeepColors.primary),
           ),
           const SizedBox(height: 24),
-          const Text(
-            'Enter verification code',
+          Text(
+            context.tr(en: 'Enter verification code', ar: 'أدخل رمز التحقق'),
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
           ),
           const SizedBox(height: 8),
-          const Text(
-            'A 6-digit code was sent to j***@school.edu',
+          Text(
+            context.tr(
+              en: 'A 6-digit code was sent to admin@schookeep.ae',
+              ar: 'تم إرسال رمز مكون من 6 أرقام إلى admin@schookeep.ae',
+            ),
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 14, color: SchooKeepColors.textSecondary),
+            style: const TextStyle(fontSize: 14, color: SchooKeepColors.textSecondary),
           ),
           const SizedBox(height: 32),
           // OTP boxes
@@ -187,35 +187,35 @@ class _TwoFactorAuthScreenState extends State<TwoFactorAuthScreen> {
             }),
           ),
           const SizedBox(height: 24),
-          // Resend
           SizedBox(
             height: 44,
             child: Center(
               child: _countdown > 0
                   ? Text(
-                      'Resend in ${_formatTime(_countdown)}',
+                      context.tr(
+                        en: 'Resend in ${_formatTime(_countdown)}',
+                        ar: 'إعادة الإرسال خلال ${_formatTime(_countdown)}',
+                      ),
                       style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary),
                     )
                   : TextButton(
                       onPressed: _resend,
-                      child: const Text(
-                        'Resend code',
-                        style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.primary),
+                      child: Text(
+                        context.tr(en: 'Resend code', ar: 'إعادة إرسال الرمز'),
+                        style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.primary),
                       ),
                     ),
             ),
           ),
           const SizedBox(height: 24),
-          // Verify CTA
           Opacity(
             opacity: _isComplete ? 1 : 0.4,
             child: SchooKeepButton(
-              label: 'Verify',
+              label: context.tr(en: 'Verify', ar: 'تأكيد'),
               enabled: _isComplete,
               onPressed: _verify,
             ),
           ),
-          // Testing-only shortcut: skip OTP without entering a code.
           if (kDevBypassOtp) ...[
             const SizedBox(height: 8),
             TextButton(

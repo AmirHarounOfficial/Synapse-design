@@ -13,6 +13,7 @@ import '../../data/repositories/counselor_repository.dart';
 import '../../data/repositories/document_repository.dart';
 import '../../data/repositories/equipment_repository.dart';
 import '../../data/repositories/medication_repository.dart';
+import '../../data/repositories/pharmacy_inventory_repository.dart';
 import '../../data/repositories/message_repository.dart';
 import '../../data/repositories/notification_repository.dart';
 import '../../data/repositories/permission_repository.dart';
@@ -55,4 +56,5 @@ Future<void> setupServiceLocator() async {
   sl.registerSingleton<SmsWalletRepository>(SmsWalletRepository(api));
   sl.registerSingleton<AfterHoursRepository>(AfterHoursRepository(api));
   sl.registerSingleton<EquipmentRepository>(EquipmentRepository(api));
+  sl.registerSingleton<PharmacyInventoryRepository>(PharmacyInventoryRepository(api));
 }

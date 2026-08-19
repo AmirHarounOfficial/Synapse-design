@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 import '../../../core/di/service_locator.dart';
+import '../../../core/localization/l10n_ext.dart';
 import '../../../core/network/data_state.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
@@ -11,9 +12,6 @@ import '../../../data/repositories/sms_wallet_repository.dart';
 import '../cubit/sms_wallet_cubit.dart';
 import 'package:schookeep/core/router/safe_back.dart';
 
-/// Ported from `PrincipalSMSWallet.tsx`, wired to [SmsWalletCubit]
-/// (`GET /sms-wallet`, `POST /sms-wallet/topup`). Balance card (color-coded by
-/// level), a 7-day usage chart, top-up controls, and live transaction history.
 class PrincipalSmsWalletScreen extends StatelessWidget {
   const PrincipalSmsWalletScreen({super.key});
 
@@ -36,21 +34,6 @@ class _PrincipalSmsWalletView extends StatefulWidget {
 class _PrincipalSmsWalletViewState extends State<_PrincipalSmsWalletView> {
   final _topUpAmount = TextEditingController();
 
-  // Static 7-day usage breakdown (no per-day series in the API yet) — kept to
-  // preserve the ported chart design.
-  static const _dailyUsage = <_DayUsage>[
-    _DayUsage('Mon', 2, 15, 8),
-    _DayUsage('Tue', 0, 22, 12),
-    _DayUsage('Wed', 1, 18, 10),
-    _DayUsage('Thu', 0, 24, 14),
-    _DayUsage('Fri', 3, 20, 11),
-    _DayUsage('Sat', 0, 5, 2),
-    _DayUsage('Sun', 0, 3, 1),
-  ];
-
-  int get _maxTotal =>
-      _dailyUsage.map((d) => d.emergency + d.routine + d.reminder).reduce((a, b) => a > b ? a : b);
-
   @override
   void dispose() {
     _topUpAmount.dispose();
@@ -65,8 +48,12 @@ class _PrincipalSmsWalletViewState extends State<_PrincipalSmsWalletView> {
     final ok = await context.read<SmsWalletCubit>().topup(credits);
     if (!mounted) return;
     if (ok) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Added $credits credits to your wallet')));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(context.tr(
+          en: 'Added $credits credits to your wallet',
+          ar: 'تمت إضافة $credits رصيد إضافي إلى المحفظة',
+        )),
+      ));
       setState(() => _topUpAmount.clear());
     }
   }
@@ -81,7 +68,7 @@ class _PrincipalSmsWalletViewState extends State<_PrincipalSmsWalletView> {
   Widget build(BuildContext context) {
     return SchooKeepScaffold(
       scrollable: true,
-      title: 'SMS Wallet',
+      title: context.tr(en: 'SMS Wallet', ar: 'محفظة الرسائل النصية والواتساب'),
       onBack: () => context.safeBack(),
       body: BlocBuilder<SmsWalletCubit, DataState<SmsWalletData>>(
         builder: (context, state) {
@@ -90,33 +77,33 @@ class _PrincipalSmsWalletViewState extends State<_PrincipalSmsWalletView> {
                 padding: EdgeInsets.all(48),
                 child: Center(child: CircularProgressIndicator()),
               ),
-            DataError(:final message) => _errorBanner(message),
-            DataLoaded(:final data) => _content(data),
+            DataError(:final message) => _errorBanner(context, message),
+            DataLoaded(:final data) => _content(context, data),
           };
         },
       ),
     );
   }
 
-  Widget _content(SmsWalletData data) {
+  Widget _content(BuildContext context, SmsWalletData data) {
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _balanceCard(data.balanceCredits),
+          _balanceCard(context, data.balanceCredits),
           const SizedBox(height: 16),
-          _usageChart(),
+          _usageChart(context),
           const SizedBox(height: 16),
-          _topUpCard(),
+          _topUpCard(context),
           const SizedBox(height: 16),
-          _transactionHistory(data.transactions),
+          _transactionHistory(context, data.transactions),
         ],
       ),
     );
   }
 
-  Widget _errorBanner(String error) {
+  Widget _errorBanner(BuildContext context, String error) {
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -141,14 +128,17 @@ class _PrincipalSmsWalletViewState extends State<_PrincipalSmsWalletView> {
             ),
           ),
           const SizedBox(height: 12),
-          SchooKeepButton(label: 'Retry', fullWidth: false, onPressed: _reload),
+          SchooKeepButton(
+            label: context.tr(en: 'Retry', ar: 'إعادة المحاولة'),
+            fullWidth: false,
+            onPressed: _reload,
+          ),
         ],
       ),
     );
   }
 
-  Widget _balanceCard(int credits) {
-    // Color-code the balance by level: low balances warn in red.
+  Widget _balanceCard(BuildContext context, int credits) {
     final low = credits < 50;
     final color = low ? SchooKeepColors.error : SchooKeepColors.accent;
     final bg = low ? const Color(0xFFFEE2E2) : const Color(0xFFD1FAE5);
@@ -166,38 +156,57 @@ class _PrincipalSmsWalletViewState extends State<_PrincipalSmsWalletView> {
             children: [
               Icon(LucideIcons.messageCircle, size: 20, color: color),
               const SizedBox(width: 8),
-              const Text('Current Balance',
-                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.textSecondary)),
+              Text(
+                context.tr(en: 'Current Balance', ar: 'الرصيد الحالي'),
+                style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.textSecondary),
+              ),
             ],
           ),
           const SizedBox(height: 8),
-          Text('$credits credits',
-              style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold, color: color)),
+          Text(
+            context.tr(en: '$credits credits', ar: '$credits رصيد'),
+            style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold, color: color),
+          ),
           const SizedBox(height: 4),
-          Text('≈ $credits messages remaining',
-              style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary)),
+          Text(
+            context.tr(en: '≈ $credits messages remaining', ar: 'متبقي ما يقارب $credits رسالة نصية'),
+            style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary),
+          ),
         ],
       ),
     );
   }
 
-  Widget _usageChart() {
+  Widget _usageChart(BuildContext context) {
+    final dailyUsage = <_DayUsage>[
+      _DayUsage(context.tr(en: 'Mon', ar: 'الإثنين'), 2, 15, 8),
+      _DayUsage(context.tr(en: 'Tue', ar: 'الثلاثاء'), 0, 22, 12),
+      _DayUsage(context.tr(en: 'Wed', ar: 'الأربعاء'), 1, 18, 10),
+      _DayUsage(context.tr(en: 'Thu', ar: 'الخميس'), 0, 24, 14),
+      _DayUsage(context.tr(en: 'Fri', ar: 'الجمعة'), 3, 20, 11),
+      _DayUsage(context.tr(en: 'Sat', ar: 'السبت'), 0, 5, 2),
+      _DayUsage(context.tr(en: 'Sun', ar: 'الأحد'), 0, 3, 1),
+    ];
+    final maxTotal = dailyUsage.map((d) => d.emergency + d.routine + d.reminder).reduce((a, b) => a > b ? a : b);
+
     return SchooKeepCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Last 7 Days Usage',
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
+          Text(
+            context.tr(en: 'Last 7 Days Usage', ar: 'استهلاك آخر 7 أيام'),
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary),
+          ),
           const SizedBox(height: 12),
-          for (final d in _dailyUsage) _usageRow(d),
+          for (final d in dailyUsage) _usageRow(d, maxTotal),
           const SizedBox(height: 12),
-          const Row(
+          Row(
             children: [
-              _Legend(SchooKeepColors.error, 'Emergency'),
-              SizedBox(width: 12),
-              _Legend(SchooKeepColors.primary, 'Routine'),
-              SizedBox(width: 12),
-              _Legend(SchooKeepColors.warning, 'Reminder'),
+              _Legend(SchooKeepColors.error, context.tr(en: 'Emergency', ar: 'طوارئ')),
+              const SizedBox(width: 12),
+              _Legend(SchooKeepColors.primary, context.tr(en: 'Routine', ar: 'روتينية')),
+              const SizedBox(width: 12),
+              _Legend(SchooKeepColors.warning, context.tr(en: 'Reminder', ar: 'تذكير')),
             ],
           ),
         ],
@@ -205,7 +214,7 @@ class _PrincipalSmsWalletViewState extends State<_PrincipalSmsWalletView> {
     );
   }
 
-  Widget _usageRow(_DayUsage d) {
+  Widget _usageRow(_DayUsage d, int maxTotal) {
     final total = d.emergency + d.routine + d.reminder;
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
@@ -213,7 +222,7 @@ class _PrincipalSmsWalletViewState extends State<_PrincipalSmsWalletView> {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           SizedBox(
-            width: 40,
+            width: 48,
             child: Text(d.day, style: const TextStyle(fontSize: 10, color: SchooKeepColors.textSecondary)),
           ),
           const SizedBox(width: 8),
@@ -223,11 +232,11 @@ class _PrincipalSmsWalletViewState extends State<_PrincipalSmsWalletView> {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  if (d.emergency > 0) _bar(SchooKeepColors.error, d.emergency / _maxTotal),
+                  if (d.emergency > 0) _bar(SchooKeepColors.error, d.emergency / maxTotal),
                   if (d.emergency > 0) const SizedBox(width: 2),
-                  if (d.routine > 0) _bar(SchooKeepColors.primary, d.routine / _maxTotal),
+                  if (d.routine > 0) _bar(SchooKeepColors.primary, d.routine / maxTotal),
                   if (d.routine > 0) const SizedBox(width: 2),
-                  if (d.reminder > 0) _bar(SchooKeepColors.warning, d.reminder / _maxTotal),
+                  if (d.reminder > 0) _bar(SchooKeepColors.warning, d.reminder / maxTotal),
                 ],
               ),
             ),
@@ -261,14 +270,16 @@ class _PrincipalSmsWalletViewState extends State<_PrincipalSmsWalletView> {
     );
   }
 
-  Widget _topUpCard() {
+  Widget _topUpCard(BuildContext context) {
     final enabled = _topUpAmount.text.isNotEmpty;
     return SchooKeepCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Add Funds',
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
+          Text(
+            context.tr(en: 'Add Funds', ar: 'شحن رصيد المحفظة'),
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary),
+          ),
           const SizedBox(height: 12),
           Row(
             children: [
@@ -281,7 +292,7 @@ class _PrincipalSmsWalletViewState extends State<_PrincipalSmsWalletView> {
                     onChanged: (_) => setState(() {}),
                     style: const TextStyle(fontSize: 15, color: SchooKeepColors.textPrimary),
                     decoration: InputDecoration(
-                      hintText: 'Enter credits',
+                      hintText: context.tr(en: 'Enter credits', ar: 'أدخل عدد النقاط'),
                       hintStyle: const TextStyle(fontSize: 15, color: Color(0xFF94A3B8)),
                       contentPadding: const EdgeInsets.symmetric(horizontal: 16),
                       filled: true,
@@ -309,11 +320,14 @@ class _PrincipalSmsWalletViewState extends State<_PrincipalSmsWalletView> {
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                   ),
                   onPressed: enabled ? _handleTopUp : null,
-                  child: Text('Add funds',
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: enabled ? Colors.white : const Color(0xFF94A3B8))),
+                  child: Text(
+                    context.tr(en: 'Add funds', ar: 'إضافة'),
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: enabled ? Colors.white : const Color(0xFF94A3B8),
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -343,32 +357,36 @@ class _PrincipalSmsWalletViewState extends State<_PrincipalSmsWalletView> {
     );
   }
 
-  Widget _transactionHistory(List<SmsTransaction> transactions) {
+  Widget _transactionHistory(BuildContext context, List<SmsTransaction> transactions) {
     return SchooKeepCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Transaction History',
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
+          Text(
+            context.tr(en: 'Transaction History', ar: 'سجل المعاملات والشحن'),
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary),
+          ),
           const SizedBox(height: 12),
           if (transactions.isEmpty)
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 12),
-              child: Text('No transactions yet',
-                  style: TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary)),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12),
+              child: Text(
+                context.tr(en: 'No transactions yet', ar: 'لا توجد معاملات مسجلة بعد'),
+                style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary),
+              ),
             )
           else
             for (int i = 0; i < transactions.length; i++)
-              _txRow(transactions[i], i < transactions.length - 1),
+              _txRow(context, transactions[i], i < transactions.length - 1),
         ],
       ),
     );
   }
 
-  Widget _txRow(SmsTransaction tx, bool divider) {
+  Widget _txRow(BuildContext context, SmsTransaction tx, bool divider) {
     final isTopup = tx.type == 'topup';
-    final title = tx.description ?? (isTopup ? 'Top-up' : 'SMS charge');
-    final amount = '${isTopup ? '+' : '-'}${tx.credits} credits';
+    final title = tx.description ?? (isTopup ? context.tr(en: 'Top-up', ar: 'شحن رصيد') : context.tr(en: 'SMS charge', ar: 'خصم رسائل نصية'));
+    final amount = '${isTopup ? '+' : '-'}${tx.credits} ${context.tr(en: 'credits', ar: 'رصيد')}';
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 8),
       decoration: BoxDecoration(

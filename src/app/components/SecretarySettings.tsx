@@ -292,7 +292,7 @@ export function SecretarySettings() {
                 </div>
               </div>
               <div className="text-[12px] text-[#64748B] flex-shrink-0">
-                Synapse v1.0.0
+                SchooKeep v1.0.0
               </div>
             </div>
 

@@ -8,7 +8,7 @@ export function Splash() {
       <div className="flex-1 flex flex-col items-center justify-center">
         {/* Logo wordmark */}
         <h1 className="text-[36px] font-medium text-[#2563EB] mb-2" style={{ fontWeight: 500 }}>
-          Synapse
+          SchooKeep
         </h1>
 
         {/* Tagline */}

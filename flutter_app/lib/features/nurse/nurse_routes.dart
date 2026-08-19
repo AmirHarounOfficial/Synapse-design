@@ -21,6 +21,7 @@ import 'view/new_clinic_visit_screen.dart';
 import 'view/nurse_dashboard_screen.dart';
 import 'view/nurse_medication_detail_screen.dart';
 import 'view/nurse_medications_screen.dart';
+import 'view/nurse_pharmacy_inventory_screen.dart';
 import 'view/nurse_notifications_screen.dart';
 import 'view/nurse_reports_screen.dart';
 import 'view/nurse_settings_screen.dart';
@@ -39,6 +40,7 @@ final List<RouteBase> nurseRoutes = [
       GoRoute(path: '/nurse/dashboard', builder: (c, s) => const NurseDashboardScreen()),
       GoRoute(path: '/nurse/daily-doses', builder: (c, s) => const DailyDoseViewScreen()),
       GoRoute(path: '/nurse/medications', builder: (c, s) => const NurseMedicationsScreen()),
+      GoRoute(path: '/nurse/medications/inventory', builder: (c, s) => const NursePharmacyInventoryScreen()),
       GoRoute(path: '/nurse/medications/add/step1', builder: (c, s) => const AddMedicationStep1Screen()),
       GoRoute(path: '/nurse/medications/add/step2', builder: (c, s) => const AddMedicationStep2Screen()),
       GoRoute(path: '/nurse/medications/add/step3', builder: (c, s) => const AddMedicationStep3Screen()),

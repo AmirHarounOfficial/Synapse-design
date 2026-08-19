@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
+import '../../../core/localization/l10n_ext.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
 
-/// Ported from `EmergencyEscalation.tsx`. Full-screen red "calling parent"
-/// state with pulsing phone, an End Call button, then a slide-up decision-log
-/// sheet after the call ends. English-only, no bottom nav.
 class EmergencyEscalationScreen extends StatefulWidget {
   const EmergencyEscalationScreen({super.key});
 
@@ -59,7 +57,9 @@ class _EmergencyEscalationScreenState extends State<EmergencyEscalationScreen> {
                     _phoneIcon(),
                     const SizedBox(height: 32),
                     Text(
-                      calling ? 'Calling Parent' : 'Call Ended',
+                      calling
+                          ? context.tr(en: 'Calling Parent', ar: 'جاري الاتصال بولي الأمر...')
+                          : context.tr(en: 'Call Ended', ar: 'انتهت المكالمة'),
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         fontSize: 24,
@@ -70,8 +70,8 @@ class _EmergencyEscalationScreenState extends State<EmergencyEscalationScreen> {
                     const SizedBox(height: 12),
                     Text(
                       calling
-                          ? 'No Response Received'
-                          : 'Parent did not respond',
+                          ? context.tr(en: 'No Response Received', ar: 'لم يتم استلام رد من ولي الأمر')
+                          : context.tr(en: 'Parent did not respond', ar: 'لم يجب ولي الأمر على المكالمة'),
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 16,
@@ -82,7 +82,10 @@ class _EmergencyEscalationScreenState extends State<EmergencyEscalationScreen> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: Text(
-                        'Automatic emergency call initiated at 10:32 AM · Maya Chen · Playground incident',
+                        context.tr(
+                          en: 'Automatic emergency call initiated at 10:32 AM · Maya Chen · Playground incident',
+                          ar: 'تم بدء الاتصال التلقائي في 10:32 AM · مايا تشن · حادثة الملعب المدرسي',
+                        ),
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 14,
@@ -117,9 +120,9 @@ class _EmergencyEscalationScreenState extends State<EmergencyEscalationScreen> {
                             ),
                             onPressed: () =>
                                 setState(() => _callStatus = 'ended'),
-                            child: const Text(
-                              'End Call',
-                              style: TextStyle(
+                            child: Text(
+                              context.tr(en: 'End Call', ar: 'إنهاء المكالمة'),
+                              style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
                                 color: SchooKeepColors.error,
@@ -133,7 +136,7 @@ class _EmergencyEscalationScreenState extends State<EmergencyEscalationScreen> {
                 ),
               ),
             ),
-            if (!calling) _actionSheet(),
+            if (!calling) _actionSheet(context),
           ],
         ),
       ),
@@ -156,7 +159,7 @@ class _EmergencyEscalationScreenState extends State<EmergencyEscalationScreen> {
     );
   }
 
-  Widget _actionSheet() {
+  Widget _actionSheet(BuildContext context) {
     final enabled = _decisionLog.text.trim().isNotEmpty;
     return Container(
       width: double.infinity,
@@ -178,19 +181,22 @@ class _EmergencyEscalationScreenState extends State<EmergencyEscalationScreen> {
               padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
+                children: [
                   Text(
-                    'Action Required',
-                    style: TextStyle(
+                    context.tr(en: 'Action Required', ar: 'الإجراء المطلـوب من الممرض/ة'),
+                    style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
                       color: SchooKeepColors.amberText,
                     ),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Text(
-                    'You may now proceed on your professional judgment. Document your decision below.',
-                    style: TextStyle(
+                    context.tr(
+                      en: 'You may now proceed on your professional judgment. Document your decision below.',
+                      ar: 'يمكنك الآن التصرف بناءً على تقييمك السريري المهني. يرجى توثيق القرار الطبي أدناه.',
+                    ),
+                    style: const TextStyle(
                       fontSize: 13,
                       color: SchooKeepColors.amberText,
                     ),
@@ -210,9 +216,9 @@ class _EmergencyEscalationScreenState extends State<EmergencyEscalationScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Decision Log *',
-                  style: TextStyle(
+                Text(
+                  context.tr(en: 'Decision Log *', ar: 'توثيق القرار والتصرف الطبي *'),
+                  style: const TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                     color: SchooKeepColors.textSecondary,
@@ -223,8 +229,10 @@ class _EmergencyEscalationScreenState extends State<EmergencyEscalationScreen> {
                   controller: _decisionLog,
                   maxLines: 6,
                   decoration: InputDecoration(
-                    hintText:
-                        'Document your professional decision and next steps...',
+                    hintText: context.tr(
+                      en: 'Document your professional decision and next steps...',
+                      ar: 'أدخل تفاصيل التقييم والقرار الطبي والخطوات التالية...',
+                    ),
                     hintStyle: const TextStyle(
                       color: SchooKeepColors.textSecondary,
                     ),
@@ -253,9 +261,12 @@ class _EmergencyEscalationScreenState extends State<EmergencyEscalationScreen> {
                   ),
                 ),
                 const SizedBox(height: 8),
-                const Text(
-                  'This decision will be permanently logged with timestamp: May 24, 2026 at 10:35:42 AM',
-                  style: TextStyle(
+                Text(
+                  context.tr(
+                    en: 'This decision will be permanently logged with timestamp',
+                    ar: 'سيتم توثيق هذا القرار في سجل التدقيق الطبي مع الطابع الزمني المعتمد',
+                  ),
+                  style: const TextStyle(
                     fontSize: 12,
                     color: SchooKeepColors.textSecondary,
                   ),
@@ -278,9 +289,9 @@ class _EmergencyEscalationScreenState extends State<EmergencyEscalationScreen> {
                 ),
               ),
               onPressed: enabled ? _handleLogDecision : null,
-              child: const Text(
-                'Log Decision',
-                style: TextStyle(
+              child: Text(
+                context.tr(en: 'Log Decision', ar: 'اعتماد وتوثيق القرار'),
+                style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
                   color: Colors.white,

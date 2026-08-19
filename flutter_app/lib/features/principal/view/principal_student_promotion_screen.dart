@@ -4,16 +4,13 @@ import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 import '../../../core/di/service_locator.dart';
+import '../../../core/localization/l10n_ext.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../../data/repositories/analytics_repository.dart';
 import '../cubit/student_promotion_cubit.dart';
 import 'package:schookeep/core/router/safe_back.dart';
 
-/// Ported from `PrincipalStudentPromotion.tsx`, wired to `POST /students/promote`
-/// via [StudentPromotionCubit]. A 3-step destructive wizard: review → type-to-
-/// confirm → execute. Execution calls the cubit and, once done, replaces the
-/// wizard with the real promotion summary (promoted / skipped counts + details).
 class PrincipalStudentPromotionScreen extends StatelessWidget {
   const PrincipalStudentPromotionScreen({super.key});
 
@@ -51,10 +48,13 @@ class _PrincipalStudentPromotionViewState extends State<_PrincipalStudentPromoti
     final ok = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        content: const Text('This action cannot be undone. Execute year-end promotion?'),
+        content: Text(context.tr(
+          en: 'This action cannot be undone. Execute year-end promotion?',
+          ar: 'لا يمكن التراجع عن هذا الإجراء إطلاقاً. هل ترغب في ترفيع السجلات الطلابية بنهاية العام؟',
+        )),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Cancel')),
-          TextButton(onPressed: () => Navigator.pop(ctx, true), child: const Text('OK')),
+          TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text(context.tr(en: 'Cancel', ar: 'إلغاء'))),
+          TextButton(onPressed: () => Navigator.pop(ctx, true), child: Text(context.tr(en: 'OK', ar: 'موافق'))),
         ],
       ),
     );
@@ -66,30 +66,30 @@ class _PrincipalStudentPromotionViewState extends State<_PrincipalStudentPromoti
   Widget build(BuildContext context) {
     return SchooKeepScaffold(
       scrollable: true,
-      title: 'Year-End Promotion',
+      title: context.tr(en: 'Year-End Promotion', ar: 'ترفيع السجلات الصحية الطلابية للعام الجديد'),
       onBack: () => context.safeBack(),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: BlocBuilder<StudentPromotionCubit, StudentPromotionState>(
           builder: (context, state) {
             if (state is StudentPromotionDone) {
-              return _resultView(state.summary);
+              return _resultView(context, state.summary);
             }
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _warningBanner(),
+                _warningBanner(context),
                 const SizedBox(height: 16),
                 _progressIndicator(),
                 const SizedBox(height: 16),
-                _step1Card(),
+                _step1Card(context),
                 if (_step >= 2) ...[
                   const SizedBox(height: 16),
-                  _step2Card(),
+                  _step2Card(context),
                 ],
                 if (_step >= 3) ...[
                   const SizedBox(height: 16),
-                  _step3Card(state),
+                  _step3Card(context, state),
                 ],
               ],
             );
@@ -99,7 +99,7 @@ class _PrincipalStudentPromotionViewState extends State<_PrincipalStudentPromoti
     );
   }
 
-  Widget _warningBanner() {
+  Widget _warningBanner(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -107,21 +107,26 @@ class _PrincipalStudentPromotionViewState extends State<_PrincipalStudentPromoti
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: SchooKeepColors.warning),
       ),
-      child: const Row(
+      child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(LucideIcons.alertTriangle, size: 20, color: SchooKeepColors.warning),
-          SizedBox(width: 12),
+          const Icon(LucideIcons.alertTriangle, size: 20, color: SchooKeepColors.warning),
+          const SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('⚠ Critical System Action',
-                    style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Color(0xFF92400E))),
-                SizedBox(height: 4),
                 Text(
-                  'This action promotes all students one grade level and archives graduating students. It cannot be undone.',
-                  style: TextStyle(fontSize: 12, color: Color(0xFF92400E), height: 1.5),
+                  context.tr(en: '⚠ Critical System Action', ar: '⚠ إجراء نظام حرج'),
+                  style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Color(0xFF92400E)),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  context.tr(
+                    en: 'This action promotes all students one grade level and archives graduating students. It cannot be undone.',
+                    ar: 'يقوم هذا الإجراء بنقل جميع الطلاب إلى الصف الدراسي التالي وأرشفة الخريجين. لا يمكن التراجع عنه بعد ذلك.',
+                  ),
+                  style: const TextStyle(fontSize: 12, color: Color(0xFF92400E), height: 1.5),
                 ),
               ],
             ),
@@ -160,7 +165,7 @@ class _PrincipalStudentPromotionViewState extends State<_PrincipalStudentPromoti
     );
   }
 
-  Widget _step1Card() {
+  Widget _step1Card(BuildContext context) {
     return SchooKeepCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -169,14 +174,19 @@ class _PrincipalStudentPromotionViewState extends State<_PrincipalStudentPromoti
             children: [
               _stepBadge(1, _step > 1 ? SchooKeepColors.accent : SchooKeepColors.primary),
               const SizedBox(width: 8),
-              const Text('Review Summary',
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
+              Text(
+                context.tr(en: 'Review Summary', ar: 'مراجعة الملخص العام'),
+                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary),
+              ),
             ],
           ),
           const SizedBox(height: 12),
-          const Text(
-            'Every student in your school with a numeric grade will be advanced one level. Students on a non-numeric grade (e.g. KG, Reception) are left unchanged and reported as skipped. Exact counts are confirmed after you execute.',
-            style: TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary, height: 1.5),
+          Text(
+            context.tr(
+              en: 'Every student in your school with a numeric grade will be advanced one level. Students on a non-numeric grade are left unchanged and reported as skipped.',
+              ar: 'سيتم ترفيع كل طالب في المدرسة لديه صف دراسي رقمي إلى المستوى التالي. أما الطلاب في الصفوف غير الرقمية فيتم استثناؤهم.',
+            ),
+            style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary, height: 1.5),
           ),
           const SizedBox(height: 12),
           Container(
@@ -186,18 +196,19 @@ class _PrincipalStudentPromotionViewState extends State<_PrincipalStudentPromoti
               borderRadius: BorderRadius.circular(8),
               border: Border.all(color: const Color(0xFFBFDBFE)),
             ),
-            child: const Row(
+            child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(LucideIcons.info, size: 16, color: SchooKeepColors.primary),
-                SizedBox(width: 8),
+                const Icon(LucideIcons.info, size: 16, color: SchooKeepColors.primary),
+                const SizedBox(width: 8),
                 Expanded(
                   child: Text.rich(
                     TextSpan(children: [
                       TextSpan(
-                          text: 'New school year start date: ',
-                          style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF1E40AF))),
-                      TextSpan(text: _newYearStart, style: TextStyle(fontSize: 12, color: Color(0xFF1E40AF))),
+                        text: context.tr(en: 'New school year start date: ', ar: 'تاريخ بدء العام الدراسي الجديد: '),
+                        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF1E40AF)),
+                      ),
+                      const TextSpan(text: _newYearStart, style: TextStyle(fontSize: 12, color: Color(0xFF1E40AF))),
                     ]),
                   ),
                 ),
@@ -206,14 +217,14 @@ class _PrincipalStudentPromotionViewState extends State<_PrincipalStudentPromoti
           ),
           if (_step == 1) ...[
             const SizedBox(height: 16),
-            _primaryButton('Confirm & Continue', () => setState(() => _step = 2)),
+            _primaryButton(context.tr(en: 'Confirm & Continue', ar: 'تأكيد والمتابعة'), () => setState(() => _step = 2)),
           ],
         ],
       ),
     );
   }
 
-  Widget _step2Card() {
+  Widget _step2Card(BuildContext context) {
     final matches = _confirmation.text == _requiredText;
     return SchooKeepCard(
       child: Column(
@@ -223,13 +234,17 @@ class _PrincipalStudentPromotionViewState extends State<_PrincipalStudentPromoti
             children: [
               _stepBadge(2, _step > 2 ? SchooKeepColors.accent : SchooKeepColors.primary),
               const SizedBox(width: 8),
-              const Text('Type Confirmation',
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
+              Text(
+                context.tr(en: 'Type Confirmation', ar: 'إدخال نص التأكيد'),
+                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary),
+              ),
             ],
           ),
           const SizedBox(height: 12),
-          Text('Type "$_requiredText" to unlock',
-              style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
+          Text(
+            context.tr(en: 'Type "$_requiredText" to unlock', ar: 'اكتب "$_requiredText" لتفعيل الترفيع'),
+            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+          ),
           const SizedBox(height: 8),
           SizedBox(
             height: 48,
@@ -263,26 +278,28 @@ class _PrincipalStudentPromotionViewState extends State<_PrincipalStudentPromoti
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(color: SchooKeepColors.accent),
               ),
-              child: const Row(
+              child: Row(
                 children: [
-                  Icon(LucideIcons.checkCircle, size: 20, color: SchooKeepColors.accent),
-                  SizedBox(width: 8),
-                  Text('Confirmation text matches',
-                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: Color(0xFF065F46))),
+                  const Icon(LucideIcons.checkCircle, size: 20, color: SchooKeepColors.accent),
+                  const SizedBox(width: 8),
+                  Text(
+                    context.tr(en: 'Confirmation text matches', ar: 'نص التأكيد متطابق ✓'),
+                    style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: Color(0xFF065F46)),
+                  ),
                 ],
               ),
             ),
           ],
           if (_step == 2 && matches) ...[
             const SizedBox(height: 16),
-            _primaryButton('Continue to Final Step', () => setState(() => _step = 3)),
+            _primaryButton(context.tr(en: 'Continue to Final Step', ar: 'الانتقال للخطوة الأخيرة'), () => setState(() => _step = 3)),
           ],
         ],
       ),
     );
   }
 
-  Widget _step3Card(StudentPromotionState state) {
+  Widget _step3Card(BuildContext context, StudentPromotionState state) {
     final submitting = state is StudentPromotionSubmitting;
     return Container(
       padding: const EdgeInsets.all(16),
@@ -298,8 +315,10 @@ class _PrincipalStudentPromotionViewState extends State<_PrincipalStudentPromoti
             children: [
               _stepBadge(3, SchooKeepColors.error),
               const SizedBox(width: 8),
-              const Text('Final Confirmation',
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
+              Text(
+                context.tr(en: 'Final Confirmation', ar: 'التأكيد النهائي للتنفيذ'),
+                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary),
+              ),
             ],
           ),
           const SizedBox(height: 12),
@@ -310,21 +329,26 @@ class _PrincipalStudentPromotionViewState extends State<_PrincipalStudentPromoti
               borderRadius: BorderRadius.circular(8),
               border: Border.all(color: SchooKeepColors.error),
             ),
-            child: const Row(
+            child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(LucideIcons.alertTriangle, size: 16, color: SchooKeepColors.error),
-                SizedBox(width: 8),
+                const Icon(LucideIcons.alertTriangle, size: 16, color: SchooKeepColors.error),
+                const SizedBox(width: 8),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Final Warning',
-                          style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Color(0xFF991B1B))),
-                      SizedBox(height: 4),
                       Text(
-                        'This action is irreversible. All students will be promoted immediately. Graduating students will be permanently archived.',
-                        style: TextStyle(fontSize: 11, color: Color(0xFF991B1B), height: 1.5),
+                        context.tr(en: 'Final Warning', ar: 'تحذير نهائي'),
+                        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Color(0xFF991B1B)),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        context.tr(
+                          en: 'This action is irreversible. All students will be promoted immediately. Graduating students will be permanently archived.',
+                          ar: 'هذا الإجراء نهائي وغير قابل للإلغاء. سيتم ترفيع كافة الطلاب فوراً وأرشفة الخريجين.',
+                        ),
+                        style: const TextStyle(fontSize: 11, color: Color(0xFF991B1B), height: 1.5),
                       ),
                     ],
                   ),
@@ -355,8 +379,12 @@ class _PrincipalStudentPromotionViewState extends State<_PrincipalStudentPromoti
                       child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
                     )
                   : const Icon(LucideIcons.alertTriangle, size: 20, color: Colors.white),
-              label: Text(submitting ? 'Promoting…' : 'Execute Promotion',
-                  style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.white)),
+              label: Text(
+                submitting
+                    ? context.tr(en: 'Promoting…', ar: 'جاري الترفيع...')
+                    : context.tr(en: 'Execute Promotion', ar: 'تنفيذ الترفيع للعام الجديد'),
+                style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.white),
+              ),
             ),
           ),
         ],
@@ -364,7 +392,7 @@ class _PrincipalStudentPromotionViewState extends State<_PrincipalStudentPromoti
     );
   }
 
-  Widget _resultView(Map<String, dynamic> summary) {
+  Widget _resultView(BuildContext context, Map<String, dynamic> summary) {
     final promotedCount = (summary['promoted_count'] as num?)?.toInt() ?? 0;
     final skippedCount = (summary['skipped_count'] as num?)?.toInt() ?? 0;
     final details = (summary['details'] as Map?) ?? const {};
@@ -381,14 +409,16 @@ class _PrincipalStudentPromotionViewState extends State<_PrincipalStudentPromoti
             borderRadius: BorderRadius.circular(12),
             border: Border.all(color: SchooKeepColors.accent),
           ),
-          child: const Row(
+          child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Icon(LucideIcons.checkCircle, size: 20, color: SchooKeepColors.accent),
-              SizedBox(width: 12),
+              const Icon(LucideIcons.checkCircle, size: 20, color: SchooKeepColors.accent),
+              const SizedBox(width: 12),
               Expanded(
-                child: Text('Year-end promotion complete.',
-                    style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Color(0xFF065F46))),
+                child: Text(
+                  context.tr(en: 'Year-end promotion complete.', ar: 'اكتملت عملية ترفيع السجلات بنجاح.'),
+                  style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Color(0xFF065F46)),
+                ),
               ),
             ],
           ),
@@ -396,33 +426,33 @@ class _PrincipalStudentPromotionViewState extends State<_PrincipalStudentPromoti
         const SizedBox(height: 16),
         Row(
           children: [
-            Expanded(child: _resultStat('Promoted', promotedCount, SchooKeepColors.accent, LucideIcons.arrowUpCircle)),
+            Expanded(child: _resultStat(context.tr(en: 'Promoted', ar: 'تم ترفيعهم'), promotedCount, SchooKeepColors.accent, LucideIcons.arrowUpCircle)),
             const SizedBox(width: 12),
-            Expanded(child: _resultStat('Skipped', skippedCount, SchooKeepColors.warning, LucideIcons.minusCircle)),
+            Expanded(child: _resultStat(context.tr(en: 'Skipped', ar: 'تم استثناؤهم'), skippedCount, SchooKeepColors.warning, LucideIcons.minusCircle)),
           ],
         ),
         if (promoted.isNotEmpty) ...[
           const SizedBox(height: 16),
-          _detailCard('Promoted students', [
+          _detailCard(context.tr(en: 'Promoted students', ar: 'الطلاب الذي تم ترفيعهم'), [
             for (final p in promoted)
               _detailRow(
                 (p is Map ? p['name']?.toString() : null) ?? 'Student',
-                (p is Map) ? 'Grade ${p['from_grade']} → ${p['to_grade']}' : '',
+                (p is Map) ? context.tr(en: 'Grade ${p['from_grade']} → ${p['to_grade']}', ar: 'الصف ${p['from_grade']} ← ${p['to_grade']}') : '',
               ),
           ]),
         ],
         if (skipped.isNotEmpty) ...[
           const SizedBox(height: 16),
-          _detailCard('Skipped students', [
+          _detailCard(context.tr(en: 'Skipped students', ar: 'الطلاب المستثنون'), [
             for (final s in skipped)
               _detailRow(
                 (s is Map ? s['name']?.toString() : null) ?? 'Student',
-                (s is Map) ? 'Grade ${s['grade'] ?? '—'} · ${_reasonLabel(s['reason']?.toString())}' : '',
+                (s is Map) ? '${context.tr(en: 'Grade', ar: 'الصف')} ${s['grade'] ?? '—'} · ${_reasonLabel(context, s['reason']?.toString())}' : '',
               ),
           ]),
         ],
         const SizedBox(height: 16),
-        _primaryButton('Done', () => context.go('/principal/home')),
+        _primaryButton(context.tr(en: 'Done', ar: 'تم'), () => context.go('/principal/home')),
       ],
     );
   }
@@ -475,12 +505,12 @@ class _PrincipalStudentPromotionViewState extends State<_PrincipalStudentPromoti
     );
   }
 
-  static String _reasonLabel(String? reason) {
+  static String _reasonLabel(BuildContext context, String? reason) {
     switch (reason) {
       case 'non_numeric_grade':
-        return 'Non-numeric grade';
+        return context.tr(en: 'Non-numeric grade', ar: 'صف غير رقمي');
       default:
-        return reason == null || reason.isEmpty ? 'Skipped' : reason;
+        return reason == null || reason.isEmpty ? context.tr(en: 'Skipped', ar: 'مستثنى') : reason;
     }
   }
 

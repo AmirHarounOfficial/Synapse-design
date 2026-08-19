@@ -4,12 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
+import '../../../core/localization/l10n_ext.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
 
-/// Ported from `AddMedicationStep1.tsx`. English-only. Camera viewfinder with a
-/// simulated capture flow (`idle -> capturing -> captured`) that auto-advances
-/// to step 2.
 class AddMedicationStep1Screen extends StatefulWidget {
   const AddMedicationStep1Screen({super.key});
 
@@ -18,7 +16,6 @@ class AddMedicationStep1Screen extends StatefulWidget {
 }
 
 class _AddMedicationStep1ScreenState extends State<AddMedicationStep1Screen> {
-  /// 'idle' | 'capturing' | 'captured'
   String _photoCapture = 'idle';
 
   void _handleCapture() {
@@ -33,13 +30,10 @@ class _AddMedicationStep1ScreenState extends State<AddMedicationStep1Screen> {
     });
   }
 
-  /// "Upload from Photos" — there is no native gallery picker available
-  /// (file_picker is disallowed), so we treat a chosen photo the same as a
-  /// successful capture: confirm and advance to step 2.
   void _handleUpload() {
     if (_photoCapture != 'idle') return;
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Photo selected from library')),
+      SnackBar(content: Text(context.tr(en: 'Photo selected from library', ar: 'تم اختيار صورة من مكتبة الصور'))),
     );
     setState(() => _photoCapture = 'captured');
     Timer(const Duration(milliseconds: 500), () {
@@ -53,27 +47,25 @@ class _AddMedicationStep1ScreenState extends State<AddMedicationStep1Screen> {
     return SchooKeepScaffold(
       reserveBottomNav: true,
       appBar: SchooKeepAppBar(
-        title: 'Add Medication',
+        title: context.tr(en: 'Add Medication', ar: 'إضافة دواء جديد'),
         centerTitle: true,
         onBack: () => context.go('/nurse/medications'),
-        actions: const [
+        actions: [
           Center(
-            child: Text('Step 1 of 3',
-                style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.textSecondary)),
+            child: Text(context.tr(en: 'Step 1 of 3', ar: 'الخطوة 1 من 3'),
+                style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.textSecondary)),
           ),
         ],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Progress bar
           const _StepProgress(activeStep: 1),
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 24, 16, 24),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // Camera viewfinder
                 Center(
                   child: Column(
                     children: [
@@ -91,35 +83,35 @@ class _AddMedicationStep1ScreenState extends State<AddMedicationStep1Screen> {
                             const _CornerFrame(top: true, left: false),
                             const _CornerFrame(top: false, left: true),
                             const _CornerFrame(top: false, left: false),
-                            Center(child: _viewfinderContent()),
+                            Center(child: _viewfinderContent(context)),
                           ],
                         ),
                       ),
                       const SizedBox(height: 12),
-                      const Text('Point camera at medication label',
-                          style: TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary)),
+                      Text(
+                        context.tr(en: 'Point camera at medication label', ar: 'وجه الكاميرا نحو ملصق عبوة الدواء'),
+                        style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary),
+                      ),
                     ],
                   ),
                 ),
                 const SizedBox(height: 24),
-                // Instructions card
                 SchooKeepCard(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text('Instructions',
-                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
-                      SizedBox(height: 12),
-                      _NumberedItem(1, 'Place bottle face-up'),
-                      SizedBox(height: 8),
-                      _NumberedItem(2, 'Ensure label is fully visible'),
-                      SizedBox(height: 8),
-                      _NumberedItem(3, 'Hold steady in good lighting'),
+                    children: [
+                      Text(context.tr(en: 'Instructions', ar: 'تعليمات التصوير'),
+                          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
+                      const SizedBox(height: 12),
+                      _NumberedItem(1, context.tr(en: 'Place bottle face-up', ar: 'ضع العلبة بشكل واضح أمام الكاميرا')),
+                      const SizedBox(height: 8),
+                      _NumberedItem(2, context.tr(en: 'Ensure label is fully visible', ar: 'تأكد من وضوح وقراءة الملصق بالكامل')),
+                      const SizedBox(height: 8),
+                      _NumberedItem(3, context.tr(en: 'Hold steady in good lighting', ar: 'حافظ على ثبات الكاميرا في إضاءة جيدة')),
                     ],
                   ),
                 ),
                 const SizedBox(height: 24),
-                // Requirement notice
                 AccentCard(
                   background: SchooKeepColors.amberBg,
                   accentColor: SchooKeepColors.warning,
@@ -128,18 +120,21 @@ class _AddMedicationStep1ScreenState extends State<AddMedicationStep1Screen> {
                   padding: const EdgeInsets.all(16),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Icon(LucideIcons.alertTriangle, size: 20, color: SchooKeepColors.warning),
-                      SizedBox(width: 12),
+                    children: [
+                      const Icon(LucideIcons.alertTriangle, size: 20, color: SchooKeepColors.warning),
+                      const SizedBox(width: 12),
                       Expanded(
                         child: Text.rich(
                           TextSpan(
-                            style: TextStyle(fontSize: 13, color: SchooKeepColors.amberText),
+                            style: const TextStyle(fontSize: 13, color: SchooKeepColors.amberText),
                             children: [
-                              TextSpan(text: 'FDA requires: ', style: TextStyle(fontWeight: FontWeight.w600)),
+                              TextSpan(text: context.tr(en: 'FDA requires: ', ar: 'متطلبات هيئة الصحة: '), style: const TextStyle(fontWeight: FontWeight.w600)),
                               TextSpan(
-                                  text:
-                                      'medication must be in original labeled container with student name, medication name, and dosage visible.'),
+                                text: context.tr(
+                                  en: 'medication must be in original labeled container with student name, medication name, and dosage visible.',
+                                  ar: 'يجب أن يكون الدواء في عبوته الأصلية المختومة مع وضوح اسم الطالب والجرعة والاسم التجاري.',
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -148,7 +143,6 @@ class _AddMedicationStep1ScreenState extends State<AddMedicationStep1Screen> {
                   ),
                 ),
                 const SizedBox(height: 24),
-                // Action buttons
                 SizedBox(
                   width: double.infinity,
                   height: 52,
@@ -160,7 +154,9 @@ class _AddMedicationStep1ScreenState extends State<AddMedicationStep1Screen> {
                     ),
                     onPressed: _photoCapture == 'idle' ? _handleCapture : null,
                     child: Text(
-                      _photoCapture == 'capturing' ? 'Capturing...' : 'Capture Photo',
+                      _photoCapture == 'capturing'
+                          ? context.tr(en: 'Capturing...', ar: 'جاري التقاط الصورة...')
+                          : context.tr(en: 'Capture Photo', ar: 'التقاط صورة الملصق'),
                       style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.white),
                     ),
                   ),
@@ -177,8 +173,10 @@ class _AddMedicationStep1ScreenState extends State<AddMedicationStep1Screen> {
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                     ),
                     icon: const Icon(LucideIcons.upload, size: 20, color: SchooKeepColors.primary),
-                    label: const Text('Upload from Photos',
-                        style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: SchooKeepColors.primary)),
+                    label: Text(
+                      context.tr(en: 'Upload from Photos', ar: 'تحميل من مكتبة الصور'),
+                      style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: SchooKeepColors.primary),
+                    ),
                   ),
                 ),
               ],
@@ -189,26 +187,26 @@ class _AddMedicationStep1ScreenState extends State<AddMedicationStep1Screen> {
     );
   }
 
-  Widget _viewfinderContent() {
+  Widget _viewfinderContent(BuildContext context) {
     switch (_photoCapture) {
       case 'capturing':
-        return const Column(
+        return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SizedBox(
+            const SizedBox(
               width: 48,
               height: 48,
               child: CircularProgressIndicator(strokeWidth: 4, color: Colors.white),
             ),
-            SizedBox(height: 12),
-            Text('Capturing...', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.white)),
+            const SizedBox(height: 12),
+            Text(context.tr(en: 'Capturing...', ar: 'جاري التقاط الصورة...'), style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.white)),
           ],
         );
       case 'captured':
         return Column(
           mainAxisSize: MainAxisSize.min,
-          children: const [
-            SizedBox(
+          children: [
+            const SizedBox(
               width: 48,
               height: 48,
               child: DecoratedBox(
@@ -216,8 +214,8 @@ class _AddMedicationStep1ScreenState extends State<AddMedicationStep1Screen> {
                 child: Icon(LucideIcons.check, size: 32, color: Colors.white),
               ),
             ),
-            SizedBox(height: 12),
-            Text('Photo captured!', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.white)),
+            const SizedBox(height: 12),
+            Text(context.tr(en: 'Photo captured!', ar: 'تم التقاط الصورة بنجاح!'), style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.white)),
           ],
         );
       case 'idle':

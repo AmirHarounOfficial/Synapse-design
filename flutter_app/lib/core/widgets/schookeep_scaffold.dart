@@ -64,14 +64,19 @@ class SchooKeepScaffold extends StatelessWidget {
 
     final isRTL = Directionality.of(context) == TextDirection.rtl;
 
-    final mainLayout = ColoredBox(
-      color: backgroundColor,
-      child: Column(
+    final mainLayout = Scaffold(
+      backgroundColor: backgroundColor,
+      resizeToAvoidBottomInset: false,
+      body: Column(
         children: [
           const StatusBarSpacer(),
           ?resolvedAppBar,
           Expanded(child: content),
-          ?bottomBar,
+          if (bottomBar != null)
+            SizedBox(
+              width: double.infinity,
+              child: bottomBar!,
+            ),
         ],
       ),
     );

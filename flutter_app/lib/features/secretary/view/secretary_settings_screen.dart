@@ -3,13 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
+import '../../../core/localization/l10n_ext.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
 
-/// Ported from `SecretarySettings.tsx`. Profile card, notification toggles (with
-/// one locked/required toggle that opens an explanatory sheet), working hours,
-/// import history, data & privacy, about, and a bilingual sign-out button with a
-/// confirmation dialog. Inline mock data.
 class SecretarySettingsScreen extends StatefulWidget {
   const SecretarySettingsScreen({super.key});
 
@@ -25,8 +22,6 @@ class _SecretarySettingsScreenState extends State<SecretarySettingsScreen> {
 
   static const String _initials = 'SL';
   static const String _name = 'Sarah Lopez';
-  static const String _role = 'School Secretary';
-  static const String _school = 'Lakewood Elementary School';
   static const String _officeHours = '08:00 AM — 4:30 PM';
 
   void _showLockSheet() {
@@ -50,22 +45,25 @@ class _SecretarySettingsScreenState extends State<SecretarySettingsScreen> {
             ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                Padding(
+              children: [
+                const Padding(
                   padding: EdgeInsets.only(top: 4),
                   child: Icon(LucideIcons.lock, size: 24, color: SchooKeepColors.warning),
                 ),
-                SizedBox(width: 12),
+                const SizedBox(width: 12),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Required Notification',
-                          style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
-                      SizedBox(height: 8),
+                      Text(context.tr(en: 'Required Notification', ar: 'إشعار إجباري إلزامية التفعيل'),
+                          style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
+                      const SizedBox(height: 8),
                       Text(
-                        'Chatbot escalations must be received by the secretary to ensure no parent query goes unanswered.',
-                        style: TextStyle(fontSize: 14, color: SchooKeepColors.textSecondary),
+                        context.tr(
+                          en: 'Chatbot escalations must be received by the secretary to ensure no parent query goes unanswered.',
+                          ar: 'يجب أن تصل تصعيدات المساعد الآلي للسكرتارية لضمان الإجابة على استفسارات أولياء الأمور دون تأخير.',
+                        ),
+                        style: const TextStyle(fontSize: 14, color: SchooKeepColors.textSecondary),
                       ),
                     ],
                   ),
@@ -73,17 +71,9 @@ class _SecretarySettingsScreenState extends State<SecretarySettingsScreen> {
               ],
             ),
             const SizedBox(height: 16),
-            SizedBox(
-              width: double.infinity,
-              height: 52,
-              child: FilledButton(
-                style: FilledButton.styleFrom(
-                  backgroundColor: SchooKeepColors.primary,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                ),
-                onPressed: () => Navigator.of(ctx).pop(),
-                child: const Text('Got it', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: Colors.white)),
-              ),
+            SchooKeepButton(
+              label: context.tr(en: 'Got it', ar: 'فهمت ذلك'),
+              onPressed: () => Navigator.of(ctx).pop(),
             ),
           ],
         ),
@@ -101,14 +91,17 @@ class _SecretarySettingsScreenState extends State<SecretarySettingsScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text('تسجيل الخروج · Sign out?',
+              Text(context.tr(en: 'Sign out?', ar: 'تسجيل الخروج؟'),
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
+                  style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
               const SizedBox(height: 8),
-              const Text(
-                "هل أنت متأكد من رغبتك في تسجيل الخروج؟\nYou'll need to sign in again to access your account.",
+              Text(
+                context.tr(
+                  en: "Are you sure you want to sign out? You'll need to sign in again to access your account.",
+                  ar: 'هل أنت متأكد من رغبتك في تسجيل الخروج؟ ستحتاج إلى إدخال بيانات الاعتماد مجدداً للوصول للملف.',
+                ),
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 14, color: SchooKeepColors.textSecondary),
+                style: const TextStyle(fontSize: 14, color: SchooKeepColors.textSecondary),
               ),
               const SizedBox(height: 24),
               Row(
@@ -123,8 +116,8 @@ class _SecretarySettingsScreenState extends State<SecretarySettingsScreen> {
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                         ),
                         onPressed: () => Navigator.of(ctx).pop(),
-                        child: const Text('إلغاء · Cancel',
-                            style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
+                        child: Text(context.tr(en: 'Cancel', ar: 'إلغاء'),
+                            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
                       ),
                     ),
                   ),
@@ -141,8 +134,8 @@ class _SecretarySettingsScreenState extends State<SecretarySettingsScreen> {
                           Navigator.of(ctx).pop();
                           context.go('/login');
                         },
-                        child: const Text('تسجيل الخروج · Sign out',
-                            style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: Colors.white)),
+                        child: Text(context.tr(en: 'Sign out', ar: 'تأكيد الخروج'),
+                            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: Colors.white)),
                       ),
                     ),
                   ),
@@ -155,8 +148,6 @@ class _SecretarySettingsScreenState extends State<SecretarySettingsScreen> {
     );
   }
 
-  /// Generic bilingual info sheet used by the settings rows that have no
-  /// dedicated destination screen.
   void _showInfoSheet({
     required IconData icon,
     Color iconColor = SchooKeepColors.primary,
@@ -204,18 +195,9 @@ class _SecretarySettingsScreenState extends State<SecretarySettingsScreen> {
               ),
             ),
             const SizedBox(height: 16),
-            SizedBox(
-              width: double.infinity,
-              height: 52,
-              child: FilledButton(
-                style: FilledButton.styleFrom(
-                  backgroundColor: SchooKeepColors.primary,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                ),
-                onPressed: () => Navigator.of(ctx).pop(),
-                child: const Text('إغلاق · Close',
-                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: Colors.white)),
-              ),
+            SchooKeepButton(
+              label: context.tr(en: 'Close', ar: 'إغلاق'),
+              onPressed: () => Navigator.of(ctx).pop(),
             ),
           ],
         ),
@@ -230,80 +212,104 @@ class _SecretarySettingsScreenState extends State<SecretarySettingsScreen> {
 
   void _showEditProfileInfo() => _showInfoSheet(
         icon: LucideIcons.userCog,
-        title: 'تعديل الملف الشخصي · Edit profile',
+        title: context.tr(en: 'Edit profile', ar: 'تعديل الملف الشخصي'),
         body: [
-          _para('Name, role, and school assignment are managed by your school administrator and cannot be changed here.'),
-          _para('To update your profile details, contact the school administration office.'),
+          _para(context.tr(
+            en: 'Name, role, and school assignment are managed by your school administrator and cannot be changed here.',
+            ar: 'تتم إدارة الاسم والمسؤولية والمدرسة المخصصة من قبل مدير النظام ولا يمكن تعديلها من هنا.',
+          )),
+          _para(context.tr(
+            en: 'To update your profile details, contact the school administration office.',
+            ar: 'لتحديث بياناتك الشخصية، يُرجى التواصل مع إدارة المدرسة الرئيسية.',
+          )),
         ],
       );
 
   void _showWorkingHoursInfo() => _showInfoSheet(
         icon: LucideIcons.clock,
-        title: 'ساعات العمل · Working hours',
+        title: context.tr(en: 'Working hours', ar: 'ساعات العمل الرسمية'),
         body: [
-          _para('Office hours: $_officeHours'),
-          _para('Non-emergency notifications are batched and delivered during these hours. Emergency clinic escalations are always delivered immediately, day or night.'),
+          _para('${context.tr(en: 'Office hours', ar: 'أوقات الدوام الرسمي')}: $_officeHours'),
+          _para(context.tr(
+            en: 'Non-emergency notifications are batched and delivered during these hours. Emergency clinic escalations are always delivered immediately, day or night.',
+            ar: 'تتم أرشفة وتجميع الإشعارات العادية خارج أوقات الدوام. بينما يتم إرسال بلاغات الطوارئ فوراً على مدار الساعة.',
+          )),
         ],
       );
 
   void _showImportHistoryInfo() => _showInfoSheet(
         icon: LucideIcons.table,
-        title: 'سجل الاستيراد · Import history',
+        title: context.tr(en: 'Import history', ar: 'سجل عمليات الاستيراد'),
         body: [
-          _para('Recent student imports:'),
-          _para('• students_uae_2026.xlsx — 45 students — May 28, 2026 — Completed'),
-          _para('• transfers_q1.csv — 8 students — Apr 12, 2026 — Completed'),
-          _para('Every Excel/CSV import is logged with its row count and validation result for audit purposes.'),
+          _para(context.tr(en: 'Recent student imports:', ar: 'عمليات استيراد الطلاب الأخيرة:')),
+          _para('• students_uae_2026.xlsx — 45 ${context.tr(en: 'students', ar: 'طالباً')} — 28 May 2026 — ${context.tr(en: 'Completed', ar: 'مكتمل')}'),
+          _para('• transfers_q1.csv — 8 ${context.tr(en: 'students', ar: 'طالباً')} — 12 Apr 2026 — ${context.tr(en: 'Completed', ar: 'مكتمل')}'),
+          _para(context.tr(
+            en: 'Every Excel/CSV import is logged with its row count and validation result for audit purposes.',
+            ar: 'يتم حفظ كافة عمليات رفع وتعديل بيانات ملفات الإكسل مع تدوين النتائج للتدقيق الإداري.',
+          )),
         ],
       );
 
   void _showConfidentialityInfo() => _showInfoSheet(
         icon: LucideIcons.file,
-        title: 'اتفاقية السرية · Confidentiality agreement',
+        title: context.tr(en: 'Confidentiality agreement', ar: 'اتفاقية سرية وحماية البيانات'),
         body: [
-          _para('Signed: May 1, 2026'),
-          _para('As school secretary, you agree to keep all student information strictly confidential under UAE Federal Decree-Law No. 45 of 2021 (PDPL), to access only the data needed for your duties, and to report any suspected breach to the Data Protection Officer immediately.'),
-          _para('Your digital signature is on file and this agreement remains active for the duration of your employment.'),
+          _para('${context.tr(en: 'Signed', ar: 'تاريخ التوقيع')}: 01/05/2026'),
+          _para(context.tr(
+            en: 'As school secretary, you agree to keep all student information strictly confidential under UAE Federal Decree-Law No. 45 of 2021 (PDPL), to access only the data needed for your duties, and to report any suspected breach to the Data Protection Officer immediately.',
+            ar: 'بصفتك سكرتير/ة مدرسة، فإنك تتعهد بالحفاظ على السرية التامة لبيانات الطلاب بموجب المرسوم بقانون إتحادي رقم 45 لسنة 2021 (PDPL)، وعدم استخدام البيانات إلا لأغراض العمل المصرح بها.',
+          )),
         ],
       );
 
   void _showDataAccessInfo() => _showInfoSheet(
         icon: LucideIcons.shield,
-        title: 'مستوى الوصول · My data access level',
+        title: context.tr(en: 'My data access level', ar: 'مستوى صلاحية الوصول للبيانات'),
         body: [
-          _para('Your role can access: student basic info, enrollment records, parent contact details, and import history.'),
-          _para('Your role cannot access: clinical records, medication data, clinic visit history, or counselor notes.'),
-          _para('This scope is enforced server-side per UAE PDPL data-minimization requirements.'),
+          _para(context.tr(
+            en: 'Your role can access: student basic info, enrollment records, parent contact details, and import history.',
+            ar: 'تتيح لك الصلاحية الوصول إلى: البيانات الأساسية للطلاب، ملفات التسجيل، معلومات اتصال ولي الأمر، وسجلات الاستيراد.',
+          )),
+          _para(context.tr(
+            en: 'Your role cannot access: clinical records, medication data, clinic visit history, or counselor notes.',
+            ar: 'لا تتيح صلاحيتك الاطلاع على: السجلات السريرية الطبية، بيانات الأدوية المفصلة، تاريخ زيارات العيادة، أو ملاحظات الأخصائي الاجتماعي.',
+          )),
         ],
       );
 
   void _showTwoFactorInfo() => _showInfoSheet(
         icon: LucideIcons.eyeOff,
-        title: 'المصادقة الثنائية · Two-factor authentication',
+        title: context.tr(en: 'Two-factor authentication', ar: 'المصادقة الثنائية (2FA)'),
         body: [
-          _para('Status: Enabled'),
-          _para('A one-time verification code is required each time you sign in, protecting student data even if your password is compromised.'),
-          _para('Two-factor authentication is mandatory for staff with student-data access and cannot be disabled from this device.'),
+          _para('${context.tr(en: 'Status', ar: 'الحالة')}: ${context.tr(en: 'Enabled', ar: 'مُفعلة')}'),
+          _para(context.tr(
+            en: 'A one-time verification code is required each time you sign in, protecting student data even if your password is compromised.',
+            ar: 'يتطلب الدخول إدخال رمز تحقق لمرة واحدة لتأمين وحماية سجلات الطلاب والبيانات الحساسة.',
+          )),
         ],
       );
 
   void _showContactSupportInfo() => _showInfoSheet(
         icon: LucideIcons.headphones,
-        title: 'الاتصال بالدعم · Contact support',
+        title: context.tr(en: 'Contact support', ar: 'التواصل مع الدعم الفني'),
         body: [
-          _para('SchooKeep support is available Sunday–Thursday, 8:00 AM – 5:00 PM (GST).'),
+          _para(context.tr(
+            en: 'SchooKeep support is available Sunday–Thursday, 8:00 AM – 5:00 PM (GST).',
+            ar: 'فريق الدعم الفني متواجد من الأحد إلى الخميس، من 8:00 صباحاً حتى 5:00 مساءً (توقيت الإمارات).',
+          )),
           _para('Email: support@schookeep.ae'),
           _para('Phone: 800-SCHOOL (800-724665)'),
           Padding(
             padding: const EdgeInsets.only(bottom: 4),
             child: SchooKeepButton(
-              label: 'Copy support email',
+              label: context.tr(en: 'Copy support email', ar: 'نسخ بريد الدعم الفني'),
               fullWidth: false,
               onPressed: () async {
                 await Clipboard.setData(const ClipboardData(text: 'support@schookeep.ae'));
                 if (!mounted) return;
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Support email copied to clipboard')),
+                  SnackBar(content: Text(context.tr(en: 'Support email copied to clipboard', ar: 'تم نسخ بريد الدعم الفني للحافظة'))),
                 );
               },
             ),
@@ -313,11 +319,16 @@ class _SecretarySettingsScreenState extends State<SecretarySettingsScreen> {
 
   void _showPdplInfo() => _showInfoSheet(
         icon: LucideIcons.book,
-        title: 'إعلان خصوصية PDPL · UAE PDPL Privacy Declaration',
+        title: context.tr(en: 'UAE PDPL Privacy Declaration', ar: 'إعلان سياسة الخصوصية بموجب قانون PDPL الإمارات'),
         body: [
-          _para('Governed by Federal Decree-Law No. 45 of 2021 on the Protection of Personal Data.'),
-          _para('SchooKeep processes student health and personal data solely to support school health and safety operations. Data is stored within the UAE, access is role-scoped, and all access is logged.'),
-          _para('Data subjects (parents/guardians) retain the right to access, rectify, and request erasure of personal data, subject to legal retention requirements.'),
+          _para(context.tr(
+            en: 'Governed by Federal Decree-Law No. 45 of 2021 on the Protection of Personal Data.',
+            ar: 'تخضع كافة البيانات للمرسوم بقانون إتحادي رقم 45 لسنة 2021 بشأن حماية البيانات الشخصية بالدولة.',
+          )),
+          _para(context.tr(
+            en: 'SchooKeep processes student health and personal data solely to support school health and safety operations. Data is stored within the UAE, access is role-scoped, and all access is logged.',
+            ar: 'تتم معالجة البيانات فقط لأغراض السلامة والرعاية الصحية المدرسية وتخزن داخل مراكز بيانات داخل الدولة.',
+          )),
         ],
       );
 
@@ -325,13 +336,12 @@ class _SecretarySettingsScreenState extends State<SecretarySettingsScreen> {
   Widget build(BuildContext context) {
     return SchooKeepScaffold(
       reserveBottomNav: true,
-      appBar: const SchooKeepAppBar(title: 'Settings'),
+      appBar: SchooKeepAppBar(title: context.tr(en: 'Settings', ar: 'إعدادات الحساب والإدارة')),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Profile
             SchooKeepCard(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -361,11 +371,11 @@ class _SecretarySettingsScreenState extends State<SecretarySettingsScreen> {
                                 color: const Color(0xFFECFEFF),
                                 borderRadius: BorderRadius.circular(999),
                               ),
-                              child: const Text(_role,
-                                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: Color(0xFF0E7490))),
+                              child: Text(context.tr(en: 'School Secretary', ar: 'سكرتير/ة المدرسة'),
+                                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: Color(0xFF0E7490))),
                             ),
                             const SizedBox(height: 4),
-                            const Text(_school, style: TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary)),
+                            Text(context.tr(en: 'Lakewood Elementary School', ar: 'مدرسة الشروق النموذجية'), style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary)),
                           ],
                         ),
                       ),
@@ -376,8 +386,8 @@ class _SecretarySettingsScreenState extends State<SecretarySettingsScreen> {
                     alignment: AlignmentDirectional.centerEnd,
                     child: GestureDetector(
                       onTap: _showEditProfileInfo,
-                      child: const Text('Edit profile',
-                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.primary)),
+                      child: Text(context.tr(en: 'Edit profile', ar: 'تعديل البيانات'),
+                          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.primary)),
                     ),
                   ),
                 ],
@@ -385,28 +395,26 @@ class _SecretarySettingsScreenState extends State<SecretarySettingsScreen> {
             ),
             const SizedBox(height: 16),
 
-            // Notifications
-            _sectionTitle('Notifications'),
+            _sectionTitle(context.tr(en: 'Notifications', ar: 'إعدادات الإشعارات والتنبيهات')),
             const SizedBox(height: 8),
             _group([
-              _toggleRow(LucideIcons.bell, 'Parent messages received', 'New messages from parents in your inbox',
+              _toggleRow(LucideIcons.bell, context.tr(en: 'Parent messages received', ar: 'رسائل أولياء الأمور الواردة'), context.tr(en: 'New messages from parents in your inbox', ar: 'تنبيه فور وصول رسالة جديدة من ولي أمر'),
                   _parentMessages, (v) => setState(() => _parentMessages = v)),
-              _lockedToggleRow(LucideIcons.bot, 'Chatbot escalations',
-                  'When the AI assistant transfers a conversation to you'),
-              _toggleRow(LucideIcons.fileText, 'Student import errors',
-                  'Alerts when an Excel/CSV import has validation failures', _importErrors,
+              _lockedToggleRow(LucideIcons.bot, context.tr(en: 'Chatbot escalations', ar: 'تصعيدات المساعد الآلي'),
+                  context.tr(en: 'When the AI assistant transfers a conversation to you', ar: 'عند تحويل محادثة تعذر على البوت إجابتها')),
+              _toggleRow(LucideIcons.fileText, context.tr(en: 'Student import errors', ar: 'أخطاء استيراد ملفات الطلاب'),
+                  context.tr(en: 'Alerts when an Excel/CSV import has validation failures', ar: 'إشعار في حال وجود أخطاء في ملف البيانات المرفوع'), _importErrors,
                   (v) => setState(() => _importErrors = v)),
-              _toggleRow(LucideIcons.alertTriangle, 'Clinic copies',
-                  'Receive copies of emergency clinic notifications sent to parents', _clinicCopies,
+              _toggleRow(LucideIcons.alertTriangle, context.tr(en: 'Clinic copies', ar: 'نسخة إشعار العيادة الطبية'),
+                  context.tr(en: 'Receive copies of emergency clinic notifications sent to parents', ar: 'استلام نسخة من بلاغات طوارئ العيادة المرسلة للوالدين'), _clinicCopies,
                   (v) => setState(() => _clinicCopies = v)),
-              _toggleRow(LucideIcons.calendar, 'Document expiry reminders',
-                  'Students with documents expiring within 30 days', _documentExpiry,
+              _toggleRow(LucideIcons.calendar, context.tr(en: 'Document expiry reminders', ar: 'تنبيهات انتهاء صلاحية المستندات'),
+                  context.tr(en: 'Students with documents expiring within 30 days', ar: 'تنبيه للوثائق المنتهية خلال 30 يوماً'), _documentExpiry,
                   (v) => setState(() => _documentExpiry = v)),
             ]),
             const SizedBox(height: 16),
 
-            // Working Hours
-            _sectionTitle('Working Hours'),
+            _sectionTitle(context.tr(en: 'Working Hours', ar: 'ساعات الدوام والعمل')),
             const SizedBox(height: 8),
             SchooKeepCard(
               padding: EdgeInsets.zero,
@@ -428,16 +436,19 @@ class _SecretarySettingsScreenState extends State<SecretarySettingsScreen> {
                           children: [
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: const [
-                                Text('Office hours',
-                                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
-                                Text(_officeHours, style: TextStyle(fontSize: 14, color: SchooKeepColors.primary)),
+                              children: [
+                                Text(context.tr(en: 'Office hours', ar: 'أوقات الدوام الرسمي'),
+                                    style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
+                                const Text(_officeHours, style: TextStyle(fontSize: 14, color: SchooKeepColors.primary)),
                               ],
                             ),
                             const SizedBox(height: 4),
-                            const Text(
-                              'Notifications are batched outside these hours (except emergency escalations).',
-                              style: TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary),
+                            Text(
+                              context.tr(
+                                en: 'Notifications are batched outside these hours (except emergency escalations).',
+                                ar: 'يتم تجميع الإشعارات خارج أوقات الدوام الرسمي باستثناء طوارئ العيادة.',
+                              ),
+                              style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary),
                             ),
                           ],
                         ),
@@ -449,49 +460,45 @@ class _SecretarySettingsScreenState extends State<SecretarySettingsScreen> {
             ),
             const SizedBox(height: 16),
 
-            // Import History
-            _sectionTitle('Import History'),
+            _sectionTitle(context.tr(en: 'Import History', ar: 'سجل عمليات الرفع والاستيراد')),
             const SizedBox(height: 8),
             SchooKeepCard(
               padding: EdgeInsets.zero,
-              child: _navRow(LucideIcons.table, 'View past imports',
-                  'See all Excel/CSV student imports and their results', onTap: _showImportHistoryInfo),
+              child: _navRow(LucideIcons.table, context.tr(en: 'View past imports', ar: 'عرض عمليات الاستيراد السابقة'),
+                  context.tr(en: 'See all Excel/CSV student imports and their results', ar: 'استعراض نتائج رفع ملفات الطلاب السابقة'), onTap: _showImportHistoryInfo),
             ),
             const SizedBox(height: 16),
 
-            // Data & Privacy
-            _sectionTitle('Data & Privacy'),
+            _sectionTitle(context.tr(en: 'Data & Privacy', ar: 'البيانات والخصوصية الإدارية')),
             const SizedBox(height: 8),
             _group([
-              _navRow(LucideIcons.file, 'Confidentiality agreement', null,
-                  trailing: 'Signed May 1, 2026', onTap: _showConfidentialityInfo),
-              _navRow(LucideIcons.shield, 'My data access level', null,
-                  trailing: 'Student basic info — no clinical records', onTap: _showDataAccessInfo),
-              _navRow(LucideIcons.eyeOff, 'Two-factor authentication', null,
-                  trailing: 'Enabled', trailingColor: SchooKeepColors.accent, onTap: _showTwoFactorInfo),
+              _navRow(LucideIcons.file, context.tr(en: 'Confidentiality agreement', ar: 'اتفاقية حماية سرية المعلومات'), null,
+                  trailing: context.tr(en: 'Signed May 1, 2026', ar: 'موقعة بتاريخ 01/05/2026'), onTap: _showConfidentialityInfo),
+              _navRow(LucideIcons.shield, context.tr(en: 'My data access level', ar: 'صلاحيات الحساب والوصول'), null,
+                  trailing: context.tr(en: 'Student basic info — no clinical records', ar: 'بيانات الطلاب فقط — بدون السجلات الطبية'), onTap: _showDataAccessInfo),
+              _navRow(LucideIcons.eyeOff, context.tr(en: 'Two-factor authentication', ar: 'المصادقة الثنائية (2FA)'), null,
+                  trailing: context.tr(en: 'Enabled', ar: 'مُفعلة'), trailingColor: SchooKeepColors.accent, onTap: _showTwoFactorInfo),
             ]),
             const SizedBox(height: 16),
 
-            // About
-            _sectionTitle('About'),
+            _sectionTitle(context.tr(en: 'About', ar: 'حول النظام والدعم')),
             const SizedBox(height: 8),
             _group([
-              _infoRow(LucideIcons.info, 'App version', 'Synapse v1.0.0'),
-              _navRow(LucideIcons.headphones, 'Contact support', null, onTap: _showContactSupportInfo),
-              _navRow(LucideIcons.book, 'UAE PDPL Privacy Declaration',
-                  'Governed by Federal Decree-Law No. 45 of 2021', onTap: _showPdplInfo),
+              _infoRow(LucideIcons.info, context.tr(en: 'App version', ar: 'إصدار التطبيق'), 'SchooKeep v1.0.0'),
+              _navRow(LucideIcons.headphones, context.tr(en: 'Contact support', ar: 'التواصل مع الدعم الفني'), null, onTap: _showContactSupportInfo),
+              _navRow(LucideIcons.book, context.tr(en: 'UAE PDPL Privacy Declaration', ar: 'إعلان خصوصية PDPL الإمارات'),
+                  context.tr(en: 'Governed by Federal Decree-Law No. 45 of 2021', ar: 'بموجب المرسوم بقانون إتحادي رقم 45 لسنة 2021'), onTap: _showPdplInfo),
             ]),
             const SizedBox(height: 16),
 
-            // Sign out
             SchooKeepCard(
               padding: EdgeInsets.zero,
               onTap: _showSignOutDialog,
-              child: const Padding(
-                padding: EdgeInsets.all(16),
+              child: Padding(
+                padding: const EdgeInsets.all(16),
                 child: Center(
-                  child: Text('تسجيل الخروج · Sign out',
-                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.error)),
+                  child: Text(context.tr(en: 'Sign out', ar: 'تسجيل الخروج من الحساب'),
+                      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.error)),
                 ),
               ),
             ),
@@ -551,8 +558,6 @@ class _SecretarySettingsScreenState extends State<SecretarySettingsScreen> {
     );
   }
 
-  /// A toggle that is locked on (chatbot escalations). Tapping shows the
-  /// "Required Notification" sheet instead of toggling.
   Widget _lockedToggleRow(IconData icon, String title, String subtitle) {
     return Padding(
       padding: const EdgeInsets.all(16),

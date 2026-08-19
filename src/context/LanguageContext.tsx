@@ -14,6 +14,7 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const { i18n } = useTranslation();
   const [language, setLanguage] = useState<'ar' | 'en'>(
+    (localStorage.getItem('schookeep_lang') as 'ar' | 'en') ||
     (localStorage.getItem('synapse_lang') as 'ar' | 'en') || 'en'
   );
   const [isRebooting, setIsRebooting] = useState(false);
@@ -22,7 +23,6 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     i18n.changeLanguage(language);
-    // Apply layout direction to root html tag for accessibility and browser layout
     document.documentElement.dir = isRTL ? 'rtl' : 'ltr';
     document.documentElement.lang = language;
   }, [language, isRTL, i18n]);
@@ -31,10 +31,9 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     const nextLang = language === 'en' ? 'ar' : 'en';
     setIsRebooting(true);
     
-    // Simulate mobile app restart delay
     setTimeout(() => {
       setLanguage(nextLang);
-      localStorage.setItem('synapse_lang', nextLang);
+      localStorage.setItem('schookeep_lang', nextLang);
       setIsRebooting(false);
     }, 900);
   };

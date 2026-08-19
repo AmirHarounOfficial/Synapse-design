@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 import '../../../core/di/service_locator.dart';
+import '../../../core/localization/l10n_ext.dart';
 import '../../../core/network/data_state.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
@@ -12,8 +13,6 @@ import '../../../data/repositories/document_repository.dart';
 import '../cubit/document_review_queue_cubit.dart';
 import 'package:schookeep/core/router/safe_back.dart';
 
-/// Ported from `DocumentReviewQueue.tsx`, wired to `GET /documents`.
-/// Pending / Incomplete / Approved sections of submitted documents.
 class DocumentReviewQueueScreen extends StatelessWidget {
   const DocumentReviewQueueScreen({super.key});
 
@@ -48,19 +47,19 @@ class _DocumentReviewQueueViewState extends State<_DocumentReviewQueueView> {
     }
   }
 
-  static String _docTitle(Document d) {
+  static String _docTitle(BuildContext context, Document d) {
     if ((d.title ?? '').isNotEmpty) return d.title!;
     switch (d.type) {
       case 'immunization':
-        return 'Immunization Records';
+        return context.tr(en: 'Immunization Records', ar: 'سجل التطعيمات');
       case 'physician-order':
-        return 'Physician Order';
+        return context.tr(en: 'Physician Order', ar: 'أمر الطبيب المعالج');
       case 'consent':
-        return 'Medication Consent Form';
+        return context.tr(en: 'Medication Consent Form', ar: 'نموذج موافقة إعطاء الدواء');
       case 'insurance':
-        return 'Insurance Card';
+        return context.tr(en: 'Insurance Card', ar: 'بطاقة التأمين الصحي');
       default:
-        return 'Document';
+        return context.tr(en: 'Document', ar: 'مستند');
     }
   }
 
@@ -83,9 +82,9 @@ class _DocumentReviewQueueViewState extends State<_DocumentReviewQueueView> {
             titleWidget: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text(
-                  'Document Review',
-                  style: TextStyle(
+                Text(
+                  context.tr(en: 'Document Review', ar: 'مراجعة المستندات والطلبات'),
+                  style: const TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.w500,
                     color: SchooKeepColors.textPrimary,
@@ -123,7 +122,7 @@ class _DocumentReviewQueueViewState extends State<_DocumentReviewQueueView> {
               ),
             ),
             DataError(:final message) => _errorView(message),
-            DataLoaded(:final data) => _content(data),
+            DataLoaded(:final data) => _content(context, data),
           },
         );
       },
@@ -150,7 +149,7 @@ class _DocumentReviewQueueViewState extends State<_DocumentReviewQueueView> {
             ),
             const SizedBox(height: 16),
             SchooKeepButton(
-              label: 'Retry',
+              label: context.tr(en: 'Retry', ar: 'إعادة المحاولة'),
               fullWidth: false,
               onPressed: _reload,
             ),
@@ -160,7 +159,7 @@ class _DocumentReviewQueueViewState extends State<_DocumentReviewQueueView> {
     );
   }
 
-  Widget _content(List<Document> docs) {
+  Widget _content(BuildContext context, List<Document> docs) {
     final pending = docs.where((d) => d.status == 'pending').toList();
     final approved = docs.where((d) => d.status == 'approved').toList();
     final incomplete = docs
@@ -172,13 +171,13 @@ class _DocumentReviewQueueViewState extends State<_DocumentReviewQueueView> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _divider('Pending Review', SchooKeepColors.warning),
+          _divider(context.tr(en: 'Pending Review', ar: 'بانتظار المراجعة'), SchooKeepColors.warning),
           const SizedBox(height: 12),
           if (pending.isNotEmpty)
             ...pending.map(
               (d) => Padding(
                 padding: const EdgeInsets.only(bottom: 12),
-                child: _pendingCard(d),
+                child: _pendingCard(context, d),
               ),
             )
           else
@@ -187,16 +186,16 @@ class _DocumentReviewQueueViewState extends State<_DocumentReviewQueueView> {
               child: Center(
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
-                  children: const [
-                    Icon(
+                  children: [
+                    const Icon(
                       LucideIcons.check,
                       size: 20,
                       color: SchooKeepColors.accent,
                     ),
-                    SizedBox(width: 8),
+                    const SizedBox(width: 8),
                     Text(
-                      'All documents reviewed ✓',
-                      style: TextStyle(
+                      context.tr(en: 'All documents reviewed ✓', ar: 'تمت مراجعة جميع المستندات ✓'),
+                      style: const TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w500,
                         color: SchooKeepColors.accent,
@@ -208,12 +207,12 @@ class _DocumentReviewQueueViewState extends State<_DocumentReviewQueueView> {
             ),
           if (incomplete.isNotEmpty) ...[
             const SizedBox(height: 24),
-            _divider('Incomplete', SchooKeepColors.error),
+            _divider(context.tr(en: 'Incomplete', ar: 'غير مكتملة'), SchooKeepColors.error),
             const SizedBox(height: 12),
             ...incomplete.map(
               (d) => Padding(
                 padding: const EdgeInsets.only(bottom: 12),
-                child: _incompleteCard(d),
+                child: _incompleteCard(context, d),
               ),
             ),
           ],
@@ -232,9 +231,9 @@ class _DocumentReviewQueueViewState extends State<_DocumentReviewQueueView> {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Text(
-                          'APPROVED',
-                          style: TextStyle(
+                        Text(
+                          context.tr(en: 'APPROVED', ar: 'المعتمدة'),
+                          style: const TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
                             color: SchooKeepColors.accent,
@@ -243,7 +242,7 @@ class _DocumentReviewQueueViewState extends State<_DocumentReviewQueueView> {
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          '${approved.length} approved',
+                          context.tr(en: '${approved.length} approved', ar: '${approved.length} مستند معتمد'),
                           style: const TextStyle(
                             fontSize: 12,
                             color: SchooKeepColors.textSecondary,
@@ -271,7 +270,7 @@ class _DocumentReviewQueueViewState extends State<_DocumentReviewQueueView> {
               ...approved.map(
                 (d) => Padding(
                   padding: const EdgeInsets.only(bottom: 12),
-                  child: _approvedCard(d),
+                  child: _approvedCard(context, d),
                 ),
               ),
             ],
@@ -315,8 +314,8 @@ class _DocumentReviewQueueViewState extends State<_DocumentReviewQueueView> {
     );
   }
 
-  String _meta(Document d) {
-    final parts = <String>['Student #${d.studentId}'];
+  String _meta(BuildContext context, Document d) {
+    final parts = <String>['${context.tr(en: 'Student', ar: 'الطالب')} #${d.studentId}'];
     if (d.reviewedAt != null) {
       parts.add(
         '${d.reviewedAt!.month}/${d.reviewedAt!.day}/${d.reviewedAt!.year}',
@@ -325,7 +324,7 @@ class _DocumentReviewQueueViewState extends State<_DocumentReviewQueueView> {
     return parts.join(' · ');
   }
 
-  Widget _pendingCard(Document d) {
+  Widget _pendingCard(BuildContext context, Document d) {
     return AccentCard(
       background: SchooKeepColors.surface,
       accentColor: SchooKeepColors.warning,
@@ -346,7 +345,7 @@ class _DocumentReviewQueueViewState extends State<_DocumentReviewQueueView> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      _docTitle(d),
+                      _docTitle(context, d),
                       style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
@@ -355,7 +354,7 @@ class _DocumentReviewQueueViewState extends State<_DocumentReviewQueueView> {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      _meta(d),
+                      _meta(context, d),
                       style: const TextStyle(
                         fontSize: 12,
                         color: SchooKeepColors.textSecondary,
@@ -399,9 +398,9 @@ class _DocumentReviewQueueViewState extends State<_DocumentReviewQueueView> {
                       await context.push('/nurse/documents/review/${d.id}');
                       if (context.mounted) _reload();
                     },
-                    child: const Text(
-                      'Review',
-                      style: TextStyle(
+                    child: Text(
+                      context.tr(en: 'Review', ar: 'مراجعة المستند'),
+                      style: const TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
                         color: Colors.white,
@@ -422,9 +421,9 @@ class _DocumentReviewQueueViewState extends State<_DocumentReviewQueueView> {
                       ),
                     ),
                     onPressed: () => _requestMoreInfo(d),
-                    child: const Text(
-                      'Request more info',
-                      style: TextStyle(
+                    child: Text(
+                      context.tr(en: 'Request more info', ar: 'طلب معلومات إضافية'),
+                      style: const TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
                         color: SchooKeepColors.textSecondary,
@@ -449,7 +448,7 @@ class _DocumentReviewQueueViewState extends State<_DocumentReviewQueueView> {
       messenger
         ..hideCurrentSnackBar()
         ..showSnackBar(
-          const SnackBar(content: Text('Parent notified to resubmit.')),
+          SnackBar(content: Text(context.tr(en: 'Parent notified to resubmit.', ar: 'تم إشعار ولي الأمر لإعادة الإرسال.'))),
         );
       _reload();
     } catch (e) {
@@ -462,7 +461,7 @@ class _DocumentReviewQueueViewState extends State<_DocumentReviewQueueView> {
     }
   }
 
-  Widget _incompleteCard(Document d) {
+  Widget _incompleteCard(BuildContext context, Document d) {
     return AccentCard(
       background: SchooKeepColors.surface,
       accentColor: SchooKeepColors.error,
@@ -488,9 +487,9 @@ class _DocumentReviewQueueViewState extends State<_DocumentReviewQueueView> {
                     color: const Color(0xFFFEE2E2),
                     borderRadius: BorderRadius.circular(999),
                   ),
-                  child: const Text(
-                    'Incomplete',
-                    style: TextStyle(
+                  child: Text(
+                    context.tr(en: 'Incomplete', ar: 'غير مكتمل'),
+                    style: const TextStyle(
                       fontSize: 11,
                       fontWeight: FontWeight.w500,
                       color: SchooKeepColors.error,
@@ -499,7 +498,7 @@ class _DocumentReviewQueueViewState extends State<_DocumentReviewQueueView> {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  _docTitle(d),
+                  _docTitle(context, d),
                   style: const TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
@@ -508,7 +507,7 @@ class _DocumentReviewQueueViewState extends State<_DocumentReviewQueueView> {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  _meta(d),
+                  _meta(context, d),
                   style: const TextStyle(
                     fontSize: 12,
                     color: SchooKeepColors.textSecondary,
@@ -532,7 +531,7 @@ class _DocumentReviewQueueViewState extends State<_DocumentReviewQueueView> {
     );
   }
 
-  Widget _approvedCard(Document d) {
+  Widget _approvedCard(BuildContext context, Document d) {
     return AccentCard(
       background: SchooKeepColors.surface,
       accentColor: SchooKeepColors.accent,
@@ -550,7 +549,7 @@ class _DocumentReviewQueueViewState extends State<_DocumentReviewQueueView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  _docTitle(d),
+                  _docTitle(context, d),
                   style: const TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
@@ -559,15 +558,15 @@ class _DocumentReviewQueueViewState extends State<_DocumentReviewQueueView> {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  _meta(d),
+                  _meta(context, d),
                   style: const TextStyle(
                     fontSize: 12,
                     color: SchooKeepColors.textSecondary,
                   ),
                 ),
                 const SizedBox(height: 8),
-                const SchooKeepBadge(
-                  label: 'Approved',
+                SchooKeepBadge(
+                  label: context.tr(en: 'Approved', ar: 'معتمد ✓'),
                   background: SchooKeepColors.greenChipBg,
                   foreground: SchooKeepColors.greenChipText,
                   fontSize: 11,

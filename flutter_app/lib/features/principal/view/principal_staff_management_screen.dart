@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 import '../../../core/di/service_locator.dart';
+import '../../../core/localization/l10n_ext.dart';
 import '../../../core/network/data_state.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
@@ -11,9 +12,6 @@ import '../../../data/models/staff.dart';
 import '../../../data/repositories/staff_repository.dart';
 import '../cubit/staff_list_cubit.dart';
 
-/// Ported from `PrincipalStaffManagement.tsx`, wired to `GET /staff`. Searchable,
-/// filterable staff directory with role/status chips, plus an "Add staff" action
-/// and FAB. Filters are applied client-side over the loaded page.
 class PrincipalStaffManagementScreen extends StatelessWidget {
   const PrincipalStaffManagementScreen({super.key});
 
@@ -37,22 +35,30 @@ class _PrincipalStaffManagementViewState extends State<_PrincipalStaffManagement
   String _searchQuery = '';
   String _activeFilter = 'all';
 
-  static const _filters = <(String, String)>[
-    ('all', 'All'),
-    ('active', 'Active'),
-    ('inactive', 'Inactive'),
-    ('nurse', 'Nurse'),
-    ('teacher', 'Teacher'),
-    ('secretary', 'Secretary'),
-  ];
-
   void _reload() => context.read<StaffListCubit>().load();
 
-  static String _humanizeRole(String role) => role
-      .split(RegExp(r'[_\s]+'))
-      .where((w) => w.isNotEmpty)
-      .map((w) => w[0].toUpperCase() + w.substring(1))
-      .join(' ');
+  String _humanizeRole(BuildContext context, String role) {
+    switch (role.toLowerCase()) {
+      case 'nurse':
+        return context.tr(en: 'Nurse', ar: 'ممرض/ممرضة');
+      case 'teacher':
+        return context.tr(en: 'Teacher', ar: 'معلم/معلمة');
+      case 'secretary':
+        return context.tr(en: 'Secretary', ar: 'سكرتير/أمانة سر');
+      case 'physician':
+        return context.tr(en: 'Physician', ar: 'طبيب المدرسة');
+      case 'principal':
+        return context.tr(en: 'Principal', ar: 'مدير المدرسة');
+      case 'counselor':
+        return context.tr(en: 'Counselor', ar: 'أخصائي اجتماعي');
+      default:
+        return role
+            .split(RegExp(r'[_\s]+'))
+            .where((w) => w.isNotEmpty)
+            .map((w) => w[0].toUpperCase() + w.substring(1))
+            .join(' ');
+    }
+  }
 
   static String _initials(String name) {
     final parts = name.trim().split(RegExp(r'\s+')).where((p) => p.isNotEmpty).toList();
@@ -82,17 +88,21 @@ class _PrincipalStaffManagementViewState extends State<_PrincipalStaffManagement
             titleWidget: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text('Staff Management',
-                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
+                Text(
+                  context.tr(en: 'Staff Management', ar: 'إدارة الكادر المدرسي'),
+                  style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+                ),
                 GestureDetector(
                   onTap: () => context.go('/principal/add-staff'),
-                  child: const Row(
+                  child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(LucideIcons.plus, size: 20, color: SchooKeepColors.primary),
-                      SizedBox(width: 4),
-                      Text('Add staff',
-                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.primary)),
+                      const Icon(LucideIcons.plus, size: 20, color: SchooKeepColors.primary),
+                      const SizedBox(width: 4),
+                      Text(
+                        context.tr(en: 'Add staff', ar: 'إضافة موظف'),
+                        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.primary),
+                      ),
                     ],
                   ),
                 ),
@@ -102,7 +112,7 @@ class _PrincipalStaffManagementViewState extends State<_PrincipalStaffManagement
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _searchAndFilters(),
+              _searchAndFilters(context),
               BlocBuilder<StaffListCubit, DataState<List<Staff>>>(
                 builder: (context, state) {
                   return switch (state) {
@@ -110,8 +120,8 @@ class _PrincipalStaffManagementViewState extends State<_PrincipalStaffManagement
                         padding: EdgeInsets.all(48),
                         child: Center(child: CircularProgressIndicator()),
                       ),
-                    DataError(:final message) => _errorBanner(message),
-                    DataLoaded(:final data) => _list(data),
+                    DataError(:final message) => _errorBanner(context, message),
+                    DataLoaded(:final data) => _list(context, data),
                   };
                 },
               ),
@@ -140,13 +150,16 @@ class _PrincipalStaffManagementViewState extends State<_PrincipalStaffManagement
     );
   }
 
-  Widget _list(List<Staff> all) {
+  Widget _list(BuildContext context, List<Staff> all) {
     final staff = _filtered(all);
     if (staff.isEmpty) {
-      return const Padding(
-        padding: EdgeInsets.all(48),
+      return Padding(
+        padding: const EdgeInsets.all(48),
         child: Center(
-          child: Text('No staff found', style: TextStyle(color: SchooKeepColors.textSecondary)),
+          child: Text(
+            context.tr(en: 'No staff found', ar: 'لم يتم العثور على موظفين'),
+            style: const TextStyle(color: SchooKeepColors.textSecondary),
+          ),
         ),
       );
     }
@@ -162,7 +175,7 @@ class _PrincipalStaffManagementViewState extends State<_PrincipalStaffManagement
           children: [
             for (int i = 0; i < staff.length; i++) ...[
               if (i > 0) const Divider(height: 1, thickness: 1, color: Color(0xFFF1F5F9)),
-              _staffTile(staff[i]),
+              _staffTile(context, staff[i]),
             ],
           ],
         ),
@@ -170,7 +183,7 @@ class _PrincipalStaffManagementViewState extends State<_PrincipalStaffManagement
     );
   }
 
-  Widget _errorBanner(String error) {
+  Widget _errorBanner(BuildContext context, String error) {
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -195,13 +208,22 @@ class _PrincipalStaffManagementViewState extends State<_PrincipalStaffManagement
             ),
           ),
           const SizedBox(height: 12),
-          SchooKeepButton(label: 'Retry', fullWidth: false, onPressed: _reload),
+          SchooKeepButton(label: context.tr(en: 'Retry', ar: 'إعادة المحاولة'), fullWidth: false, onPressed: _reload),
         ],
       ),
     );
   }
 
-  Widget _searchAndFilters() {
+  Widget _searchAndFilters(BuildContext context) {
+    final filters = <(String, String)>[
+      ('all', context.tr(en: 'All', ar: 'الكل')),
+      ('active', context.tr(en: 'Active', ar: 'نشط')),
+      ('inactive', context.tr(en: 'Inactive', ar: 'غير نشط')),
+      ('nurse', context.tr(en: 'Nurse', ar: 'ممرض/ة')),
+      ('teacher', context.tr(en: 'Teacher', ar: 'معلم/ة')),
+      ('secretary', context.tr(en: 'Secretary', ar: 'سكرتير/ة')),
+    ];
+
     return Container(
       color: SchooKeepColors.surface,
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
@@ -220,11 +242,11 @@ class _PrincipalStaffManagementViewState extends State<_PrincipalStaffManagement
                   child: TextField(
                     onChanged: (v) => setState(() => _searchQuery = v),
                     style: const TextStyle(fontSize: 15, color: SchooKeepColors.textPrimary),
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       isCollapsed: true,
                       border: InputBorder.none,
-                      hintText: 'Search staff...',
-                      hintStyle: TextStyle(fontSize: 15, color: Color(0xFF94A3B8)),
+                      hintText: context.tr(en: 'Search staff...', ar: 'بحث في الكادر المدرسي...'),
+                      hintStyle: const TextStyle(fontSize: 15, color: Color(0xFF94A3B8)),
                     ),
                   ),
                 ),
@@ -237,7 +259,7 @@ class _PrincipalStaffManagementViewState extends State<_PrincipalStaffManagement
             scrollDirection: Axis.horizontal,
             child: Row(
               children: [
-                for (final f in _filters) ...[
+                for (final f in filters) ...[
                   _filterChip(f.$1, f.$2),
                   const SizedBox(width: 8),
                 ],
@@ -259,16 +281,19 @@ class _PrincipalStaffManagementViewState extends State<_PrincipalStaffManagement
           color: active ? SchooKeepColors.primary : const Color(0xFFF1F5F9),
           borderRadius: BorderRadius.circular(999),
         ),
-        child: Text(label,
-            style: TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w500,
-                color: active ? Colors.white : SchooKeepColors.textSecondary)),
+        child: Text(
+          label,
+          style: TextStyle(
+            fontSize: 13,
+            fontWeight: FontWeight.w500,
+            color: active ? Colors.white : SchooKeepColors.textSecondary,
+          ),
+        ),
       ),
     );
   }
 
-  Widget _staffTile(Staff s) {
+  Widget _staffTile(BuildContext context, Staff s) {
     final suspended = !s.isActive;
     return Opacity(
       opacity: suspended ? 0.6 : 1,
@@ -286,38 +311,46 @@ class _PrincipalStaffManagementViewState extends State<_PrincipalStaffManagement
                 CircleAvatar(
                   radius: 20,
                   backgroundColor: const Color(0xFFEFF6FF),
-                  child: Text(_initials(s.name),
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: suspended ? SchooKeepColors.textSecondary : SchooKeepColors.primary)),
+                  child: Text(
+                    _initials(s.name),
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: suspended ? SchooKeepColors.textSecondary : SchooKeepColors.primary,
+                    ),
+                  ),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(s.name,
-                          style: const TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
+                      Text(
+                        s.name,
+                        style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+                      ),
                       const SizedBox(height: 4),
                       Wrap(
                         spacing: 8,
                         runSpacing: 4,
                         children: [
-                          _miniBadge(_humanizeRole(s.role), const Color(0xFFDBEAFE), const Color(0xFF2563EB)),
+                          _miniBadge(_humanizeRole(context, s.role), const Color(0xFFDBEAFE), const Color(0xFF2563EB)),
                           _miniBadge(
-                            suspended ? 'Inactive' : 'Active',
+                            suspended
+                                ? context.tr(en: 'Inactive', ar: 'غير نشط')
+                                : context.tr(en: 'Active', ar: 'نشط'),
                             suspended ? const Color(0xFFFEE2E2) : const Color(0xFFD1FAE5),
                             suspended ? const Color(0xFFDC2626) : const Color(0xFF10B981),
                           ),
                         ],
                       ),
                       const SizedBox(height: 4),
-                      Text(s.email,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary)),
+                      Text(
+                        s.email,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary),
+                      ),
                     ],
                   ),
                 ),

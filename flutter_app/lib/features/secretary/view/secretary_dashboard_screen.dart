@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 import '../../../core/di/service_locator.dart';
+import '../../../core/localization/l10n_ext.dart';
 import '../../../core/network/data_state.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/utils/date_formatter.dart';
@@ -13,12 +14,6 @@ import '../../../data/repositories/notification_repository.dart';
 import '../../../data/repositories/student_repository.dart';
 import '../cubit/secretary_dashboard_cubit.dart';
 
-/// Ported from `SecretaryDashboard.tsx`. "Administration" app bar with a bell,
-/// pending-tasks list, the Dubai-only HASANA sync widget, quick actions grid,
-/// and today's activity stats. The pending-tasks list is driven by the user's
-/// notifications (`GET /notifications`) and the student-directory tile by the
-/// roster total (`GET /students`); the HASANA widget and the "Today's Activity"
-/// pure-stat tiles remain static (no API source).
 class SecretaryDashboardScreen extends StatelessWidget {
   const SecretaryDashboardScreen({super.key});
 
@@ -43,8 +38,9 @@ class _SecretaryDashboardView extends StatelessWidget {
   Widget build(BuildContext context) {
     return SchooKeepScaffold(
       reserveBottomNav: true,
+      scrollable: true,
       appBar: SchooKeepAppBar(
-        title: 'Administration',
+        title: context.tr(en: 'Administration', ar: 'الشؤون الإدارية والسكرتارية'),
         actions: [
           BlocBuilder<SecretaryDashboardCubit, DataState<SecretaryDashboardData>>(
             builder: (context, state) {
@@ -78,7 +74,7 @@ class _SecretaryDashboardView extends StatelessWidget {
             const SizedBox(height: 12),
             Text(message, textAlign: TextAlign.center, style: const TextStyle(color: SchooKeepColors.textSecondary)),
             const SizedBox(height: 16),
-            SchooKeepButton(label: 'Retry', fullWidth: false, onPressed: () => _reload(context)),
+            SchooKeepButton(label: context.tr(en: 'Retry', ar: 'إعادة المحاولة'), fullWidth: false, onPressed: () => _reload(context)),
           ],
         ),
       ),
@@ -90,28 +86,28 @@ class _SecretaryDashboardView extends StatelessWidget {
 
     final quickActions = <_QuickAction>[
       _QuickAction(
-        label: 'Import students',
+        label: context.tr(en: 'Import students', ar: 'استيراد بيانات الطلاب'),
         icon: LucideIcons.upload,
         color: SchooKeepColors.accent,
         bg: const Color(0xFFD1FAE5),
         route: '/secretary/import-students',
       ),
       _QuickAction(
-        label: 'Compose message',
+        label: context.tr(en: 'Compose message', ar: 'كتابة رسالة جديدة'),
         icon: LucideIcons.messageCircle,
         color: SchooKeepColors.primary,
         bg: const Color(0xFFEFF6FF),
         route: '/secretary/compose-message',
       ),
       _QuickAction(
-        label: 'View chatbot queue',
+        label: context.tr(en: 'View chatbot queue', ar: 'محادثات المساعد الآلي'),
         icon: LucideIcons.bot,
         color: const Color(0xFF8B5CF6),
         bg: const Color(0xFFEDE9FE),
         route: '/secretary/chatbot',
       ),
       _QuickAction(
-        label: 'Student directory (${data.studentCount})',
+        label: '${context.tr(en: 'Student directory', ar: 'دليل الطلاب')} (${data.studentCount})',
         icon: LucideIcons.users,
         color: SchooKeepColors.textSecondary,
         bg: const Color(0xFFF1F5F9),
@@ -124,17 +120,16 @@ class _SecretaryDashboardView extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Pending Tasks (driven by unread notifications)
-          const Text('Pending Tasks',
-              style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
+          Text(context.tr(en: 'Pending Tasks', ar: 'المهام المعلقة'),
+              style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
           const SizedBox(height: 12),
           if (pending.isEmpty)
-            const SchooKeepCard(
+            SchooKeepCard(
               child: Center(
                 child: Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Text('No pending tasks',
-                      style: TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary)),
+                  padding: const EdgeInsets.all(16),
+                  child: Text(context.tr(en: 'No pending tasks', ar: 'لا توجد مهام معلقة الآن'),
+                      style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary)),
                 ),
               ),
             )
@@ -152,13 +147,11 @@ class _SecretaryDashboardView extends StatelessWidget {
             ),
           const SizedBox(height: 16),
 
-          // HASANA Sync Widget (Dubai-only) — no API source, demo state.
           const _HasanaSyncWidget(),
           const SizedBox(height: 16),
 
-          // Quick Actions
-          const Text('Quick Actions',
-              style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
+          Text(context.tr(en: 'Quick Actions', ar: 'إجراءات سريعة'),
+              style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
           const SizedBox(height: 12),
           GridView.count(
             crossAxisCount: 2,
@@ -171,21 +164,20 @@ class _SecretaryDashboardView extends StatelessWidget {
           ),
           const SizedBox(height: 16),
 
-          // Today's Activity — no API source, static demo figures.
           SchooKeepCard(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text("Today's Activity",
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
+                Text(context.tr(en: "Today's Activity", ar: 'نشاط اليوم الإداري'),
+                    style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
                 const SizedBox(height: 12),
                 Row(
-                  children: const [
-                    Expanded(child: _Stat(value: '12', label: 'Messages sent', color: SchooKeepColors.primary)),
-                    SizedBox(width: 12),
-                    Expanded(child: _Stat(value: '5', label: 'Escalations resolved', color: SchooKeepColors.accent)),
-                    SizedBox(width: 12),
-                    Expanded(child: _Stat(value: '3', label: 'Pending replies', color: SchooKeepColors.warning)),
+                  children: [
+                    Expanded(child: _Stat(value: '12', label: context.tr(en: 'Messages sent', ar: 'رسائل تم إرسالها'), color: SchooKeepColors.primary)),
+                    const SizedBox(width: 12),
+                    Expanded(child: _Stat(value: '5', label: context.tr(en: 'Escalations resolved', ar: 'تصعيدات تم معالجتها'), color: SchooKeepColors.accent)),
+                    const SizedBox(width: 12),
+                    Expanded(child: _Stat(value: '3', label: context.tr(en: 'Pending replies', ar: 'ردود قيد الانتظار'), color: SchooKeepColors.warning)),
                   ],
                 ),
               ],
@@ -201,7 +193,7 @@ class _SecretaryDashboardView extends StatelessWidget {
         ? n.title!
         : (n.body?.isNotEmpty ?? false)
             ? n.body!
-            : 'Notification';
+            : context.tr(en: 'Notification', ar: 'إشعار إداري');
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -336,9 +328,6 @@ class _BellAction extends StatelessWidget {
   }
 }
 
-/// Ported from `HasanaSyncWidget.tsx`. DHA HASANA Hub integration status card —
-/// only relevant for Dubai schools. Defaults to a synced state with a retry
-/// ("Sync Now") action that briefly shows a syncing state.
 class _HasanaSyncWidget extends StatefulWidget {
   const _HasanaSyncWidget();
 
@@ -384,7 +373,7 @@ class _HasanaSyncWidgetState extends State<_HasanaSyncWidget> {
               Row(
                 children: [
                   Container(
-                    width: 20,
+                    width: 24,
                     height: 20,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
@@ -395,11 +384,11 @@ class _HasanaSyncWidgetState extends State<_HasanaSyncWidget> {
                         style: TextStyle(color: Colors.white, fontSize: 7, fontWeight: FontWeight.bold)),
                   ),
                   const SizedBox(width: 8),
-                  const Text('HASANA Hub Integration',
-                      style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: SchooKeepColors.textPrimary)),
+                  Text(context.tr(en: 'HASANA Hub Integration', ar: 'الربط المباشر مع منصة حصانة (DHA)'),
+                      style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: SchooKeepColors.textPrimary)),
                 ],
               ),
-              _statusBadge(),
+              _statusBadge(context),
             ],
           ),
           const SizedBox(height: 12),
@@ -408,7 +397,9 @@ class _HasanaSyncWidgetState extends State<_HasanaSyncWidget> {
             children: [
               Expanded(
                 child: Text(
-                  _status == _SyncStatus.synced ? 'Last sync: $_syncTime' : 'Verifying connection gateway',
+                  _status == _SyncStatus.synced
+                      ? '${context.tr(en: 'Last sync', ar: 'آخر مزامنة')}: $_syncTime'
+                      : context.tr(en: 'Verifying connection gateway', ar: 'جاري التحقق من بوابة الاتصال...'),
                   style: const TextStyle(fontSize: 11, color: SchooKeepColors.textSecondary),
                 ),
               ),
@@ -420,8 +411,8 @@ class _HasanaSyncWidgetState extends State<_HasanaSyncWidget> {
                     children: [
                       Icon(_loading ? LucideIcons.loader : LucideIcons.refreshCw, size: 12, color: SchooKeepColors.primary),
                       const SizedBox(width: 4),
-                      const Text('Sync Now',
-                          style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: SchooKeepColors.primary)),
+                      Text(context.tr(en: 'Sync Now', ar: 'تزامن الآن'),
+                          style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: SchooKeepColors.primary)),
                     ],
                   ),
                 ),
@@ -432,31 +423,31 @@ class _HasanaSyncWidgetState extends State<_HasanaSyncWidget> {
     );
   }
 
-  Widget _statusBadge() {
+  Widget _statusBadge(BuildContext context) {
     switch (_status) {
       case _SyncStatus.synced:
-        return const SchooKeepBadge(
-          label: 'Synced ✓',
+        return SchooKeepBadge(
+          label: context.tr(en: 'Synced ✓', ar: 'متزامن ✓'),
           icon: LucideIcons.checkCircle,
-          background: Color(0xFFD1FAE5),
-          foreground: Color(0xFF065F46),
+          background: const Color(0xFFD1FAE5),
+          foreground: const Color(0xFF065F46),
           fontSize: 11,
           fontWeight: FontWeight.w500,
         );
       case _SyncStatus.pending:
-        return const SchooKeepBadge(
-          label: 'Syncing...',
+        return SchooKeepBadge(
+          label: context.tr(en: 'Syncing...', ar: 'جاري المزامنة...'),
           icon: LucideIcons.refreshCw,
-          background: Color(0xFFFEF3C7),
-          foreground: Color(0xFF92400E),
+          background: const Color(0xFFFEF3C7),
+          foreground: const Color(0xFF92400E),
           fontSize: 11,
           fontWeight: FontWeight.w500,
         );
       case _SyncStatus.failed:
-        return const SchooKeepBadge(
-          label: 'Sync Failed ⚠',
+        return SchooKeepBadge(
+          label: context.tr(en: 'Sync Failed ⚠', ar: 'فشلت المزامنة ⚠'),
           icon: LucideIcons.alertCircle,
-          background: Color(0xFFFEE2E2),
+          background: const Color(0xFFFEE2E2),
           foreground: SchooKeepColors.error,
           fontSize: 11,
           fontWeight: FontWeight.w500,

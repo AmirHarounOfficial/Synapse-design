@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 import '../../../core/di/service_locator.dart';
+import '../../../core/localization/l10n_ext.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../../data/repositories/clinic_repository.dart';
@@ -11,9 +12,6 @@ import '../../../data/repositories/student_repository.dart';
 import '../../../features/auth/data/auth_repository.dart';
 import '../cubit/new_clinic_visit_cubit.dart';
 
-/// Ported from `NewClinicVisit.tsx`, wired to `POST /clinic-visits`. The
-/// student + school are resolved from the API (current nurse's school, first
-/// student); the rest of the form (reason, vitals, notes) maps to the request.
 class NewClinicVisitScreen extends StatelessWidget {
   const NewClinicVisitScreen({super.key});
 
@@ -44,8 +42,6 @@ class _NewClinicVisitViewState extends State<_NewClinicVisitView> {
   bool _notifyParent = true;
   final TextEditingController _clinicalNotes = TextEditingController();
 
-  static const _reasonCategories = ['Injury', 'Illness', 'Medication', 'Checkup', 'Mental Health', 'Other'];
-
   bool get _isFormValid => _selectedReason.isNotEmpty && _clinicalNotes.text.trim().isNotEmpty;
 
   @override
@@ -72,7 +68,7 @@ class _NewClinicVisitViewState extends State<_NewClinicVisitView> {
     if (!mounted) return;
     if (!ok) {
       final state = context.read<NewClinicVisitCubit>().state;
-      final msg = state is NewClinicVisitError ? state.message : 'Could not log the visit.';
+      final msg = state is NewClinicVisitError ? state.message : context.tr(en: 'Could not log the visit.', ar: 'تعذر تسجيل الزيارة.');
       messenger
         ..hideCurrentSnackBar()
         ..showSnackBar(SnackBar(content: Text(msg)));
@@ -80,7 +76,7 @@ class _NewClinicVisitViewState extends State<_NewClinicVisitView> {
     }
     messenger
       ..hideCurrentSnackBar()
-      ..showSnackBar(const SnackBar(content: Text('Clinic visit logged.')));
+      ..showSnackBar(SnackBar(content: Text(context.tr(en: 'Clinic visit logged.', ar: 'تم تسجيل زيادة العيادة بنجاح.'))));
     if (isEmergency) {
       context.go('/nurse/clinic/emergency-photo');
     } else {
@@ -98,12 +94,14 @@ class _NewClinicVisitViewState extends State<_NewClinicVisitView> {
           reserveBottomNav: true,
           appBar: SchooKeepAppBar(
             backgroundColor: isEmergency ? SchooKeepColors.error : SchooKeepColors.surface,
-            titleWidget: Text('New Clinic Visit',
-                style: TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w500,
-                  color: isEmergency ? Colors.white : SchooKeepColors.textPrimary,
-                )),
+            titleWidget: Text(
+              context.tr(en: 'New Clinic Visit', ar: 'تسجيل زيارة عيادة جديدة'),
+              style: TextStyle(
+                fontSize: 17,
+                fontWeight: FontWeight.w500,
+                color: isEmergency ? Colors.white : SchooKeepColors.textPrimary,
+              ),
+            ),
             onBack: () => context.go('/nurse/clinic'),
           ),
           body: Padding(
@@ -111,24 +109,26 @@ class _NewClinicVisitViewState extends State<_NewClinicVisitView> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _studentSelector(state),
+                _studentSelector(context, state),
                 const SizedBox(height: 24),
-                _visitTypeSelector(),
+                _visitTypeSelector(context),
                 const SizedBox(height: 24),
-                _reasonGrid(),
+                _reasonGrid(context),
                 const SizedBox(height: 24),
-                _vitalSigns(),
+                _vitalSigns(context),
                 const SizedBox(height: 24),
-                _clinicalNotesField(),
+                _clinicalNotesField(context),
                 const SizedBox(height: 24),
-                _photoAttachment(),
+                _photoAttachment(context),
                 const SizedBox(height: 24),
-                _immutabilityWarning(),
+                _immutabilityWarning(context),
                 const SizedBox(height: 24),
-                _parentNotification(),
+                _parentNotification(context),
                 const SizedBox(height: 24),
                 SchooKeepButton(
-                  label: submitting ? 'Logging…' : 'Log Visit',
+                  label: submitting
+                      ? context.tr(en: 'Logging…', ar: 'جاري التسجيل...')
+                      : context.tr(en: 'Log Visit', ar: 'حفظ وحفظ الزيارة'),
                   variant: SchooKeepButtonVariant.secondary,
                   enabled: _isFormValid && state is NewClinicVisitReady && !submitting,
                   onPressed: (_isFormValid && state is NewClinicVisitReady && !submitting) ? _handleSubmit : null,
@@ -144,24 +144,24 @@ class _NewClinicVisitViewState extends State<_NewClinicVisitView> {
   Widget _label(String text) => Text(text,
       style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.textSecondary));
 
-  Widget _studentSelector(NewClinicVisitState state) {
+  Widget _studentSelector(BuildContext context, NewClinicVisitState state) {
     final (name, sub, initials) = switch (state) {
       NewClinicVisitReady(:final student) => (
           student.name,
           [
-            if ((student.grade ?? '').isNotEmpty) 'Grade ${student.grade}',
-            if ((student.section ?? '').isNotEmpty) 'Room ${student.section}',
+            if ((student.grade ?? '').isNotEmpty) '${context.tr(en: 'Grade', ar: 'الصف')} ${student.grade}',
+            if ((student.section ?? '').isNotEmpty) '${context.tr(en: 'Room', ar: 'القاعة')} ${student.section}',
           ].join(' · '),
           student.initials,
         ),
       NewClinicVisitError(:final message) => (message, '', '!'),
-      _ => ('Loading…', '', '…'),
+      _ => (context.tr(en: 'Loading…', ar: 'جاري التحميل...'), '', '…'),
     };
     return SchooKeepCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _label('Student *'),
+          _label(context.tr(en: 'Student *', ar: 'الطالب *')),
           const SizedBox(height: 8),
           Container(
             height: 52,
@@ -202,18 +202,18 @@ class _NewClinicVisitViewState extends State<_NewClinicVisitView> {
     );
   }
 
-  Widget _visitTypeSelector() {
+  Widget _visitTypeSelector(BuildContext context) {
     return SchooKeepCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _label('Visit Type *'),
+          _label(context.tr(en: 'Visit Type *', ar: 'نوع الزيارة *')),
           const SizedBox(height: 12),
           Row(
             children: [
-              Expanded(child: _typeButton('routine', 'Routine', SchooKeepColors.primary)),
+              Expanded(child: _typeButton('routine', context.tr(en: 'Routine', ar: 'روتينية'), SchooKeepColors.primary)),
               const SizedBox(width: 8),
-              Expanded(child: _typeButton('emergency', 'Emergency', SchooKeepColors.error)),
+              Expanded(child: _typeButton('emergency', context.tr(en: 'Emergency', ar: 'طوارئ'), SchooKeepColors.error)),
             ],
           ),
         ],
@@ -243,12 +243,21 @@ class _NewClinicVisitViewState extends State<_NewClinicVisitView> {
     );
   }
 
-  Widget _reasonGrid() {
+  Widget _reasonGrid(BuildContext context) {
+    final reasonCategories = [
+      context.tr(en: 'Injury', ar: 'إصابة'),
+      context.tr(en: 'Illness', ar: 'مرض'),
+      context.tr(en: 'Medication', ar: 'دواء'),
+      context.tr(en: 'Checkup', ar: 'فحص'),
+      context.tr(en: 'Mental Health', ar: 'صحة نفسية'),
+      context.tr(en: 'Other', ar: 'أخرى'),
+    ];
+
     return SchooKeepCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _label('Reason Category *'),
+          _label(context.tr(en: 'Reason Category *', ar: 'تصنيف السبب *')),
           const SizedBox(height: 12),
           GridView.count(
             crossAxisCount: 3,
@@ -258,7 +267,7 @@ class _NewClinicVisitViewState extends State<_NewClinicVisitView> {
             crossAxisSpacing: 8,
             childAspectRatio: 2.4,
             children: [
-              for (final reason in _reasonCategories) _reasonChip(reason),
+              for (final reason in reasonCategories) _reasonChip(reason),
             ],
           ),
         ],
@@ -288,7 +297,7 @@ class _NewClinicVisitViewState extends State<_NewClinicVisitView> {
     );
   }
 
-  Widget _vitalSigns() {
+  Widget _vitalSigns(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         color: SchooKeepColors.surface,
@@ -305,8 +314,10 @@ class _NewClinicVisitViewState extends State<_NewClinicVisitView> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text('Vital Signs (Optional)',
-                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
+                  Text(
+                    context.tr(en: 'Vital Signs (Optional)', ar: 'العلامات الحيوية (اختياري)'),
+                    style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary),
+                  ),
                   AnimatedRotation(
                     turns: _showVitals ? 0.5 : 0,
                     duration: const Duration(milliseconds: 150),
@@ -326,13 +337,13 @@ class _NewClinicVisitViewState extends State<_NewClinicVisitView> {
                 children: [
                   Row(
                     children: [
-                      Expanded(child: _vitalField('Temperature (°F)', '98.6', TextInputType.number)),
+                      Expanded(child: _vitalField(context.tr(en: 'Temperature (°F)', ar: 'درجة الحرارة (°F)'), '98.6', TextInputType.number)),
                       const SizedBox(width: 12),
-                      Expanded(child: _vitalField('Heart Rate (bpm)', '72', TextInputType.number)),
+                      Expanded(child: _vitalField(context.tr(en: 'Heart Rate (bpm)', ar: 'نبضات القلب (bpm)'), '72', TextInputType.number)),
                     ],
                   ),
                   const SizedBox(height: 12),
-                  _vitalField('Blood Pressure (mmHg)', '120/80', TextInputType.text),
+                  _vitalField(context.tr(en: 'Blood Pressure (mmHg)', ar: 'ضغط الدم (mmHg)'), '120/80', TextInputType.text),
                 ],
               ),
             ),
@@ -374,18 +385,18 @@ class _NewClinicVisitViewState extends State<_NewClinicVisitView> {
     );
   }
 
-  Widget _clinicalNotesField() {
+  Widget _clinicalNotesField(BuildContext context) {
     return SchooKeepCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _label('Clinical Notes *'),
+          _label(context.tr(en: 'Clinical Notes *', ar: 'الملاحظات السريرية والتأريضية *')),
           const SizedBox(height: 8),
           TextField(
             controller: _clinicalNotes,
             maxLines: 5,
             decoration: InputDecoration(
-              hintText: 'Notes (will be locked after save)',
+              hintText: context.tr(en: 'Notes (will be locked after save)', ar: 'أدخل الملاحظات السريرية (سيتم قفلها بعد الحفظ)'),
               hintStyle: const TextStyle(color: SchooKeepColors.textSecondary),
               contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               border: OutlineInputBorder(
@@ -403,27 +414,34 @@ class _NewClinicVisitViewState extends State<_NewClinicVisitView> {
             ),
           ),
           const SizedBox(height: 8),
-          const Text('All clinical notes are permanently locked after saving',
-              style: TextStyle(fontSize: 12, color: SchooKeepColors.warning)),
+          Text(
+            context.tr(en: 'All clinical notes are permanently locked after saving', ar: 'جميع الملاحظات السريرية تقفل نهائياً بعد الحفظ للحماية'),
+            style: const TextStyle(fontSize: 12, color: SchooKeepColors.warning),
+          ),
         ],
       ),
     );
   }
 
-  Widget _photoAttachment() {
+  Widget _photoAttachment(BuildContext context) {
     return SchooKeepCard(
       onTap: () => context.push('/nurse/clinic/emergency-photo'),
       child: Row(
-        children: const [
-          Icon(LucideIcons.camera, size: 24, color: SchooKeepColors.textSecondary),
-          SizedBox(width: 12),
+        children: [
+          const Icon(LucideIcons.camera, size: 24, color: SchooKeepColors.textSecondary),
+          const SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Add photo/video',
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
-                Text('Optional', style: TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary)),
+                Text(
+                  context.tr(en: 'Add photo/video', ar: 'إرفاق صورة/فيديو سريري'),
+                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+                ),
+                Text(
+                  context.tr(en: 'Optional', ar: 'اختياري'),
+                  style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary),
+                ),
               ],
             ),
           ),
@@ -432,7 +450,7 @@ class _NewClinicVisitViewState extends State<_NewClinicVisitView> {
     );
   }
 
-  Widget _immutabilityWarning() {
+  Widget _immutabilityWarning(BuildContext context) {
     return AccentCard(
       background: SchooKeepColors.amberBg,
       accentColor: SchooKeepColors.warning,
@@ -441,19 +459,24 @@ class _NewClinicVisitViewState extends State<_NewClinicVisitView> {
       padding: const EdgeInsets.all(16),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
-          Icon(LucideIcons.alertTriangle, size: 20, color: SchooKeepColors.warning),
-          SizedBox(width: 12),
+        children: [
+          const Icon(LucideIcons.alertTriangle, size: 20, color: SchooKeepColors.warning),
+          const SizedBox(width: 12),
           Expanded(
-            child: Text('This record cannot be edited after saving. A corrective note can be appended.',
-                style: TextStyle(fontSize: 13, color: SchooKeepColors.amberText)),
+            child: Text(
+              context.tr(
+                en: 'This record cannot be edited after saving. A corrective note can be appended.',
+                ar: 'لا يمكن تعديل هذا السجل بعد الحفظ. يمكنك إضافة ملاحظة تصحيحية لاحقاً.',
+              ),
+              style: const TextStyle(fontSize: 13, color: SchooKeepColors.amberText),
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _parentNotification() {
+  Widget _parentNotification(BuildContext context) {
     return SchooKeepCard(
       child: InkWell(
         onTap: () => setState(() => _notifyParent = !_notifyParent),
@@ -471,14 +494,18 @@ class _NewClinicVisitViewState extends State<_NewClinicVisitView> {
               ),
             ),
             const SizedBox(width: 12),
-            const Expanded(
+            Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Notify parent immediately',
-                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
-                  Text('Send clinic visit notification via SMS and app',
-                      style: TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary)),
+                  Text(
+                    context.tr(en: 'Notify parent immediately', ar: 'إشعار ولي الأمر فوراً'),
+                    style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+                  ),
+                  Text(
+                    context.tr(en: 'Send clinic visit notification via SMS and app', ar: 'إرسال إشعار زيارة العيادة عبر الرسائل النصية والتطبيق'),
+                    style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary),
+                  ),
                 ],
               ),
             ),

@@ -70,7 +70,7 @@ export function ParentFullQRCode() {
             ))}
           </div>
           
-          {/* Center Synapse Logo */}
+          {/* Center SchooKeep Logo */}
           <div className="relative w-16 h-16 rounded-lg bg-white border-2 border-gray-900 flex items-center justify-center">
             <span className="text-[20px] font-bold text-[#2563EB]">S</span>
           </div>

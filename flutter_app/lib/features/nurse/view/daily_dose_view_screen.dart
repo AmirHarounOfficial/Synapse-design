@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 import '../../../core/di/service_locator.dart';
+import '../../../core/localization/l10n_ext.dart';
 import '../../../core/network/data_state.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
@@ -11,10 +12,6 @@ import '../../../data/repositories/medication_repository.dart';
 import '../cubit/daily_dose_cubit.dart';
 import 'package:schookeep/core/router/safe_back.dart';
 
-/// Ported from `DailyDoseView.tsx`, now wired to the API
-/// (`GET /dose-administrations?date=today`, joined to medications for labels).
-/// A timeline of today's dose administrations with summary stats and a progress
-/// bar, plus loading/error(retry)/empty states.
 class DailyDoseViewScreen extends StatelessWidget {
   const DailyDoseViewScreen({super.key});
 
@@ -30,26 +27,6 @@ class DailyDoseViewScreen extends StatelessWidget {
 class _DailyDoseView extends StatelessWidget {
   const _DailyDoseView();
 
-  String get _today {
-    const months = [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ];
-    final now = DateTime.now();
-    return '${months[now.month - 1]} ${now.day}, ${now.year}';
-  }
-
-  /// Formats an ISO-8601 timestamp to a short 12-hour time, or returns it as-is.
   String _formatTime(String? iso) {
     if (iso == null || iso.isEmpty) return '—';
     final dt = DateTime.tryParse(iso);
@@ -113,16 +90,19 @@ class _DailyDoseView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final now = DateTime.now();
+    final todayStr = '${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}';
+
     return SchooKeepScaffold(
       reserveBottomNav: true,
       appBar: SchooKeepAppBar(
-        title: "Today's Doses",
+        title: context.tr(en: "Today's Doses", ar: 'جرعات اليوم المستحقة'),
         centerTitle: true,
         onBack: () => context.safeBack(),
         actions: [
           Center(
             child: Text(
-              _today,
+              todayStr,
               style: const TextStyle(
                 fontSize: 13,
                 color: SchooKeepColors.textSecondary,
@@ -163,7 +143,7 @@ class _DailyDoseView extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             SchooKeepButton(
-              label: 'Retry',
+              label: context.tr(en: 'Retry', ar: 'إعادة المحاولة'),
               fullWidth: false,
               onPressed: () => context.read<DailyDoseCubit>().load(),
             ),
@@ -175,10 +155,10 @@ class _DailyDoseView extends StatelessWidget {
 
   Widget _content(BuildContext context, List<DailyDoseEntry> doses) {
     if (doses.isEmpty) {
-      return const Center(
+      return Center(
         child: Text(
-          'No doses scheduled today',
-          style: TextStyle(color: SchooKeepColors.textSecondary),
+          context.tr(en: 'No doses scheduled today', ar: 'لا توجد جرعات دوائية مسجلة اليوم'),
+          style: const TextStyle(color: SchooKeepColors.textSecondary),
         ),
       );
     }
@@ -205,14 +185,14 @@ class _DailyDoseView extends StatelessWidget {
               Expanded(
                 child: _statColumn(
                   '$total',
-                  'Total',
+                  context.tr(en: 'Total', ar: 'الإجمالي'),
                   SchooKeepColors.textPrimary,
                 ),
               ),
               Expanded(
                 child: _statColumn(
                   '$given',
-                  'Given',
+                  context.tr(en: 'Given', ar: 'المعطاة'),
                   SchooKeepColors.accent,
                   icon: LucideIcons.check,
                 ),
@@ -220,12 +200,12 @@ class _DailyDoseView extends StatelessWidget {
               Expanded(
                 child: _statColumn(
                   '$pending',
-                  'Pending',
+                  context.tr(en: 'Pending', ar: 'المتبقية'),
                   SchooKeepColors.warning,
                 ),
               ),
               Expanded(
-                child: _statColumn('$missed', 'Missed', SchooKeepColors.error),
+                child: _statColumn('$missed', context.tr(en: 'Missed', ar: 'الفائتة'), SchooKeepColors.error),
               ),
             ],
           ),
@@ -303,7 +283,7 @@ class _DailyDoseView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            width: 56,
+            width: 60,
             child: Padding(
               padding: const EdgeInsets.only(top: 12),
               child: Text(
@@ -343,17 +323,17 @@ class _DailyDoseView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     if (isMissed) ...[
-                      const SchooKeepBadge(
-                        label: 'Missed',
-                        background: Color(0xFFFEE2E2),
+                      SchooKeepBadge(
+                        label: context.tr(en: 'Missed', ar: 'جرعة فائتة'),
+                        background: const Color(0xFFFEE2E2),
                         foreground: SchooKeepColors.error,
                         fontSize: 11,
                       ),
                       const SizedBox(height: 8),
                     ],
                     if (isConflict) ...[
-                      const SchooKeepBadge(
-                        label: 'Dose Conflict',
+                      SchooKeepBadge(
+                        label: context.tr(en: 'Dose Conflict', ar: 'تعارض في الجرعة'),
                         background: SchooKeepColors.amberChipBg,
                         foreground: SchooKeepColors.amberText,
                         fontSize: 11,
@@ -361,7 +341,7 @@ class _DailyDoseView extends StatelessWidget {
                       const SizedBox(height: 8),
                     ],
                     Text(
-                      'Student #${dose.studentId}',
+                      '${context.tr(en: 'Student', ar: 'الطالب')} #${dose.studentId}',
                       style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
@@ -388,7 +368,10 @@ class _DailyDoseView extends StatelessWidget {
                           const SizedBox(width: 6),
                           Expanded(
                             child: Text(
-                              'Administered at ${_formatTime(dose.administeredAt)}',
+                              context.tr(
+                                en: 'Administered at ${_formatTime(dose.administeredAt)}',
+                                ar: 'تمت المعالجة في تمام الساعة ${_formatTime(dose.administeredAt)}',
+                              ),
                               style: const TextStyle(
                                 fontSize: 12,
                                 color: SchooKeepColors.textSecondary,
@@ -413,9 +396,9 @@ class _DailyDoseView extends StatelessWidget {
                           onPressed: () => context.go(
                             '/nurse/medications/dose-confirmation',
                           ),
-                          child: const Text(
-                            'Give now',
-                            style: TextStyle(
+                          child: Text(
+                            context.tr(en: 'Give now', ar: 'إعطاء الجرعة الآن'),
+                            style: const TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.w500,
                               color: Colors.white,
@@ -439,9 +422,9 @@ class _DailyDoseView extends StatelessWidget {
                           onPressed: () => context.go(
                             '/nurse/medications/dose-confirmation',
                           ),
-                          child: const Text(
-                            'Overdue — log reason',
-                            style: TextStyle(
+                          child: Text(
+                            context.tr(en: 'Overdue — log reason', ar: 'متأخرة — توثيق السبب'),
+                            style: const TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.w500,
                               color: Colors.white,
@@ -467,9 +450,9 @@ class _DailyDoseView extends StatelessWidget {
                             '?medication_id=${dose.medicationId}'
                             '&student_id=${dose.studentId}',
                           ),
-                          child: const Text(
-                            'Review conflict',
-                            style: TextStyle(
+                          child: Text(
+                            context.tr(en: 'Review conflict', ar: 'مراجعة التعارض'),
+                            style: const TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.w500,
                               color: Colors.white,

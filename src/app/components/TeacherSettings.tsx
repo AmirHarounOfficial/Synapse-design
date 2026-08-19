@@ -215,7 +215,7 @@ export function TeacherSettings() {
             </h3>
             <p className="text-[14px] text-[#64748B] mb-6 text-center leading-relaxed">
               هل أنت متأكد من رغبتك في تسجيل الخروج؟<br/>
-              You will need to sign in again to access Synapse.
+              You will need to sign in again to access SchooKeep.
             </p>
             <div className="flex gap-3">
               <button

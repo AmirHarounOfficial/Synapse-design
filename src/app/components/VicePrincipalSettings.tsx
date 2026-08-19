@@ -9,7 +9,7 @@ export function VicePrincipalSettings() {
   const profileInfo = {
     name: 'Victoria Davis',
     role: 'Vice Principal',
-    email: 'v.davis@synapse.ae',
+    email: 'v.davis@schookeep.ae',
     initials: 'VD',
     delegatedBy: 'Principal M. Davis',
     delegationDate: '2026-05-01'
@@ -117,7 +117,7 @@ export function VicePrincipalSettings() {
         {/* App Info */}
         <div className="bg-white rounded-xl border border-gray-200 p-4">
           <div className="text-[13px] text-[#64748B] text-center space-y-1">
-            <div>Synapse Health Manager</div>
+            <div>SchooKeep Health Manager</div>
             <div>Version 2.1.0 (Build 487)</div>
             <div className="pt-2">
               <button className="text-[#2563EB] font-medium">
@@ -145,7 +145,7 @@ export function VicePrincipalSettings() {
         {/* Legal Notice */}
         <div className="bg-[#F1F5F9] rounded-lg p-3">
           <p className="text-[11px] text-[#64748B] leading-relaxed text-center font-medium">
-            Access to Synapse is governed by UAE PDPL and DHA school health guidelines. All activities are logged for compliance and audit purposes under UAE regulations.
+            Access to SchooKeep is governed by UAE PDPL and DHA school health guidelines. All activities are logged for compliance and audit purposes under UAE regulations.
           </p>
         </div>
       </div>

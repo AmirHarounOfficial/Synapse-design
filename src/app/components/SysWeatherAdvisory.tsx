@@ -75,7 +75,7 @@ export function SysWeatherAdvisory({ standalone = true, initialRole = 'Nurse' }:
         {/* Top App Bar */}
         <header className="flex items-center justify-between px-4 h-14 bg-white border-b border-slate-200 flex-shrink-0 z-30">
           <h1 className="text-[17px] font-bold text-slate-900 tracking-tight">
-            {role === 'Parent' ? 'Parent Portal' : 'Synapse Clinical'}
+            {role === 'Parent' ? 'Parent Portal' : 'SchooKeep Clinical'}
           </h1>
           <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-xs font-semibold text-slate-700">
             {role === 'Parent' ? 'JT' : 'RN'}

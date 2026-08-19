@@ -5,17 +5,11 @@ import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 import '../../../core/di/service_locator.dart';
+import '../../../core/localization/l10n_ext.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../../data/repositories/medication_repository.dart';
 
-/// Ported from `DoseConfirmation.tsx`, now wired to the API. "Medication Due"
-/// screen with a live updating clock, an administer confirmation dialog, and a
-/// full-screen success overlay that auto-navigates back to the medications list.
-///
-/// When reached with [medicationId] and [studentId] query params, confirming
-/// logs a "given" dose (`POST /dose-administrations`). Without ids (e.g. the
-/// dashboard demo shortcut) it falls back to the original navigate-only flow.
 class DoseConfirmationScreen extends StatefulWidget {
   const DoseConfirmationScreen({super.key, this.medicationId, this.studentId});
 
@@ -70,8 +64,6 @@ class _DoseConfirmationScreenState extends State<DoseConfirmationScreen> {
     );
   }
 
-  /// "Delay dose" — offer a short list of delay intervals in a bottom sheet.
-  /// Picking one confirms the reschedule (in-app) and returns to the list.
   void _handleDelay() {
     showModalBottomSheet<void>(
       context: context,
@@ -86,21 +78,27 @@ class _DoseConfirmationScreenState extends State<DoseConfirmationScreen> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Padding(
-                padding: EdgeInsets.fromLTRB(24, 20, 24, 8),
-                child: Text('Delay dose',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(24, 20, 24, 8),
+                child: Text(
+                  context.tr(en: 'Delay dose', ar: 'تأجيل موعد الجرعة'),
+                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary),
+                ),
               ),
-              const Padding(
-                padding: EdgeInsets.fromLTRB(24, 0, 24, 12),
-                child: Text('Reschedule this dose by:',
-                    style: TextStyle(fontSize: 14, color: SchooKeepColors.textSecondary)),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(24, 0, 24, 12),
+                child: Text(
+                  context.tr(en: 'Reschedule this dose by:', ar: 'إعادة جدولة الجرعة بمقدار:'),
+                  style: const TextStyle(fontSize: 14, color: SchooKeepColors.textSecondary),
+                ),
               ),
               for (final minutes in options)
                 ListTile(
                   leading: const Icon(LucideIcons.clock, size: 20, color: SchooKeepColors.primary),
-                  title: Text('$minutes minutes',
-                      style: const TextStyle(fontSize: 15, color: SchooKeepColors.textPrimary)),
+                  title: Text(
+                    context.tr(en: '$minutes minutes', ar: '$minutes دقيقة'),
+                    style: const TextStyle(fontSize: 15, color: SchooKeepColors.textPrimary),
+                  ),
                   onTap: () {
                     Navigator.of(sheetContext).pop();
                     _confirmDelay(minutes);
@@ -117,7 +115,7 @@ class _DoseConfirmationScreenState extends State<DoseConfirmationScreen> {
   void _confirmDelay(int minutes) {
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Dose delayed by $minutes minutes')),
+      SnackBar(content: Text(context.tr(en: 'Dose delayed by $minutes minutes', ar: 'تم تأجيل الجرعة بمقدار $minutes دقيقة'))),
     );
     context.go('/nurse/medications');
   }
@@ -127,7 +125,6 @@ class _DoseConfirmationScreenState extends State<DoseConfirmationScreen> {
     final medId = widget.medicationId;
     final studentId = widget.studentId;
 
-    // If we have a medication + student context, log the dose to the API.
     if (medId != null && studentId != null) {
       setState(() => _submitting = true);
       try {
@@ -156,14 +153,14 @@ class _DoseConfirmationScreenState extends State<DoseConfirmationScreen> {
   @override
   Widget build(BuildContext context) {
     if (_showSuccess) {
-      return _successScreen();
+      return _successScreen(context);
     }
 
     return SchooKeepScaffold(
-      appBar: const SchooKeepAppBar(
+      appBar: SchooKeepAppBar(
         titleWidget: Text(
-          'Medication Due',
-          style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: SchooKeepColors.error),
+          context.tr(en: 'Medication Due', ar: 'موعد إعطاء الدواء المستحق'),
+          style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: SchooKeepColors.error),
         ),
       ),
       body: Padding(
@@ -171,9 +168,9 @@ class _DoseConfirmationScreenState extends State<DoseConfirmationScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _studentCard(),
+            _studentCard(context),
             const SizedBox(height: 16),
-            _medicationCard(),
+            _medicationCard(context),
             const SizedBox(height: 16),
             SizedBox(
               width: double.infinity,
@@ -184,13 +181,15 @@ class _DoseConfirmationScreenState extends State<DoseConfirmationScreen> {
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 ),
                 onPressed: _submitting ? null : _handleAdminister,
-                child: const Row(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(LucideIcons.checkCircle, size: 20, color: Colors.white),
-                    SizedBox(width: 8),
-                    Text('Mark as Administered',
-                        style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.white)),
+                    const Icon(LucideIcons.checkCircle, size: 20, color: Colors.white),
+                    const SizedBox(width: 8),
+                    Text(
+                      context.tr(en: 'Mark as Administered', ar: 'تأكيد إعطاء الجرعة للطفل'),
+                      style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.white),
+                    ),
                   ],
                 ),
               ),
@@ -201,8 +200,10 @@ class _DoseConfirmationScreenState extends State<DoseConfirmationScreen> {
               height: 44,
               child: TextButton(
                 onPressed: _submitting ? null : _handleDelay,
-                child: const Text('Delay dose',
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.primary)),
+                child: Text(
+                  context.tr(en: 'Delay dose', ar: 'تأجيل موعد الجرعة'),
+                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.primary),
+                ),
               ),
             ),
           ],
@@ -211,7 +212,7 @@ class _DoseConfirmationScreenState extends State<DoseConfirmationScreen> {
     );
   }
 
-  Widget _studentCard() {
+  Widget _studentCard(BuildContext context) {
     return SchooKeepCard(
       onTap: () => context.go('/nurse/students/maya-chen'),
       child: Row(
@@ -225,13 +226,16 @@ class _DoseConfirmationScreenState extends State<DoseConfirmationScreen> {
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Colors.white)),
           ),
           const SizedBox(width: 12),
-          const Expanded(
+          Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Maya Chen',
+                const Text('Maya Chen',
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
-                Text('Grade 5 · Room 204', style: TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary)),
+                Text(
+                  context.tr(en: 'Grade 5 · Room 204', ar: 'الصف الخامس · قاعة 204'),
+                  style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary),
+                ),
               ],
             ),
           ),
@@ -240,7 +244,7 @@ class _DoseConfirmationScreenState extends State<DoseConfirmationScreen> {
     );
   }
 
-  Widget _medicationCard() {
+  Widget _medicationCard(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
@@ -254,7 +258,10 @@ class _DoseConfirmationScreenState extends State<DoseConfirmationScreen> {
           const Text('Methylphenidate 10mg',
               style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
           const SizedBox(height: 12),
-          const Text('Scheduled Time', style: TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary)),
+          Text(
+            context.tr(en: 'Scheduled Time', ar: 'الوقت المحدد للجرعة'),
+            style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary),
+          ),
           const SizedBox(height: 4),
           const Text('11:00 AM',
               style: TextStyle(fontSize: 32, fontWeight: FontWeight.w500, color: SchooKeepColors.primary)),
@@ -263,21 +270,28 @@ class _DoseConfirmationScreenState extends State<DoseConfirmationScreen> {
             children: [
               const Icon(LucideIcons.clock, size: 16, color: SchooKeepColors.textSecondary),
               const SizedBox(width: 8),
-              Text('Current time: $_currentTime',
-                  style: const TextStyle(fontSize: 14, color: SchooKeepColors.textSecondary)),
+              Text(
+                context.tr(en: 'Current time: $_currentTime', ar: 'الوقت الحالي: $_currentTime'),
+                style: const TextStyle(fontSize: 14, color: SchooKeepColors.textSecondary),
+              ),
             ],
           ),
           const SizedBox(height: 12),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             decoration: BoxDecoration(color: SchooKeepColors.amberChipBg, borderRadius: BorderRadius.circular(999)),
-            child: const Row(
+            child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(LucideIcons.alertTriangle, size: 16, color: SchooKeepColors.amberText),
-                SizedBox(width: 6),
-                Text('$_minutesUntil minutes until scheduled dose',
-                    style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: SchooKeepColors.amberText)),
+                const Icon(LucideIcons.alertTriangle, size: 16, color: SchooKeepColors.amberText),
+                const SizedBox(width: 6),
+                Text(
+                  context.tr(
+                    en: '$_minutesUntil minutes until scheduled dose',
+                    ar: 'متبقي $_minutesUntil دقيقة على موعد الجرعة',
+                  ),
+                  style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: SchooKeepColors.amberText),
+                ),
               ],
             ),
           ),
@@ -288,12 +302,18 @@ class _DoseConfirmationScreenState extends State<DoseConfirmationScreen> {
             decoration: const BoxDecoration(
               border: Border(top: BorderSide(color: SchooKeepColors.border)),
             ),
-            child: const Column(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Dose 2 of 3 today', style: TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary)),
-                SizedBox(height: 8),
-                Text('14 doses remaining', style: TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary)),
+                Text(
+                  context.tr(en: 'Dose 2 of 3 today', ar: 'الجرعة 2 من أصل 3 اليوم'),
+                  style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  context.tr(en: '14 doses remaining', ar: 'متبقي 14 جرعة في العلبة'),
+                  style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary),
+                ),
               ],
             ),
           ),
@@ -301,13 +321,18 @@ class _DoseConfirmationScreenState extends State<DoseConfirmationScreen> {
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(color: SchooKeepColors.background, borderRadius: BorderRadius.circular(8)),
-            child: const Row(
+            child: Row(
               children: [
-                Icon(LucideIcons.lock, size: 16, color: SchooKeepColors.textSecondary),
-                SizedBox(width: 8),
+                const Icon(LucideIcons.lock, size: 16, color: SchooKeepColors.textSecondary),
+                const SizedBox(width: 8),
                 Expanded(
-                  child: Text('Physician order by Dr. Rodriguez on file ✓',
-                      style: TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary)),
+                  child: Text(
+                    context.tr(
+                      en: 'Physician order by Dr. Rodriguez on file ✓',
+                      ar: 'أمر الطبيب د. رودريغيز موثق في السجل الطبي ✓',
+                    ),
+                    style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary),
+                  ),
                 ),
               ],
             ),
@@ -337,12 +362,17 @@ class _DoseConfirmationScreenState extends State<DoseConfirmationScreen> {
                 child: const Icon(LucideIcons.alertTriangle, size: 24, color: SchooKeepColors.warning),
               ),
               const SizedBox(height: 16),
-              const Text('Confirm Administration',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
+              Text(
+                context.tr(en: 'Confirm Administration', ar: 'تأكيد إعطاء الدواء'),
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary),
+              ),
               const SizedBox(height: 8),
               Text(
-                'This action is irreversible. Confirm administration of Methylphenidate 10mg to Maya Chen at $_currentTime?',
+                context.tr(
+                  en: 'This action is irreversible. Confirm administration of Methylphenidate 10mg to Maya Chen at $_currentTime?',
+                  ar: 'هذا الإجراء نهائي وسوف يُسجل في الملف الطبي. هل تؤكد إعطاء دواء ميثيلفينيدات 10 ملغ للطالبة مايا تشن في تمام الساعة $_currentTime؟',
+                ),
                 textAlign: TextAlign.center,
                 style: const TextStyle(fontSize: 14, color: SchooKeepColors.textSecondary),
               ),
@@ -359,8 +389,10 @@ class _DoseConfirmationScreenState extends State<DoseConfirmationScreen> {
                     Navigator.of(dialogContext).pop();
                     _handleConfirm();
                   },
-                  child: const Text('Confirm',
-                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.white)),
+                  child: Text(
+                    context.tr(en: 'Confirm', ar: 'تأكيد'),
+                    style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.white),
+                  ),
                 ),
               ),
               const SizedBox(height: 8),
@@ -374,8 +406,10 @@ class _DoseConfirmationScreenState extends State<DoseConfirmationScreen> {
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   ),
                   onPressed: () => Navigator.of(dialogContext).pop(),
-                  child: const Text('Cancel',
-                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: SchooKeepColors.textSecondary)),
+                  child: Text(
+                    context.tr(en: 'Cancel', ar: 'إلغاء'),
+                    style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: SchooKeepColors.textSecondary),
+                  ),
                 ),
               ),
             ],
@@ -385,7 +419,7 @@ class _DoseConfirmationScreenState extends State<DoseConfirmationScreen> {
     );
   }
 
-  Widget _successScreen() {
+  Widget _successScreen(BuildContext context) {
     return ColoredBox(
       color: SchooKeepColors.surface,
       child: Center(
@@ -402,22 +436,28 @@ class _DoseConfirmationScreenState extends State<DoseConfirmationScreen> {
                 child: const Icon(LucideIcons.checkCircle, size: 48, color: Colors.white),
               ),
               const SizedBox(height: 24),
-              const Text('Dose Administered',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
+              Text(
+                context.tr(en: 'Dose Administered', ar: 'تم تسجيل الجرعة بنجاح'),
+                style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary),
+              ),
               const SizedBox(height: 8),
-              Text('Recorded at $_confirmationTime',
-                  style: const TextStyle(fontSize: 16, color: SchooKeepColors.textSecondary)),
+              Text(
+                context.tr(en: 'Recorded at $_confirmationTime', ar: 'سُجل في تمام الساعة $_confirmationTime'),
+                style: const TextStyle(fontSize: 16, color: SchooKeepColors.textSecondary),
+              ),
               const SizedBox(height: 24),
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(color: SchooKeepColors.background, borderRadius: BorderRadius.circular(8)),
-                child: const Row(
+                child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(LucideIcons.lock, size: 20, color: SchooKeepColors.textSecondary),
-                    SizedBox(width: 8),
-                    Text('Record permanently locked',
-                        style: TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary)),
+                    const Icon(LucideIcons.lock, size: 20, color: SchooKeepColors.textSecondary),
+                    const SizedBox(width: 8),
+                    Text(
+                      context.tr(en: 'Record permanently locked', ar: 'السجل الطبي مقفل وغير قابل للتعديل ✓'),
+                      style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary),
+                    ),
                   ],
                 ),
               ),

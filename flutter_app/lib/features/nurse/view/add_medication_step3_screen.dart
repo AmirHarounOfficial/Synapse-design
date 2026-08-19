@@ -3,20 +3,12 @@ import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 import '../../../core/di/service_locator.dart';
+import '../../../core/localization/l10n_ext.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../../data/repositories/medication_repository.dart';
 import '../../../data/repositories/student_repository.dart';
 
-/// Ported from `AddMedicationStep3.tsx`. English-only. Medication summary,
-/// confirmation checklist (last item locked), state-compliance note, and a
-/// permanent-record confirmation dialog. Confirming submits the medication to
-/// the API (`POST /medications`).
-///
-/// The 3-step wizard does not persist its inputs across screens (each step is
-/// independent local state in the source), so this step submits the values
-/// shown in its summary card. The student is resolved by name via
-/// `GET /students` to obtain the required `student_id`.
 class AddMedicationStep3Screen extends StatefulWidget {
   const AddMedicationStep3Screen({super.key});
 
@@ -35,7 +27,6 @@ class _AddMedicationStep3ScreenState extends State<AddMedicationStep3Screen> {
   final MedicationRepository _medRepo = sl<MedicationRepository>();
   final StudentRepository _studentRepo = sl<StudentRepository>();
 
-  // Summary values shown on this screen (the wizard does not pass them along).
   static const String _summaryStudentName = 'Maya Chen';
   static const String _summaryMedicationName = 'Methylphenidate';
   static const String _summaryDosage = '10mg';
@@ -65,13 +56,17 @@ class _AddMedicationStep3ScreenState extends State<AddMedicationStep3Screen> {
                     child: const Icon(LucideIcons.info, size: 24, color: SchooKeepColors.warning),
                   ),
                   const SizedBox(height: 16),
-                  const Text('Confirm Medication Record',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
+                  Text(
+                    context.tr(en: 'Confirm Medication Record', ar: 'تأكيد تسجيل ملف الدواء'),
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary),
+                  ),
                   const SizedBox(height: 8),
-                  const Text('This medication record is permanent and cannot be deleted. Proceed?',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 14, color: SchooKeepColors.textSecondary)),
+                  Text(
+                    context.tr(en: 'This medication record is permanent and cannot be deleted. Proceed?', ar: 'هذا السجل الدوائي دائم ولن يمكن حذفه بعد الاعتماد النهائي. هل تريد المتابعة؟'),
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(fontSize: 14, color: SchooKeepColors.textSecondary),
+                  ),
                   const SizedBox(height: 24),
                   SizedBox(
                     width: double.infinity,
@@ -85,8 +80,10 @@ class _AddMedicationStep3ScreenState extends State<AddMedicationStep3Screen> {
                         Navigator.of(dialogContext).pop();
                         _submit();
                       },
-                      child: const Text('Confirm',
-                          style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.white)),
+                      child: Text(
+                        context.tr(en: 'Confirm', ar: 'تأكيد الحفظ'),
+                        style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.white),
+                      ),
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -100,8 +97,10 @@ class _AddMedicationStep3ScreenState extends State<AddMedicationStep3Screen> {
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                       ),
                       onPressed: () => Navigator.of(dialogContext).pop(),
-                      child: const Text('Cancel',
-                          style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: SchooKeepColors.textSecondary)),
+                      child: Text(
+                        context.tr(en: 'Cancel', ar: 'إلغاء'),
+                        style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: SchooKeepColors.textSecondary),
+                      ),
                     ),
                   ),
                 ],
@@ -118,7 +117,6 @@ class _AddMedicationStep3ScreenState extends State<AddMedicationStep3Screen> {
     setState(() => _submitting = true);
     final messenger = ScaffoldMessenger.of(context);
     try {
-      // Resolve the student id from the summary's student name.
       final page = await _studentRepo.list(query: _summaryStudentName);
       if (page.items.isEmpty) {
         throw StateError('Student "$_summaryStudentName" not found.');
@@ -132,7 +130,7 @@ class _AddMedicationStep3ScreenState extends State<AddMedicationStep3Screen> {
         requiresPhysician: true,
       );
       if (!mounted) return;
-      messenger.showSnackBar(const SnackBar(content: Text('Medication added successfully!')));
+      messenger.showSnackBar(SnackBar(content: Text(context.tr(en: 'Medication added successfully!', ar: 'تم إضافة الدواء بنجاح!'))));
       context.go('/nurse/medications');
     } catch (e) {
       if (!mounted) return;
@@ -149,13 +147,13 @@ class _AddMedicationStep3ScreenState extends State<AddMedicationStep3Screen> {
     return SchooKeepScaffold(
       reserveBottomNav: true,
       appBar: SchooKeepAppBar(
-        title: 'Add Medication',
+        title: context.tr(en: 'Add Medication', ar: 'إضافة دواء جديد'),
         centerTitle: true,
         onBack: () => context.go('/nurse/medications/add/step2'),
-        actions: const [
+        actions: [
           Center(
-            child: Text('Step 3 of 3',
-                style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.textSecondary)),
+            child: Text(context.tr(en: 'Step 3 of 3', ar: 'الخطوة 3 من 3'),
+                style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.textSecondary)),
           ),
         ],
       ),
@@ -168,49 +166,46 @@ class _AddMedicationStep3ScreenState extends State<AddMedicationStep3Screen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // Summary card
-                SchooKeepCard(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text('Medication Summary',
-                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
-                      SizedBox(height: 12),
-                      _SummaryRow('Student', 'Maya Chen - Grade 5'),
-                      _SummaryRow('Medication', 'Methylphenidate 10mg'),
-                      _SummaryRow('Type', 'Permanent'),
-                      _SummaryRow('Daily Doses', '1 dose'),
-                      _SummaryRow('Dose Time', '08:00 AM', last: true),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 24),
-                // Confirmation checklist
                 SchooKeepCard(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('Confirmation Checklist',
-                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
-                      const SizedBox(height: 16),
-                      _checkRow('Physician order on file', _physicianOrder,
-                          (v) => setState(() => _physicianOrder = v)),
+                      Text(context.tr(en: 'Medication Summary', ar: 'ملخص بيانات الدواء'),
+                          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
                       const SizedBox(height: 12),
-                      _checkRow('Parent authorization signed', _parentAuth,
-                          (v) => setState(() => _parentAuth = v)),
-                      const SizedBox(height: 12),
-                      _checkRow('Medication photo captured', _photoCapture,
-                          (v) => setState(() => _photoCapture = v)),
-                      const SizedBox(height: 12),
-                      _checkRow('Dose schedule set', _doseSchedule,
-                          (v) => setState(() => _doseSchedule = v)),
-                      const SizedBox(height: 12),
-                      _checkRow('State compliance verified', _stateCompliance, null),
+                      _SummaryRow(context.tr(en: 'Student', ar: 'الطالب'), 'Maya Chen - Grade 5'),
+                      _SummaryRow(context.tr(en: 'Medication', ar: 'اسم الدواء'), 'Methylphenidate 10mg'),
+                      _SummaryRow(context.tr(en: 'Type', ar: 'نوع الوصفة'), context.tr(en: 'Permanent', ar: 'دائم')),
+                      _SummaryRow(context.tr(en: 'Daily Doses', ar: 'الجرعات اليومية'), context.tr(en: '1 dose', ar: 'جرعة واحدة')),
+                      _SummaryRow(context.tr(en: 'Dose Time', ar: 'وقت الإعطاء'), '08:00 AM', last: true),
                     ],
                   ),
                 ),
                 const SizedBox(height: 24),
-                // State compliance note
+                SchooKeepCard(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(context.tr(en: 'Confirmation Checklist', ar: 'قائمة التحقق والتأكيد السريري'),
+                          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
+                      const SizedBox(height: 16),
+                      _checkRow(context.tr(en: 'Physician order on file', ar: 'أمر الطبيب المعالج مرفق في الملف'), _physicianOrder,
+                          (v) => setState(() => _physicianOrder = v)),
+                      const SizedBox(height: 12),
+                      _checkRow(context.tr(en: 'Parent authorization signed', ar: 'موافقة ولي الأمر الموقعة مستلمة'), _parentAuth,
+                          (v) => setState(() => _parentAuth = v)),
+                      const SizedBox(height: 12),
+                      _checkRow(context.tr(en: 'Medication photo captured', ar: 'تم التقاط صورة ملصق الدواء الأصلي'), _photoCapture,
+                          (v) => setState(() => _photoCapture = v)),
+                      const SizedBox(height: 12),
+                      _checkRow(context.tr(en: 'Dose schedule set', ar: 'تم ضبط جدول المواعيد الزمنية'), _doseSchedule,
+                          (v) => setState(() => _doseSchedule = v)),
+                      const SizedBox(height: 12),
+                      _checkRow(context.tr(en: 'State compliance verified', ar: 'تم التدقيق بموجب شروط هيئة الصحة (DHA)'), _stateCompliance, null),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 24),
                 AccentCard(
                   background: const Color(0xFFEFF6FF),
                   accentColor: SchooKeepColors.primary,
@@ -219,20 +214,22 @@ class _AddMedicationStep3ScreenState extends State<AddMedicationStep3Screen> {
                   padding: const EdgeInsets.all(16),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Icon(LucideIcons.info, size: 20, color: SchooKeepColors.primary),
-                      SizedBox(width: 12),
+                    children: [
+                      const Icon(LucideIcons.info, size: 20, color: SchooKeepColors.primary),
+                      const SizedBox(width: 12),
                       Expanded(
                         child: Text(
-                          'Your state requires a licensed RN for medication administration. This task cannot be delegated.',
-                          style: TextStyle(fontSize: 13, color: Color(0xFF1E40AF)),
+                          context.tr(
+                            en: 'Your state requires a licensed RN for medication administration. This task cannot be delegated.',
+                            ar: 'تتطلب اللوائح الصحية ترخيص ممرض/ة ممارس لإعطاء الدواء. لا يمكن تفويض هذه المهمة لغير المختصين.',
+                          ),
+                          style: const TextStyle(fontSize: 13, color: Color(0xFF1E40AF)),
                         ),
                       ),
                     ],
                   ),
                 ),
                 const SizedBox(height: 24),
-                // Submit button
                 SizedBox(
                   width: double.infinity,
                   height: 52,
@@ -243,8 +240,12 @@ class _AddMedicationStep3ScreenState extends State<AddMedicationStep3Screen> {
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                     ),
                     onPressed: (_allChecked && !_submitting) ? _handleSubmit : null,
-                    child: Text(_submitting ? 'Adding…' : 'Add Medication',
-                        style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.white)),
+                    child: Text(
+                      _submitting
+                          ? context.tr(en: 'Adding…', ar: 'جاري الإضافة...')
+                          : context.tr(en: 'Add Medication', ar: 'حفظ واعتمد الدواء'),
+                      style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.white),
+                    ),
                   ),
                 ),
               ],

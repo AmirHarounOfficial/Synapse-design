@@ -5,6 +5,7 @@ import 'package:lucide_icons/lucide_icons.dart';
 import 'package:schookeep/core/router/safe_back.dart';
 
 import '../../../core/di/service_locator.dart';
+import '../../../core/localization/l10n_ext.dart';
 import '../../../core/network/data_state.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
@@ -12,12 +13,6 @@ import '../../../data/models/chatbot.dart';
 import '../../../data/repositories/chatbot_repository.dart';
 import '../cubit/secretary_chatbot_thread_cubit.dart';
 
-/// Secretary chatbot-thread screen, wired to `GET /chatbot-conversations/{id}`
-/// and `POST /chatbot-conversations/{id}/messages`. Reached from the
-/// chatbot-escalations queue ("View conversation & reply",
-/// `/secretary/chatbot-thread/:id`). Renders the parent/bot/staff transcript as
-/// chat bubbles (parent right, bot/staff left) plus a reply composer that posts
-/// a staff message through the cubit.
 class SecretaryChatbotThreadScreen extends StatelessWidget {
   const SecretaryChatbotThreadScreen({super.key, required this.id});
 
@@ -63,15 +58,16 @@ class _SecretaryChatbotThreadViewState extends State<_SecretaryChatbotThreadView
     } else {
       ScaffoldMessenger.of(context)
         ..hideCurrentSnackBar()
-        ..showSnackBar(const SnackBar(content: Text('Could not send reply. Please try again.')));
+        ..showSnackBar(SnackBar(content: Text(context.tr(en: 'Could not send reply. Please try again.', ar: 'تعذر إرسال الرد. يُرجى المحاولة مرة أخرى.'))));
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return SchooKeepScaffold(
+      scrollable: false,
       appBar: SchooKeepAppBar(
-        title: 'Conversation',
+        title: context.tr(en: 'Conversation', ar: 'المحادثة والاستفسار'),
         centerTitle: true,
         onBack: () =>
             context.canPop() ? context.safeBack() : context.go('/secretary/chatbot'),
@@ -81,14 +77,14 @@ class _SecretaryChatbotThreadViewState extends State<_SecretaryChatbotThreadView
           return switch (state) {
             DataLoading() => const Center(child: CircularProgressIndicator()),
             DataError(:final message) => _errorBanner(context, message),
-            DataLoaded(:final data) => _body(data),
+            DataLoaded(:final data) => _body(context, data),
           };
         },
       ),
       bottomBar: BlocBuilder<SecretaryChatbotThreadCubit, DataState<ChatbotConversation>>(
         builder: (context, state) {
           if (state is! DataLoaded<ChatbotConversation>) return const SizedBox.shrink();
-          return _composer();
+          return _composer(context);
         },
       ),
     );
@@ -111,7 +107,7 @@ class _SecretaryChatbotThreadViewState extends State<_SecretaryChatbotThreadView
             ),
             const SizedBox(height: 16),
             SchooKeepButton(
-              label: 'Retry',
+              label: context.tr(en: 'Retry', ar: 'إعادة المحاولة'),
               fullWidth: false,
               onPressed: () => context.read<SecretaryChatbotThreadCubit>().load(),
             ),
@@ -121,32 +117,32 @@ class _SecretaryChatbotThreadViewState extends State<_SecretaryChatbotThreadView
     );
   }
 
-  Widget _body(ChatbotConversation c) {
+  Widget _body(BuildContext context, ChatbotConversation c) {
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
-        _parentHeader(c),
+        _parentHeader(context, c),
         const SizedBox(height: 12),
-        _escalationBanner(),
+        _escalationBanner(context),
         const SizedBox(height: 16),
         if (c.messages.isEmpty)
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 24),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 24),
             child: Center(
-              child: Text('No messages yet',
-                  style: TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary)),
+              child: Text(context.tr(en: 'No messages yet', ar: 'لا توجد رسائل سابقة في هذه المحادثة'),
+                  style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary)),
             ),
           )
         else
           for (final m in c.messages) ...[
-            _bubble(m),
+            _bubble(context, m),
             const SizedBox(height: 12),
           ],
       ],
     );
   }
 
-  Widget _parentHeader(ChatbotConversation c) {
+  Widget _parentHeader(BuildContext context, ChatbotConversation c) {
     return SchooKeepCard(
       child: Row(
         children: [
@@ -166,14 +162,14 @@ class _SecretaryChatbotThreadViewState extends State<_SecretaryChatbotThreadView
                 Row(
                   children: [
                     Flexible(
-                      child: Text(c.parentName ?? 'Parent',
+                      child: Text(c.parentName ?? context.tr(en: 'Parent', ar: 'ولي الأمر'),
                           style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
                     ),
                     if (c.priority == 'high') ...[
                       const SizedBox(width: 8),
-                      const SchooKeepBadge(
-                        label: 'High priority',
-                        background: Color(0xFFFEE2E2),
+                      SchooKeepBadge(
+                        label: context.tr(en: 'High priority', ar: 'أولوية عالية'),
+                        background: const Color(0xFFFEE2E2),
                         foreground: SchooKeepColors.error,
                         fontSize: 11,
                         fontWeight: FontWeight.w500,
@@ -194,7 +190,7 @@ class _SecretaryChatbotThreadViewState extends State<_SecretaryChatbotThreadView
     );
   }
 
-  Widget _escalationBanner() {
+  Widget _escalationBanner(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -204,17 +200,19 @@ class _SecretaryChatbotThreadViewState extends State<_SecretaryChatbotThreadView
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
-          Padding(
+        children: [
+          const Padding(
             padding: EdgeInsets.only(top: 2),
             child: Icon(LucideIcons.bot, size: 16, color: SchooKeepColors.primary),
           ),
-          SizedBox(width: 8),
+          const SizedBox(width: 8),
           Expanded(
             child: Text(
-              "This conversation was escalated because the AI chatbot couldn't provide "
-              "a satisfactory answer. Review the transcript and reply to help the parent.",
-              style: TextStyle(fontSize: 12, color: Color(0xFF1E40AF)),
+              context.tr(
+                en: "This conversation was escalated because the AI chatbot couldn't provide a satisfactory answer. Review the transcript and reply to help the parent.",
+                ar: 'تم تحويل هذه المحادثة من المساعد الآلي للسكرتارية. يُرجى الاطلاع على السجل وإرسال الرد لتوضيح الأمر لولي الأمر.',
+              ),
+              style: const TextStyle(fontSize: 12, color: Color(0xFF1E40AF)),
             ),
           ),
         ],
@@ -222,18 +220,17 @@ class _SecretaryChatbotThreadViewState extends State<_SecretaryChatbotThreadView
     );
   }
 
-  Widget _bubble(ChatbotMessage m) {
-    // Parent messages align to the reading-start side; bot/staff to the end.
+  Widget _bubble(BuildContext context, ChatbotMessage m) {
     final isParent = m.sender == 'parent';
     final isStaff = m.sender == 'staff';
     final align = isParent ? AlignmentDirectional.centerStart : AlignmentDirectional.centerEnd;
     final bg = isParent ? SchooKeepColors.surface : SchooKeepColors.primary;
     final fg = isParent ? SchooKeepColors.textPrimary : Colors.white;
     final label = isParent
-        ? 'Parent'
+        ? context.tr(en: 'Parent', ar: 'ولي الأمر')
         : isStaff
-            ? 'Staff'
-            : 'AI Chatbot';
+            ? context.tr(en: 'Staff', ar: 'السكرتارية / الكادر الإداري')
+            : context.tr(en: 'AI Chatbot', ar: 'المساعد الآلي');
     return Align(
       alignment: align,
       child: Column(
@@ -259,7 +256,7 @@ class _SecretaryChatbotThreadViewState extends State<_SecretaryChatbotThreadView
     );
   }
 
-  Widget _composer() {
+  Widget _composer(BuildContext context) {
     final canSend = _reply.trim().isNotEmpty;
     return Container(
       decoration: const BoxDecoration(
@@ -279,7 +276,7 @@ class _SecretaryChatbotThreadViewState extends State<_SecretaryChatbotThreadView
               textInputAction: TextInputAction.newline,
               style: const TextStyle(fontSize: 14, color: SchooKeepColors.textPrimary),
               decoration: InputDecoration(
-                hintText: 'Type your reply...',
+                hintText: context.tr(en: 'Type your reply...', ar: 'اكتب نص الرد المباشر...'),
                 hintStyle: const TextStyle(color: Color(0xFF94A3B8), fontSize: 14),
                 filled: true,
                 fillColor: const Color(0xFFF1F5F9),
@@ -305,7 +302,7 @@ class _SecretaryChatbotThreadViewState extends State<_SecretaryChatbotThreadView
               child: SizedBox(
                 width: 44,
                 height: 44,
-                child: Icon(LucideIcons.send, size: 20, color: canSend ? Colors.white : const Color(0xFF9CA3AF)),
+                child: RtlIcon(LucideIcons.send, size: 20, color: canSend ? Colors.white : const Color(0xFF9CA3AF)),
               ),
             ),
           ),

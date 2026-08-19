@@ -9,14 +9,26 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Message extends Model
 {
     protected $fillable = [
-        'school_id', 'sender_id', 'sender_name', 'recipient_id', 'category',
-        'subject', 'body', 'status', 'parent_message_id', 'read_at',
+        'school_id',
+        'sender_id',
+        'sender_name',
+        'recipient_id',
+        'recipient_type',
+        'target_sector',
+        'recipient_ids',
+        'category',
+        'subject',
+        'body',
+        'status',
+        'parent_message_id',
+        'read_at',
     ];
 
     protected function casts(): array
     {
         return [
             'read_at' => 'datetime',
+            'recipient_ids' => 'array',
         ];
     }
 

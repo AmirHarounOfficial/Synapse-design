@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
+import '../../../core/localization/l10n_ext.dart';
 import '../../../core/theme/app_colors.dart';
 
-/// Ported from `BiometricPrompt.tsx`. A dimmed backdrop over the page with a
-/// bottom sheet prompting Face ID enrollment. Tapping the backdrop, the primary
-/// CTA, or "Not now" all continue to the confidentiality agreement.
 class BiometricPromptScreen extends StatelessWidget {
   const BiometricPromptScreen({super.key});
 
@@ -18,14 +16,12 @@ class BiometricPromptScreen extends StatelessWidget {
       color: SchooKeepColors.background,
       child: Stack(
         children: [
-          // Backdrop
           Positioned.fill(
             child: GestureDetector(
               onTap: next,
               child: const ColoredBox(color: Color(0x4D000000)),
             ),
           ),
-          // Bottom sheet
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
@@ -40,7 +36,6 @@ class BiometricPromptScreen extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    // Drag handle
                     Container(
                       width: 40,
                       height: 4,
@@ -50,7 +45,6 @@ class BiometricPromptScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(999),
                       ),
                     ),
-                    // Face ID icon
                     Container(
                       width: 64,
                       height: 64,
@@ -62,16 +56,19 @@ class BiometricPromptScreen extends StatelessWidget {
                       child: const Icon(LucideIcons.scan, size: 40, color: SchooKeepColors.primary),
                     ),
                     const SizedBox(height: 24),
-                    const Text(
-                      'Enable Face ID?',
+                    Text(
+                      context.tr(en: 'Enable Face ID?', ar: 'تفعيل Face ID؟'),
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+                      style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
                     ),
                     const SizedBox(height: 12),
-                    const Text(
-                      'Sign in faster next time without entering your password.',
+                    Text(
+                      context.tr(
+                        en: 'Sign in faster next time without entering your password.',
+                        ar: 'سجل الدخول بشكل أسرع في المرة القادمة دون الحاجة لإدخال كلمة المرور.',
+                      ),
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 14, color: SchooKeepColors.textSecondary),
+                      style: const TextStyle(fontSize: 14, color: SchooKeepColors.textSecondary),
                     ),
                     const SizedBox(height: 32),
                     SizedBox(
@@ -83,9 +80,9 @@ class BiometricPromptScreen extends StatelessWidget {
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                         ),
                         onPressed: next,
-                        child: const Text(
-                          'Enable Face ID',
-                          style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.white),
+                        child: Text(
+                          context.tr(en: 'Enable Face ID', ar: 'تفعيل Face ID'),
+                          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.white),
                         ),
                       ),
                     ),
@@ -94,9 +91,9 @@ class BiometricPromptScreen extends StatelessWidget {
                       height: 44,
                       child: TextButton(
                         onPressed: next,
-                        child: const Text(
-                          'Not now',
-                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.textSecondary),
+                        child: Text(
+                          context.tr(en: 'Not now', ar: 'ليس الآن'),
+                          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.textSecondary),
                         ),
                       ),
                     ),

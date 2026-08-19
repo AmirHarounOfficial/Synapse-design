@@ -14,6 +14,9 @@ return new class extends Migration
             $table->foreignId('sender_id')->nullable()->constrained('users')->nullOnDelete();
             $table->string('sender_name'); // denormalized for parents/external senders
             $table->foreignId('recipient_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->string('recipient_type')->nullable(); // sector|multi|individual
+            $table->string('target_sector')->nullable(); // all_parents|all_teachers|all_nurses|grade_4|grade_5|all_school
+            $table->json('recipient_ids')->nullable();
             $table->string('category')->default('general'); // attendance|health|general|urgent
             $table->string('subject');
             $table->text('body');

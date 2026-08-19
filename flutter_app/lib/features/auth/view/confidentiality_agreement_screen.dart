@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
+import '../../../core/localization/l10n_ext.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
 
-/// Ported from `ConfidentialityAgreement.tsx`. A long legal document gated by a
-/// scroll-to-bottom check: a live progress bar tracks scroll position, and the
-/// Continue button stays disabled (40% opacity) until the user reaches the end.
 class ConfidentialityAgreementScreen extends StatefulWidget {
   const ConfidentialityAgreementScreen({super.key});
 
@@ -62,14 +60,17 @@ class _ConfidentialityAgreementScreenState extends State<ConfidentialityAgreemen
               color: SchooKeepColors.surface,
               border: Border(bottom: BorderSide(color: SchooKeepColors.border)),
             ),
-            child: const Row(
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Confidentiality Agreement',
-                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+                  context.tr(en: 'Confidentiality Agreement', ar: 'اتفاقية سرية البيانات'),
+                  style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
                 ),
-                Text('Step 1 of 2', style: TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary)),
+                Text(
+                  context.tr(en: 'Step 1 of 2', ar: 'الخطوة 1 من 2'),
+                  style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary),
+                ),
               ],
             ),
           ),
@@ -77,19 +78,22 @@ class _ConfidentialityAgreementScreenState extends State<ConfidentialityAgreemen
           Container(
             color: SchooKeepColors.amberChipBg,
             padding: const EdgeInsets.all(16),
-            child: const Row(
+            child: Row(
               children: [
-                _AmberBar(),
-                SizedBox(width: 12),
+                const _AmberBar(),
+                const SizedBox(width: 12),
                 Expanded(
                   child: Row(
                     children: [
-                      Icon(LucideIcons.alertTriangle, size: 20, color: SchooKeepColors.warning),
-                      SizedBox(width: 12),
+                      const Icon(LucideIcons.alertTriangle, size: 20, color: SchooKeepColors.warning),
+                      const SizedBox(width: 12),
                       Expanded(
                         child: Text(
-                          'Please scroll to the bottom to continue',
-                          style: TextStyle(fontSize: 12, color: SchooKeepColors.amberText),
+                          context.tr(
+                            en: 'Please scroll to the bottom to continue',
+                            ar: 'يرجى التمرير حتى نهاية الصفحة للمتابعة',
+                          ),
+                          style: const TextStyle(fontSize: 12, color: SchooKeepColors.amberText),
                         ),
                       ),
                     ],
@@ -132,7 +136,7 @@ class _ConfidentialityAgreementScreenState extends State<ConfidentialityAgreemen
             child: Opacity(
               opacity: _atBottom ? 1 : 0.4,
               child: SchooKeepButton(
-                label: 'Continue',
+                label: context.tr(en: 'Continue', ar: 'المتابعة للتوقيع'),
                 enabled: _atBottom,
                 onPressed: () => context.go('/signature'),
               ),
@@ -144,7 +148,6 @@ class _ConfidentialityAgreementScreenState extends State<ConfidentialityAgreemen
   }
 }
 
-/// The 8px-wide amber accent bar on the left of the info banner.
 class _AmberBar extends StatelessWidget {
   const _AmberBar();
 
@@ -200,51 +203,43 @@ class _AgreementBody extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
-          padding: EdgeInsets.only(bottom: 16),
-          child: Text('Health Information Privacy & Confidentiality Agreement', style: _heading),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 16),
+          child: Text(
+            context.tr(
+              en: 'Health Information Privacy & Confidentiality Agreement',
+              ar: 'اتفاقية سرية وخصوصية المعلومات الصحية المدرسية',
+            ),
+            style: _heading,
+          ),
         ),
         _para(
-          'This Confidentiality Agreement ("Agreement") is entered into by and between the authorized school health professional ("User") and the educational institution ("School") utilizing the SchooKeep health management system.',
+          context.tr(
+            en: 'This Confidentiality Agreement ("Agreement") is entered into by and between the authorized school health professional ("User") and the educational institution ("School") utilizing the SchooKeep health management system.',
+            ar: 'تم إبرام اتفاقية السرية هذه بين الكادر الإداري والطبي المصرح له والمؤسسة التعليمية التي تستخدم نظام SchooKeep لإدارة الصحة المدرسية.',
+          ),
         ),
-        _section('1. Purpose'),
+        _section(context.tr(en: '1. Purpose', ar: '1. الغرض')),
         _para(
-          'The User acknowledges that in the course of their duties, they will have access to confidential and sensitive health information regarding students, including but not limited to medical histories, diagnoses, treatment plans, medication records, and other protected health information (PHI) as defined under the Health Insurance Portability and Accountability Act (HIPAA) and the Family Educational Rights and Privacy Act (FERPA).',
+          context.tr(
+            en: 'The User acknowledges that in the course of their duties, they will have access to confidential and sensitive health information regarding students, including but not limited to medical histories, diagnoses, treatment plans, medication records, and other protected health information (PHI) as defined under applicable laws.',
+            ar: 'يقر المستخدم بأنه أثناء أداء مهامه، سيكون لديه إمكانية الوصول إلى معلومات صحية سرية وحساسة تتعلق بالطلاب والسجلات الطبية المحمية بموجب القوانين ذات الصلة.',
+          ),
         ),
-        _section('2. Confidentiality Obligations'),
-        _para('The User agrees to:'),
-        _bullets(const [
-          'Maintain the confidentiality of all student health information accessed through the SchooKeep system',
-          'Use such information solely for the purpose of providing authorized healthcare services to students',
-          'Not disclose, share, or discuss student health information with unauthorized individuals',
-          'Access only those records necessary to perform their assigned duties',
-          'Comply with all applicable federal and state privacy laws, including HIPAA and FERPA',
+        _section(context.tr(en: '2. Confidentiality Obligations', ar: '2. التزامات السرية')),
+        _para(context.tr(en: 'The User agrees to:', ar: 'يطبق المستخدم القواعد التالية:')),
+        _bullets([
+          context.tr(en: 'Maintain confidentiality of all student health info', ar: 'الحفاظ على سرية جميع السجلات الصحية للطلاب'),
+          context.tr(en: 'Use info solely for authorized services', ar: 'استخدام المعلومات فقط لأغراض الخدمات المصرح بها'),
+          context.tr(en: 'Not disclose info with unauthorized individuals', ar: 'عدم مشاركة معلومات الطلاب مع أشخاص غير مصرح لهم'),
+          context.tr(en: 'Comply with applicable privacy laws (PDPL & DHA)', ar: 'الالتزام بقوانين حماية البيانات واللوائح الصحية'),
         ]),
-        _section('3. Security Measures'),
+        _section(context.tr(en: '3. Acknowledgment', ar: '3. الإقرار والتأكيد')),
         _para(
-          'The User agrees to take all reasonable precautions to prevent unauthorized access to student health information, including:',
-        ),
-        _bullets(const [
-          'Using strong, unique passwords and not sharing login credentials',
-          'Logging out of the system when not in active use',
-          'Ensuring physical security of devices used to access the system',
-          'Reporting any suspected security breaches immediately to the system administrator',
-        ]),
-        _section('4. Consequences of Breach'),
-        _para('The User understands that any breach of this Agreement may result in:'),
-        _bullets(const [
-          'Immediate termination of system access',
-          'Disciplinary action up to and including termination of employment',
-          'Civil and/or criminal penalties under applicable law',
-          'Personal liability for damages resulting from unauthorized disclosure',
-        ]),
-        _section('5. Duration'),
-        _para(
-          "This Agreement remains in effect for the duration of the User's access to the SchooKeep system and continues indefinitely with respect to information accessed during such period.",
-        ),
-        _section('6. Acknowledgment'),
-        _para(
-          'By continuing to the signature page, the User acknowledges that they have read, understood, and agree to be bound by the terms of this Confidentiality Agreement. The User further acknowledges their responsibility to protect student health information and their understanding of the serious nature of these obligations.',
+          context.tr(
+            en: 'By continuing to the signature page, the User acknowledges that they have read, understood, and agree to be bound by the terms of this Confidentiality Agreement.',
+            ar: 'بالمتابعة إلى صفحة التوقيع، يقر المستخدم بأنه قرأ وفهم ووافق على الالتزام بشروط هذه الاتفاقية.',
+          ),
         ),
         const SizedBox(height: 32),
       ],

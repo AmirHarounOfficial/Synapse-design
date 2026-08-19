@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 import '../../../core/di/service_locator.dart';
+import '../../../core/localization/l10n_ext.dart';
 import '../../../core/network/data_state.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
@@ -11,9 +12,6 @@ import '../../../data/repositories/permission_repository.dart';
 import '../cubit/permission_matrix_cubit.dart';
 import 'package:schookeep/core/router/safe_back.dart';
 
-/// Ported from `PrincipalPermissionMatrix.tsx`, wired to `GET/PUT /permissions`.
-/// A role × capability grid where each cell toggles allow/deny. Collected edits
-/// surface a save bar that persists via the cubit.
 class PrincipalPermissionMatrixScreen extends StatelessWidget {
   const PrincipalPermissionMatrixScreen({super.key});
 
@@ -34,7 +32,6 @@ class _PrincipalPermissionMatrixView extends StatefulWidget {
 }
 
 class _PrincipalPermissionMatrixViewState extends State<_PrincipalPermissionMatrixView> {
-  /// Working copy and pristine snapshot: role -> capability -> allowed.
   final Map<String, Map<String, bool>> _current = {};
   final Map<String, Map<String, bool>> _original = {};
   List<String> _roles = [];
@@ -45,11 +42,28 @@ class _PrincipalPermissionMatrixViewState extends State<_PrincipalPermissionMatr
   static const double _cellW = 72;
   static const double _roleW = 112;
 
-  static String _humanize(String s) => s
-      .split(RegExp(r'[_\s-]+'))
-      .where((w) => w.isNotEmpty)
-      .map((w) => w[0].toUpperCase() + w.substring(1))
-      .join(' ');
+  String _humanize(BuildContext context, String s) {
+    switch (s.toLowerCase()) {
+      case 'nurse':
+        return context.tr(en: 'Nurse', ar: 'ممرض/ة');
+      case 'teacher':
+        return context.tr(en: 'Teacher', ar: 'معلم/ة');
+      case 'secretary':
+        return context.tr(en: 'Secretary', ar: 'سكرتير/ة');
+      case 'physician':
+        return context.tr(en: 'Physician', ar: 'طبيب المدرسة');
+      case 'principal':
+        return context.tr(en: 'Principal', ar: 'مدير المدرسة');
+      case 'counselor':
+        return context.tr(en: 'Counselor', ar: 'أخصائي اجتماعي');
+      default:
+        return s
+            .split(RegExp(r'[_\s-]+'))
+            .where((w) => w.isNotEmpty)
+            .map((w) => w[0].toUpperCase() + w.substring(1))
+            .join(' ');
+    }
+  }
 
   void _sync(Map<String, List<RoleCapability>> matrix) {
     _current.clear();
@@ -90,8 +104,9 @@ class _PrincipalPermissionMatrixViewState extends State<_PrincipalPermissionMatr
     if (!mounted) return;
     setState(() => _saving = false);
     if (ok) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('Permission changes saved successfully')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(context.tr(en: 'Permission changes saved successfully', ar: 'تم حفظ تغييرات الصلاحيات بنجاح'))),
+      );
     }
   }
 
@@ -109,36 +124,38 @@ class _PrincipalPermissionMatrixViewState extends State<_PrincipalPermissionMatr
           scrollable: true,
           appBar: SchooKeepAppBar(
             onBack: () => context.safeBack(),
-            titleWidget: const Row(
+            titleWidget: Row(
               children: [
                 Expanded(
-                  child: Text('Permission Matrix',
-                      style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
+                  child: Text(
+                    context.tr(en: 'Permission Matrix', ar: 'مصفوفة صلاحيات الأدوار'),
+                    style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+                  ),
                 ),
-                Icon(LucideIcons.info, size: 20, color: SchooKeepColors.primary),
+                const Icon(LucideIcons.info, size: 20, color: SchooKeepColors.primary),
               ],
             ),
           ),
-          bottomBar: changeCount > 0 ? _saveBar(changeCount) : null,
+          bottomBar: changeCount > 0 ? _saveBar(context, changeCount) : null,
           body: Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _ferpaNotice(),
+                _ferpaNotice(context),
                 const SizedBox(height: 16),
                 switch (state) {
                   DataLoading() => const Padding(
                       padding: EdgeInsets.all(48),
                       child: Center(child: CircularProgressIndicator()),
                     ),
-                  DataError(:final message) => _errorBanner(message),
+                  DataError(:final message) => _errorBanner(context, message),
                   DataLoaded() => Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        _matrix(),
+                        _matrix(context),
                         const SizedBox(height: 16),
-                        _legend(),
+                        _legend(context),
                       ],
                     ),
                 },
@@ -150,7 +167,7 @@ class _PrincipalPermissionMatrixViewState extends State<_PrincipalPermissionMatr
     );
   }
 
-  Widget _ferpaNotice() {
+  Widget _ferpaNotice(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -158,15 +175,18 @@ class _PrincipalPermissionMatrixViewState extends State<_PrincipalPermissionMatr
         borderRadius: BorderRadius.circular(8),
         border: Border.all(color: const Color(0xFFBFDBFE)),
       ),
-      child: const Row(
+      child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(LucideIcons.info, size: 16, color: SchooKeepColors.primary),
-          SizedBox(width: 8),
+          const Icon(LucideIcons.info, size: 16, color: SchooKeepColors.primary),
+          const SizedBox(width: 8),
           Expanded(
             child: Text(
-              'ℹ Permissions define the minimum necessary data exposure per role, in compliance with FERPA 34 CFR § 99.31.',
-              style: TextStyle(fontSize: 11, color: Color(0xFF1E40AF), height: 1.5),
+              context.tr(
+                en: 'ℹ Permissions define the minimum necessary data exposure per role, in compliance with FERPA 34 CFR § 99.31.',
+                ar: 'ℹ تحدد الصلاحيات الحد الأدنى اللازم لاستعراض البيانات حسب كل دور وفق أنظمة خصوصية البيانات الصحية.',
+              ),
+              style: const TextStyle(fontSize: 11, color: Color(0xFF1E40AF), height: 1.5),
             ),
           ),
         ],
@@ -174,7 +194,7 @@ class _PrincipalPermissionMatrixViewState extends State<_PrincipalPermissionMatr
     );
   }
 
-  Widget _errorBanner(String error) {
+  Widget _errorBanner(BuildContext context, String error) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -199,7 +219,7 @@ class _PrincipalPermissionMatrixViewState extends State<_PrincipalPermissionMatr
         ),
         const SizedBox(height: 12),
         SchooKeepButton(
-          label: 'Retry',
+          label: context.tr(en: 'Retry', ar: 'إعادة المحاولة'),
           fullWidth: false,
           onPressed: () => context.read<PermissionMatrixCubit>().load(),
         ),
@@ -207,12 +227,15 @@ class _PrincipalPermissionMatrixViewState extends State<_PrincipalPermissionMatr
     );
   }
 
-  Widget _matrix() {
+  Widget _matrix(BuildContext context) {
     if (_roles.isEmpty || _capabilities.isEmpty) {
-      return const Padding(
-        padding: EdgeInsets.all(24),
+      return Padding(
+        padding: const EdgeInsets.all(24),
         child: Center(
-          child: Text('No permissions configured', style: TextStyle(color: SchooKeepColors.textSecondary)),
+          child: Text(
+            context.tr(en: 'No permissions configured', ar: 'لم يتم إعداد صلاحيات بعد'),
+            style: const TextStyle(color: SchooKeepColors.textSecondary),
+          ),
         ),
       );
     }
@@ -226,8 +249,8 @@ class _PrincipalPermissionMatrixViewState extends State<_PrincipalPermissionMatr
           TableRow(
             decoration: const BoxDecoration(color: SchooKeepColors.background),
             children: [
-              _headerCell('Role', align: TextAlign.start, bg: SchooKeepColors.surface),
-              for (final c in _capabilities) _headerCell(_humanize(c)),
+              _headerCell(context.tr(en: 'Role', ar: 'الدور'), align: TextAlign.start, bg: SchooKeepColors.surface),
+              for (final c in _capabilities) _headerCell(_humanize(context, c)),
             ],
           ),
           for (final role in _roles)
@@ -236,7 +259,7 @@ class _PrincipalPermissionMatrixViewState extends State<_PrincipalPermissionMatr
                 Container(
                   color: SchooKeepColors.surface,
                   padding: const EdgeInsets.all(8),
-                  child: Text(_humanize(role),
+                  child: Text(_humanize(context, role),
                       style: const TextStyle(
                           fontSize: 11, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
                 ),
@@ -282,29 +305,38 @@ class _PrincipalPermissionMatrixViewState extends State<_PrincipalPermissionMatr
     );
   }
 
-  Widget _legend() {
+  Widget _legend(BuildContext context) {
     return SchooKeepCard(
       padding: const EdgeInsets.all(12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Legend',
-              style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
+          Text(
+            context.tr(en: 'Legend', ar: 'دليل الرموز'),
+            style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary),
+          ),
           const SizedBox(height: 8),
           Row(
             children: [
               Expanded(
                 child: _legendRow(
-                    const Icon(LucideIcons.check, size: 12, color: SchooKeepColors.accent), 'Allowed'),
+                  const Icon(LucideIcons.check, size: 12, color: SchooKeepColors.accent),
+                  context.tr(en: 'Allowed', ar: 'مسموح'),
+                ),
               ),
               Expanded(
-                child: _legendRow(const Icon(LucideIcons.x, size: 12, color: SchooKeepColors.error), 'Denied'),
+                child: _legendRow(
+                  const Icon(LucideIcons.x, size: 12, color: SchooKeepColors.error),
+                  context.tr(en: 'Denied', ar: 'محظور'),
+                ),
               ),
             ],
           ),
           const SizedBox(height: 8),
-          const Text('Tap any cell to toggle access for that role.',
-              style: TextStyle(fontSize: 10, color: SchooKeepColors.textSecondary)),
+          Text(
+            context.tr(en: 'Tap any cell to toggle access for that role.', ar: 'انقر على أي خلية لتعديل تصريح الوصول للدور.'),
+            style: const TextStyle(fontSize: 10, color: SchooKeepColors.textSecondary),
+          ),
         ],
       ),
     );
@@ -320,15 +352,20 @@ class _PrincipalPermissionMatrixViewState extends State<_PrincipalPermissionMatr
     );
   }
 
-  Widget _saveBar(int changeCount) {
+  Widget _saveBar(BuildContext context, int changeCount) {
     return Container(
       color: SchooKeepColors.surface,
       padding: const EdgeInsets.all(16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text('You have $changeCount unsaved change${changeCount > 1 ? 's' : ''}',
-              style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary)),
+          Text(
+            context.tr(
+              en: 'You have $changeCount unsaved change(s)',
+              ar: 'لديك $changeCount تغيير(ات) غير محفوظة',
+            ),
+            style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary),
+          ),
           SizedBox(
             height: 40,
             child: FilledButton(
@@ -338,8 +375,12 @@ class _PrincipalPermissionMatrixViewState extends State<_PrincipalPermissionMatr
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
               ),
               onPressed: _saving ? null : _save,
-              child: Text(_saving ? 'Saving...' : 'Save',
-                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.white)),
+              child: Text(
+                _saving
+                    ? context.tr(en: 'Saving...', ar: 'جاري الحفظ...')
+                    : context.tr(en: 'Save', ar: 'حفظ'),
+                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.white),
+              ),
             ),
           ),
         ],

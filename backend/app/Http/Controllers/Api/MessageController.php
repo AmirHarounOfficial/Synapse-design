@@ -39,6 +39,9 @@ class MessageController extends Controller
             'body' => ['required', 'string'],
             'category' => ['required', 'string'],
             'recipient_id' => ['nullable', 'exists:users,id'],
+            'recipient_type' => ['nullable', 'string', 'in:sector,multi,individual'],
+            'target_sector' => ['nullable', 'string'],
+            'recipient_ids' => ['nullable', 'array'],
         ]);
 
         $user = $request->user();
@@ -48,6 +51,9 @@ class MessageController extends Controller
             'sender_id' => $user->id,
             'sender_name' => $user->name,
             'recipient_id' => $data['recipient_id'] ?? null,
+            'recipient_type' => $data['recipient_type'] ?? 'individual',
+            'target_sector' => $data['target_sector'] ?? null,
+            'recipient_ids' => $data['recipient_ids'] ?? null,
             'category' => $data['category'],
             'subject' => $data['subject'],
             'body' => $data['body'],

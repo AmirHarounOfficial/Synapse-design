@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 import '../../../core/di/service_locator.dart';
+import '../../../core/localization/l10n_ext.dart';
 import '../../../core/network/data_state.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
@@ -11,10 +12,6 @@ import '../../../data/models/chatbot.dart';
 import '../../../data/repositories/chatbot_repository.dart';
 import '../cubit/secretary_chatbot_queue_cubit.dart';
 
-/// Ported from `SecretaryChatbotQueue.tsx`, wired to `GET /chatbot-conversations`.
-/// Lists AI chatbot escalations awaiting a human reply, each with status and
-/// priority badges, an info banner, and today's stats. Tapping a row navigates
-/// to the chatbot-thread screen (`/secretary/chatbot-thread/:id`).
 class SecretaryChatbotQueueScreen extends StatelessWidget {
   const SecretaryChatbotQueueScreen({super.key});
 
@@ -34,8 +31,9 @@ class _SecretaryChatbotQueueView extends StatelessWidget {
   Widget build(BuildContext context) {
     return SchooKeepScaffold(
       reserveBottomNav: true,
+      scrollable: false,
       appBar: SchooKeepAppBar(
-        title: 'Chatbot Escalations',
+        title: context.tr(en: 'Chatbot Escalations', ar: 'تصعيدات المساعد الآلي'),
         actions: const [_BellAction()],
       ),
       body: BlocBuilder<SecretaryChatbotQueueCubit, DataState<List<ChatbotConversation>>>(
@@ -85,7 +83,7 @@ class _SecretaryChatbotQueueView extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           SchooKeepButton(
-            label: 'Retry',
+            label: context.tr(en: 'Retry', ar: 'إعادة المحاولة'),
             fullWidth: false,
             onPressed: () => context.read<SecretaryChatbotQueueCubit>().load(),
           ),
@@ -103,7 +101,6 @@ class _SecretaryChatbotQueueView extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Queue info banner
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
@@ -113,22 +110,25 @@ class _SecretaryChatbotQueueView extends StatelessWidget {
             ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                Padding(
+              children: [
+                const Padding(
                   padding: EdgeInsets.only(top: 2),
                   child: Icon(LucideIcons.bot, size: 16, color: SchooKeepColors.primary),
                 ),
-                SizedBox(width: 8),
+                const SizedBox(width: 8),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('AI Chatbot Escalations',
-                          style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: Color(0xFF1E40AF))),
-                      SizedBox(height: 2),
+                      Text(context.tr(en: 'AI Chatbot Escalations', ar: 'محادثات محولة من البوت الذكي'),
+                          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: Color(0xFF1E40AF))),
+                      const SizedBox(height: 2),
                       Text(
-                        "These conversations were escalated because the AI couldn't provide a satisfactory answer. Review and respond to help the parent.",
-                        style: TextStyle(fontSize: 12, color: Color(0xFF1E40AF)),
+                        context.tr(
+                          en: "These conversations were escalated because the AI couldn't provide a satisfactory answer. Review and respond to help the parent.",
+                          ar: 'تم تصعيد هذه الاستفسارات للسكرتارية لعدم وجود إجابة آلية مباشرة لدى البوت. يُرجى المراجعة والرد على ولي الأمر.',
+                        ),
+                        style: const TextStyle(fontSize: 12, color: Color(0xFF1E40AF)),
                       ),
                     ],
                   ),
@@ -138,17 +138,16 @@ class _SecretaryChatbotQueueView extends StatelessWidget {
           ),
           const SizedBox(height: 16),
 
-          // Escalations list
-          Text('Pending Escalations (${conversations.length})',
+          Text('${context.tr(en: 'Pending Escalations', ar: 'التصعيدات قيد الانتظار')} (${conversations.length})',
               style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
           const SizedBox(height: 12),
           if (conversations.isEmpty)
-            const SchooKeepCard(
+            SchooKeepCard(
               child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 24),
+                padding: const EdgeInsets.symmetric(vertical: 24),
                 child: Center(
-                  child: Text('No escalations right now',
-                      style: TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary)),
+                  child: Text(context.tr(en: 'No escalations right now', ar: 'لا توجد تصعيدات معلقة في الوقت الحالي'),
+                      style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary)),
                 ),
               ),
             )
@@ -166,21 +165,20 @@ class _SecretaryChatbotQueueView extends StatelessWidget {
             ),
           const SizedBox(height: 16),
 
-          // Stats
           SchooKeepCard(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text("Today's Stats",
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
+                Text(context.tr(en: "Today's Stats", ar: 'إحصائيات اليوم'),
+                    style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
                 const SizedBox(height: 12),
                 Row(
                   children: [
-                    Expanded(child: _Stat(value: '$resolved', label: 'Resolved', color: SchooKeepColors.primary)),
+                    Expanded(child: _Stat(value: '$resolved', label: context.tr(en: 'Resolved', ar: 'تم حله'), color: SchooKeepColors.primary)),
                     const SizedBox(width: 12),
-                    Expanded(child: _Stat(value: '$pending', label: 'Pending', color: SchooKeepColors.warning)),
+                    Expanded(child: _Stat(value: '$pending', label: context.tr(en: 'Pending', ar: 'قيد الانتظار'), color: SchooKeepColors.warning)),
                     const SizedBox(width: 12),
-                    const Expanded(child: _Stat(value: '2.4', label: 'Avg response (hrs)', color: SchooKeepColors.accent)),
+                    Expanded(child: _Stat(value: '2.4', label: context.tr(en: 'Avg response (hrs)', ar: 'معدل الاستجابة (ساعة)'), color: SchooKeepColors.accent)),
                   ],
                 ),
               ],
@@ -195,7 +193,7 @@ class _SecretaryChatbotQueueView extends StatelessWidget {
     final question = c.subject?.isNotEmpty == true
         ? c.subject!
         : (c.firstMessage ?? c.latestMessage ?? '');
-    final (statusBg, statusFg, statusLabel) = _statusStyle(c.status);
+    final (statusBg, statusFg, statusLabel) = _statusStyle(context, c.status);
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -217,7 +215,7 @@ class _SecretaryChatbotQueueView extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(c.parentName ?? 'Parent',
+                    Text(c.parentName ?? context.tr(en: 'Parent', ar: 'ولي الأمر'),
                         style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
                     const SizedBox(height: 6),
                     Wrap(
@@ -232,9 +230,9 @@ class _SecretaryChatbotQueueView extends StatelessWidget {
                           fontWeight: FontWeight.w500,
                         ),
                         if (c.priority == 'high')
-                          const SchooKeepBadge(
-                            label: 'High priority',
-                            background: Color(0xFFFEE2E2),
+                          SchooKeepBadge(
+                            label: context.tr(en: 'High priority', ar: 'أولوية عالية'),
+                            background: const Color(0xFFFEE2E2),
                             foreground: SchooKeepColors.error,
                             fontSize: 11,
                             fontWeight: FontWeight.w500,
@@ -251,8 +249,13 @@ class _SecretaryChatbotQueueView extends StatelessWidget {
                       ),
                     ],
                     const SizedBox(height: 8),
-                    Text('${c.messageCount} ${c.messageCount == 1 ? 'message' : 'messages'}',
-                        style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary)),
+                    Text(
+                      context.tr(
+                        en: '${c.messageCount} ${c.messageCount == 1 ? 'message' : 'messages'}',
+                        ar: '${c.messageCount} رسائل في المحادثة',
+                      ),
+                      style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary),
+                    ),
                   ],
                 ),
               ),
@@ -268,8 +271,10 @@ class _SecretaryChatbotQueueView extends StatelessWidget {
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
               ),
               onPressed: () => context.go('/secretary/chatbot-thread/${c.id}'),
-              child: const Text('View conversation & reply',
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.white)),
+              child: Text(
+                context.tr(en: 'View conversation & reply', ar: 'عرض المحادثة والرد'),
+                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.white),
+              ),
             ),
           ),
         ],
@@ -277,15 +282,15 @@ class _SecretaryChatbotQueueView extends StatelessWidget {
     );
   }
 
-  static (Color bg, Color fg, String label) _statusStyle(String? status) {
+  static (Color bg, Color fg, String label) _statusStyle(BuildContext context, String? status) {
     switch (status) {
       case 'resolved':
-        return (SchooKeepColors.greenChipBg, SchooKeepColors.greenChipText, 'Resolved');
+        return (SchooKeepColors.greenChipBg, SchooKeepColors.greenChipText, context.tr(en: 'Resolved', ar: 'تم الرد والحسم'));
       case 'assigned':
-        return (const Color(0xFFDBEAFE), const Color(0xFF1E40AF), 'Assigned');
+        return (const Color(0xFFDBEAFE), const Color(0xFF1E40AF), context.tr(en: 'Assigned', ar: 'معين للمتابعة'));
       case 'pending':
       default:
-        return (SchooKeepColors.amberChipBg, SchooKeepColors.amberText, 'Pending');
+        return (SchooKeepColors.amberChipBg, SchooKeepColors.amberText, context.tr(en: 'Pending', ar: 'قيد الانتظار'));
     }
   }
 
