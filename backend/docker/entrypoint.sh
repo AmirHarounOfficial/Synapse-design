@@ -50,7 +50,8 @@ php artisan db:seed --force --no-interaction || true
 # Public symlink so uploaded files (local 'public' disk) are served at /storage/...
 php artisan storage:link >/dev/null 2>&1 || true
 
-# Ensure Log Viewer views and config are published for container monitoring
+# Ensure Log Viewer assets, views, and config are published for container monitoring
+php artisan vendor:publish --tag=log-viewer-assets --force >/dev/null 2>&1 || true
 php artisan vendor:publish --tag=log-viewer-views --force >/dev/null 2>&1 || true
 php artisan vendor:publish --tag=log-viewer-config --force >/dev/null 2>&1 || true
 

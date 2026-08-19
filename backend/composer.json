@@ -55,11 +55,13 @@
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi",
+            "@php artisan vendor:publish --tag=log-viewer-assets --ansi --force",
             "@php artisan vendor:publish --tag=log-viewer-views --ansi --force",
             "@php artisan vendor:publish --tag=log-viewer-config --ansi --force"
         ],
         "post-update-cmd": [
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
+            "@php artisan vendor:publish --tag=log-viewer-assets --ansi --force",
             "@php artisan vendor:publish --tag=log-viewer-views --ansi --force",
             "@php artisan vendor:publish --tag=log-viewer-config --ansi --force"
         ],
