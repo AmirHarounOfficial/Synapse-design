@@ -52,6 +52,7 @@ php artisan storage:link >/dev/null 2>&1 || true
 
 # Publish Log Viewer config & assets for deployment monitoring
 php artisan vendor:publish --provider="Opcodes\LogViewer\LogViewerServiceProvider" --force >/dev/null 2>&1 || true
+php artisan log-viewer:publish --force >/dev/null 2>&1 || true
 
 echo "Starting SchooKeep API on :8000"
 exec php artisan serve --host=0.0.0.0 --port=8000
