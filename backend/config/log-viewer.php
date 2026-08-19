@@ -20,7 +20,7 @@ return [
 
     'api_only' => env('LOG_VIEWER_API_ONLY', false),
 
-    'require_auth_in_production' => env('LOG_VIEWER_REQUIRE_AUTH', false),
+    'require_auth_in_production' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -56,7 +56,7 @@ return [
     |
     */
 
-    'assets_path' => env('LOG_VIEWER_ASSETS_PATH', null),
+    'assets_path' => 'vendor/log-viewer',
 
     /*
     |--------------------------------------------------------------------------
@@ -104,6 +104,7 @@ return [
 
     'middleware' => [
         'web',
+        AuthorizeLogViewer::class,
     ],
 
     /*
@@ -117,6 +118,7 @@ return [
 
     'api_middleware' => [
         EnsureFrontendRequestsAreStateful::class,
+        AuthorizeLogViewer::class,
     ],
 
     'api_stateful_domains' => env('LOG_VIEWER_API_STATEFUL_DOMAINS') ? explode(',', env('LOG_VIEWER_API_STATEFUL_DOMAINS')) : null,
