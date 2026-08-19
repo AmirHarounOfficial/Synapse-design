@@ -8,7 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     @if ($assetsPublished)
-        <link rel="shortcut icon" href="{{ asset(mix('img/log-viewer-32.png', config('log-viewer.assets_path'))) }}">
+        <link rel="shortcut icon" href="{{ secure_asset(mix('img/log-viewer-32.png', config('log-viewer.assets_path'))) }}">
     @else
         {!! \Opcodes\LogViewer\Facades\LogViewer::favicon() !!}
     @endif
@@ -17,7 +17,7 @@
 
     <!-- Style sheets-->
     @if ($assetsPublished)
-        <link href="{{ asset(mix('app.css', config('log-viewer.assets_path'))) }}" rel="stylesheet" onerror="alert('app.css failed to load. Please refresh the page, re-publish Log Viewer assets, or fix routing for vendor assets.')">
+        <link href="{{ secure_asset(mix('app.css', config('log-viewer.assets_path'))) }}" rel="stylesheet" onerror="alert('app.css failed to load. Please refresh the page, re-publish Log Viewer assets, or fix routing for vendor assets.')">
     @else
         {!! \Opcodes\LogViewer\Facades\LogViewer::css() !!}
     @endif
@@ -36,7 +36,7 @@
     // window.LogViewer.headers['Authorization'] = 'Bearer xxxxxxx';
 </script>
 @if ($assetsPublished)
-    <script src="{{ asset(mix('app.js', config('log-viewer.assets_path'))) }}" onerror="alert('app.js failed to load. Please refresh the page, re-publish Log Viewer assets, or fix routing for vendor assets.')"></script>
+    <script src="{{ secure_asset(mix('app.js', config('log-viewer.assets_path'))) }}" onerror="alert('app.js failed to load. Please refresh the page, re-publish Log Viewer assets, or fix routing for vendor assets.')"></script>
 @else
     {!! \Opcodes\LogViewer\Facades\LogViewer::js() !!}
 @endif
