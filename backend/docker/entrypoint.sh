@@ -33,6 +33,13 @@ set_env SESSION_DRIVER "${SESSION_DRIVER:-database}"
 set_env CACHE_STORE "${CACHE_STORE:-database}"
 set_env QUEUE_CONNECTION "${QUEUE_CONNECTION:-database}"
 
+# Ensure storage/logs directory exists, laravel.log is created, and permissions are set
+mkdir -p storage/logs
+if [ ! -s storage/logs/laravel.log ]; then
+  echo "[$(date '+%Y-%m-%d %H:%M:%S')] local.INFO: SchooKeep API & Log Viewer initialized." > storage/logs/laravel.log
+fi
+chmod -R 777 storage bootstrap/cache
+
 # Drop any stale caches so fresh .env and templates are used.
 php artisan config:clear >/dev/null 2>&1 || true
 php artisan view:clear >/dev/null 2>&1 || true
