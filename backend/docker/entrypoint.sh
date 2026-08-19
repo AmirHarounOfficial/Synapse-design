@@ -50,9 +50,10 @@ php artisan db:seed --force --no-interaction || true
 # Public symlink so uploaded files (local 'public' disk) are served at /storage/...
 php artisan storage:link >/dev/null 2>&1 || true
 
-# Publish Log Viewer config & assets for deployment monitoring
-php artisan vendor:publish --provider="Opcodes\LogViewer\LogViewerServiceProvider" --force >/dev/null 2>&1 || true
-php artisan log-viewer:publish --force >/dev/null 2>&1 || true
+# Publish Log Viewer config, views, and assets for deployment monitoring
+php artisan vendor:publish --tag=log-viewer-assets --force >/dev/null 2>&1 || true
+php artisan vendor:publish --tag=log-viewer-views --force >/dev/null 2>&1 || true
+php artisan vendor:publish --tag=log-viewer-config --force >/dev/null 2>&1 || true
 
 echo "Starting SchooKeep API on :8000"
 exec php artisan serve --host=0.0.0.0 --port=8000

@@ -56,7 +56,7 @@ return [
     |
     */
 
-    'assets_path' => 'vendor/log-viewer',
+    'assets_path' => env('LOG_VIEWER_ASSETS_PATH', null),
 
     /*
     |--------------------------------------------------------------------------
