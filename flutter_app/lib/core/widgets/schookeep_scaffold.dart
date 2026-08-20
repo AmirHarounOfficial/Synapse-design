@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 import '../../features/parent/view/parent_chatbot_assistant_screen.dart';
@@ -79,18 +80,112 @@ class SchooKeepScaffold extends StatelessWidget {
       ),
     );
 
-    if (!showAiButton) {
-      return mainLayout;
+    String currentPath = '';
+    try {
+      currentPath = GoRouterState.of(context).uri.path;
+    } catch (_) {}
+    final isNavScreen = currentPath == '/' || currentPath == '/navigation';
+
+    final stackChildren = <Widget>[
+      mainLayout,
+    ];
+
+    if (!isNavScreen) {
+      stackChildren.add(
+        _DraggableFloatingHomeButton(
+          reserveBottomNav: reserveBottomNav,
+        ),
+      );
     }
 
-    return Stack(
-      children: [
-        mainLayout,
+    if (showAiButton) {
+      stackChildren.add(
         _DraggableFloatingAiButton(
           role: roleContext,
           reserveBottomNav: reserveBottomNav,
         ),
-      ],
+      );
+    }
+
+    return Stack(children: stackChildren);
+  }
+}
+
+class _DraggableFloatingHomeButton extends StatefulWidget {
+  const _DraggableFloatingHomeButton({
+    required this.reserveBottomNav,
+  });
+
+  final bool reserveBottomNav;
+
+  @override
+  State<_DraggableFloatingHomeButton> createState() =>
+      _DraggableFloatingHomeButtonState();
+}
+
+class _DraggableFloatingHomeButtonState
+    extends State<_DraggableFloatingHomeButton> {
+  Offset? _position;
+
+  @override
+  Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+    final screenSize = mediaQuery.size;
+    final isRTL = Directionality.of(context) == TextDirection.rtl;
+
+    final defaultX = isRTL ? (screenSize.width - 60.0) : 16.0;
+    final defaultY =
+        screenSize.height - (widget.reserveBottomNav ? 110.0 : 75.0);
+
+    final pos = _position ?? Offset(defaultX, defaultY);
+
+    return Positioned(
+      left: pos.dx.clamp(8.0, screenSize.width - 60.0),
+      top: pos.dy.clamp(50.0, screenSize.height - 65.0),
+      child: GestureDetector(
+        onPanUpdate: (details) {
+          setState(() {
+            _position = Offset(
+              (pos.dx + details.delta.dx).clamp(8.0, screenSize.width - 60.0),
+              (pos.dy + details.delta.dy).clamp(50.0, screenSize.height - 65.0),
+            );
+          });
+        },
+        child: const _FloatingHomeButton(),
+      ),
+    );
+  }
+}
+
+class _FloatingHomeButton extends StatelessWidget {
+  const _FloatingHomeButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.transparent,
+      elevation: 6,
+      borderRadius: BorderRadius.circular(999),
+      shadowColor: SchooKeepColors.primary.withAlpha(100),
+      child: InkWell(
+        onTap: () {
+          context.go('/');
+        },
+        borderRadius: BorderRadius.circular(999),
+        child: Container(
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: SchooKeepColors.surface,
+            borderRadius: BorderRadius.circular(999),
+            border: Border.all(color: SchooKeepColors.border, width: 1),
+          ),
+          child: const Icon(
+            LucideIcons.home,
+            size: 18,
+            color: SchooKeepColors.textPrimary,
+          ),
+        ),
+      ),
     );
   }
 }
