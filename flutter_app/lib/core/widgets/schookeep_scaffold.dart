@@ -52,7 +52,8 @@ class SchooKeepScaffold extends StatelessWidget {
             ? SchooKeepAppBar(title: title, onBack: onBack, actions: actions)
             : null);
 
-    final bottomInset = reserveBottomNav ? SchooKeepTheme.bottomNavHeight : 0.0;
+    // Bottom nav bar is rendered in RoleShell scaffold, so no extra bottom inset is needed inside body
+    final bottomInset = 0.0;
 
     Widget content = Padding(
       padding: padding.add(EdgeInsets.only(bottom: bottomInset)),
@@ -61,8 +62,6 @@ class SchooKeepScaffold extends StatelessWidget {
     if (scrollable) {
       content = SingleChildScrollView(child: content);
     }
-
-    final isRTL = Directionality.of(context) == TextDirection.rtl;
 
     final mainLayout = Scaffold(
       backgroundColor: backgroundColor,
@@ -88,13 +87,56 @@ class SchooKeepScaffold extends StatelessWidget {
     return Stack(
       children: [
         mainLayout,
-        Positioned(
-          bottom: reserveBottomNav ? 82 : 12,
-          left: isRTL ? 16 : null,
-          right: isRTL ? null : 16,
-          child: _FloatingAiButton(role: roleContext),
+        _DraggableFloatingAiButton(
+          role: roleContext,
+          reserveBottomNav: reserveBottomNav,
         ),
       ],
+    );
+  }
+}
+
+class _DraggableFloatingAiButton extends StatefulWidget {
+  const _DraggableFloatingAiButton({
+    required this.role,
+    required this.reserveBottomNav,
+  });
+
+  final String role;
+  final bool reserveBottomNav;
+
+  @override
+  State<_DraggableFloatingAiButton> createState() => _DraggableFloatingAiButtonState();
+}
+
+class _DraggableFloatingAiButtonState extends State<_DraggableFloatingAiButton> {
+  Offset? _position;
+
+  @override
+  Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+    final screenSize = mediaQuery.size;
+    final isRTL = Directionality.of(context) == TextDirection.rtl;
+
+    final defaultX = isRTL ? 16.0 : (screenSize.width - 150.0);
+    final defaultY = screenSize.height - (widget.reserveBottomNav ? 110.0 : 75.0);
+
+    final pos = _position ?? Offset(defaultX, defaultY);
+
+    return Positioned(
+      left: pos.dx.clamp(8.0, screenSize.width - 140.0),
+      top: pos.dy.clamp(50.0, screenSize.height - 65.0),
+      child: GestureDetector(
+        onPanUpdate: (details) {
+          setState(() {
+            _position = Offset(
+              (pos.dx + details.delta.dx).clamp(8.0, screenSize.width - 140.0),
+              (pos.dy + details.delta.dy).clamp(50.0, screenSize.height - 65.0),
+            );
+          });
+        },
+        child: _FloatingAiButton(role: widget.role),
+      ),
     );
   }
 }

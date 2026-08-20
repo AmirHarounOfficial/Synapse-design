@@ -14,7 +14,7 @@ abstract final class SchooKeepTheme {
   /// Reserved chrome heights from the export.
   static const double statusBarHeight = 44;
   static const double appBarHeight = 56;
-  static const double bottomNavHeight = 83;
+  static const double bottomNavHeight = 64;
   static const double minTapTarget = 44;
 
   static ThemeData light() {
