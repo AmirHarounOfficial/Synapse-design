@@ -3,7 +3,6 @@ import 'package:lucide_icons/lucide_icons.dart';
 
 import '../../features/parent/view/parent_chatbot_assistant_screen.dart';
 import '../theme/app_colors.dart';
-import '../theme/app_theme.dart';
 import 'schookeep_app_bar.dart';
 import 'status_bar_spacer.dart';
 
