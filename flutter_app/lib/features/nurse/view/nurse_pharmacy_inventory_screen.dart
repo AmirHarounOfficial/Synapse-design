@@ -599,21 +599,56 @@ class _NursePharmacyInventoryScreenState extends State<NursePharmacyInventoryScr
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // KPI Cards (Scrollable horizontal row or fitted cards to prevent flex overflow)
+                        // KPI Cards (Clickable statistics cards to filter lists)
                         LayoutBuilder(
                           builder: (context, constraints) {
                             return Row(
                               children: [
-                                Expanded(child: _kpiCard(context.tr(en: 'Items', ar: 'الأدوية'), _items.length.toString(), '$totalUnits ${context.tr(en: 'units', ar: 'وحدة')}', LucideIcons.package, SchooKeepColors.primary)),
-                                const SizedBox(width: 6),
-                                Expanded(child: _kpiCard(context.tr(en: 'Low Stock', ar: 'منخفض'), lowStockCount.toString(), context.tr(en: 'Reorder', ar: 'طلب إعادة'), LucideIcons.alertTriangle, const Color(0xFFD97706))),
-                                const SizedBox(width: 6),
-                                Expanded(child: _kpiCard(context.tr(en: 'Out Stock', ar: 'منتهي'), outOfStockCount.toString(), context.tr(en: 'Depleted', ar: 'نفد'), LucideIcons.shieldAlert, Colors.red)),
+                                Expanded(
+                                  child: _kpiCard(
+                                    context.tr(en: 'Items', ar: 'الأدوية'),
+                                    _items.length.toString(),
+                                    '$totalUnits ${context.tr(en: 'units', ar: 'وحدة')}',
+                                    LucideIcons.package,
+                                    SchooKeepColors.primary,
+                                    isActive: _activeTab == 'all',
+                                    onTap: () => setState(() => _activeTab = 'all'),
+                                  ),
+                                ),
                                 const SizedBox(width: 6),
                                 Expanded(
-                                  child: GestureDetector(
+                                  child: _kpiCard(
+                                    context.tr(en: 'Low Stock', ar: 'منخفض'),
+                                    lowStockCount.toString(),
+                                    context.tr(en: 'Reorder', ar: 'طلب إعادة'),
+                                    LucideIcons.alertTriangle,
+                                    const Color(0xFFD97706),
+                                    isActive: _activeTab == 'low_stock',
+                                    onTap: () => setState(() => _activeTab = 'low_stock'),
+                                  ),
+                                ),
+                                const SizedBox(width: 6),
+                                Expanded(
+                                  child: _kpiCard(
+                                    context.tr(en: 'Out Stock', ar: 'منتهي'),
+                                    outOfStockCount.toString(),
+                                    context.tr(en: 'Depleted', ar: 'نفد'),
+                                    LucideIcons.shieldAlert,
+                                    Colors.red,
+                                    isActive: _activeTab == 'out_of_stock',
+                                    onTap: () => setState(() => _activeTab = 'out_of_stock'),
+                                  ),
+                                ),
+                                const SizedBox(width: 6),
+                                Expanded(
+                                  child: _kpiCard(
+                                    context.tr(en: 'Logs', ar: 'السجل'),
+                                    _logs.length.toString(),
+                                    context.tr(en: 'History', ar: 'التدقيق'),
+                                    LucideIcons.history,
+                                    const Color(0xFF7C3AED),
+                                    isActive: _activeTab == 'audit_log',
                                     onTap: () => setState(() => _activeTab = 'audit_log'),
-                                    child: _kpiCard(context.tr(en: 'Logs', ar: 'السجل'), _logs.length.toString(), context.tr(en: 'History', ar: 'التدقيق'), LucideIcons.history, const Color(0xFF7C3AED)),
                                   ),
                                 ),
                               ],
@@ -670,40 +705,69 @@ class _NursePharmacyInventoryScreenState extends State<NursePharmacyInventoryScr
     );
   }
 
-  Widget _kpiCard(String label, String value, String sub, IconData icon, Color color) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: SchooKeepColors.border),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Text(
-                  label,
-                  style: const TextStyle(fontSize: 10, color: SchooKeepColors.textSecondary, fontWeight: FontWeight.w500),
-                  overflow: TextOverflow.ellipsis,
+  Widget _kpiCard(
+    String label,
+    String value,
+    String sub,
+    IconData icon,
+    Color color, {
+    bool isActive = false,
+    VoidCallback? onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
+        decoration: BoxDecoration(
+          color: isActive ? color.withValues(alpha: 0.08) : Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: isActive ? color : SchooKeepColors.border,
+            width: isActive ? 1.5 : 1.0,
+          ),
+          boxShadow: isActive
+              ? [
+                  BoxShadow(
+                    color: color.withValues(alpha: 0.15),
+                    blurRadius: 6,
+                    offset: const Offset(0, 2),
+                  )
+                ]
+              : null,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Text(
+                    label,
+                    style: TextStyle(
+                      fontSize: 10,
+                      color: isActive ? color : SchooKeepColors.textSecondary,
+                      fontWeight: isActive ? FontWeight.bold : FontWeight.w500,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
-              ),
-              Icon(icon, size: 12, color: color),
-            ],
-          ),
-          const SizedBox(height: 4),
-          FittedBox(
-            fit: BoxFit.scaleDown,
-            child: Text(value, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: color)),
-          ),
-          FittedBox(
-            fit: BoxFit.scaleDown,
-            child: Text(sub, style: TextStyle(fontSize: 9, color: color.withValues(alpha: 0.8))),
-          ),
-        ],
+                Icon(icon, size: 12, color: color),
+              ],
+            ),
+            const SizedBox(height: 4),
+            FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(value, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: color)),
+            ),
+            FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(sub, style: TextStyle(fontSize: 9, color: color.withValues(alpha: 0.8))),
+            ),
+          ],
+        ),
       ),
     );
   }
