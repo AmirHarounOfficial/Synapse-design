@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 import '../../../core/di/service_locator.dart';
+import '../../../core/localization/l10n_ext.dart';
 import '../../../core/network/data_state.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
@@ -144,7 +145,9 @@ class _RouteOverviewView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _routeStatus(boarded, total, progress),
-          const SizedBox(height: 16),
+          const SizedBox(height: 12),
+          _biasReportLink(context),
+          const SizedBox(height: 12),
           _earlyDismissalLink(context),
           const SizedBox(height: 16),
           Text('STUDENT MANIFEST ($total)',
@@ -167,6 +170,48 @@ class _RouteOverviewView extends StatelessWidget {
           const SizedBox(height: 8),
           _infoNotice(),
         ],
+      ),
+    );
+  }
+
+  Widget _biasReportLink(BuildContext context) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(12),
+        onTap: () => context.go('/bus/report-bias'),
+        child: Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: const Color(0xFFEFF6FF),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: const Color(0xFFBFDBFE)),
+          ),
+          child: Row(
+            children: [
+              const Icon(LucideIcons.shieldAlert, size: 20, color: SchooKeepColors.primary),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      context.tr(en: 'Report Bus Transit Bias Incident', ar: 'الإبلاغ عن حادث تمييز في الحافلة'),
+                      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.primary),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      context.tr(en: 'Confidential report sent directly to Guidance Counselor', ar: 'تقرير سري يُرسل مباشرة للمرشد الطلابي'),
+                      style: const TextStyle(fontSize: 12, color: Color(0xFF1E40AF)),
+                    ),
+                  ],
+                ),
+              ),
+              const RtlIcon(LucideIcons.chevronRight, size: 20, color: SchooKeepColors.primary),
+            ],
+          ),
+        ),
       ),
     );
   }

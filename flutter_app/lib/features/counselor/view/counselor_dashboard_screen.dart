@@ -88,12 +88,12 @@ class _CounselorDashboardView extends StatelessWidget {
   static String _initials(String name) =>
       name.split(' ').where((p) => p.isNotEmpty).map((n) => n[0]).take(2).join();
 
-  static String _formatTime(DateTime? dt) {
+  static String _formatTime(DateTime? dt, bool isRTL) {
     if (dt == null) return '';
     final local = dt.toLocal();
     final h = local.hour % 12 == 0 ? 12 : local.hour % 12;
     final m = local.minute.toString().padLeft(2, '0');
-    final period = local.hour < 12 ? 'AM' : 'PM';
+    final period = local.hour < 12 ? (isRTL ? 'ص' : 'AM') : (isRTL ? 'م' : 'PM');
     return '$h:$m $period';
   }
 
@@ -111,7 +111,7 @@ class _CounselorDashboardView extends StatelessWidget {
     return SchooKeepScaffold(
       reserveBottomNav: true,
       appBar: SchooKeepAppBar(
-        title: 'Student Wellbeing',
+        title: context.tr(en: 'Student Wellbeing', ar: 'الرفاه النفسي والطلابي'),
         actions: [
           _BellAction(onTap: () => showCounselorNotificationsSheet(context)),
         ],
@@ -139,7 +139,11 @@ class _CounselorDashboardView extends StatelessWidget {
             const SizedBox(height: 12),
             Text(message, textAlign: TextAlign.center, style: const TextStyle(color: SchooKeepColors.textSecondary)),
             const SizedBox(height: 16),
-            SchooKeepButton(label: 'Retry', fullWidth: false, onPressed: () => _reload(context)),
+            SchooKeepButton(
+              label: context.tr(en: 'Retry', ar: 'إعادة المحاولة'),
+              fullWidth: false,
+              onPressed: () => _reload(context),
+            ),
           ],
         ),
       ),
@@ -151,20 +155,43 @@ class _CounselorDashboardView extends StatelessWidget {
         .where((t) => _isToday(t.taggedAt ?? t.createdAt))
         .length;
     final stats = [
-      (label: 'Active cases', value: '${data.studentCount}', icon: LucideIcons.users, color: _counselorPurple, bg: _counselorPurpleBg),
-      (label: 'Tagged today', value: '$taggedToday', icon: LucideIcons.tag, color: SchooKeepColors.accent, bg: SchooKeepColors.greenChipBg),
-      // no API source — pending-report count has no dashboard endpoint
-      (label: 'Pending reports', value: '3', icon: LucideIcons.fileText, color: SchooKeepColors.warning, bg: SchooKeepColors.amberChipBg),
+      (
+        label: context.tr(en: 'Active cases', ar: 'الحالات النشطة'),
+        value: '${data.studentCount}',
+        icon: LucideIcons.users,
+        color: _counselorPurple,
+        bg: _counselorPurpleBg
+      ),
+      (
+        label: context.tr(en: 'Tagged today', ar: 'وسوم اليوم'),
+        value: '$taggedToday',
+        icon: LucideIcons.tag,
+        color: SchooKeepColors.accent,
+        bg: SchooKeepColors.greenChipBg
+      ),
+      (
+        label: context.tr(en: 'Pending reports', ar: 'تقارير معلقة'),
+        value: '3',
+        icon: LucideIcons.fileText,
+        color: SchooKeepColors.warning,
+        bg: SchooKeepColors.amberChipBg
+      ),
     ];
 
-    return Padding(
+    return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Anti-Bias Incident Hub Banner Action
+          _biasIncidentBanner(context),
+          const SizedBox(height: 16),
+
           // Today Summary
-          const Text('Today Summary',
-              style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
+          Text(
+            context.tr(en: 'Today Summary', ar: 'ملخص اليوم'),
+            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary),
+          ),
           const SizedBox(height: 12),
           Row(
             children: [
@@ -180,17 +207,21 @@ class _CounselorDashboardView extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text('Recent Tags',
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
+              Text(
+                context.tr(en: 'Recent Tags', ar: 'أحدث الوسوم'),
+                style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary),
+              ),
               GestureDetector(
                 onTap: () => context.go('/counselor/tag-entry'),
-                child: const Row(
+                child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(LucideIcons.plus, size: 16, color: _counselorPurple),
-                    SizedBox(width: 4),
-                    Text('Add Tag',
-                        style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: _counselorPurple)),
+                    const Icon(LucideIcons.plus, size: 16, color: _counselorPurple),
+                    const SizedBox(width: 4),
+                    Text(
+                      context.tr(en: 'Add Tag', ar: 'إضافة وسم'),
+                      style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: _counselorPurple),
+                    ),
                   ],
                 ),
               ),
@@ -198,12 +229,14 @@ class _CounselorDashboardView extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           if (data.recentTags.isEmpty)
-            const SchooKeepCard(
+            SchooKeepCard(
               child: Center(
                 child: Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Text('No recent tags',
-                      style: TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary)),
+                  padding: const EdgeInsets.all(16),
+                  child: Text(
+                    context.tr(en: 'No recent tags', ar: 'لا توجد وسوم حديثة'),
+                    style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary),
+                  ),
                 ),
               ),
             )
@@ -221,7 +254,7 @@ class _CounselorDashboardView extends StatelessWidget {
               Expanded(
                 child: _QuickAction(
                   icon: LucideIcons.tag,
-                  label: 'Add Wellbeing Tag',
+                  label: context.tr(en: 'Add Wellbeing Tag', ar: 'تسجيل وسم جديد'),
                   filled: true,
                   onTap: () => context.go('/counselor/tag-entry'),
                 ),
@@ -229,10 +262,10 @@ class _CounselorDashboardView extends StatelessWidget {
               const SizedBox(width: 12),
               Expanded(
                 child: _QuickAction(
-                  icon: LucideIcons.fileText,
-                  label: 'Generate Report',
+                  icon: LucideIcons.shieldAlert,
+                  label: context.tr(en: 'Anti-Bias Hub', ar: 'مركز مناهضة التمييز'),
                   filled: false,
-                  onTap: () => context.go('/counselor/reports'),
+                  onTap: () => context.go('/counselor/bias-incidents'),
                 ),
               ),
             ],
@@ -242,17 +275,68 @@ class _CounselorDashboardView extends StatelessWidget {
     );
   }
 
+  Widget _biasIncidentBanner(BuildContext context) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(12),
+        onTap: () => context.go('/counselor/bias-incidents'),
+        child: Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: const Color(0xFFEFF6FF),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: const Color(0xFFBFDBFE)),
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: 44,
+                height: 44,
+                alignment: Alignment.center,
+                decoration: const BoxDecoration(color: Color(0xFFDBEAFE), shape: BoxShape.circle),
+                child: const Icon(LucideIcons.shieldAlert, size: 22, color: SchooKeepColors.primary),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      context.tr(en: 'Anti-Bias Incident Hub', ar: 'مركز متابعة بلاغات التمييز والعنصرية'),
+                      style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: SchooKeepColors.textPrimary),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      context.tr(en: '3 reports active (Teachers & Bus Drivers)', ar: '3 بلاغات نشطة (من المعلمين وسائقي الحافلات)'),
+                      style: const TextStyle(fontSize: 12, color: Color(0xFF1E40AF)),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 8),
+              const RtlIcon(LucideIcons.chevronRight, size: 20, color: SchooKeepColors.primary),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _tagRow(BuildContext context, CounselorTag tag) {
-    // The API has no student name on the tag resource; show the student id and
-    // the first tag label as the headline chip.
-    final studentName = 'Student #${tag.studentId ?? '—'}';
-    final tagLabel = tag.tags.isNotEmpty ? tag.tags.first : (tag.context ?? 'Tag');
+    final isRTL = context.isRTL;
+    final studentName = context.tr(
+      en: 'Student #${tag.studentId ?? '—'}',
+      ar: 'الطالب #${tag.studentId ?? '—'}',
+    );
+    final tagLabel = tag.tags.isNotEmpty ? tag.tags.first : (tag.context ?? context.tr(en: 'Tag', ar: 'وسم'));
     return _TagRow(
       initials: _initials(studentName),
       studentName: studentName,
       tag: tagLabel,
       room: tag.context ?? '',
-      time: _formatTime(tag.taggedAt ?? tag.createdAt),
+      time: _formatTime(tag.taggedAt ?? tag.createdAt, isRTL),
       onTap: () => context.go('/counselor/student-tags/${tag.id}'),
     );
   }
@@ -299,8 +383,6 @@ class _BellAction extends StatelessWidget {
   }
 }
 
-/// A white bordered card whose children are separated by thin dividers,
-/// matching `divide-y divide-gray-100`.
 class _DividedCard extends StatelessWidget {
   const _DividedCard({required this.children});
   final List<Widget> children;

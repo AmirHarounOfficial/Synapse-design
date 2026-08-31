@@ -2,24 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
+import '../../../core/localization/l10n_ext.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
 
-/// Ported from `BusDriverSettings.tsx`. Driver profile card, compliance &
-/// certifications list, and a logout button that opens a confirmation dialog.
-/// Brand wordmark "Synapse" is rendered as "SchooKeep" per the porting guide.
+/// Bus driver settings screen with full bilingual support (English & Arabic).
 class BusDriverSettingsScreen extends StatelessWidget {
   const BusDriverSettingsScreen({super.key});
 
-  static const Map<String, String> _userInfo = {
-    'name': 'Robert Anderson',
-    'employeeId': 'BD-128',
-    'role': 'Bus Driver',
-    'route': 'Route 12',
-    'email': 'r.anderson@school.edu',
-    'phone': '(555) 123-4567',
-    'lastLogin': 'May 25, 2026 at 6:48 AM',
-  };
+  static const String _nameEn = 'Robert Anderson';
+  static const String _nameAr = 'روبرت أندرسون';
+  static const String _employeeId = 'BD-128';
+  static const String _roleEn = 'Bus Driver';
+  static const String _roleAr = 'سائق حافلة مدرسية';
+  static const String _routeEn = 'Route 12';
+  static const String _routeAr = 'مسار 12';
+  static const String _email = 'r.anderson@school.edu';
+  static const String _phone = '(555) 123-4567';
 
   void _confirmLogout(BuildContext context) {
     showDialog<void>(
@@ -43,13 +42,20 @@ class BusDriverSettingsScreen extends StatelessWidget {
                 child: const Icon(LucideIcons.logOut, size: 32, color: SchooKeepColors.error),
               ),
               const SizedBox(height: 16),
-              const Text('Log Out of SchooKeep?',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
+              Text(
+                context.tr(en: 'Log Out of SchooKeep?', ar: 'تسجيل الخروج من التطبيق؟'),
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary),
+              ),
               const SizedBox(height: 8),
-              const Text('You will need to re-authenticate with 2FA to access the bus driver portal again.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 14, color: SchooKeepColors.textSecondary)),
+              Text(
+                context.tr(
+                  en: 'You will need to re-authenticate with 2FA to access the bus driver portal again.',
+                  ar: 'ستحتاج للتحقق عبر المصادقة الثنائية (2FA) للوصول لبوابة حافلة المدرسة مجدداً.',
+                ),
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: 14, color: SchooKeepColors.textSecondary),
+              ),
               const SizedBox(height: 24),
               Row(
                 children: [
@@ -62,8 +68,10 @@ class BusDriverSettingsScreen extends StatelessWidget {
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                         ),
                         onPressed: () => Navigator.of(dialogContext).pop(),
-                        child: const Text('Cancel',
-                            style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
+                        child: Text(
+                          context.tr(en: 'Cancel', ar: 'إلغاء'),
+                          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+                        ),
                       ),
                     ),
                   ),
@@ -80,8 +88,10 @@ class BusDriverSettingsScreen extends StatelessWidget {
                           Navigator.of(dialogContext).pop();
                           context.go('/login');
                         },
-                        child: const Text('Log Out',
-                            style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: Colors.white)),
+                        child: Text(
+                          context.tr(en: 'Log Out', ar: 'تسجيل الخروج'),
+                          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: Colors.white),
+                        ),
                       ),
                     ),
                   ),
@@ -98,60 +108,71 @@ class BusDriverSettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SchooKeepScaffold(
       reserveBottomNav: true,
-      appBar: const SchooKeepAppBar(title: 'Settings'),
+      appBar: SchooKeepAppBar(title: context.tr(en: 'Settings', ar: 'الإعدادات')),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _profileCard(),
+            _profileCard(context),
             const SizedBox(height: 16),
-            const Text('COMPLIANCE & CERTIFICATIONS',
-                style: TextStyle(
-                    fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.textSecondary, letterSpacing: 0.5)),
+            Text(
+              context.tr(en: 'COMPLIANCE & CERTIFICATIONS', ar: 'الامتثال والشهادات المعتمدة'),
+              style: const TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+                color: SchooKeepColors.textSecondary,
+                letterSpacing: 0.5,
+              ),
+            ),
             const SizedBox(height: 12),
             _certCard(
+              context,
               icon: LucideIcons.fileText,
               iconColor: SchooKeepColors.accent,
               iconBg: SchooKeepColors.greenChipBg,
-              title: 'CDL License (Class B)',
-              subtitle: 'Valid until August 2027',
+              title: context.tr(en: 'CDL License (Class B)', ar: 'رخصة قيادة الحافلات (فئة ثقيلة)'),
+              subtitle: context.tr(en: 'Valid until August 2027', ar: 'سارية حتى أغسطس 2027'),
               activeBadge: true,
             ),
             const SizedBox(height: 8),
             _certCard(
+              context,
               icon: LucideIcons.shield,
               iconColor: SchooKeepColors.primary,
               iconBg: const Color(0xFFEFF6FF),
-              title: 'Confidentiality Agreement',
-              subtitle: 'Signed on April 12, 2026',
+              title: context.tr(en: 'Confidentiality Agreement', ar: 'اتفاقية حماية سرية بيانات الطلاب'),
+              subtitle: context.tr(en: 'Signed on April 12, 2026', ar: 'موقعة بتاريخ 12 أبريل 2026'),
             ),
             const SizedBox(height: 8),
             _certCard(
+              context,
               icon: LucideIcons.fileText,
               iconColor: SchooKeepColors.primary,
               iconBg: const Color(0xFFEFF6FF),
-              title: 'FERPA Training Certificate',
-              subtitle: 'Completed April 15, 2026 • Valid until April 2027',
+              title: context.tr(en: 'FERPA Training Certificate', ar: 'شهادة تدريب سلامة وحماية الطلاب'),
+              subtitle: context.tr(en: 'Completed April 15, 2026 • Valid until April 2027', ar: 'مكتملة في 15 أبريل 2026 • سارية حتى أبريل 2027'),
             ),
             const SizedBox(height: 8),
             _certCard(
+              context,
               icon: LucideIcons.shield,
               iconColor: SchooKeepColors.primary,
               iconBg: const Color(0xFFEFF6FF),
-              title: 'Student Safety Protocols',
-              subtitle: 'Last reviewed May 1, 2026',
+              title: context.tr(en: 'Student Safety Protocols', ar: 'بروتوكولات السلامة في الحافلة'),
+              subtitle: context.tr(en: 'Last reviewed May 1, 2026', ar: 'آخر مراجعة 1 مايو 2026'),
             ),
             const SizedBox(height: 8),
             _certCard(
+              context,
               icon: LucideIcons.fileText,
               iconColor: SchooKeepColors.accent,
               iconBg: SchooKeepColors.greenChipBg,
-              title: 'First Aid & CPR Certification',
-              subtitle: 'Valid until December 2026',
+              title: context.tr(en: 'First Aid & CPR Certification', ar: 'شهادة الإسعافات الأولية والإنعاش الرئوي'),
+              subtitle: context.tr(en: 'Valid until December 2026', ar: 'سارية حتى ديسمبر 2026'),
             ),
             const SizedBox(height: 16),
-            _infoNotice(),
+            _infoNotice(context),
             const SizedBox(height: 16),
             SizedBox(
               width: double.infinity,
@@ -163,21 +184,25 @@ class BusDriverSettingsScreen extends StatelessWidget {
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                 ),
                 onPressed: () => _confirmLogout(context),
-                child: const Row(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(LucideIcons.logOut, size: 20, color: SchooKeepColors.error),
-                    SizedBox(width: 8),
-                    Text('Log Out',
-                        style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: SchooKeepColors.error)),
+                    const Icon(LucideIcons.logOut, size: 20, color: SchooKeepColors.error),
+                    const SizedBox(width: 8),
+                    Text(
+                      context.tr(en: 'Log Out', ar: 'تسجيل الخروج'),
+                      style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: SchooKeepColors.error),
+                    ),
                   ],
                 ),
               ),
             ),
             const SizedBox(height: 16),
-            const Center(
-              child: Text('SchooKeep v2.1.0 • Bus Driver Portal',
-                  style: TextStyle(fontSize: 12, color: Color(0xFF94A3B8))),
+            Center(
+              child: Text(
+                context.tr(en: 'SchooKeep v2.1.0 • Bus Driver Portal', ar: 'سكوكيب v2.1.0 • بوابة سائق الحافلة'),
+                style: const TextStyle(fontSize: 12, color: Color(0xFF94A3B8)),
+              ),
             ),
           ],
         ),
@@ -185,7 +210,7 @@ class BusDriverSettingsScreen extends StatelessWidget {
     );
   }
 
-  Widget _profileCard() {
+  Widget _profileCard(BuildContext context) {
     return SchooKeepCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -205,12 +230,15 @@ class BusDriverSettingsScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(_userInfo['name']!,
-                        style: const TextStyle(
-                            fontSize: 17, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
+                    Text(
+                      context.tr(en: _nameEn, ar: _nameAr),
+                      style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary),
+                    ),
                     const SizedBox(height: 4),
-                    Text('${_userInfo['role']} • ${_userInfo['employeeId']}',
-                        style: const TextStyle(fontSize: 14, color: SchooKeepColors.textSecondary)),
+                    Text(
+                      '${context.tr(en: _roleEn, ar: _roleAr)} • $_employeeId',
+                      style: const TextStyle(fontSize: 14, color: SchooKeepColors.textSecondary),
+                    ),
                     const SizedBox(height: 8),
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
@@ -220,9 +248,10 @@ class BusDriverSettingsScreen extends StatelessWidget {
                         children: [
                           const Icon(LucideIcons.bus, size: 14, color: SchooKeepColors.primary),
                           const SizedBox(width: 6),
-                          Text(_userInfo['route']!,
-                              style: const TextStyle(
-                                  fontSize: 12, fontWeight: FontWeight.w500, color: SchooKeepColors.primary)),
+                          Text(
+                            context.tr(en: _routeEn, ar: _routeAr),
+                            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: SchooKeepColors.primary),
+                          ),
                         ],
                       ),
                     ),
@@ -234,11 +263,14 @@ class BusDriverSettingsScreen extends StatelessWidget {
           const SizedBox(height: 16),
           const Divider(height: 1, color: Color(0xFFF1F5F9)),
           const SizedBox(height: 12),
-          _infoRow('Email', _userInfo['email']!),
+          _infoRow(context.tr(en: 'Email', ar: 'البريد الإلكتروني'), _email),
           const SizedBox(height: 8),
-          _infoRow('Phone', _userInfo['phone']!),
+          _infoRow(context.tr(en: 'Phone', ar: 'رقم الهاتف'), _phone),
           const SizedBox(height: 8),
-          _infoRow('Last Login', _userInfo['lastLogin']!),
+          _infoRow(
+            context.tr(en: 'Last Login', ar: 'آخر تسجيل دخول'),
+            context.tr(en: 'May 25, 2026 at 6:48 AM', ar: '25 مايو 2026 الساعة 6:48 صباحاً'),
+          ),
         ],
       ),
     );
@@ -250,15 +282,18 @@ class BusDriverSettingsScreen extends StatelessWidget {
       children: [
         Text(label, style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary)),
         Flexible(
-          child: Text(value,
-              textAlign: TextAlign.end,
-              style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
+          child: Text(
+            value,
+            textAlign: TextAlign.end,
+            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+          ),
         ),
       ],
     );
   }
 
-  Widget _certCard({
+  Widget _certCard(
+    BuildContext context, {
     required IconData icon,
     required Color iconColor,
     required Color iconBg,
@@ -281,8 +316,7 @@ class BusDriverSettingsScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title,
-                    style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
+                Text(title, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
                 const SizedBox(height: 2),
                 Text(subtitle, style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary)),
               ],
@@ -293,13 +327,15 @@ class BusDriverSettingsScreen extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               decoration: BoxDecoration(color: SchooKeepColors.greenChipBg, borderRadius: BorderRadius.circular(6)),
-              child: const Row(
+              child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(LucideIcons.lock, size: 12, color: SchooKeepColors.greenChipText),
-                  SizedBox(width: 4),
-                  Text('Active',
-                      style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: SchooKeepColors.greenChipText)),
+                  const Icon(LucideIcons.lock, size: 12, color: SchooKeepColors.greenChipText),
+                  const SizedBox(width: 4),
+                  Text(
+                    context.tr(en: 'Active', ar: 'سارية'),
+                    style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: SchooKeepColors.greenChipText),
+                  ),
                 ],
               ),
             ),
@@ -309,7 +345,7 @@ class BusDriverSettingsScreen extends StatelessWidget {
     );
   }
 
-  Widget _infoNotice() {
+  Widget _infoNotice(BuildContext context) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(12),
@@ -318,10 +354,13 @@ class BusDriverSettingsScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: SchooKeepColors.border),
       ),
-      child: const Text(
-        'All boarding and drop-off events are logged with parent notifications. Records are maintained for safety and compliance.',
+      child: Text(
+        context.tr(
+          en: 'All boarding and drop-off events are logged with parent notifications. Records are maintained for safety and compliance.',
+          ar: 'يتم تسجيل جميع عمليات صعود ونزول الطلاب وإرسال إشعارات فورية لأولياء الأمور. يتم حفظ السجلات لضمان السلامة والامتثال.',
+        ),
         textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary, height: 1.5),
+        style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary, height: 1.5),
       ),
     );
   }

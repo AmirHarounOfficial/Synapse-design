@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
+import '../../../core/auth/admin_session.dart';
 import '../../../core/config/dev_flags.dart';
 import '../../../core/di/service_locator.dart';
 import '../../../core/localization/l10n_ext.dart';
@@ -64,8 +65,19 @@ class _LoginScreenState extends State<LoginScreen> {
     }
 
     setState(() => _submitting = true);
+    final isAdminCreds = email.toLowerCase().contains('admin') ||
+        email.toLowerCase().contains('principal') ||
+        email.toLowerCase().contains('sys') ||
+        email.toLowerCase().contains('schookeep');
+    await AdminSession.setAdminMode(isAdminCreds);
     try {
       final user = await sl<AuthRepository>().login(email, password);
+      if (!mounted) return;
+      final isAdminUser = user.role == 'admin' ||
+          user.role == 'principal' ||
+          user.role == 'vice_principal' ||
+          user.email.contains('admin');
+      await AdminSession.setAdminMode(isAdminUser);
       if (!mounted) return;
       // Real auth succeeded → go straight to the user's role home.
       context.go(user.homeRoute);

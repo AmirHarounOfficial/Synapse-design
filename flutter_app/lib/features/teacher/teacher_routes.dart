@@ -4,6 +4,7 @@ import '../../core/widgets/role_shell.dart';
 import 'teacher_tabs.dart';
 import 'view/teacher_activity_exemptions_screen.dart';
 import 'view/teacher_attendance_screen.dart';
+import 'view/teacher_bias_report_screen.dart';
 import 'view/teacher_clinic_referral_screen.dart';
 import 'view/teacher_dashboard_screen.dart';
 import 'view/teacher_health_considerations_screen.dart';
@@ -26,6 +27,7 @@ final List<RouteBase> teacherRoutes = [
         builder: (c, s) => const TeacherHealthConsiderationsScreen(),
       ),
       GoRoute(path: '/teacher/clinic-referral', builder: (c, s) => const TeacherClinicReferralScreen()),
+      GoRoute(path: '/teacher/report-bias', builder: (c, s) => const TeacherBiasReportScreen()),
       GoRoute(
         path: '/teacher/student-release',
         builder: (c, s) => const TeacherStudentReleaseNotificationScreen(),

@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 import '../../../core/di/service_locator.dart';
+import '../../../core/localization/l10n_ext.dart';
 import '../../../core/network/data_state.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
@@ -104,7 +105,11 @@ class _CounselorStudentsListViewState extends State<_CounselorStudentsListView> 
             Text(message,
                 textAlign: TextAlign.center, style: const TextStyle(color: SchooKeepColors.textSecondary)),
             const SizedBox(height: 16),
-            SchooKeepButton(label: 'Retry', fullWidth: false, onPressed: _reload),
+            SchooKeepButton(
+              label: context.tr(en: 'Retry', ar: 'إعادة المحاولة'),
+              fullWidth: false,
+              onPressed: _reload,
+            ),
           ],
         ),
       ),
@@ -113,8 +118,11 @@ class _CounselorStudentsListViewState extends State<_CounselorStudentsListView> 
 
   Widget _list(List<Student> students) {
     if (students.isEmpty) {
-      return const Center(
-        child: Text('No students found', style: TextStyle(color: SchooKeepColors.textSecondary)),
+      return Center(
+        child: Text(
+          context.tr(en: 'No students found', ar: 'لم يتم العثور على طلاب'),
+          style: const TextStyle(color: SchooKeepColors.textSecondary),
+        ),
       );
     }
     return ListView(
@@ -155,8 +163,10 @@ class _CounselorStudentsListViewState extends State<_CounselorStudentsListView> 
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text('Students',
-                      style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
+                  Text(
+                    context.tr(en: 'Students', ar: 'قائمة الطلاب'),
+                    style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+                  ),
                   InkWell(
                     onTap: () => showCounselorNotificationsSheet(context),
                     borderRadius: BorderRadius.circular(999),
@@ -180,7 +190,7 @@ class _CounselorStudentsListViewState extends State<_CounselorStudentsListView> 
                 style: const TextStyle(fontSize: 15, color: SchooKeepColors.textPrimary),
                 decoration: InputDecoration(
                   isDense: true,
-                  hintText: 'Search students...',
+                  hintText: context.tr(en: 'Search students...', ar: 'البحث عن طالب...'),
                   hintStyle: const TextStyle(fontSize: 15, color: Color(0xFF94A3B8)),
                   prefixIcon: const Icon(LucideIcons.search, size: 20, color: SchooKeepColors.textSecondary),
                   filled: true,
@@ -241,7 +251,7 @@ class _CounselorStudentsListViewState extends State<_CounselorStudentsListView> 
                 ),
               ),
               const SizedBox(width: 8),
-              const Icon(LucideIcons.chevronRight, size: 20, color: SchooKeepColors.textSecondary),
+              const RtlIcon(LucideIcons.chevronRight, size: 20, color: SchooKeepColors.textSecondary),
             ],
           ),
         ),

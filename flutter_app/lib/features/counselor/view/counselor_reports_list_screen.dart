@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 import '../../../core/di/service_locator.dart';
+import '../../../core/localization/l10n_ext.dart';
 import '../../../core/network/data_state.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
@@ -39,7 +40,7 @@ class _CounselorReportsListView extends StatelessWidget {
       reserveBottomNav: true,
       scrollable: false,
       appBar: SchooKeepAppBar(
-        title: 'Reports',
+        title: context.tr(en: 'Reports', ar: 'التقارير الإرشادية'),
         actions: [
           Builder(
             builder: (context) => InkWell(
@@ -66,15 +67,17 @@ class _CounselorReportsListView extends StatelessWidget {
               child: InkWell(
                 borderRadius: BorderRadius.circular(12),
                 onTap: () => context.go('/counselor/generate-report'),
-                child: const Padding(
-                  padding: EdgeInsets.all(16),
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(LucideIcons.plus, size: 20, color: Colors.white),
-                      SizedBox(width: 8),
-                      Text('Generate New Report',
-                          style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: Colors.white)),
+                      const Icon(LucideIcons.plus, size: 20, color: Colors.white),
+                      const SizedBox(width: 8),
+                      Text(
+                        context.tr(en: 'Generate New Report', ar: 'إنشاء تقرير جديد'),
+                        style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: Colors.white),
+                      ),
                     ],
                   ),
                 ),
@@ -82,8 +85,10 @@ class _CounselorReportsListView extends StatelessWidget {
             ),
             const SizedBox(height: 16),
 
-            const Text('Recent Reports',
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
+            Text(
+              context.tr(en: 'Recent Reports', ar: 'أحدث التقارير'),
+              style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary),
+            ),
             const SizedBox(height: 12),
             Expanded(
               child: BlocBuilder<CounselorReportsCubit, DataState<List<CounselorReport>>>(
@@ -112,7 +117,7 @@ class _CounselorReportsListView extends StatelessWidget {
           Text(message, textAlign: TextAlign.center, style: const TextStyle(color: SchooKeepColors.textSecondary)),
           const SizedBox(height: 16),
           SchooKeepButton(
-            label: 'Retry',
+            label: context.tr(en: 'Retry', ar: 'إعادة المحاولة'),
             fullWidth: false,
             onPressed: () => context.read<CounselorReportsCubit>().load(),
           ),
@@ -123,8 +128,11 @@ class _CounselorReportsListView extends StatelessWidget {
 
   Widget _list(BuildContext context, List<CounselorReport> reports) {
     if (reports.isEmpty) {
-      return const Center(
-        child: Text('No reports yet', style: TextStyle(color: SchooKeepColors.textSecondary)),
+      return Center(
+        child: Text(
+          context.tr(en: 'No reports yet', ar: 'لا توجد تقارير بعد'),
+          style: const TextStyle(color: SchooKeepColors.textSecondary),
+        ),
       );
     }
     return SingleChildScrollView(
@@ -147,38 +155,65 @@ class _CounselorReportsListView extends StatelessWidget {
     );
   }
 
-  String _titleFor(CounselorReport r) {
-    final type = r.type.isEmpty ? 'Report' : '${r.type[0].toUpperCase()}${r.type.substring(1)} Report';
-    if (r.studentId != null) return 'Student #${r.studentId} — $type';
+  String _titleFor(BuildContext context, CounselorReport r) {
+    final typeEn = r.type.isEmpty ? 'Report' : '${r.type[0].toUpperCase()}${r.type.substring(1)} Report';
+    final typeAr = r.type.toLowerCase() == 'individual'
+        ? 'تقرير فردي'
+        : (r.type.toLowerCase() == 'class' ? 'تقرير ملخص الصف' : 'تقرير إرشادي');
+    final type = context.tr(en: typeEn, ar: typeAr);
+
+    if (r.studentId != null) {
+      return context.tr(
+        en: 'Student #${r.studentId} — $typeEn',
+        ar: 'الطالب #${r.studentId} — $typeAr',
+      );
+    }
     return type;
   }
 
-  String _dateFor(CounselorReport r) {
+  String _dateFor(CounselorReport r, bool isRTL) {
     final d = r.generatedAt ?? r.createdAt;
     if (d == null) return '';
-    const months = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-    ];
-    return '${months[d.month - 1]} ${d.day}, ${d.year}';
+    const monthsEn = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const monthsAr = ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'];
+    final m = isRTL ? monthsAr[d.month - 1] : monthsEn[d.month - 1];
+    return isRTL ? '${d.day} $m ${d.year}' : '$m ${d.day}, ${d.year}';
   }
 
-  ({String label, Color bg, Color fg}) _statusChip(CounselorReport r) {
+  ({String label, Color bg, Color fg}) _statusChip(BuildContext context, CounselorReport r) {
     if (r.submittedToParent) {
-      return (label: 'Sent to parent', bg: SchooKeepColors.greenChipBg, fg: SchooKeepColors.accent);
+      return (
+        label: context.tr(en: 'Sent to parent', ar: 'أُرسل لولي الأمر'),
+        bg: SchooKeepColors.greenChipBg,
+        fg: SchooKeepColors.accent
+      );
     }
     final s = (r.status ?? 'draft').toLowerCase();
     if (s.contains('secretary')) {
-      return (label: 'With secretary', bg: const Color(0xFFDBEAFE), fg: SchooKeepColors.primary);
+      return (
+        label: context.tr(en: 'With secretary', ar: 'عند السكرتارية'),
+        bg: const Color(0xFFDBEAFE),
+        fg: SchooKeepColors.primary
+      );
     }
     if (s.contains('sent') || s.contains('parent')) {
-      return (label: 'Sent to parent', bg: SchooKeepColors.greenChipBg, fg: SchooKeepColors.accent);
+      return (
+        label: context.tr(en: 'Sent to parent', ar: 'أُرسل لولي الأمر'),
+        bg: SchooKeepColors.greenChipBg,
+        fg: SchooKeepColors.accent
+      );
     }
-    return (label: 'Draft', bg: const Color(0xFFF1F5F9), fg: SchooKeepColors.textSecondary);
+    return (
+      label: context.tr(en: 'Draft', ar: 'مسودة'),
+      bg: const Color(0xFFF1F5F9),
+      fg: SchooKeepColors.textSecondary
+    );
   }
 
   Widget _reportRow(BuildContext context, CounselorReport r) {
-    final chip = _statusChip(r);
-    final date = _dateFor(r);
+    final isRTL = context.isRTL;
+    final chip = _statusChip(context, r);
+    final date = _dateFor(r, isRTL);
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -200,7 +235,7 @@ class _CounselorReportsListView extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(_titleFor(r),
+                    Text(_titleFor(context, r),
                         style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
                     const SizedBox(height: 4),
                     Wrap(

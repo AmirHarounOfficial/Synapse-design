@@ -101,6 +101,7 @@ class DatabaseSeeder extends Seeder
             'StaffSeeder',
             'AdminUtilitiesSeeder',
             'PharmacyInventorySeeder',
+            'BiasIncidentSeeder',
         ] as $seeder) {
             $class = "Database\\Seeders\\{$seeder}";
             if (class_exists($class)) {

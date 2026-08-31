@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 import '../../../core/di/service_locator.dart';
+import '../../../core/localization/l10n_ext.dart';
 import '../../../core/network/data_state.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
@@ -99,27 +100,34 @@ class _TeacherDashboardView extends StatelessWidget {
                 _sectionLabel('Quick Actions'),
                 const SizedBox(height: 12),
                 SchooKeepButton(
-                  label: 'Take Attendance',
+                  label: context.tr(en: 'Take Attendance', ar: 'تسجيل الحضور والغياب'),
                   icon: LucideIcons.calendar,
                   onPressed: () => context.go('/teacher/attendance'),
                 ),
                 const SizedBox(height: 12),
                 SchooKeepButton(
-                  label: 'Send Clinic Referral',
+                  label: context.tr(en: 'Report Bias / Racism Incident', ar: 'الإبلاغ عن حادث تمييز / عنصرية'),
+                  icon: LucideIcons.shieldAlert,
+                  variant: SchooKeepButtonVariant.outline,
+                  onPressed: () => context.go('/teacher/report-bias'),
+                ),
+                const SizedBox(height: 12),
+                SchooKeepButton(
+                  label: context.tr(en: 'Send Clinic Referral', ar: 'إرسال إحالة للعيادة الطبية'),
                   icon: LucideIcons.stethoscope,
                   variant: SchooKeepButtonVariant.outline,
                   onPressed: () => context.go('/teacher/clinic-referral'),
                 ),
                 const SizedBox(height: 12),
                 SchooKeepButton(
-                  label: 'Activity Exemptions',
+                  label: context.tr(en: 'Activity Exemptions', ar: 'إعفاءات الأنشطة'),
                   icon: LucideIcons.activity,
                   variant: SchooKeepButtonVariant.outline,
                   onPressed: () => context.go('/teacher/activity-exemptions'),
                 ),
                 const SizedBox(height: 12),
                 SchooKeepButton(
-                  label: 'Student Release',
+                  label: context.tr(en: 'Student Release', ar: 'مغادرة طالب'),
                   icon: LucideIcons.userCheck,
                   variant: SchooKeepButtonVariant.outline,
                   onPressed: () => context.go('/teacher/student-release'),

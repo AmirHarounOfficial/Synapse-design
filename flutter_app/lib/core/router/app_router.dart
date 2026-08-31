@@ -20,7 +20,7 @@ import '../../features/vice_principal/vice_principal_routes.dart';
 /// Each role owns a `<role>_routes.dart` exposing a `List<RouteBase>`, spread in
 /// below. `/` is the dev navigation index; unknown paths fall back to it.
 final appRouter = GoRouter(
-  initialLocation: '/splash',
+  initialLocation: '/',
   routes: [
     GoRoute(path: '/', builder: (c, s) => const NavigationMapScreen()),
     ...authRoutes,

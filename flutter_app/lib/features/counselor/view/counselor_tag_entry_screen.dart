@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 import '../../../core/di/service_locator.dart';
+import '../../../core/localization/l10n_ext.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../../data/models/student.dart';
@@ -41,19 +42,20 @@ class _CounselorTagEntryScreenState extends State<CounselorTagEntryScreen> {
   bool _searching = false;
   bool _submitting = false;
 
-  static const String _environmentalContext = 'AQI Advisory, Indoor only';
+  static const String _environmentalContextEn = 'AQI Advisory, Indoor only';
+  static const String _environmentalContextAr = 'تنبيه جودة الهواء، داخل المبنى فقط';
 
-  static const _availableTags = [
-    'Sensory overload',
-    'Confusion / disorientation',
-    'Headache',
-    'Anxiety / tension',
-    'Low mood',
-    'Withdrawn',
-    'Sad',
-    'Restless',
-    'Difficulty focusing',
-    'Other (free text)',
+  static const _availableTagOptions = [
+    (en: 'Sensory overload', ar: 'فرط تحسسي'),
+    (en: 'Confusion / disorientation', ar: 'تشوش / تشتت'),
+    (en: 'Headache', ar: 'صداع'),
+    (en: 'Anxiety / tension', ar: 'قلق / توتر'),
+    (en: 'Low mood', ar: 'مزاج منخفض'),
+    (en: 'Withdrawn', ar: 'انعزالي'),
+    (en: 'Sad', ar: 'حزين'),
+    (en: 'Restless', ar: 'عدم ارتياح'),
+    (en: 'Difficulty focusing', ar: 'صعوبة تركيز'),
+    (en: 'Other (free text)', ar: 'آخر (نص حر)'),
   ];
 
   @override
@@ -111,17 +113,20 @@ class _CounselorTagEntryScreenState extends State<CounselorTagEntryScreen> {
   Future<void> _handleSubmit() async {
     if (_selectedStudent == null || _selectedTags.isEmpty || _submitting) return;
     setState(() => _submitting = true);
+    final isRTL = context.isRTL;
     try {
       await _counselor.createTag(
         studentId: _selectedStudent!.id,
         tags: _selectedTags,
         notes: _notesController.text.trim(),
-        context: _environmentalContext,
+        context: isRTL ? _environmentalContextAr : _environmentalContextEn,
       );
       if (!mounted) return;
       ScaffoldMessenger.of(context)
         ..hideCurrentSnackBar()
-        ..showSnackBar(const SnackBar(content: Text('Wellbeing tag logged.')));
+        ..showSnackBar(SnackBar(
+          content: Text(context.tr(en: 'Wellbeing tag logged.', ar: 'تم تسجيل الوسم بنجاح.')),
+        ));
       context.go('/counselor/home');
     } catch (e) {
       if (!mounted) return;
@@ -140,7 +145,7 @@ class _CounselorTagEntryScreenState extends State<CounselorTagEntryScreen> {
     return SchooKeepScaffold(
       appBar: SchooKeepAppBar(
         onBack: () => context.safeBack(),
-        title: 'Add Wellbeing Tag',
+        title: context.tr(en: 'Add Wellbeing Tag', ar: 'إضافة وسم سلوكي/نفسي'),
       ),
       bottomBar: _bottomBar(canSubmit),
       body: Padding(
@@ -149,8 +154,10 @@ class _CounselorTagEntryScreenState extends State<CounselorTagEntryScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Student selector
-            const Text('Student',
-                style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
+            Text(
+              context.tr(en: 'Student', ar: 'الطالب'),
+              style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+            ),
             const SizedBox(height: 8),
             _searchField(),
             if (showResults) ...[
@@ -170,10 +177,12 @@ class _CounselorTagEntryScreenState extends State<CounselorTagEntryScreen> {
                           child: Center(child: SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2))),
                         )
                       : _results.isEmpty
-                          ? const Padding(
-                              padding: EdgeInsets.all(12),
-                              child: Text('No students found',
-                                  style: TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary)),
+                          ? Padding(
+                              padding: const EdgeInsets.all(12),
+                              child: Text(
+                                context.tr(en: 'No students found', ar: 'لم يتم العثور على طالب'),
+                                style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary),
+                              ),
                             )
                           : SingleChildScrollView(
                               child: Column(
@@ -198,10 +207,17 @@ class _CounselorTagEntryScreenState extends State<CounselorTagEntryScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text('Psychosocial Tags',
-                    style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
-                Text('${_selectedTags.length}/3 selected',
-                    style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary)),
+                Text(
+                  context.tr(en: 'Psychosocial Tags', ar: 'الوسوم النفسية والاجتماعية'),
+                  style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+                ),
+                Text(
+                  context.tr(
+                    en: '${_selectedTags.length}/3 selected',
+                    ar: 'تم اختيار ${_selectedTags.length}/3',
+                  ),
+                  style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary),
+                ),
               ],
             ),
             const SizedBox(height: 8),
@@ -209,14 +225,16 @@ class _CounselorTagEntryScreenState extends State<CounselorTagEntryScreen> {
               spacing: 8,
               runSpacing: 8,
               children: [
-                for (final tag in _availableTags) _tagChip(tag),
+                for (final opt in _availableTagOptions) _tagChip(context.tr(en: opt.en, ar: opt.ar)),
               ],
             ),
             const SizedBox(height: 16),
 
             // Notes
-            const Text('Notes (optional)',
-                style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
+            Text(
+              context.tr(en: 'Notes (optional)', ar: 'ملاحظات (اختياري)'),
+              style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+            ),
             const SizedBox(height: 8),
             TextField(
               controller: _notesController,
@@ -224,7 +242,10 @@ class _CounselorTagEntryScreenState extends State<CounselorTagEntryScreen> {
               minLines: 3,
               style: const TextStyle(fontSize: 14, color: SchooKeepColors.textPrimary),
               decoration: InputDecoration(
-                hintText: 'Context or observations (confidential)',
+                hintText: context.tr(
+                  en: 'Context or observations (confidential)',
+                  ar: 'السياق والملاحظات (سرية)',
+                ),
                 hintStyle: const TextStyle(fontSize: 14, color: Color(0xFF94A3B8)),
                 filled: true,
                 fillColor: SchooKeepColors.surface,
@@ -249,15 +270,21 @@ class _CounselorTagEntryScreenState extends State<CounselorTagEntryScreen> {
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(color: const Color(0xFFFDE68A)),
               ),
-              child: const Text.rich(
+              child: Text.rich(
                 TextSpan(
                   children: [
                     TextSpan(
-                        text: 'Privacy Notice: ',
-                        style: TextStyle(fontWeight: FontWeight.bold)),
-                    TextSpan(text: 'These notes are visible only to you and the school Principal.'),
+                      text: context.tr(en: 'Privacy Notice: ', ar: 'إشعار الخصوصية: '),
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    TextSpan(
+                      text: context.tr(
+                        en: 'These notes are visible only to you and the school Principal.',
+                        ar: 'هذه الملاحظات مقتصرة عليك وعلى مدير المدرسة فقط.',
+                      ),
+                    ),
                   ],
-                  style: TextStyle(fontSize: 12, color: SchooKeepColors.amberText, height: 1.5),
+                  style: const TextStyle(fontSize: 12, color: SchooKeepColors.amberText, height: 1.5),
                 ),
               ),
             ),
@@ -276,7 +303,7 @@ class _CounselorTagEntryScreenState extends State<CounselorTagEntryScreen> {
         style: const TextStyle(fontSize: 15, color: SchooKeepColors.textPrimary),
         decoration: InputDecoration(
           isDense: true,
-          hintText: 'Search student name...',
+          hintText: context.tr(en: 'Search student name...', ar: 'ابحث عن اسم الطالب...'),
           hintStyle: const TextStyle(fontSize: 15, color: Color(0xFF94A3B8)),
           prefixIcon: const Icon(LucideIcons.search, size: 20, color: SchooKeepColors.textSecondary),
           filled: true,
@@ -342,6 +369,9 @@ class _CounselorTagEntryScreenState extends State<CounselorTagEntryScreen> {
   }
 
   Widget _environmentalContextCard() {
+    final isRTL = context.isRTL;
+    final contextText = isRTL ? _environmentalContextAr : _environmentalContextEn;
+
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -349,20 +379,30 @@ class _CounselorTagEntryScreenState extends State<CounselorTagEntryScreen> {
         borderRadius: BorderRadius.circular(8),
         border: Border.all(color: const Color(0xFFBFDBFE)),
       ),
-      child: const Row(
+      child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(LucideIcons.cloud, size: 16, color: SchooKeepColors.primary),
-          SizedBox(width: 8),
+          const Icon(LucideIcons.cloud, size: 16, color: SchooKeepColors.primary),
+          const SizedBox(width: 8),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Environmental Context (auto-captured)',
-                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: Color(0xFF1E40AF))),
-                SizedBox(height: 2),
-                Text('Current conditions: $_environmentalContext',
-                    style: TextStyle(fontSize: 12, color: Color(0xFF1E40AF))),
+                Text(
+                  context.tr(
+                    en: 'Environmental Context (auto-captured)',
+                    ar: 'السياق البيئي (ملتقط تلقائياً)',
+                  ),
+                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: Color(0xFF1E40AF)),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  context.tr(
+                    en: 'Current conditions: $contextText',
+                    ar: 'الظروف الحالية: $contextText',
+                  ),
+                  style: const TextStyle(fontSize: 12, color: Color(0xFF1E40AF)),
+                ),
               ],
             ),
           ),
@@ -420,12 +460,14 @@ class _CounselorTagEntryScreenState extends State<CounselorTagEntryScreen> {
           child: _submitting
               ? const SizedBox(
                   width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
-              : Text('Log Tag',
+              : Text(
+                  context.tr(en: 'Log Tag', ar: 'تسجيل الوسم'),
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: canSubmit ? Colors.white : const Color(0xFF9CA3AF),
-                  )),
+                  ),
+                ),
         ),
       ),
     );

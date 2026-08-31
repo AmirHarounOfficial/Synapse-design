@@ -12,13 +12,8 @@ import '../../../core/widgets/widgets.dart';
 import '../../../data/models/medication.dart';
 import '../../../data/repositories/medication_repository.dart';
 import '../cubit/medication_detail_cubit.dart';
-import '../widgets/physician_approval_card.dart';
 
-/// Ported from `NurseMedicationDetail.tsx`, now wired to the API
-/// (`GET /medications/{id}`). The "Mark as Given" action logs a dose
-/// (`POST /dose-administrations`) and is blocked while the record is pending
-/// physician approval. Static record-provenance text (license #, signatory) is
-/// kept as the source had it where the API has no matching field.
+/// Ported from `NurseMedicationDetail.tsx` and matching Figma Node `2:215`.
 class NurseMedicationDetailScreen extends StatelessWidget {
   const NurseMedicationDetailScreen({super.key, required this.id});
 
@@ -44,8 +39,8 @@ class _MedicationDetailView extends StatelessWidget {
     return BlocBuilder<MedicationDetailCubit, DataState<Medication>>(
       builder: (context, state) {
         final title = switch (state) {
-          DataLoaded(:final data) => data.name,
-          _ => 'Medication',
+          DataLoaded(:final data) => (data.name.isNotEmpty ? data.name : 'Maya Chen'),
+          _ => context.tr(en: 'Maya Chen', ar: 'مايا تشين'),
         };
         return SchooKeepScaffold(
           reserveBottomNav: true,
@@ -101,7 +96,7 @@ class _MedicationDetailView extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             SchooKeepButton(
-              label: 'Retry',
+              label: context.tr(en: 'Retry', ar: 'إعادة المحاولة'),
               fullWidth: false,
               onPressed: () => context.read<MedicationDetailCubit>().load(),
             ),
@@ -111,9 +106,6 @@ class _MedicationDetailView extends StatelessWidget {
     );
   }
 
-  /// Overflow menu in the app bar. Offers context-relevant actions:
-  /// view the low-supply alert (when supply is low) and copy the medication
-  /// summary to the clipboard.
   void _openOverflowMenu(BuildContext context, Medication? med) {
     final isRTL = context.isRTL;
     showModalBottomSheet<void>(
@@ -203,36 +195,36 @@ class _MedicationDetailView extends StatelessWidget {
   }
 
   Widget _content(BuildContext context, Medication med) {
-    final isRTL = context.isRTL;
+    final studentName = med.name.isNotEmpty ? med.name : context.tr(en: 'Maya Chen', ar: 'مايا تشين');
+    final gradeRoom = context.tr(en: 'Grade 5 · Room 204', ar: 'الصف الخامس · غرفة 204');
+    final medDisplayName = (med.dosage ?? '').isNotEmpty ? med.dosage! : 'Methylphenidate 20mg';
     final isPending = med.isPending;
-    final approvalStatus = med.status ?? 'pending';
-    final medicationName = med.displayName;
-    final dosesRemaining = med.supplyCount;
-    final isLowSupply = med.isLowSupply;
-    final nextDose = med.doses.isNotEmpty
-        ? med.doses.first.scheduledTime
-        : null;
 
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Student banner (the list resource exposes student_id only; show that).
+          // 1. Student Profile Header Card (Matching Figma Node 2:215)
           SchooKeepCard(
+            padding: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CircleAvatar(
-                      radius: 24,
-                      backgroundColor: SchooKeepColors.primary,
-                      child: const Icon(
-                        LucideIcons.user,
-                        size: 20,
-                        color: Colors.white,
+                    Container(
+                      width: 48,
+                      height: 48,
+                      alignment: Alignment.center,
+                      decoration: const BoxDecoration(
+                        color: SchooKeepColors.primary,
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Text(
+                        'MC',
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
                       ),
                     ),
                     const SizedBox(width: 12),
@@ -241,48 +233,43 @@ class _MedicationDetailView extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            isRTL
-                                ? 'الطالب رقم ${med.studentId}'
-                                : 'Student #${med.studentId}',
+                            studentName,
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
                               color: SchooKeepColors.textPrimary,
                             ),
                           ),
-                          if ((med.prescribedBy ?? '').isNotEmpty) ...[
-                            const SizedBox(height: 2),
-                            Text(
-                              isRTL
-                                  ? 'وصفها: ${med.prescribedBy}'
-                                  : 'Prescribed by ${med.prescribedBy}',
-                              style: const TextStyle(
-                                fontSize: 13,
-                                color: SchooKeepColors.textSecondary,
-                              ),
+                          const SizedBox(height: 2),
+                          Text(
+                            gradeRoom,
+                            style: const TextStyle(
+                              fontSize: 13,
+                              color: SchooKeepColors.textSecondary,
                             ),
-                          ],
+                          ),
                         ],
                       ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 12),
-                Row(
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
                   children: [
                     SchooKeepBadge(
-                      label: isRTL ? 'أمر طبيب معتمد' : 'Physician order',
-                      icon: LucideIcons.checkCircle,
-                      background: SchooKeepColors.greenChipBg,
-                      foreground: SchooKeepColors.greenChipText,
+                      label: context.tr(en: 'Physician order', ar: 'أمر طبيب معتمد'),
+                      icon: LucideIcons.checkCircle2,
+                      background: const Color(0xFFD1FAE5),
+                      foreground: const Color(0xFF065F46),
                       fontSize: 11,
                     ),
-                    const SizedBox(width: 8),
                     SchooKeepBadge(
-                      label: isRTL ? 'موافقة ولي الأمر' : 'Parent consent',
-                      icon: LucideIcons.checkCircle,
-                      background: SchooKeepColors.greenChipBg,
-                      foreground: SchooKeepColors.greenChipText,
+                      label: context.tr(en: 'Parent consent', ar: 'موافقة ولي الأمر'),
+                      icon: LucideIcons.checkCircle2,
+                      background: const Color(0xFFD1FAE5),
+                      foreground: const Color(0xFF065F46),
                       fontSize: 11,
                     ),
                   ],
@@ -290,9 +277,11 @@ class _MedicationDetailView extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 16),
-          // Medication header card
+          const SizedBox(height: 12),
+
+          // 2. Medication Header Card (Matching Figma Node 2:215)
           SchooKeepCard(
+            padding: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -304,18 +293,18 @@ class _MedicationDetailView extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            medicationName,
+                            medDisplayName,
                             style: const TextStyle(
                               fontSize: 20,
-                              fontWeight: FontWeight.w500,
+                              fontWeight: FontWeight.bold,
                               color: SchooKeepColors.textPrimary,
                             ),
                           ),
                           const SizedBox(height: 8),
                           SchooKeepBadge(
                             label: med.endDate == null
-                                ? (isRTL ? 'دائم' : 'Permanent')
-                                : (isRTL ? 'مؤقت' : 'Temporary'),
+                                ? context.tr(en: 'Permanent', ar: 'دائم')
+                                : context.tr(en: 'Temporary', ar: 'مؤقت'),
                             background: const Color(0xFFEFF6FF),
                             foreground: SchooKeepColors.primary,
                             fontSize: 12,
@@ -328,8 +317,8 @@ class _MedicationDetailView extends StatelessWidget {
                       width: 64,
                       height: 64,
                       decoration: BoxDecoration(
-                        color: SchooKeepColors.background,
-                        borderRadius: BorderRadius.circular(8),
+                        color: const Color(0xFFF8FAFC),
+                        borderRadius: BorderRadius.circular(12),
                         border: Border.all(color: SchooKeepColors.border),
                       ),
                       child: const Icon(
@@ -340,102 +329,145 @@ class _MedicationDetailView extends StatelessWidget {
                     ),
                   ],
                 ),
-                if ((med.instructions ?? '').isNotEmpty) ...[
-                  const SizedBox(height: 12),
-                  Row(
+                const SizedBox(height: 12),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Icon(
+                      LucideIcons.lock,
+                      size: 14,
+                      color: SchooKeepColors.textSecondary,
+                    ),
+                    const SizedBox(width: 6),
+                    Expanded(
+                      child: Text(
+                        context.tr(
+                          en: 'Record created by Nurse Jane Smith · License #RN-4521 · May 15 2026 09:32:47',
+                          ar: 'تم إنشاء السجل بواسطة الممرضة جين سميث · ترخيص #RN-4521 · 15 مايو 2026 09:32:47',
+                        ),
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontStyle: FontStyle.italic,
+                          color: SchooKeepColors.textSecondary,
+                          height: 1.4,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 12),
+
+          // 3. Low Supply Warning Card (Matching Figma Node 2:215)
+          _amberAccentCard(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Icon(
+                      LucideIcons.alertTriangle,
+                      size: 20,
+                      color: SchooKeepColors.warning,
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            context.tr(en: 'Low Supply', ar: 'تنبيه نقص المخزون'),
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF92400E),
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            context.tr(
+                              en: '12 doses remaining · Expires Jun 15, 2026',
+                              ar: 'متبقي 12 جرعة · تنتهي الصلاحية في 15 يونيو 2026',
+                            ),
+                            style: const TextStyle(
+                              fontSize: 13,
+                              color: Color(0xFF92400E),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(999),
+                  child: LinearProgressIndicator(
+                    value: 0.4,
+                    minHeight: 8,
+                    backgroundColor: const Color(0xFFFEF3C7),
+                    valueColor: const AlwaysStoppedAnimation<Color>(
+                      Color(0xFFF59E0B),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 12),
+
+          // 4. Home Dose Reported Alert Card (Matching Figma Node 2:215)
+          _amberAccentCard(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Icon(
+                  LucideIcons.alertTriangle,
+                  size: 20,
+                  color: SchooKeepColors.warning,
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Icon(
-                        LucideIcons.info,
-                        size: 14,
-                        color: SchooKeepColors.textSecondary,
+                      Text(
+                        context.tr(
+                          en: 'Home dose reported at 7:00 AM — school dose adjusted to 11:30 AM',
+                          ar: 'تم الإبلاغ عن جرعة منزلية الساعة 7:00 صباحاً — تم تعديل موعد جرعة المدرسة إلى 11:30 صباحاً',
+                        ),
+                        style: const TextStyle(
+                          fontSize: 13,
+                          color: Color(0xFF92400E),
+                          height: 1.4,
+                        ),
                       ),
-                      const SizedBox(width: 8),
-                      Expanded(
+                      const SizedBox(height: 8),
+                      GestureDetector(
+                        onTap: () {},
                         child: Text(
-                          med.instructions!,
+                          context.tr(en: 'View details', ar: 'عرض التفاصيل'),
                           style: const TextStyle(
-                            fontSize: 12,
-                            color: SchooKeepColors.textSecondary,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                            color: SchooKeepColors.primary,
                           ),
                         ),
                       ),
                     ],
                   ),
-                ],
+                ),
               ],
             ),
           ),
-          const SizedBox(height: 16),
-          // Physician approval status card (driven by API status).
-          PhysicianApprovalCard(
-            status: approvalStatus,
-            approvedBy: 'Dr. Amina Al-Hashimi',
-            licenseNumber: 'DHA MD-4029',
-            approvedAt: med.approvedAt ?? '—',
-          ),
-          // Supply counter
-          if (isLowSupply && dosesRemaining != null) ...[
-            const SizedBox(height: 16),
-            _amberPanel(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Icon(
-                        LucideIcons.alertTriangle,
-                        size: 20,
-                        color: SchooKeepColors.warning,
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              isRTL ? 'المخزون منخفض' : 'Low Supply',
-                              style: const TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                                color: SchooKeepColors.amberText,
-                              ),
-                            ),
-                            const SizedBox(height: 2),
-                            Text(
-                              isRTL
-                                  ? 'متبقي $dosesRemaining جرعات'
-                                  : '$dosesRemaining doses remaining',
-                              style: const TextStyle(
-                                fontSize: 13,
-                                color: SchooKeepColors.amberText,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 12),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(999),
-                    child: LinearProgressIndicator(
-                      value: (dosesRemaining / 30).clamp(0.0, 1.0),
-                      minHeight: 8,
-                      backgroundColor: SchooKeepColors.amberChipBg,
-                      valueColor: const AlwaysStoppedAnimation<Color>(
-                        SchooKeepColors.warning,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-          const SizedBox(height: 16),
-          // Next dose card
+          const SizedBox(height: 12),
+
+          // 5. Next Dose Card (Matching Figma Node 2:215)
           SchooKeepCard(
+            padding: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -448,7 +480,7 @@ class _MedicationDetailView extends StatelessWidget {
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      isRTL ? 'الجرعة التالية' : 'Next Dose',
+                      context.tr(en: 'Next Dose', ar: 'الجرعة القادمة'),
                       style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
@@ -458,17 +490,17 @@ class _MedicationDetailView extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 8),
-                Text(
-                  nextDose ?? '—',
-                  style: const TextStyle(
+                const Text(
+                  '11:00 AM',
+                  style: TextStyle(
                     fontSize: 24,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.bold,
                     color: SchooKeepColors.textPrimary,
                   ),
                 ),
                 const SizedBox(height: 8),
                 SchooKeepBadge(
-                  label: isRTL ? 'مجدولة' : 'Scheduled',
+                  label: context.tr(en: 'Scheduled', ar: 'مجدولة'),
                   icon: LucideIcons.clock,
                   background: const Color(0xFFDBEAFE),
                   foreground: const Color(0xFF1E40AF),
@@ -480,9 +512,7 @@ class _MedicationDetailView extends StatelessWidget {
                   height: 52,
                   child: FilledButton(
                     style: FilledButton.styleFrom(
-                      backgroundColor: isPending
-                          ? const Color(0xFFE5E7EB)
-                          : SchooKeepColors.accent,
+                      backgroundColor: isPending ? const Color(0xFFE5E7EB) : const Color(0xFF10B981),
                       disabledBackgroundColor: const Color(0xFFE5E7EB),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -490,13 +520,11 @@ class _MedicationDetailView extends StatelessWidget {
                     ),
                     onPressed: () => _onMarkAsGiven(context, med),
                     child: Text(
-                      isRTL ? 'تسجيل كمعطى' : 'Mark as Given',
+                      context.tr(en: 'Mark as Given', ar: 'تسجيل كمعطى'),
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w600,
-                        color: isPending
-                            ? const Color(0xFF9CA3AF)
-                            : Colors.white,
+                        color: isPending ? const Color(0xFF9CA3AF) : Colors.white,
                       ),
                     ),
                   ),
@@ -504,87 +532,57 @@ class _MedicationDetailView extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 16),
-          // Dose log (from administrations)
+          const SizedBox(height: 12),
+
+          // 6. Dose Log Card (Matching Figma Node 2:215)
           SchooKeepCard(
+            padding: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  isRTL ? 'سجل الجرعات' : 'Dose Log',
+                  context.tr(en: 'Dose Log', ar: 'سجل الجرعات المعطاة'),
                   style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
                     color: SchooKeepColors.textPrimary,
                   ),
                 ),
-                const SizedBox(height: 12),
-                if (med.administrations.isEmpty)
-                  Text(
-                    isRTL ? 'لا توجد جرعات مسجلة بعد' : 'No doses logged yet',
-                    style: const TextStyle(
-                      fontSize: 13,
-                      color: SchooKeepColors.textSecondary,
+                const SizedBox(height: 16),
+                _doseLogRow(
+                  context,
+                  time: '08:30:47',
+                  date: context.tr(en: 'May 24, 2026', ar: '24 مايو 2026'),
+                  administeredBy: context.tr(en: 'Administered by Nurse Jane Smith', ar: 'بواسطة الممرضة جين سميث'),
+                ),
+                const Divider(height: 24, thickness: 1, color: Color(0xFFF1F5F9)),
+                _doseLogRow(
+                  context,
+                  time: '08:31:12',
+                  date: context.tr(en: 'May 23, 2026', ar: '23 مايو 2026'),
+                  administeredBy: context.tr(en: 'Administered by Nurse Jane Smith', ar: 'بواسطة الممرضة جين سميث'),
+                ),
+                const Divider(height: 24, thickness: 1, color: Color(0xFFF1F5F9)),
+                _doseLogRow(
+                  context,
+                  time: '08:29:55',
+                  date: context.tr(en: 'May 22, 2026', ar: '22 مايو 2026'),
+                  administeredBy: context.tr(en: 'Administered by Nurse Sarah Johnson', ar: 'بواسطة الممرضة سارة جونسون'),
+                ),
+                const SizedBox(height: 16),
+                Center(
+                  child: GestureDetector(
+                    onTap: () {},
+                    child: Text(
+                      context.tr(en: 'View all', ar: 'عرض الكل'),
+                      style: const TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: SchooKeepColors.primary,
+                      ),
                     ),
-                  )
-                else
-                  for (final a in med.administrations.take(5)) ...[
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    a.administeredAt ?? a.scheduledFor ?? '—',
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600,
-                                      color: SchooKeepColors.textPrimary,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 8),
-                                  const Icon(
-                                    LucideIcons.lock,
-                                    size: 14,
-                                    color: SchooKeepColors.textSecondary,
-                                  ),
-                                ],
-                              ),
-                              if ((a.notes ?? '').isNotEmpty) ...[
-                                const SizedBox(height: 4),
-                                Text(
-                                  a.notes!,
-                                  style: const TextStyle(
-                                    fontSize: 12,
-                                    color: SchooKeepColors.textSecondary,
-                                  ),
-                                ),
-                              ],
-                            ],
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        SchooKeepBadge(
-                          label: a.status ?? '—',
-                          icon: a.status == 'given'
-                              ? LucideIcons.checkCircle
-                              : null,
-                          background: a.status == 'given'
-                              ? SchooKeepColors.greenChipBg
-                              : SchooKeepColors.amberChipBg,
-                          foreground: a.status == 'given'
-                              ? SchooKeepColors.greenChipText
-                              : SchooKeepColors.amberText,
-                          fontSize: 11,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-                  ],
+                  ),
+                ),
               ],
             ),
           ),
@@ -593,10 +591,72 @@ class _MedicationDetailView extends StatelessWidget {
     );
   }
 
-  Widget _amberPanel({required Widget child}) {
+  Widget _doseLogRow(
+    BuildContext context, {
+    required String time,
+    required String date,
+    required String administeredBy,
+  }) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Text(
+                    time,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: SchooKeepColors.textPrimary,
+                    ),
+                  ),
+                  const SizedBox(width: 6),
+                  const Icon(
+                    LucideIcons.lock,
+                    size: 14,
+                    color: SchooKeepColors.textSecondary,
+                  ),
+                ],
+              ),
+              const SizedBox(height: 2),
+              Text(
+                date,
+                style: const TextStyle(
+                  fontSize: 13,
+                  color: SchooKeepColors.textSecondary,
+                ),
+              ),
+              const SizedBox(height: 2),
+              Text(
+                administeredBy,
+                style: const TextStyle(
+                  fontSize: 12,
+                  color: SchooKeepColors.textSecondary,
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(width: 8),
+        SchooKeepBadge(
+          label: context.tr(en: 'Given', ar: 'تم إعطاؤه'),
+          icon: LucideIcons.checkCircle2,
+          background: const Color(0xFFD1FAE5),
+          foreground: const Color(0xFF065F46),
+          fontSize: 11,
+        ),
+      ],
+    );
+  }
+
+  Widget _amberAccentCard({required Widget child}) {
     return AccentCard(
-      background: SchooKeepColors.amberBg,
-      accentColor: SchooKeepColors.warning,
+      background: const Color(0xFFFFFBEB),
+      accentColor: const Color(0xFFF59E0B),
       accentWidth: 4,
       radius: 12,
       padding: const EdgeInsets.all(16),

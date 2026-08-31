@@ -26,15 +26,11 @@ class CounselorGenerateReportScreen extends StatefulWidget {
 
 class _CounselorGenerateReportScreenState extends State<CounselorGenerateReportScreen> {
   final CounselorRepository _repo = sl<CounselorRepository>();
-  static const _selectedStudent = 'Maya Thompson';
   String _reportType = 'individual'; // individual | class
   String _dateRange = 'last-30-days';
   bool _submitToParent = false;
   bool _submitting = false;
 
-  /// The student selector is fixed in this build — the design ships no live
-  /// student search here, so reports are created without a linked student id
-  /// (see the class doc). Tapping the field explains that rather than no-op.
   void _showStudentSelectorNote() {
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
@@ -68,27 +64,29 @@ class _CounselorGenerateReportScreenState extends State<CounselorGenerateReportS
   }
 
   static const _dateRangeOptions = [
-    (value: 'last-7-days', label: 'Last 7 days'),
-    (value: 'last-30-days', label: 'Last 30 days'),
-    (value: 'last-90-days', label: 'Last 90 days'),
-    (value: 'school-year', label: 'Full school year'),
-    (value: 'custom', label: 'Custom range...'),
+    (value: 'last-7-days', labelEn: 'Last 7 days', labelAr: 'آخر 7 أيام'),
+    (value: 'last-30-days', labelEn: 'Last 30 days', labelAr: 'آخر 30 يوماً'),
+    (value: 'last-90-days', labelEn: 'Last 90 days', labelAr: 'آخر 90 يوماً'),
+    (value: 'school-year', labelEn: 'Full school year', labelAr: 'العام الدراسي كاملاً'),
+    (value: 'custom', labelEn: 'Custom range...', labelAr: 'نطاق مخصص...'),
   ];
 
-  static const _includes = [
-    'Tag frequency analysis',
-    'Environmental correlations (AQI, weather)',
-    'Trend notices and pattern detection',
-    'Confidential counselor notes',
-    'Digital signature with counselor name, ID, and date',
+  static const _includesOptions = [
+    (en: 'Tag frequency analysis', ar: 'تحليل تكرار الوسوم'),
+    (en: 'Environmental correlations (AQI, weather)', ar: 'الارتباطات البيئية (الطقس وجودة الهواء)'),
+    (en: 'Trend notices and pattern detection', ar: 'إشعارات الأنماط والتوجيهات'),
+    (en: 'Confidential counselor notes', ar: 'ملاحظات المرشد السرية'),
+    (en: 'Digital signature with counselor name, ID, and date', ar: 'التوقيع الرقمي مع الاسم والرمز والتاريخ'),
   ];
 
   @override
   Widget build(BuildContext context) {
+    final selectedStudentName = context.tr(en: 'Maya Thompson', ar: 'مايا ثومبسون');
+
     return SchooKeepScaffold(
       appBar: SchooKeepAppBar(
         onBack: () => context.safeBack(),
-        title: 'Generate Report',
+        title: context.tr(en: 'Generate Report', ar: 'إصدار تقرير إرشادي'),
       ),
       bottomBar: _bottomBar(),
       body: Padding(
@@ -97,22 +95,30 @@ class _CounselorGenerateReportScreenState extends State<CounselorGenerateReportS
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Report type
-            const Text('Report Type',
-                style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
+            Text(
+              context.tr(en: 'Report Type', ar: 'نوع التقرير'),
+              style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+            ),
             const SizedBox(height: 8),
             Row(
               children: [
-                Expanded(child: _typeButton('individual', 'Individual')),
+                Expanded(
+                  child: _typeButton('individual', context.tr(en: 'Individual', ar: 'فردي (طالب)')),
+                ),
                 const SizedBox(width: 12),
-                Expanded(child: _typeButton('class', 'Class Summary')),
+                Expanded(
+                  child: _typeButton('class', context.tr(en: 'Class Summary', ar: 'ملخص الصف')),
+                ),
               ],
             ),
             const SizedBox(height: 16),
 
             // Student selector (individual only)
             if (_reportType == 'individual') ...[
-              const Text('Student',
-                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
+              Text(
+                context.tr(en: 'Student', ar: 'الطالب'),
+                style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+              ),
               const SizedBox(height: 8),
               Material(
                 color: SchooKeepColors.surface,
@@ -123,15 +129,15 @@ class _CounselorGenerateReportScreenState extends State<CounselorGenerateReportS
                 child: InkWell(
                   borderRadius: BorderRadius.circular(8),
                   onTap: _showStudentSelectorNote,
-                  child: const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                     child: Row(
                       children: [
                         Expanded(
-                          child: Text(_selectedStudent,
-                              style: TextStyle(fontSize: 15, color: SchooKeepColors.textPrimary)),
+                          child: Text(selectedStudentName,
+                              style: const TextStyle(fontSize: 15, color: SchooKeepColors.textPrimary)),
                         ),
-                        Icon(LucideIcons.chevronRight, size: 20, color: SchooKeepColors.textSecondary),
+                        const RtlIcon(LucideIcons.chevronRight, size: 20, color: SchooKeepColors.textSecondary),
                       ],
                     ),
                   ),
@@ -141,8 +147,10 @@ class _CounselorGenerateReportScreenState extends State<CounselorGenerateReportS
             ],
 
             // Date range
-            const Text('Date Range',
-                style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
+            Text(
+              context.tr(en: 'Date Range', ar: 'النطاق الزمني'),
+              style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+            ),
             const SizedBox(height: 8),
             Container(
               height: 48,
@@ -160,7 +168,10 @@ class _CounselorGenerateReportScreenState extends State<CounselorGenerateReportS
                   style: const TextStyle(fontSize: 15, color: SchooKeepColors.textPrimary),
                   items: [
                     for (final o in _dateRangeOptions)
-                      DropdownMenuItem(value: o.value, child: Text(o.label)),
+                      DropdownMenuItem(
+                        value: o.value,
+                        child: Text(context.tr(en: o.labelEn, ar: o.labelAr)),
+                      ),
                   ],
                   onChanged: (v) => setState(() => _dateRange = v ?? _dateRange),
                 ),
@@ -173,10 +184,12 @@ class _CounselorGenerateReportScreenState extends State<CounselorGenerateReportS
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('Report Includes',
-                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
+                  Text(
+                    context.tr(en: 'Report Includes', ar: 'يتضمن التقرير'),
+                    style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+                  ),
                   const SizedBox(height: 12),
-                  for (var i = 0; i < _includes.length; i++) ...[
+                  for (var i = 0; i < _includesOptions.length; i++) ...[
                     if (i > 0) const SizedBox(height: 8),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -184,8 +197,10 @@ class _CounselorGenerateReportScreenState extends State<CounselorGenerateReportS
                         const Text('✓', style: TextStyle(fontSize: 13, color: SchooKeepColors.accent)),
                         const SizedBox(width: 8),
                         Expanded(
-                          child: Text(_includes[i],
-                              style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary)),
+                          child: Text(
+                            context.tr(en: _includesOptions[i].en, ar: _includesOptions[i].ar),
+                            style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary),
+                          ),
                         ),
                       ],
                     ),
@@ -203,11 +218,17 @@ class _CounselorGenerateReportScreenState extends State<CounselorGenerateReportS
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text('Submit to parent',
-                            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
+                        Text(
+                          context.tr(en: 'Submit to parent', ar: 'إرسال لولي الأمر'),
+                          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+                        ),
                         const SizedBox(height: 2),
-                        Text(_submitToParent ? 'Routed through secretary' : 'Save to records only',
-                            style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary)),
+                        Text(
+                          _submitToParent
+                              ? context.tr(en: 'Routed through secretary', ar: 'يمر عبر السكرتارية')
+                              : context.tr(en: 'Save to records only', ar: 'حفظ بالسجلات فقط'),
+                          style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary),
+                        ),
                       ],
                     ),
                   ),
@@ -227,9 +248,12 @@ class _CounselorGenerateReportScreenState extends State<CounselorGenerateReportS
                 color: const Color(0xFFF1F5F9),
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: const Text(
-                'The report will be generated as a signed PDF. You can preview it before sending to ensure all information is accurate.',
-                style: TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary, height: 1.5),
+              child: Text(
+                context.tr(
+                  en: 'The report will be generated as a signed PDF. You can preview it before sending to ensure all information is accurate.',
+                  ar: 'سيتم إنشاء التقرير كملف PDF موقّع. يمكنك معاينته قبل الإرسال للتأكد من دقة البيانات.',
+                ),
+                style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary, height: 1.5),
               ),
             ),
           ],
@@ -283,15 +307,16 @@ class _CounselorGenerateReportScreenState extends State<CounselorGenerateReportS
           child: _submitting
               ? const SizedBox(
                   width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
-              : const Text('Preview Report',
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: Colors.white)),
+              : Text(
+                  context.tr(en: 'Preview Report', ar: 'معاينة التقرير'),
+                  style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: Colors.white),
+                ),
         ),
       ),
     );
   }
 }
 
-/// Smaller toggle (`w-11 h-6`) used on the generate-report screen.
 class _SmallSwitch extends StatelessWidget {
   const _SmallSwitch({required this.value, required this.onChanged});
   final bool value;

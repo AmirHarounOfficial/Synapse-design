@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 import '../../features/parent/view/parent_chatbot_assistant_screen.dart';
+import '../auth/admin_session.dart';
 import '../theme/app_colors.dart';
 import 'schookeep_app_bar.dart';
 import 'status_bar_spacer.dart';
@@ -92,8 +93,14 @@ class SchooKeepScaffold extends StatelessWidget {
 
     if (!isNavScreen) {
       stackChildren.add(
-        _DraggableFloatingHomeButton(
-          reserveBottomNav: reserveBottomNav,
+        ValueListenableBuilder<bool>(
+          valueListenable: AdminSession.isAdminNotifier,
+          builder: (context, isAdmin, _) {
+            if (!isAdmin) return const SizedBox.shrink();
+            return _DraggableFloatingHomeButton(
+              reserveBottomNav: reserveBottomNav,
+            );
+          },
         ),
       );
     }
@@ -126,6 +133,7 @@ class _DraggableFloatingHomeButton extends StatefulWidget {
 class _DraggableFloatingHomeButtonState
     extends State<_DraggableFloatingHomeButton> {
   Offset? _position;
+  bool? _lastIsRTL;
 
   @override
   Widget build(BuildContext context) {
@@ -133,21 +141,33 @@ class _DraggableFloatingHomeButtonState
     final screenSize = mediaQuery.size;
     final isRTL = Directionality.of(context) == TextDirection.rtl;
 
-    final defaultX = isRTL ? (screenSize.width - 60.0) : 16.0;
+    if (_lastIsRTL != isRTL) {
+      _lastIsRTL = isRTL;
+      _position = null;
+    }
+
+    final frameWidth = screenSize.width > 393.0 ? 393.0 : screenSize.width;
+    final frameHeight = screenSize.height;
+
+    const buttonWidth = 42.0;
+    final defaultX = isRTL ? (frameWidth - buttonWidth - 16.0) : 16.0;
     final defaultY =
-        screenSize.height - (widget.reserveBottomNav ? 110.0 : 75.0);
+        frameHeight - (widget.reserveBottomNav ? 135.0 : 95.0);
 
     final pos = _position ?? Offset(defaultX, defaultY);
+    final maxLeft =
+        (frameWidth - buttonWidth - 8.0).clamp(8.0, frameWidth);
+    final maxTop = (frameHeight - 65.0).clamp(50.0, frameHeight);
 
     return Positioned(
-      left: pos.dx.clamp(8.0, screenSize.width - 60.0),
-      top: pos.dy.clamp(50.0, screenSize.height - 65.0),
+      left: pos.dx.clamp(8.0, maxLeft),
+      top: pos.dy.clamp(50.0, maxTop),
       child: GestureDetector(
         onPanUpdate: (details) {
           setState(() {
             _position = Offset(
-              (pos.dx + details.delta.dx).clamp(8.0, screenSize.width - 60.0),
-              (pos.dy + details.delta.dy).clamp(50.0, screenSize.height - 65.0),
+              (pos.dx + details.delta.dx).clamp(8.0, maxLeft),
+              (pos.dy + details.delta.dy).clamp(50.0, maxTop),
             );
           });
         },
@@ -162,27 +182,32 @@ class _FloatingHomeButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Colors.transparent,
-      elevation: 6,
-      borderRadius: BorderRadius.circular(999),
-      shadowColor: SchooKeepColors.primary.withAlpha(100),
-      child: InkWell(
-        onTap: () {
-          context.go('/');
-        },
+    return Tooltip(
+      message: 'Navigation Screen',
+      child: Material(
+        color: Colors.transparent,
+        elevation: 8,
         borderRadius: BorderRadius.circular(999),
-        child: Container(
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            color: SchooKeepColors.surface,
-            borderRadius: BorderRadius.circular(999),
-            border: Border.all(color: SchooKeepColors.border, width: 1),
-          ),
-          child: const Icon(
-            LucideIcons.home,
-            size: 18,
-            color: SchooKeepColors.textPrimary,
+        shadowColor: SchooKeepColors.primary.withAlpha(120),
+        child: InkWell(
+          onTap: () {
+            context.go('/');
+          },
+          borderRadius: BorderRadius.circular(999),
+          child: Container(
+            width: 42,
+            height: 42,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: SchooKeepColors.primary,
+              shape: BoxShape.circle,
+              border: Border.all(color: Colors.white, width: 2),
+            ),
+            child: const Icon(
+              LucideIcons.compass,
+              size: 20,
+              color: Colors.white,
+            ),
           ),
         ),
       ),
@@ -205,6 +230,7 @@ class _DraggableFloatingAiButton extends StatefulWidget {
 
 class _DraggableFloatingAiButtonState extends State<_DraggableFloatingAiButton> {
   Offset? _position;
+  bool? _lastIsRTL;
 
   @override
   Widget build(BuildContext context) {
@@ -212,20 +238,31 @@ class _DraggableFloatingAiButtonState extends State<_DraggableFloatingAiButton> 
     final screenSize = mediaQuery.size;
     final isRTL = Directionality.of(context) == TextDirection.rtl;
 
-    final defaultX = isRTL ? 16.0 : (screenSize.width - 150.0);
-    final defaultY = screenSize.height - (widget.reserveBottomNav ? 110.0 : 75.0);
+    if (_lastIsRTL != isRTL) {
+      _lastIsRTL = isRTL;
+      _position = null;
+    }
+
+    final frameWidth = screenSize.width > 393.0 ? 393.0 : screenSize.width;
+    final frameHeight = screenSize.height;
+
+    const buttonWidth = 140.0;
+    final defaultX = isRTL ? 16.0 : (frameWidth - buttonWidth - 16.0);
+    final defaultY = frameHeight - (widget.reserveBottomNav ? 110.0 : 75.0);
 
     final pos = _position ?? Offset(defaultX, defaultY);
+    final maxLeft = (frameWidth - buttonWidth - 8.0).clamp(8.0, frameWidth);
+    final maxTop = (frameHeight - 65.0).clamp(50.0, frameHeight);
 
     return Positioned(
-      left: pos.dx.clamp(8.0, screenSize.width - 140.0),
-      top: pos.dy.clamp(50.0, screenSize.height - 65.0),
+      left: pos.dx.clamp(8.0, maxLeft),
+      top: pos.dy.clamp(50.0, maxTop),
       child: GestureDetector(
         onPanUpdate: (details) {
           setState(() {
             _position = Offset(
-              (pos.dx + details.delta.dx).clamp(8.0, screenSize.width - 140.0),
-              (pos.dy + details.delta.dy).clamp(50.0, screenSize.height - 65.0),
+              (pos.dx + details.delta.dx).clamp(8.0, maxLeft),
+              (pos.dy + details.delta.dy).clamp(50.0, maxTop),
             );
           });
         },

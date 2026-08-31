@@ -121,7 +121,7 @@ class CounselorReportPreviewScreen extends StatelessWidget {
       backgroundColor: const Color(0xFFE2E8F0),
       appBar: SchooKeepAppBar(
         onBack: () => context.safeBack(),
-        title: 'Report Preview',
+        title: context.tr(en: 'Report Preview', ar: 'معاينة التقرير'),
         actions: [
           _IconAction(icon: LucideIcons.share2, onTap: () => _handleShare(context)),
           _IconAction(icon: LucideIcons.download, onTap: () => _handleDownload(context)),
@@ -130,12 +130,12 @@ class CounselorReportPreviewScreen extends StatelessWidget {
       bottomBar: _bottomBar(context),
       body: Padding(
         padding: const EdgeInsets.all(16),
-        child: _pdfPage(),
+        child: _pdfPage(context),
       ),
     );
   }
 
-  Widget _pdfPage() {
+  Widget _pdfPage(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         color: SchooKeepColors.surface,
@@ -169,22 +169,33 @@ class CounselorReportPreviewScreen extends StatelessWidget {
                       child: const Text('SchooKeep',
                           style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white)),
                     ),
-                    const Column(
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Text('Report Date: 05/31/2026',
-                            style: TextStyle(fontSize: 10, color: SchooKeepColors.textSecondary)),
-                        Text('Report ID: WB-2026-0531-001',
-                            style: TextStyle(fontSize: 10, color: SchooKeepColors.textSecondary)),
+                        Text(
+                          context.tr(en: 'Report Date: 05/31/2026', ar: 'تاريخ التقرير: 31/05/2026'),
+                          style: const TextStyle(fontSize: 10, color: SchooKeepColors.textSecondary),
+                        ),
+                        Text(
+                          context.tr(en: 'Report ID: $_reportId', ar: 'رمز التقرير: $_reportId'),
+                          style: const TextStyle(fontSize: 10, color: SchooKeepColors.textSecondary),
+                        ),
                       ],
                     ),
                   ],
                 ),
                 const SizedBox(height: 8),
-                const Text('Student Wellbeing Report',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
-                const Text('Lincoln Elementary School • Confidential',
-                    style: TextStyle(fontSize: 11, color: SchooKeepColors.textSecondary)),
+                Text(
+                  context.tr(en: 'Student Wellbeing Report', ar: 'تقرير الرفاه الطلابي والنفسي'),
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary),
+                ),
+                Text(
+                  context.tr(
+                    en: 'Lincoln Elementary School • Confidential',
+                    ar: 'مدرسة الشروق النموذجية • سري للغاية',
+                  ),
+                  style: const TextStyle(fontSize: 11, color: SchooKeepColors.textSecondary),
+                ),
               ],
             ),
           ),
@@ -192,72 +203,101 @@ class CounselorReportPreviewScreen extends StatelessWidget {
           const SizedBox(height: 16),
 
           // Student info
-          _sectionTitle('Student Information'),
+          _sectionTitle(context.tr(en: 'Student Information', ar: 'معلومات الطالب')),
           const SizedBox(height: 8),
-          _infoRow('Name:', 'Maya Thompson'),
-          _infoRow('Grade:', '4th Grade'),
-          _infoRow('Report Period:', 'May 1-31, 2026 (30 days)'),
+          _infoRow(
+            context.tr(en: 'Name:', ar: 'الاسم:'),
+            context.tr(en: 'Maya Thompson', ar: 'مايا ثومبسون'),
+          ),
+          _infoRow(
+            context.tr(en: 'Grade:', ar: 'الصف:'),
+            context.tr(en: '4th Grade', ar: 'الصف الرابع'),
+          ),
+          _infoRow(
+            context.tr(en: 'Report Period:', ar: 'فترة التقرير:'),
+            context.tr(en: 'May 1-31, 2026 (30 days)', ar: '1-31 مايو 2026 (30 يوماً)'),
+          ),
           const SizedBox(height: 16),
 
           // Tag frequency
-          _sectionTitle('Tag Frequency Analysis'),
+          _sectionTitle(context.tr(en: 'Tag Frequency Analysis', ar: 'تحليل تكرار الوسوم')),
           const SizedBox(height: 8),
-          _freqBar(0.60, 'Headache (3)'),
+          _freqBar(0.60, context.tr(en: 'Headache (3)', ar: 'صداع (3)')),
           const SizedBox(height: 8),
-          _freqBar(0.40, 'Difficulty focusing (2)'),
+          _freqBar(0.40, context.tr(en: 'Difficulty focusing (2)', ar: 'صعوبة تركيز (2)')),
           const SizedBox(height: 8),
-          _freqBar(0.20, 'Low mood (1)'),
+          _freqBar(0.20, context.tr(en: 'Low mood (1)', ar: 'مزاج منخفض (1)')),
           const SizedBox(height: 16),
 
           // Environmental correlations
-          _sectionTitle('Environmental Correlations'),
+          _sectionTitle(context.tr(en: 'Environmental Correlations', ar: 'الارتباطات البيئية')),
           const SizedBox(height: 8),
           _calloutBox(
             bg: SchooKeepColors.amberChipBg,
             border: const Color(0xFFFDE68A),
             textColor: SchooKeepColors.amberText,
-            boldLead: 'Pattern Detected:',
-            body: ' 67% of headache tags occurred during AQI advisory days (2 of 3 instances). Consider air quality as contributing factor.',
+            boldLead: context.tr(en: 'Pattern Detected:', ar: 'تم اكتشاف نمط:'),
+            body: context.tr(
+              en: ' 67% of headache tags occurred during AQI advisory days (2 of 3 instances). Consider air quality as contributing factor.',
+              ar: ' 67% من وسوم الصداع حدثت خلال أيام تنبيهات جودة الهواء. يرجى مراعاة جودة الهواء كعامل مؤثر.',
+            ),
           ),
           const SizedBox(height: 16),
 
           // Trend notices
-          _sectionTitle('Trend Notices'),
+          _sectionTitle(context.tr(en: 'Trend Notices', ar: 'ملاحظات الأنماط والتوجيهات')),
           const SizedBox(height: 8),
           _calloutBox(
             bg: const Color(0xFFFEF2F2),
             border: const Color(0xFFFCA5A5),
             textColor: const Color(0xFF991B1B),
-            boldLead: 'Recommendation:',
-            body: ' Repeated "Headache" pattern warrants environmental assessment and possible pediatric consultation.',
+            boldLead: context.tr(en: 'Recommendation:', ar: 'التوصية:'),
+            body: context.tr(
+              en: ' Repeated "Headache" pattern warrants environmental assessment and possible pediatric consultation.',
+              ar: ' تكرار نمط الصداع يتطلب تقييماً بيئياً واستشارة طبيب أطفال.',
+            ),
           ),
           const SizedBox(height: 24),
 
           // Digital signature
           const Divider(height: 1, thickness: 1, color: SchooKeepColors.border),
           const SizedBox(height: 16),
-          const Text.rich(
+          Text.rich(
             TextSpan(children: [
-              TextSpan(text: 'Digitally signed by: ', style: TextStyle(fontWeight: FontWeight.bold)),
-              TextSpan(text: 'Dr. Sarah Chen'),
+              TextSpan(
+                text: context.tr(en: 'Digitally signed by: ', ar: 'موقّع رقمياً بواسطة: '),
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+              TextSpan(text: context.tr(en: 'Dr. Sarah Chen', ar: 'د. سارة تشن')),
             ]),
-            style: TextStyle(fontSize: 10, color: SchooKeepColors.textSecondary),
+            style: const TextStyle(fontSize: 10, color: SchooKeepColors.textSecondary),
           ),
           const SizedBox(height: 4),
-          const Text.rich(
+          Text.rich(
             TextSpan(children: [
-              TextSpan(text: 'Counselor ID: ', style: TextStyle(fontWeight: FontWeight.bold)),
-              TextSpan(text: 'SC-2026-0142'),
+              TextSpan(
+                text: context.tr(en: 'Counselor ID: ', ar: 'رمز المرشد: '),
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const TextSpan(text: 'SC-2026-0142'),
             ]),
-            style: TextStyle(fontSize: 10, color: SchooKeepColors.textSecondary),
+            style: const TextStyle(fontSize: 10, color: SchooKeepColors.textSecondary),
           ),
           const SizedBox(height: 4),
-          const Text.rich(
+          Text.rich(
             TextSpan(children: [
-              TextSpan(text: 'Signature Date: ', style: TextStyle(fontWeight: FontWeight.bold)),
-              TextSpan(text: 'May 31, 2026 at 2:34 PM PST'),
+              TextSpan(
+                text: context.tr(en: 'Signature Date: ', ar: 'تاريخ التوقيع: '),
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+              TextSpan(
+                text: context.tr(
+                  en: 'May 31, 2026 at 2:34 PM PST',
+                  ar: '31 مايو 2026 الساعة 2:34 مساءً',
+                ),
+              ),
             ]),
-            style: TextStyle(fontSize: 10, color: SchooKeepColors.textSecondary),
+            style: const TextStyle(fontSize: 10, color: SchooKeepColors.textSecondary),
           ),
         ],
       ),
@@ -276,7 +316,7 @@ class CounselorReportPreviewScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            width: 96,
+            width: 104,
             child: Text(label, style: const TextStyle(fontSize: 11, color: SchooKeepColors.textSecondary)),
           ),
           Expanded(
@@ -355,14 +395,22 @@ class CounselorReportPreviewScreen extends StatelessWidget {
                 backgroundColor: SchooKeepColors.primary,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
               ),
-              onPressed: () => _send(context, 'Report sent to secretary for parent distribution'),
-              child: const Row(
+              onPressed: () => _send(
+                context,
+                context.tr(
+                  en: 'Report sent to secretary for parent distribution',
+                  ar: 'تم إرسال التقرير للسكرتارية لتوزيعه على ولي الأمر',
+                ),
+              ),
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(LucideIcons.send, size: 20, color: Colors.white),
-                  SizedBox(width: 8),
-                  Text('Send to Secretary',
-                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: Colors.white)),
+                  const Icon(LucideIcons.send, size: 20, color: Colors.white),
+                  const SizedBox(width: 8),
+                  Text(
+                    context.tr(en: 'Send to Secretary', ar: 'إرسال للسكرتارية'),
+                    style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: Colors.white),
+                  ),
                 ],
               ),
             ),
@@ -379,14 +427,22 @@ class CounselorReportPreviewScreen extends StatelessWidget {
               ),
               child: InkWell(
                 borderRadius: BorderRadius.circular(8),
-                onTap: () => _send(context, 'Report sent directly to parent'),
-                child: const Row(
+                onTap: () => _send(
+                  context,
+                  context.tr(
+                    en: 'Report sent directly to parent',
+                    ar: 'تم إرسال التقرير إلى ولي الأمر مباشرة',
+                  ),
+                ),
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(LucideIcons.send, size: 20, color: SchooKeepColors.textPrimary),
-                    SizedBox(width: 8),
-                    Text('Send to Parent Directly',
-                        style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
+                    const Icon(LucideIcons.send, size: 20, color: SchooKeepColors.textPrimary),
+                    const SizedBox(width: 8),
+                    Text(
+                      context.tr(en: 'Send to Parent Directly', ar: 'إرسال لولي الأمر مباشرة'),
+                      style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+                    ),
                   ],
                 ),
               ),

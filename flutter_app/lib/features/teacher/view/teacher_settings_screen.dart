@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
+import '../../../core/localization/l10n_ext.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
 import 'package:schookeep/core/router/safe_back.dart';
 
-/// Ported from `TeacherSettings.tsx`. Profile card, notification preference
-/// toggles (medical alerts locked on), class roster link, data & privacy rows,
-/// and a sign-out flow with a bilingual confirmation dialog.
+/// Teacher settings screen with full bilingual support (English & Arabic).
 class TeacherSettingsScreen extends StatefulWidget {
   const TeacherSettingsScreen({super.key});
 
@@ -21,12 +20,15 @@ class _TeacherSettingsScreenState extends State<TeacherSettingsScreen> {
   bool _clinicNotifications = true;
   bool _systemAnnouncements = true;
 
-  static const _name = 'Sarah Johnson';
+  static const _nameEn = 'Sarah Johnson';
+  static const _nameAr = 'سارة جونسون';
   static const _initials = 'SJ';
-  static const _room = 'Room 204';
-  static const _grade = 'Grade 5 Homeroom';
-  static const _school = 'Lincoln Elementary School';
-  static const _agreementSignedDate = 'August 15, 2025';
+  static const _roomEn = 'Room 204';
+  static const _roomAr = 'قاعة 204';
+  static const _gradeEn = 'Grade 5 Homeroom';
+  static const _gradeAr = 'معلمة الصف الخامس';
+  static const _schoolEn = 'Lincoln Elementary School';
+  static const _schoolAr = 'مدرسة الشروق النموذجية';
 
   void _showSignOutDialog() {
     showDialog<void>(
@@ -40,14 +42,19 @@ class _TeacherSettingsScreenState extends State<TeacherSettingsScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text('تسجيل الخروج · Sign Out?',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
-              const SizedBox(height: 8),
-              const Text(
-                'هل أنت متأكد من رغبتك في تسجيل الخروج؟\nYou will need to sign in again to access SchooKeep.',
+              Text(
+                context.tr(en: 'Sign Out?', ar: 'تسجيل الخروج؟'),
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 14, color: SchooKeepColors.textSecondary, height: 1.5),
+                style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                context.tr(
+                  en: 'Are you sure you want to sign out?\nYou will need to sign in again to access SchooKeep.',
+                  ar: 'هل أنت متأكد من رغبتك في تسجيل الخروج؟\nستحتاج لإعادة تسجيل الدخول للوصول للتطبيق.',
+                ),
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: 14, color: SchooKeepColors.textSecondary, height: 1.5),
               ),
               const SizedBox(height: 24),
               Row(
@@ -61,8 +68,10 @@ class _TeacherSettingsScreenState extends State<TeacherSettingsScreen> {
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                         ),
                         onPressed: () => Navigator.of(ctx).pop(),
-                        child: const Text('إلغاء · Cancel',
-                            style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
+                        child: Text(
+                          context.tr(en: 'Cancel', ar: 'إلغاء'),
+                          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+                        ),
                       ),
                     ),
                   ),
@@ -79,8 +88,10 @@ class _TeacherSettingsScreenState extends State<TeacherSettingsScreen> {
                           Navigator.of(ctx).pop();
                           context.go('/login');
                         },
-                        child: const Text('تسجيل الخروج · Sign out',
-                            style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: Colors.white)),
+                        child: Text(
+                          context.tr(en: 'Sign out', ar: 'تسجيل الخروج'),
+                          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: Colors.white),
+                        ),
                       ),
                     ),
                   ),
@@ -100,7 +111,7 @@ class _TeacherSettingsScreenState extends State<TeacherSettingsScreen> {
       appBar: SchooKeepAppBar(
         onBack: () => context.canPop() ? context.safeBack() : context.go('/teacher/home'),
         centerTitle: true,
-        title: 'Settings',
+        title: context.tr(en: 'Settings', ar: 'الإعدادات'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -109,15 +120,15 @@ class _TeacherSettingsScreenState extends State<TeacherSettingsScreen> {
           children: [
             _profileCard(),
             const SizedBox(height: 24),
-            _sectionLabel('Notification Preferences'),
+            _sectionLabel(context.tr(en: 'Notification Preferences', ar: 'تفضيلات الإشعارات')),
             const SizedBox(height: 12),
             _notificationPrefs(),
             const SizedBox(height: 24),
-            _sectionLabel('My Students'),
+            _sectionLabel(context.tr(en: 'My Students', ar: 'طلابي')),
             const SizedBox(height: 12),
             _rosterButton(),
             const SizedBox(height: 24),
-            _sectionLabel('Data & Privacy'),
+            _sectionLabel(context.tr(en: 'Data & Privacy', ar: 'البيانات والخصوصية')),
             const SizedBox(height: 12),
             _dataPrivacy(),
             const SizedBox(height: 24),
@@ -131,7 +142,11 @@ class _TeacherSettingsScreenState extends State<TeacherSettingsScreen> {
   Widget _sectionLabel(String text) => Text(
         text.toUpperCase(),
         style: const TextStyle(
-            fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.textSecondary, letterSpacing: 0.5),
+          fontSize: 13,
+          fontWeight: FontWeight.w500,
+          color: SchooKeepColors.textSecondary,
+          letterSpacing: 0.5,
+        ),
       );
 
   Widget _profileCard() {
@@ -153,11 +168,19 @@ class _TeacherSettingsScreenState extends State<TeacherSettingsScreen> {
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Text(_name,
-                        style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
-                    Text('$_room — $_grade', style: TextStyle(fontSize: 14, color: SchooKeepColors.textSecondary)),
-                    Text(_school, style: TextStyle(fontSize: 13, color: Color(0xFF94A3B8))),
+                  children: [
+                    Text(
+                      context.tr(en: _nameEn, ar: _nameAr),
+                      style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+                    ),
+                    Text(
+                      '${context.tr(en: _roomEn, ar: _roomAr)} — ${context.tr(en: _gradeEn, ar: _gradeAr)}',
+                      style: const TextStyle(fontSize: 14, color: SchooKeepColors.textSecondary),
+                    ),
+                    Text(
+                      context.tr(en: _schoolEn, ar: _schoolAr),
+                      style: const TextStyle(fontSize: 13, color: Color(0xFF94A3B8)),
+                    ),
                   ],
                 ),
               ),
@@ -169,9 +192,9 @@ class _TeacherSettingsScreenState extends State<TeacherSettingsScreen> {
             child: Container(
               constraints: const BoxConstraints(minHeight: 44),
               alignment: AlignmentDirectional.centerStart,
-              child: const Text(
-                'View confidentiality agreement',
-                style: TextStyle(
+              child: Text(
+                context.tr(en: 'View confidentiality agreement', ar: 'عرض اتفاقية سرية البيانات الموقعة'),
+                style: const TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
                   color: SchooKeepColors.primary,
@@ -203,12 +226,16 @@ class _TeacherSettingsScreenState extends State<TeacherSettingsScreen> {
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text('Medical alerts for my students',
-                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
-                      SizedBox(height: 2),
-                      Text('Required — cannot be disabled',
-                          style: TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary)),
+                    children: [
+                      Text(
+                        context.tr(en: 'Medical alerts for my students', ar: 'التنبيهات الطبية لطلابي'),
+                        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        context.tr(en: 'Required — cannot be disabled', ar: 'إلزامي — لا يمكن إيقافه'),
+                        style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary),
+                      ),
                     ],
                   ),
                 ),
@@ -227,11 +254,23 @@ class _TeacherSettingsScreenState extends State<TeacherSettingsScreen> {
             ),
           ),
           const Divider(height: 1, color: SchooKeepColors.border),
-          _toggleRow('Weather advisories', _weatherAlerts, (v) => setState(() => _weatherAlerts = v)),
+          _toggleRow(
+            context.tr(en: 'Weather advisories', ar: 'تنبيهات الأحوال الجوية'),
+            _weatherAlerts,
+            (v) => setState(() => _weatherAlerts = v),
+          ),
           const Divider(height: 1, color: SchooKeepColors.border),
-          _toggleRow('Clinic call notifications', _clinicNotifications, (v) => setState(() => _clinicNotifications = v)),
+          _toggleRow(
+            context.tr(en: 'Clinic call notifications', ar: 'إشعارات استدعاء العيادة الطبية'),
+            _clinicNotifications,
+            (v) => setState(() => _clinicNotifications = v),
+          ),
           const Divider(height: 1, color: SchooKeepColors.border),
-          _toggleRow('System announcements', _systemAnnouncements, (v) => setState(() => _systemAnnouncements = v)),
+          _toggleRow(
+            context.tr(en: 'System announcements', ar: 'تنبيهات وإعلانات النظام'),
+            _systemAnnouncements,
+            (v) => setState(() => _systemAnnouncements = v),
+          ),
         ],
       ),
     );
@@ -261,18 +300,18 @@ class _TeacherSettingsScreenState extends State<TeacherSettingsScreen> {
 
   Widget _rosterButton() {
     return SchooKeepCard(
-      // No standalone roster screen exists; the per-student health-considerations
-      // list is the teacher's class roster view.
       onTap: () => context.go('/teacher/health-considerations'),
       child: Row(
-        children: const [
-          Icon(LucideIcons.users, size: 20, color: SchooKeepColors.textSecondary),
-          SizedBox(width: 12),
+        children: [
+          const Icon(LucideIcons.users, size: 20, color: SchooKeepColors.textSecondary),
+          const SizedBox(width: 12),
           Expanded(
-            child: Text('View my class roster',
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
+            child: Text(
+              context.tr(en: 'View my class roster', ar: 'عرض قائمة طلاب الفصل والحالات الصحية'),
+              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+            ),
           ),
-          RtlIcon(LucideIcons.chevronRight, size: 20, color: SchooKeepColors.textSecondary),
+          const RtlIcon(LucideIcons.chevronRight, size: 20, color: SchooKeepColors.textSecondary),
         ],
       ),
     );
@@ -293,21 +332,28 @@ class _TeacherSettingsScreenState extends State<TeacherSettingsScreen> {
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Row(
-                children: const [
+                children: [
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Confidentiality agreement (UAE PDPL Compliant)',
-                            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
-                        SizedBox(height: 2),
-                        Text('Signed $_agreementSignedDate',
-                            style: TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary)),
+                        Text(
+                          context.tr(
+                            en: 'Confidentiality agreement (UAE PDPL Compliant)',
+                            ar: 'اتفاقية سرية المعلومات (وفق قانون حماية البيانات الإماراتي)',
+                          ),
+                          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          context.tr(en: 'Signed August 15, 2025', ar: 'موقعة بتاريخ 15 أغسطس 2025'),
+                          style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary),
+                        ),
                       ],
                     ),
                   ),
-                  SizedBox(width: 8),
-                  RtlIcon(LucideIcons.chevronRight, size: 20, color: SchooKeepColors.textSecondary),
+                  const SizedBox(width: 8),
+                  const RtlIcon(LucideIcons.chevronRight, size: 20, color: SchooKeepColors.textSecondary),
                 ],
               ),
             ),
@@ -319,9 +365,11 @@ class _TeacherSettingsScreenState extends State<TeacherSettingsScreen> {
               children: [
                 const Icon(LucideIcons.shield, size: 20, color: SchooKeepColors.primary),
                 const SizedBox(width: 12),
-                const Expanded(
-                  child: Text('My data access level',
-                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
+                Expanded(
+                  child: Text(
+                    context.tr(en: 'My data access level', ar: 'مستوى صلاحية الاطلاع بالبيانات'),
+                    style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+                  ),
                 ),
                 const SizedBox(width: 8),
                 Container(
@@ -330,8 +378,10 @@ class _TeacherSettingsScreenState extends State<TeacherSettingsScreen> {
                     color: const Color(0xFFEFF6FF),
                     borderRadius: BorderRadius.circular(999),
                   ),
-                  child: const Text('Contraindications only — read-only',
-                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: SchooKeepColors.primary)),
+                  child: Text(
+                    context.tr(en: 'Contraindications only — read-only', ar: 'موانع علاجية فقط — قراءة فقط'),
+                    style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: SchooKeepColors.primary),
+                  ),
                 ),
               ],
             ),
@@ -348,17 +398,21 @@ class _TeacherSettingsScreenState extends State<TeacherSettingsScreen> {
       child: Material(
         color: SchooKeepColors.surface,
         shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8), side: const BorderSide(color: SchooKeepColors.border)),
+          borderRadius: BorderRadius.circular(8),
+          side: const BorderSide(color: SchooKeepColors.border),
+        ),
         child: InkWell(
           borderRadius: BorderRadius.circular(8),
           onTap: _showSignOutDialog,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Icon(LucideIcons.logOut, size: 20, color: SchooKeepColors.error),
-              SizedBox(width: 8),
-              Text('تسجيل الخروج · Sign out',
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: SchooKeepColors.error)),
+            children: [
+              const Icon(LucideIcons.logOut, size: 20, color: SchooKeepColors.error),
+              const SizedBox(width: 8),
+              Text(
+                context.tr(en: 'Sign out', ar: 'تسجيل الخروج'),
+                style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: SchooKeepColors.error),
+              ),
             ],
           ),
         ),

@@ -104,7 +104,7 @@ class _NurseDashboardViewState extends State<_NurseDashboardView> {
                   textAlign: TextAlign.center,
                   style: const TextStyle(color: SchooKeepColors.textSecondary)),
               const SizedBox(height: 16),
-              SchooKeepButton(label: 'Retry', fullWidth: false, onPressed: _reload),
+              SchooKeepButton(label: context.tr(en: 'Retry', ar: 'إعادة المحاولة'), fullWidth: false, onPressed: _reload),
             ],
           ),
         ),
@@ -190,25 +190,48 @@ class _NurseDashboardViewState extends State<_NurseDashboardView> {
     return Row(
       children: [
         Expanded(
-          child: _statCard(LucideIcons.pill, '${data.medicationCount}', pendingSub, SchooKeepColors.warning),
+          child: _statCard(
+            icon: LucideIcons.pill,
+            value: '${data.medicationCount}',
+            sub: pendingSub,
+            subColor: SchooKeepColors.warning,
+            onTap: () => context.go('/nurse/medications/inventory'),
+          ),
         ),
         const SizedBox(width: 12),
         Expanded(
-          child: _statCard(LucideIcons.stethoscope, '${data.visitsTodayCount}',
-              isRTL ? 'اليوم' : 'today', SchooKeepColors.textSecondary),
+          child: _statCard(
+            icon: LucideIcons.stethoscope,
+            value: '${data.visitsTodayCount}',
+            sub: isRTL ? 'اليوم' : 'today',
+            subColor: SchooKeepColors.textSecondary,
+            onTap: () => context.go('/nurse/clinic'),
+          ),
         ),
         const SizedBox(width: 12),
         Expanded(
-          child: _statCard(LucideIcons.fileText, '${data.pendingDocumentCount}',
-              isRTL ? 'من الأهالي' : 'from parents', SchooKeepColors.textSecondary),
+          child: _statCard(
+            icon: LucideIcons.fileText,
+            value: '${data.pendingDocumentCount}',
+            sub: isRTL ? 'من الأهالي' : 'from parents',
+            subColor: SchooKeepColors.textSecondary,
+            onTap: () => context.go('/nurse/documents'),
+          ),
         ),
       ],
     );
   }
 
-  Widget _statCard(IconData icon, String value, String sub, Color subColor) {
+  Widget _statCard({
+    required IconData icon,
+    required String value,
+    required String sub,
+    required Color subColor,
+    VoidCallback? onTap,
+  }) {
     return SchooKeepCard(
       padding: const EdgeInsets.all(12),
+      onTap: onTap,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -281,10 +304,34 @@ class _NurseDashboardViewState extends State<_NurseDashboardView> {
 
   Widget _quickActions(bool isRTL) {
     final actions = [
-      (label: isRTL ? 'تسجيل زيارة عيادة' : 'Log Clinic Visit', icon: LucideIcons.stethoscope, color: SchooKeepColors.primary, route: '/nurse/clinic/new-visit', filled: false),
-      (label: isRTL ? 'إعطاء دواء' : 'Give Medication', icon: LucideIcons.pill, color: SchooKeepColors.accent, route: '/nurse/medications/dose-confirmation', filled: false),
-      (label: isRTL ? 'طوارئ' : 'Emergency', icon: LucideIcons.zap, color: SchooKeepColors.error, route: null, filled: true),
-      (label: isRTL ? 'إرسال تنبيه' : 'Send Alert', icon: LucideIcons.bell, color: SchooKeepColors.secondary, route: '/nurse/cafeteria-alert', filled: false),
+      (
+        label: isRTL ? 'مخزون الأدوية' : 'Medicine Inventory',
+        icon: LucideIcons.boxes,
+        color: const Color(0xFF2563EB),
+        route: '/nurse/medications/inventory',
+        filled: true,
+      ),
+      (
+        label: isRTL ? 'تسجيل زيارة عيادة' : 'Log Clinic Visit',
+        icon: LucideIcons.stethoscope,
+        color: SchooKeepColors.primary,
+        route: '/nurse/clinic/new-visit',
+        filled: false,
+      ),
+      (
+        label: isRTL ? 'إعطاء دواء' : 'Give Medication',
+        icon: LucideIcons.pill,
+        color: SchooKeepColors.accent,
+        route: '/nurse/medications/dose-confirmation',
+        filled: false,
+      ),
+      (
+        label: isRTL ? 'طوارئ' : 'Emergency',
+        icon: LucideIcons.zap,
+        color: SchooKeepColors.error,
+        route: null,
+        filled: false,
+      ),
     ];
     return GridView.count(
       crossAxisCount: 2,

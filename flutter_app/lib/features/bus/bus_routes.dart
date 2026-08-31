@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/widgets/role_shell.dart';
 import 'bus_tabs.dart';
+import 'view/bus_bias_report_screen.dart';
 import 'view/bus_driver_settings_screen.dart';
 import 'view/bus_early_dismissal_screen.dart';
 import 'view/bus_route_history_screen.dart';
@@ -17,6 +18,7 @@ final List<RouteBase> busRoutes = [
     builder: (c, s, child) => RoleShell(tabs: busTabs, child: child),
     routes: [
       GoRoute(path: '/bus/route', builder: (c, s) => const BusRouteOverviewScreen()),
+      GoRoute(path: '/bus/report-bias', builder: (c, s) => const BusBiasReportScreen()),
       GoRoute(
         path: '/bus/boarding/:id',
         builder: (c, s) {

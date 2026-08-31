@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
+import '../../../core/localization/l10n_ext.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
 
@@ -9,7 +10,7 @@ typedef _SettingsItem = ({String label, IconData icon, String? badge, VoidCallba
 
 /// Ported from `VicePrincipalSettings.tsx`. Profile card with delegation note,
 /// grouped settings sections, app info, sign-out (with confirm dialog) and a
-/// legal notice. Data is mock.
+/// legal notice. Fully localized for English and Arabic.
 class VicePrincipalSettingsScreen extends StatefulWidget {
   const VicePrincipalSettingsScreen({super.key});
 
@@ -22,31 +23,61 @@ class _VicePrincipalSettingsScreenState extends State<VicePrincipalSettingsScree
   Widget build(BuildContext context) {
     final sections = <({String title, List<_SettingsItem> items})>[
       (
-        title: 'Account',
+        title: context.tr(en: 'Account', ar: 'الحساب'),
         items: [
-          (label: 'Profile information', icon: LucideIcons.user, badge: null, action: null),
-          (label: 'My access level', icon: LucideIcons.lock, badge: '2 granted', action: () => context.go('/vice-principal/permissions')),
-          (label: 'Notification preferences', icon: LucideIcons.bell, badge: null, action: null),
+          (
+            label: context.tr(en: 'Profile information', ar: 'معلومات الملف الشخصي'),
+            icon: LucideIcons.user,
+            badge: null,
+            action: null,
+          ),
+          (
+            label: context.tr(en: 'My access level', ar: 'مستوى الصلاحية الممنوح'),
+            icon: LucideIcons.lock,
+            badge: context.tr(en: '2 granted', ar: 'صلاحيتان ممنوحتان'),
+            action: () => context.go('/vice-principal/permissions'),
+          ),
+          (
+            label: context.tr(en: 'Notification preferences', ar: 'تفضيلات الإشعارات والتنبيهات'),
+            icon: LucideIcons.bell,
+            badge: null,
+            action: null,
+          ),
         ],
       ),
       (
-        title: 'Privacy & Security',
+        title: context.tr(en: 'Privacy & Security', ar: 'الخصوصية والأمان'),
         items: [
-          (label: 'Confidentiality agreement', icon: LucideIcons.shield, badge: 'Signed', action: null),
-          (label: 'Data access scope', icon: LucideIcons.fileText, badge: 'View only', action: null),
+          (
+            label: context.tr(en: 'Confidentiality agreement', ar: 'اتفاقية سرية المعلومات'),
+            icon: LucideIcons.shield,
+            badge: context.tr(en: 'Signed', ar: 'موقّعة'),
+            action: null,
+          ),
+          (
+            label: context.tr(en: 'Data access scope', ar: 'نطاق الوصول للبيانات'),
+            icon: LucideIcons.fileText,
+            badge: context.tr(en: 'View only', ar: 'للقراءة فقط'),
+            action: null,
+          ),
         ],
       ),
       (
-        title: 'Communication',
+        title: context.tr(en: 'Communication', ar: 'التواصل والرسائل'),
         items: [
-          (label: 'Message Principal', icon: LucideIcons.mail, badge: null, action: () => context.go('/vice-principal/messages?compose=principal')),
+          (
+            label: context.tr(en: 'Message Principal', ar: 'مراسلة مدير المدرسة'),
+            icon: LucideIcons.mail,
+            badge: null,
+            action: () => context.go('/vice-principal/messages?compose=principal'),
+          ),
         ],
       ),
     ];
 
     return SchooKeepScaffold(
       reserveBottomNav: true,
-      appBar: const SchooKeepAppBar(title: 'Settings'),
+      appBar: SchooKeepAppBar(title: context.tr(en: 'Settings', ar: 'الإعدادات')),
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,10 +86,16 @@ class _VicePrincipalSettingsScreenState extends State<VicePrincipalSettingsScree
           const SizedBox(height: 16),
           for (final section in sections) ...[
             Padding(
-              padding: const EdgeInsets.only(left: 4, bottom: 8),
-              child: Text(section.title.toUpperCase(),
-                  style: const TextStyle(
-                      fontSize: 13, fontWeight: FontWeight.w600, letterSpacing: 0.5, color: SchooKeepColors.textSecondary)),
+              padding: const EdgeInsetsDirectional.only(start: 4, bottom: 8),
+              child: Text(
+                section.title.toUpperCase(),
+                style: const TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: 0.5,
+                  color: SchooKeepColors.textSecondary,
+                ),
+              ),
             ),
             SchooKeepCard(
               padding: EdgeInsets.zero,
@@ -88,25 +125,30 @@ class _VicePrincipalSettingsScreenState extends State<VicePrincipalSettingsScree
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(
+          Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CircleAvatar(
+              const CircleAvatar(
                 radius: 32,
                 backgroundColor: Color(0xFFEFF6FF),
                 child: Text('VD', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500, color: SchooKeepColors.primary)),
               ),
-              SizedBox(width: 12),
+              const SizedBox(width: 12),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Victoria Davis',
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
-                    SizedBox(height: 2),
-                    Text('Vice Principal', style: TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary)),
-                    SizedBox(height: 8),
-                    Text('v.davis@schookeep.ae', style: TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary)),
+                    Text(
+                      context.tr(en: 'Victoria Davis', ar: 'فيكتوريا ديفيس'),
+                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      context.tr(en: 'Vice Principal', ar: 'نائب مدير المدرسة'),
+                      style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary),
+                    ),
+                    const SizedBox(height: 8),
+                    const Text('v.davis@schookeep.ae', style: TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary)),
                   ],
                 ),
               ),
@@ -116,12 +158,20 @@ class _VicePrincipalSettingsScreenState extends State<VicePrincipalSettingsScree
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(color: const Color(0xFFEFF6FF), borderRadius: BorderRadius.circular(8)),
-            child: const Text.rich(
+            child: Text.rich(
               TextSpan(
-                style: TextStyle(fontSize: 12, height: 1.5, color: Color(0xFF1E40AF)),
+                style: const TextStyle(fontSize: 12, height: 1.5, color: Color(0xFF1E40AF)),
                 children: [
-                  TextSpan(text: 'Delegated role: ', style: TextStyle(fontWeight: FontWeight.bold)),
-                  TextSpan(text: 'Permissions granted by Principal M. Davis on May 1, 2026'),
+                  TextSpan(
+                    text: context.tr(en: 'Delegated role: ', ar: 'الدور المفوض: '),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  TextSpan(
+                    text: context.tr(
+                      en: 'Permissions granted by Principal M. Davis on May 1, 2026',
+                      ar: 'تم منح الصلاحيات بواسطة مدير المدرسة م. ديفيس بتاريخ 1 مايو 2026',
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -151,8 +201,10 @@ class _VicePrincipalSettingsScreenState extends State<VicePrincipalSettingsScree
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(item.label,
-                        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
+                    Text(
+                      item.label,
+                      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+                    ),
                     if (item.badge != null) ...[
                       const SizedBox(height: 2),
                       Text(item.badge!, style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary)),
@@ -175,17 +227,24 @@ class _VicePrincipalSettingsScreenState extends State<VicePrincipalSettingsScree
           const Text('SchooKeep Health Manager',
               textAlign: TextAlign.center, style: TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary)),
           const SizedBox(height: 4),
-          const Text('Version 2.1.0 (Build 487)',
-              textAlign: TextAlign.center, style: TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary)),
+          Text(
+            context.tr(en: 'Version 2.1.0 (Build 487)', ar: 'الإصدار 2.1.0 (بناء 487)'),
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary),
+          ),
           const SizedBox(height: 12),
           Wrap(
             alignment: WrapAlignment.center,
-            children: const [
-              Text('UAE PDPL Privacy Declaration',
-                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.primary)),
-              Text(' · ', style: TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary)),
-              Text('Terms of Service',
-                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.primary)),
+            children: [
+              Text(
+                context.tr(en: 'UAE PDPL Privacy Declaration', ar: 'إعلان خصوصية البيانات الإماراتي (PDPL)'),
+                style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.primary),
+              ),
+              const Text(' · ', style: TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary)),
+              Text(
+                context.tr(en: 'Terms of Service', ar: 'شروط الخدمة'),
+                style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.primary),
+              ),
             ],
           ),
         ],
@@ -196,13 +255,15 @@ class _VicePrincipalSettingsScreenState extends State<VicePrincipalSettingsScree
   Widget _signOutButton() {
     return SchooKeepCard(
       onTap: _showSignOutDialog,
-      child: const Row(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(LucideIcons.logOut, size: 20, color: SchooKeepColors.error),
-          SizedBox(width: 8),
-          Text('تسجيل الخروج · Sign out',
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.error)),
+          const Icon(LucideIcons.logOut, size: 20, color: SchooKeepColors.error),
+          const SizedBox(width: 8),
+          Text(
+            context.tr(en: 'Sign out', ar: 'تسجيل الخروج'),
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.error),
+          ),
         ],
       ),
     );
@@ -212,10 +273,13 @@ class _VicePrincipalSettingsScreenState extends State<VicePrincipalSettingsScree
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(color: const Color(0xFFF1F5F9), borderRadius: BorderRadius.circular(8)),
-      child: const Text(
-        'Access to SchooKeep is governed by UAE PDPL and DHA school health guidelines. All activities are logged for compliance and audit purposes under UAE regulations.',
+      child: Text(
+        context.tr(
+          en: 'Access to SchooKeep is governed by UAE PDPL and DHA school health guidelines. All activities are logged for compliance and audit purposes under UAE regulations.',
+          ar: 'تخضع صلاحيات الوصول لقانون حماية البيانات الإماراتي ولوائح هيئة الصحة بدبي للصحة المدرسية. يتم تسجيل جميع الأنشطة لأغراض التدقيق والامتثال.',
+        ),
         textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 11, height: 1.5, fontWeight: FontWeight.w500, color: SchooKeepColors.textSecondary),
+        style: const TextStyle(fontSize: 11, height: 1.5, fontWeight: FontWeight.w500, color: SchooKeepColors.textSecondary),
       ),
     );
   }
@@ -234,14 +298,19 @@ class _VicePrincipalSettingsScreenState extends State<VicePrincipalSettingsScree
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text('تسجيل الخروج · Sign out?',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
-                const SizedBox(height: 8),
-                const Text(
-                  'هل أنت متأكد من رغبتك في تسجيل الخروج؟\nYou\'ll need to sign in again to access your account.',
+                Text(
+                  context.tr(en: 'Sign out?', ar: 'تسجيل الخروج؟'),
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 14, height: 1.5, color: SchooKeepColors.textSecondary),
+                  style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  context.tr(
+                    en: 'Are you sure you want to sign out?\nYou\'ll need to sign in again to access your account.',
+                    ar: 'هل أنت متأكد من رغبتك في تسجيل الخروج؟\nستحتاج لإعادة تسجيل الدخول للوصول لحسابك.',
+                  ),
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 14, height: 1.5, color: SchooKeepColors.textSecondary),
                 ),
                 const SizedBox(height: 24),
                 Row(
@@ -255,8 +324,10 @@ class _VicePrincipalSettingsScreenState extends State<VicePrincipalSettingsScree
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                           ),
                           onPressed: () => Navigator.of(dialogContext).pop(),
-                          child: const Text('إلغاء · Cancel',
-                              style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
+                          child: Text(
+                            context.tr(en: 'Cancel', ar: 'إلغاء'),
+                            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+                          ),
                         ),
                       ),
                     ),
@@ -273,8 +344,10 @@ class _VicePrincipalSettingsScreenState extends State<VicePrincipalSettingsScree
                             Navigator.of(dialogContext).pop();
                             context.go('/login');
                           },
-                          child: const Text('تسجيل الخروج · Sign out',
-                              style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: Colors.white)),
+                          child: Text(
+                            context.tr(en: 'Sign out', ar: 'تسجيل الخروج'),
+                            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: Colors.white),
+                          ),
                         ),
                       ),
                     ),

@@ -1,10 +1,12 @@
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../auth/admin_session.dart';
 import '../network/api_client.dart';
 import '../../features/auth/data/auth_repository.dart';
 import '../../data/repositories/after_hours_repository.dart';
 import '../../data/repositories/analytics_repository.dart';
+import '../../data/repositories/bias_incident_repository.dart';
 import '../../data/repositories/bus_repository.dart';
 import '../../data/repositories/cafeteria_repository.dart';
 import '../../data/repositories/chatbot_repository.dart';
@@ -31,6 +33,7 @@ final GetIt sl = GetIt.instance;
 Future<void> setupServiceLocator() async {
   final prefs = await SharedPreferences.getInstance();
   sl.registerSingleton<SharedPreferences>(prefs);
+  AdminSession.init();
   sl.registerSingleton<ApiClient>(ApiClient(prefs));
 
   final api = sl<ApiClient>();
@@ -47,7 +50,7 @@ Future<void> setupServiceLocator() async {
   sl.registerSingleton<SystemRepository>(SystemRepository(api));
 
   // Newer domains (messaging, chatbot, staff, permissions, analytics,
-  // SMS wallet, after-hours requests, equipment checklist).
+  // SMS wallet, after-hours requests, equipment checklist, bias incident repo).
   sl.registerSingleton<MessageRepository>(MessageRepository(api));
   sl.registerSingleton<ChatbotRepository>(ChatbotRepository(api));
   sl.registerSingleton<StaffRepository>(StaffRepository(api));
@@ -57,4 +60,5 @@ Future<void> setupServiceLocator() async {
   sl.registerSingleton<AfterHoursRepository>(AfterHoursRepository(api));
   sl.registerSingleton<EquipmentRepository>(EquipmentRepository(api));
   sl.registerSingleton<PharmacyInventoryRepository>(PharmacyInventoryRepository(api));
+  sl.registerSingleton<BiasIncidentRepository>(BiasIncidentRepository(api));
 }

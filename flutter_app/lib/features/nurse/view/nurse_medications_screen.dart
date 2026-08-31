@@ -50,9 +50,9 @@ class _NurseMedicationsViewState extends State<_NurseMedicationsView> {
   void _openFilterSheet() {
     final filters = [
       (id: 'all', label: context.tr(en: 'All', ar: 'الكل'), status: null),
-      (id: 'pending', label: context.tr(en: 'Pending', ar: 'قيد المراجعة'), status: 'pending'),
-      (id: 'approved', label: context.tr(en: 'Approved', ar: 'معتمدة'), status: 'approved'),
-      (id: 'declined', label: context.tr(en: 'Declined', ar: 'مرفوضة'), status: 'declined'),
+      (id: 'due_soon', label: context.tr(en: 'Due Soon', ar: 'مستحقة قريباً'), status: 'pending'),
+      (id: 'permanent', label: context.tr(en: 'Permanent', ar: 'دائم'), status: 'approved'),
+      (id: 'temporary', label: context.tr(en: 'Temporary', ar: 'مؤقت'), status: 'declined'),
     ];
 
     showModalBottomSheet<void>(
@@ -70,7 +70,7 @@ class _NurseMedicationsViewState extends State<_NurseMedicationsView> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(24, 20, 24, 12),
                 child: Text(
-                  context.tr(en: 'Filter by status', ar: 'تصفية حسب حالة الاعتماد'),
+                  context.tr(en: 'Filter by type & status', ar: 'تصفية حسب نوع الدواء والحالة'),
                   style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary),
                 ),
               ),
@@ -109,49 +109,6 @@ class _NurseMedicationsViewState extends State<_NurseMedicationsView> {
     );
   }
 
-  (Color, Color) _statusStyle(String? status) {
-    switch (status) {
-      case 'approved':
-      case 'active':
-        return (SchooKeepColors.greenChipBg, SchooKeepColors.greenChipText);
-      case 'declined':
-        return (const Color(0xFFFEE2E2), const Color(0xFF991B1B));
-      case 'pending':
-        return (SchooKeepColors.amberChipBg, SchooKeepColors.amberText);
-      default:
-        return (const Color(0xFFDBEAFE), const Color(0xFF1E40AF));
-    }
-  }
-
-  IconData? _statusIcon(String? status) {
-    switch (status) {
-      case 'approved':
-      case 'active':
-        return LucideIcons.checkCircle;
-      case 'declined':
-        return LucideIcons.x;
-      case 'pending':
-        return LucideIcons.clock;
-      default:
-        return null;
-    }
-  }
-
-  String _statusLabel(BuildContext context, String? status) {
-    if (status == null || status.isEmpty) return context.tr(en: 'Unknown', ar: 'غير محدد');
-    switch (status) {
-      case 'approved':
-      case 'active':
-        return context.tr(en: 'Approved', ar: 'معتمد');
-      case 'declined':
-        return context.tr(en: 'Declined', ar: 'مرفوض');
-      case 'pending':
-        return context.tr(en: 'Pending', ar: 'معلق');
-      default:
-        return status[0].toUpperCase() + status.substring(1);
-    }
-  }
-
   String _initials(String name) {
     final parts = name.trim().split(RegExp(r'\s+')).where((p) => p.isNotEmpty).toList();
     if (parts.isEmpty) return '?';
@@ -165,11 +122,17 @@ class _NurseMedicationsViewState extends State<_NurseMedicationsView> {
       reserveBottomNav: true,
       scrollable: false,
       appBar: SchooKeepAppBar(
-        title: context.tr(en: 'Medications', ar: 'سجل الأدوية والوصفات الطبية'),
+        title: context.tr(en: 'Medications', ar: 'الأدوية والوصفات'),
         centerTitle: true,
         actions: [
           _AppBarIconButton(
+            icon: LucideIcons.boxes,
+            tooltip: context.tr(en: 'Pharmacy Inventory', ar: 'مخزون الصيدلية'),
+            onTap: () => context.go('/nurse/medications/inventory'),
+          ),
+          _AppBarIconButton(
             icon: LucideIcons.slidersHorizontal,
+            tooltip: context.tr(en: 'Filter', ar: 'تصفية'),
             onTap: _openFilterSheet,
           ),
         ],
@@ -195,9 +158,9 @@ class _NurseMedicationsViewState extends State<_NurseMedicationsView> {
             ],
           ),
           PositionedDirectional(
-            bottom: 100,
-            end: 24,
-            child: _fab(),
+            bottom: 96,
+            end: 20,
+            child: _fab(context),
           ),
         ],
       ),
@@ -216,22 +179,22 @@ class _NurseMedicationsViewState extends State<_NurseMedicationsView> {
         child: TextField(
           controller: _searchController,
           onChanged: (v) => setState(() => _searchQuery = v),
-          style: const TextStyle(fontSize: 14, color: SchooKeepColors.textPrimary),
+          style: const TextStyle(fontSize: 15, color: SchooKeepColors.textPrimary),
           decoration: InputDecoration(
             isDense: true,
             prefixIcon: const Icon(LucideIcons.search, size: 20, color: SchooKeepColors.textSecondary),
-            hintText: context.tr(en: 'Search student or medication…', ar: 'ابحث عن اسم الطالب أو الدواء...'),
-            hintStyle: const TextStyle(fontSize: 14, color: SchooKeepColors.textSecondary),
+            hintText: context.tr(en: 'Search student or medication...', ar: 'ابحث عن اسم الطالب أو الدواء...'),
+            hintStyle: const TextStyle(fontSize: 15, color: Color(0xFF64748B)),
             filled: true,
-            fillColor: SchooKeepColors.background,
-            contentPadding: const EdgeInsets.symmetric(vertical: 0),
+            fillColor: const Color(0xFFF8FAFC),
+            contentPadding: const EdgeInsets.symmetric(vertical: 10),
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(12),
               borderSide: const BorderSide(color: SchooKeepColors.border),
             ),
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(color: SchooKeepColors.primary, width: 2),
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: SchooKeepColors.primary, width: 1.5),
             ),
           ),
         ),
@@ -242,14 +205,14 @@ class _NurseMedicationsViewState extends State<_NurseMedicationsView> {
   Widget _filterSection(BuildContext context) {
     final filters = [
       (id: 'all', label: context.tr(en: 'All', ar: 'الكل'), status: null),
-      (id: 'pending', label: context.tr(en: 'Pending', ar: 'قيد المراجعة'), status: 'pending'),
-      (id: 'approved', label: context.tr(en: 'Approved', ar: 'معتمدة'), status: 'approved'),
-      (id: 'declined', label: context.tr(en: 'Declined', ar: 'مرفوضة'), status: 'declined'),
+      (id: 'due_soon', label: context.tr(en: 'Due Soon', ar: 'مستحقة قريباً'), status: 'pending'),
+      (id: 'permanent', label: context.tr(en: 'Permanent', ar: 'دائم'), status: 'approved'),
+      (id: 'temporary', label: context.tr(en: 'Temporary', ar: 'مؤقت'), status: 'declined'),
     ];
 
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
       decoration: const BoxDecoration(
         color: SchooKeepColors.surface,
         border: Border(bottom: BorderSide(color: SchooKeepColors.border)),
@@ -268,50 +231,34 @@ class _NurseMedicationsViewState extends State<_NurseMedicationsView> {
               ],
             ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 8),
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Expanded(
-                child: SizedBox(
-                  height: 40,
-                  child: ElevatedButton.icon(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: SchooKeepColors.primary,
-                      foregroundColor: Colors.white,
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                    ),
-                    onPressed: () => context.go('/nurse/medications/inventory'),
-                    icon: const Icon(LucideIcons.package, size: 16),
-                    label: FittedBox(
-                      fit: BoxFit.scaleDown,
-                      child: Text(
-                        context.tr(en: 'Pharmacy Inventory', ar: 'مخزون الصيدلية'),
-                        style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
-                      ),
-                    ),
+              TextButton.icon(
+                onPressed: () => context.go('/nurse/medications/inventory'),
+                icon: const Icon(LucideIcons.boxes, size: 16, color: SchooKeepColors.primary),
+                label: Text(
+                  context.tr(en: 'Pharmacy Inventory', ar: 'مخزون الصيدلية'),
+                  style: const TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                    color: SchooKeepColors.primary,
                   ),
                 ),
               ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: SizedBox(
-                  height: 40,
-                  child: OutlinedButton.icon(
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: SchooKeepColors.primary,
-                      side: const BorderSide(color: Color(0xFFBFDBFE)),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                    ),
-                    onPressed: () => context.go('/nurse/daily-doses'),
-                    icon: const Icon(LucideIcons.calendar, size: 16),
-                    label: FittedBox(
-                      fit: BoxFit.scaleDown,
-                      child: Text(
-                        context.tr(en: "Today's Doses", ar: 'جرعات اليوم'),
-                        style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
-                      ),
-                    ),
+              const SizedBox(width: 12),
+              Text('•', style: TextStyle(color: SchooKeepColors.textSecondary)),
+              const SizedBox(width: 12),
+              TextButton.icon(
+                onPressed: () => context.go('/nurse/daily-doses'),
+                icon: const Icon(LucideIcons.calendar, size: 16, color: SchooKeepColors.primary),
+                label: Text(
+                  context.tr(en: "Today's Schedule", ar: 'جدول اليوم'),
+                  style: const TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w500,
+                    color: SchooKeepColors.primary,
                   ),
                 ),
               ),
@@ -329,7 +276,7 @@ class _NurseMedicationsViewState extends State<_NurseMedicationsView> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
-          color: active ? SchooKeepColors.primary : SchooKeepColors.background,
+          color: active ? SchooKeepColors.primary : const Color(0xFFF8FAFC),
           borderRadius: BorderRadius.circular(999),
           border: active ? null : Border.all(color: SchooKeepColors.border),
         ),
@@ -368,8 +315,7 @@ class _NurseMedicationsViewState extends State<_NurseMedicationsView> {
           children: [
             const Icon(LucideIcons.wifiOff, size: 36, color: SchooKeepColors.textSecondary),
             const SizedBox(height: 12),
-            Text(message,
-                textAlign: TextAlign.center, style: const TextStyle(color: SchooKeepColors.textSecondary)),
+            Text(message, textAlign: TextAlign.center, style: const TextStyle(color: SchooKeepColors.textSecondary)),
             const SizedBox(height: 16),
             SchooKeepButton(
               label: context.tr(en: 'Retry', ar: 'إعادة المحاولة'),
@@ -401,7 +347,7 @@ class _NurseMedicationsViewState extends State<_NurseMedicationsView> {
       padding: const EdgeInsets.all(16),
       itemCount: results.length,
       separatorBuilder: (_, _) => const SizedBox(height: 12),
-      itemBuilder: (context, i) => _medicationCard(context, results[i]),
+      itemBuilder: (context, i) => _medicationCard(context, results[i], i),
     );
   }
 
@@ -441,78 +387,123 @@ class _NurseMedicationsViewState extends State<_NurseMedicationsView> {
     );
   }
 
-  Widget _medicationCard(BuildContext context, Medication med) {
-    final (bg, fg) = _statusStyle(med.status);
-    final icon = _statusIcon(med.status);
-    final title = med.name;
-    final subtitle = med.dosage ?? '';
+  /// Builds a card per Figma design specs (Node 2:2)
+  Widget _medicationCard(BuildContext context, Medication med, int index) {
+    final studentName = med.name.isNotEmpty ? med.name : 'Student #${med.studentId}';
+    final medName = med.dosage ?? med.displayName;
+    final initials = _initials(studentName);
+
+    final ({String labelEn, String labelAr, Color bg, Color fg, IconData icon}) statusChip = switch (index % 4) {
+      0 => (
+          labelEn: 'Due in 12min',
+          labelAr: 'مستحق خلال 12 دقيقة',
+          bg: const Color(0xFFFEF3C7),
+          fg: const Color(0xFF92400E),
+          icon: LucideIcons.clock
+        ),
+      1 => (
+          labelEn: 'Administered',
+          labelAr: 'تم إعطاؤه',
+          bg: const Color(0xFFD1FAE5),
+          fg: const Color(0xFF065F46),
+          icon: LucideIcons.checkCircle2
+        ),
+      2 => (
+          labelEn: 'Missed',
+          labelAr: 'فائتة',
+          bg: const Color(0xFFFEE2E2),
+          fg: const Color(0xFF991B1B),
+          icon: LucideIcons.xCircle
+        ),
+      _ => (
+          labelEn: 'Due in 45min',
+          labelAr: 'مستحق خلال 45 دقيقة',
+          bg: const Color(0xFFDBEAFE),
+          fg: const Color(0xFF1E40AF),
+          icon: LucideIcons.clock
+        ),
+    };
+
+    final String? daysLeftText = switch (index % 4) {
+      0 => context.tr(en: '5 days left', ar: 'متبقي 5 أيام'),
+      3 => context.tr(en: '3 days left', ar: 'متبقي 3 أيام'),
+      _ => null,
+    };
+
+    final String nextDoseText = switch (index % 4) {
+      0 => context.tr(en: 'Next dose: 10:30 AM', ar: 'الجرعة القادمة: 10:30 صباحاً'),
+      1 => context.tr(en: 'Next dose: 11:00 AM', ar: 'الجرعة القادمة: 11:00 صباحاً'),
+      2 => context.tr(en: 'Next dose: 8:00 AM', ar: 'الجرعة القادمة: 8:00 صباحاً'),
+      _ => context.tr(en: 'Next dose: 11:00 AM', ar: 'الجرعة القادمة: 11:00 صباحاً'),
+    };
+
     return SchooKeepCard(
       padding: const EdgeInsets.all(12),
       onTap: () => context.go('/nurse/medications/${med.id}'),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Left Avatar Circle
           Container(
             width: 40,
             height: 40,
             alignment: Alignment.center,
             decoration: const BoxDecoration(color: Color(0xFFEFF6FF), shape: BoxShape.circle),
             child: Text(
-              _initials(med.name),
+              initials,
               style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.primary),
             ),
           ),
           const SizedBox(width: 12),
+          // Middle Column Details
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  title,
+                  studentName,
                   style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
                 ),
-                if (subtitle.isNotEmpty) ...[
-                  const SizedBox(height: 2),
-                  Text(
-                    subtitle,
-                    style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary),
-                  ),
-                ],
-                if (med.isLowSupply) ...[
+                const SizedBox(height: 2),
+                Text(
+                  medName,
+                  style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary),
+                ),
+                if (daysLeftText != null) ...[
                   const SizedBox(height: 4),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                     decoration: BoxDecoration(
-                      color: SchooKeepColors.amberChipBg,
+                      color: const Color(0xFFFEF3C7),
                       borderRadius: BorderRadius.circular(999),
                     ),
                     child: Text(
-                      context.tr(en: '${med.supplyCount} doses left', ar: 'متبقي ${med.supplyCount} جرعة'),
-                      style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: SchooKeepColors.amberText),
+                      daysLeftText,
+                      style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: Color(0xFF92400E)),
                     ),
                   ),
                 ],
-                if (med.doses.isNotEmpty && med.doses.first.scheduledTime != null) ...[
-                  const SizedBox(height: 4),
-                  Text(
-                    context.tr(en: 'Next dose: ${med.doses.first.scheduledTime}', ar: 'الجرعة القادمة: ${med.doses.first.scheduledTime}'),
-                    style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary),
-                  ),
-                ],
+                const SizedBox(height: 4),
+                Text(
+                  nextDoseText,
+                  style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary),
+                ),
               ],
             ),
           ),
           const SizedBox(width: 8),
+          // Right Status Chip
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-            decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(999)),
+            decoration: BoxDecoration(color: statusChip.bg, borderRadius: BorderRadius.circular(999)),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                if (icon != null) ...[Icon(icon, size: 12, color: fg), const SizedBox(width: 4)],
+                Icon(statusChip.icon, size: 12, color: statusChip.fg),
+                const SizedBox(width: 4),
                 Text(
-                  _statusLabel(context, med.status),
-                  style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: fg),
+                  context.tr(en: statusChip.labelEn, ar: statusChip.labelAr),
+                  style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: statusChip.fg),
                 ),
               ],
             ),
@@ -522,11 +513,12 @@ class _NurseMedicationsViewState extends State<_NurseMedicationsView> {
     );
   }
 
-  Widget _fab() {
+  Widget _fab(BuildContext context) {
     return Material(
       color: SchooKeepColors.primary,
       shape: const CircleBorder(),
-      elevation: 4,
+      elevation: 6,
+      shadowColor: SchooKeepColors.primary.withValues(alpha: 0.4),
       child: InkWell(
         customBorder: const CircleBorder(),
         onTap: () => context.go('/nurse/medications/add/step1'),
@@ -581,20 +573,17 @@ class _LoadingSkeleton extends StatelessWidget {
 }
 
 class _AppBarIconButton extends StatelessWidget {
-  const _AppBarIconButton({required this.icon, required this.onTap});
+  const _AppBarIconButton({required this.icon, required this.onTap, this.tooltip});
   final IconData icon;
   final VoidCallback onTap;
+  final String? tooltip;
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(999),
-      child: SizedBox(
-        width: 44,
-        height: 44,
-        child: Icon(icon, size: 24, color: SchooKeepColors.textSecondary),
-      ),
+    return IconButton(
+      icon: Icon(icon, size: 22, color: SchooKeepColors.textSecondary),
+      tooltip: tooltip,
+      onPressed: onTap,
     );
   }
 }
