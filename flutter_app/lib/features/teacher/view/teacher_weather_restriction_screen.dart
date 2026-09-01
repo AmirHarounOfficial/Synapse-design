@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
+import '../../../core/localization/l10n_ext.dart';
+import '../../../core/router/safe_back.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
-import 'package:schookeep/core/router/safe_back.dart';
 
 /// Ported from `TeacherWeatherRestriction.tsx`. Active advisory banner, the
 /// list of indoor-restricted students, and a confirm-acknowledgment CTA that
-/// locks into a confirmed state with a timestamp.
+/// locks into a confirmed state with a timestamp. Localized in EN & AR.
 class TeacherWeatherRestrictionScreen extends StatefulWidget {
   const TeacherWeatherRestrictionScreen({super.key});
 
@@ -26,13 +27,11 @@ class _TeacherWeatherRestrictionScreenState extends State<TeacherWeatherRestrict
     (id: '3', name: 'Jordan Lee', initials: 'JL'),
   ];
 
-  static const _advisoryReason = 'AQI Advisory — respiratory sensitivity';
-
-  void _confirm() {
+  void _confirm(bool isRTL) {
     final now = TimeOfDay.fromDateTime(DateTime.now());
     final h = now.hourOfPeriod == 0 ? 12 : now.hourOfPeriod;
     final m = now.minute.toString().padLeft(2, '0');
-    final period = now.period == DayPeriod.am ? 'AM' : 'PM';
+    final period = now.period == DayPeriod.am ? (isRTL ? 'ص' : 'AM') : (isRTL ? 'م' : 'PM');
     setState(() {
       _confirmedAt = '${h.toString().padLeft(2, '0')}:$m $period';
       _isConfirmed = true;
@@ -41,36 +40,37 @@ class _TeacherWeatherRestrictionScreenState extends State<TeacherWeatherRestrict
 
   @override
   Widget build(BuildContext context) {
+    final isRTL = context.isRTL;
     return SchooKeepScaffold(
       reserveBottomNav: true,
       appBar: SchooKeepAppBar(
         onBack: () => context.canPop() ? context.safeBack() : context.go('/teacher/home'),
         centerTitle: true,
-        title: 'Weather Restriction',
+        title: context.tr(en: 'Weather Restriction', ar: 'قيود الطقس والأنشطة الخارجية'),
       ),
-      bottomBar: _confirmBar(),
+      bottomBar: _confirmBar(isRTL),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            _alertBanner(),
+            _alertBanner(context),
             const SizedBox(height: 16),
-            _instructions(),
+            _instructions(context),
             const SizedBox(height: 16),
             for (final s in _restrictedStudents) ...[
               _studentCard(s.name, s.initials),
               const SizedBox(height: 8),
             ],
             const SizedBox(height: 8),
-            if (!_isConfirmed) _pendingAck() else _confirmedAck(),
+            if (!_isConfirmed) _pendingAck(context) else _confirmedAck(context),
           ],
         ),
       ),
     );
   }
 
-  Widget _alertBanner() {
+  Widget _alertBanner(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -80,17 +80,25 @@ class _TeacherWeatherRestrictionScreenState extends State<TeacherWeatherRestrict
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
-          Icon(LucideIcons.alertTriangle, size: 24, color: SchooKeepColors.warning),
-          SizedBox(width: 12),
+        children: [
+          const Icon(LucideIcons.alertTriangle, size: 24, color: SchooKeepColors.warning),
+          const SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Active Weather Advisory',
-                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: SchooKeepColors.amberText)),
-                SizedBox(height: 4),
-                Text(_advisoryReason, style: TextStyle(fontSize: 13, color: SchooKeepColors.amberText)),
+                Text(
+                  context.tr(en: 'Active Weather Advisory', ar: 'تنبيه جوي نشط'),
+                  style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: SchooKeepColors.amberText),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  context.tr(
+                    en: 'AQI Advisory — respiratory sensitivity',
+                    ar: 'تنبيه مؤشر جودة الهواء — حساسية الجهاز التنفسي',
+                  ),
+                  style: const TextStyle(fontSize: 13, color: SchooKeepColors.amberText),
+                ),
               ],
             ),
           ),
@@ -99,7 +107,7 @@ class _TeacherWeatherRestrictionScreenState extends State<TeacherWeatherRestrict
     );
   }
 
-  Widget _instructions() {
+  Widget _instructions(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -107,8 +115,13 @@ class _TeacherWeatherRestrictionScreenState extends State<TeacherWeatherRestrict
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: SchooKeepColors.border),
       ),
-      child: const Text('The following students must remain indoors during this advisory:',
-          style: TextStyle(fontSize: 14, color: SchooKeepColors.textPrimary)),
+      child: Text(
+        context.tr(
+          en: 'The following students must remain indoors during this advisory:',
+          ar: 'يجب أن يبقى الطلاب التالون داخل المبنى أثناء هذا التنبيه الجوي:',
+        ),
+        style: const TextStyle(fontSize: 14, color: SchooKeepColors.textPrimary),
+      ),
     );
   }
 
@@ -140,7 +153,7 @@ class _TeacherWeatherRestrictionScreenState extends State<TeacherWeatherRestrict
     );
   }
 
-  Widget _pendingAck() {
+  Widget _pendingAck(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -150,17 +163,25 @@ class _TeacherWeatherRestrictionScreenState extends State<TeacherWeatherRestrict
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
-          Text('Required acknowledgment:', style: TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary)),
-          SizedBox(height: 4),
-          Text('I have ensured the above students remain indoors',
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
+        children: [
+          Text(
+            context.tr(en: 'Required acknowledgment:', ar: 'الإقرار والتأكيد المطلوب:'),
+            style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            context.tr(
+              en: 'I have ensured the above students remain indoors',
+              ar: 'أقر بأني تأكدت من بقاء الطلاب المذكورين أعلاه داخل المبنى',
+            ),
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+          ),
         ],
       ),
     );
   }
 
-  Widget _confirmedAck() {
+  Widget _confirmedAck(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -177,11 +198,18 @@ class _TeacherWeatherRestrictionScreenState extends State<TeacherWeatherRestrict
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Confirmed at $_confirmedAt',
-                    style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.greenChipText)),
+                Text(
+                  context.tr(en: 'Confirmed at $_confirmedAt', ar: 'تم التأكيد الساعة $_confirmedAt'),
+                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.greenChipText),
+                ),
                 const SizedBox(height: 4),
-                const Text('Acknowledgment has been logged and locked',
-                    style: TextStyle(fontSize: 13, color: SchooKeepColors.greenChipText)),
+                Text(
+                  context.tr(
+                    en: 'Acknowledgment has been logged and locked',
+                    ar: 'تم تسجيل التأكيد وحفظه في النظام',
+                  ),
+                  style: const TextStyle(fontSize: 13, color: SchooKeepColors.greenChipText),
+                ),
               ],
             ),
           ),
@@ -192,7 +220,7 @@ class _TeacherWeatherRestrictionScreenState extends State<TeacherWeatherRestrict
     );
   }
 
-  Widget _confirmBar() {
+  Widget _confirmBar(bool isRTL) {
     return Container(
       decoration: const BoxDecoration(
         color: SchooKeepColors.surface,
@@ -209,13 +237,18 @@ class _TeacherWeatherRestrictionScreenState extends State<TeacherWeatherRestrict
             borderRadius: BorderRadius.circular(8),
             child: InkWell(
               borderRadius: BorderRadius.circular(8),
-              onTap: _isConfirmed ? null : _confirm,
+              onTap: _isConfirmed ? null : () => _confirm(isRTL),
               child: Center(
-                child: Text(_isConfirmed ? 'Confirmed' : 'Confirm Acknowledgment',
-                    style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
-                        color: _isConfirmed ? const Color(0xFF94A3B8) : Colors.white)),
+                child: Text(
+                  _isConfirmed
+                      ? context.tr(en: 'Confirmed', ar: 'تم التأكيد')
+                      : context.tr(en: 'Confirm Acknowledgment', ar: 'تأكيد الالتزام بالتعليمات'),
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    color: _isConfirmed ? const Color(0xFF94A3B8) : Colors.white,
+                  ),
+                ),
               ),
             ),
           ),

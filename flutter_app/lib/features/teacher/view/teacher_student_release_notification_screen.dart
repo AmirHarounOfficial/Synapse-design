@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
+import '../../../core/localization/l10n_ext.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
 
 /// Ported from `TeacherStudentReleaseNotification.tsx`. An overlay-style
 /// "student called to clinic" alert pinned near the top, with an acknowledge
-/// button that flips to a confirmation banner then returns home after 1.5s.
+/// button that flips to a confirmation banner then returns home after 1.5s. Localized in EN & AR.
 class TeacherStudentReleaseNotificationScreen extends StatefulWidget {
   const TeacherStudentReleaseNotificationScreen({super.key});
 
@@ -21,11 +22,11 @@ class _TeacherStudentReleaseNotificationScreenState extends State<TeacherStudent
 
   static const _studentName = 'Maya Chen';
 
-  String _time() {
+  String _time(bool isRTL) {
     final now = TimeOfDay.fromDateTime(DateTime.now());
     final h = now.hourOfPeriod == 0 ? 12 : now.hourOfPeriod;
     final m = now.minute.toString().padLeft(2, '0');
-    final period = now.period == DayPeriod.am ? 'AM' : 'PM';
+    final period = now.period == DayPeriod.am ? (isRTL ? 'ص' : 'AM') : (isRTL ? 'م' : 'PM');
     return '$h:$m $period';
   }
 
@@ -45,7 +46,7 @@ class _TeacherStudentReleaseNotificationScreenState extends State<TeacherStudent
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            if (!_isAcknowledged) _alertCard() else _confirmedBanner(),
+            if (!_isAcknowledged) _alertCard(context) else _confirmedBanner(context),
             const SizedBox(height: 16),
             // Background content (teacher's current screen)
             Container(
@@ -55,10 +56,13 @@ class _TeacherStudentReleaseNotificationScreenState extends State<TeacherStudent
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(color: SchooKeepColors.border),
               ),
-              child: const Text(
-                'This notification appears as an overlay on your current screen',
+              child: Text(
+                context.tr(
+                  en: 'This notification appears as an overlay on your current screen',
+                  ar: 'يظهر هذا الإشعار كتراكب فوق الشاشة الحالية للمعلم',
+                ),
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 14, color: SchooKeepColors.textSecondary),
+                style: const TextStyle(fontSize: 14, color: SchooKeepColors.textSecondary),
               ),
             ),
           ],
@@ -67,7 +71,8 @@ class _TeacherStudentReleaseNotificationScreenState extends State<TeacherStudent
     );
   }
 
-  Widget _alertCard() {
+  Widget _alertCard(BuildContext context) {
+    final isRTL = context.isRTL;
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -94,13 +99,17 @@ class _TeacherStudentReleaseNotificationScreenState extends State<TeacherStudent
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Student Called to Clinic',
-                        style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
+                    Text(
+                      context.tr(en: 'Student Called to Clinic', ar: 'تم استدعاء الطالب إلى العيادة الطبية'),
+                      style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+                    ),
                     const SizedBox(height: 4),
-                    const Text('$_studentName has been called to the clinic',
-                        style: TextStyle(fontSize: 14, color: SchooKeepColors.textSecondary)),
+                    Text(
+                      context.tr(en: '$_studentName has been called to the clinic', ar: 'تم استدعاء الطالبة $_studentName للعيادة الطبية'),
+                      style: const TextStyle(fontSize: 14, color: SchooKeepColors.textSecondary),
+                    ),
                     const SizedBox(height: 4),
-                    Text(_time(), style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary)),
+                    Text(_time(isRTL), style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary)),
                   ],
                 ),
               ),
@@ -116,8 +125,10 @@ class _TeacherStudentReleaseNotificationScreenState extends State<TeacherStudent
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
               ),
               onPressed: _acknowledge,
-              child: const Text('Acknowledge',
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: Colors.white)),
+              child: Text(
+                context.tr(en: 'Acknowledge', ar: 'تأكيد واستلام الإشعار'),
+                style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: Colors.white),
+              ),
             ),
           ),
         ],
@@ -125,7 +136,7 @@ class _TeacherStudentReleaseNotificationScreenState extends State<TeacherStudent
     );
   }
 
-  Widget _confirmedBanner() {
+  Widget _confirmedBanner(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -147,8 +158,10 @@ class _TeacherStudentReleaseNotificationScreenState extends State<TeacherStudent
             ),
           ),
           const SizedBox(width: 8),
-          const Text('Notification acknowledged',
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.greenChipText)),
+          Text(
+            context.tr(en: 'Notification acknowledged', ar: 'تم تأكيد الإشعار بنجاح'),
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.greenChipText),
+          ),
         ],
       ),
     );

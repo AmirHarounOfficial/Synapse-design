@@ -2,28 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
+import '../../../core/localization/l10n_ext.dart';
+import '../../../core/router/safe_back.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
-import 'package:schookeep/core/router/safe_back.dart';
 
 class _Consideration {
   const _Consideration({
     required this.id,
     required this.studentName,
     required this.initials,
-    required this.restriction,
+    required this.restrictionEn,
+    required this.restrictionAr,
     required this.type,
   });
   final String id;
   final String studentName;
   final String initials;
-  final String restriction;
+  final String restrictionEn;
+  final String restrictionAr;
   final String type; // activity | dietary | environmental
 }
 
 /// Ported from `TeacherHealthConsiderations.tsx`. FERPA notice, weather-
 /// restricted-today section, full considerations list with type chips, privacy
-/// disclaimer, and an info modal explaining FERPA.
+/// disclaimer, and an info modal explaining FERPA. Localized in EN & AR.
 class TeacherHealthConsiderationsScreen extends StatefulWidget {
   const TeacherHealthConsiderationsScreen({super.key});
 
@@ -34,19 +37,36 @@ class TeacherHealthConsiderationsScreen extends StatefulWidget {
 class _TeacherHealthConsiderationsScreenState extends State<TeacherHealthConsiderationsScreen> {
   final _considerations = const [
     _Consideration(
-        id: '1', studentName: 'Emma Rodriguez', initials: 'ER', restriction: 'No vigorous outdoor activity', type: 'activity'),
+        id: '1',
+        studentName: 'Emma Rodriguez',
+        initials: 'ER',
+        restrictionEn: 'No vigorous outdoor activity',
+        restrictionAr: 'ممنوع من الأنشطة الرياضية المجهدة',
+        type: 'activity'),
     _Consideration(
-        id: '2', studentName: 'Marcus Chen', initials: 'MC', restriction: 'Peanut-free environment required', type: 'dietary'),
+        id: '2',
+        studentName: 'Marcus Chen',
+        initials: 'MC',
+        restrictionEn: 'Peanut-free environment required',
+        restrictionAr: 'بيئة خالية تماماً من الفول السوداني',
+        type: 'dietary'),
     _Consideration(
         id: '3',
         studentName: 'Sarah Williams',
         initials: 'SW',
-        restriction: 'Indoor activities during dust advisories',
+        restrictionEn: 'Indoor activities during dust advisories',
+        restrictionAr: 'البقاء داخل المبنى أثناء التنبيهات الجوية',
         type: 'environmental'),
   ];
 
   final _weatherRestricted = const [
-    (id: '3', studentName: 'Sarah Williams', initials: 'SW', restriction: 'Must remain indoors during dust advisory'),
+    (
+      id: '3',
+      studentName: 'Sarah Williams',
+      initials: 'SW',
+      restrictionEn: 'Must remain indoors during dust advisory',
+      restrictionAr: 'يجب البقاء بالداخل بسبب العاصفة الترابية',
+    ),
   ];
 
   (Color, Color) _typeColors(String type) => switch (type) {
@@ -56,11 +76,11 @@ class _TeacherHealthConsiderationsScreenState extends State<TeacherHealthConside
         _ => (SchooKeepColors.border, SchooKeepColors.textSecondary),
       };
 
-  String _typeLabel(String type) => switch (type) {
-        'activity' => 'Activity',
-        'dietary' => 'Dietary',
-        'environmental' => 'Environmental',
-        _ => 'Other',
+  String _typeLabel(BuildContext context, String type) => switch (type) {
+        'activity' => context.tr(en: 'Activity', ar: 'أنشطة رياضية'),
+        'dietary' => context.tr(en: 'Dietary', ar: 'غذائية/حساسية'),
+        'environmental' => context.tr(en: 'Environmental', ar: 'بيئية/طقس'),
+        _ => context.tr(en: 'Other', ar: 'أخرى'),
       };
 
   void _showFerpaModal() {
@@ -76,17 +96,25 @@ class _TeacherHealthConsiderationsScreenState extends State<TeacherHealthConside
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('FERPA Privacy Protection',
-                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
+              Text(
+                ctx.tr(en: 'FERPA Privacy Protection', ar: 'حماية خصوصية البيانات الطبية (FERPA)'),
+                style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary),
+              ),
               const SizedBox(height: 8),
-              const Text(
-                'Under the Family Educational Rights and Privacy Act (FERPA), detailed medical information is confidential. You can only view activity restrictions necessary for safe classroom management.',
-                style: TextStyle(fontSize: 14, color: SchooKeepColors.textSecondary),
+              Text(
+                ctx.tr(
+                  en: 'Under the Family Educational Rights and Privacy Act (FERPA), detailed medical information is confidential. You can only view activity restrictions necessary for safe classroom management.',
+                  ar: 'بموجب قانون حقوق التعليم والخصوصية (FERPA)، تعد المعلومات الطبية التفصيلية سرية. تقتصر صلاحيتك على عرض القيود والتعليمات الضرورية للإدارة الآمنة للأنشطة.',
+                ),
+                style: const TextStyle(fontSize: 14, color: SchooKeepColors.textSecondary),
               ),
               const SizedBox(height: 16),
-              const Text(
-                'Full medical records are maintained by the school nurse and accessible only to authorized healthcare personnel.',
-                style: TextStyle(fontSize: 14, color: SchooKeepColors.textSecondary),
+              Text(
+                ctx.tr(
+                  en: 'Full medical records are maintained by the school nurse and accessible only to authorized healthcare personnel.',
+                  ar: 'يتم الاحتفاظ بالسجلات الطبية الكاملة لدى ممرض المدرسة وتكون متاحة فقط للكوادر الطبية المعتمدة.',
+                ),
+                style: const TextStyle(fontSize: 14, color: SchooKeepColors.textSecondary),
               ),
               const SizedBox(height: 24),
               SizedBox(
@@ -98,8 +126,10 @@ class _TeacherHealthConsiderationsScreenState extends State<TeacherHealthConside
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                   ),
                   onPressed: () => Navigator.of(ctx).pop(),
-                  child: const Text('Understood',
-                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: Colors.white)),
+                  child: Text(
+                    ctx.tr(en: 'Understood', ar: 'فهمت ذلك'),
+                    style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: Colors.white),
+                  ),
                 ),
               ),
             ],
@@ -116,7 +146,7 @@ class _TeacherHealthConsiderationsScreenState extends State<TeacherHealthConside
       appBar: SchooKeepAppBar(
         onBack: () => context.canPop() ? context.safeBack() : context.go('/teacher/home'),
         centerTitle: true,
-        title: 'Health Considerations',
+        title: context.tr(en: 'Health Considerations', ar: 'الحالات الصحية والتعليمات الخاصة'),
         actions: [
           InkWell(
             onTap: _showFerpaModal,
@@ -129,39 +159,45 @@ class _TeacherHealthConsiderationsScreenState extends State<TeacherHealthConside
           ),
         ],
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _ferpaBanner(),
+            _ferpaBanner(context),
             const SizedBox(height: 16),
             if (_weatherRestricted.isNotEmpty) ...[
-              _dividerLabel('Restricted from Outdoor Activities Today'),
+              _dividerLabel(context.tr(en: 'Restricted from Outdoor Activities Today', ar: 'الممنوعون من الأنشطة الخارجية اليوم')),
               const SizedBox(height: 12),
               for (final s in _weatherRestricted) ...[
-                _weatherCard(s.studentName, s.initials, s.restriction),
+                _weatherCard(context, s.studentName, s.initials, context.tr(en: s.restrictionEn, ar: s.restrictionAr)),
                 const SizedBox(height: 8),
               ],
               const SizedBox(height: 8),
             ],
-            Text('All Health Considerations'.toUpperCase(),
-                style: const TextStyle(
-                    fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.textSecondary, letterSpacing: 0.5)),
+            Text(
+              context.tr(en: 'All Health Considerations', ar: 'جميع الحالات الصحية الخاصة').toUpperCase(),
+              style: const TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+                color: SchooKeepColors.textSecondary,
+                letterSpacing: 0.5,
+              ),
+            ),
             const SizedBox(height: 12),
             for (final c in _considerations) ...[
-              _considerationCard(c),
+              _considerationCard(context, c),
               const SizedBox(height: 8),
             ],
             const SizedBox(height: 8),
-            _disclaimer(),
+            _disclaimer(context),
           ],
         ),
       ),
     );
   }
 
-  Widget _ferpaBanner() {
+  Widget _ferpaBanner(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -171,13 +207,16 @@ class _TeacherHealthConsiderationsScreenState extends State<TeacherHealthConside
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
-          Icon(LucideIcons.info, size: 20, color: SchooKeepColors.primary),
-          SizedBox(width: 8),
+        children: [
+          const Icon(LucideIcons.info, size: 20, color: SchooKeepColors.primary),
+          const SizedBox(width: 8),
           Expanded(
             child: Text(
-              'You are viewing activity restrictions only. Medical details are confidential per FERPA regulations.',
-              style: TextStyle(fontSize: 13, color: Color(0xFF1E40AF), height: 1.5),
+              context.tr(
+                en: 'You are viewing activity restrictions only. Medical details are confidential per FERPA regulations.',
+                ar: 'تعرض هذه الشاشة قيود الأنشطة فقط. التفاصيل الطبية سرية طبقاً لأنظمة الخصوصية.',
+              ),
+              style: const TextStyle(fontSize: 13, color: Color(0xFF1E40AF), height: 1.5),
             ),
           ),
         ],
@@ -191,16 +230,22 @@ class _TeacherHealthConsiderationsScreenState extends State<TeacherHealthConside
         const Expanded(child: Divider(color: SchooKeepColors.warning, thickness: 1, height: 1)),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: Text(text.toUpperCase(),
-              style: const TextStyle(
-                  fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.warning, letterSpacing: 0.5)),
+          child: Text(
+            text.toUpperCase(),
+            style: const TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w500,
+              color: SchooKeepColors.warning,
+              letterSpacing: 0.5,
+            ),
+          ),
         ),
         const Expanded(child: Divider(color: SchooKeepColors.warning, thickness: 1, height: 1)),
       ],
     );
   }
 
-  Widget _weatherCard(String name, String initials, String restriction) {
+  Widget _weatherCard(BuildContext context, String name, String initials, String restriction) {
     return _leftBorderCard(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -232,7 +277,7 @@ class _TeacherHealthConsiderationsScreenState extends State<TeacherHealthConside
     );
   }
 
-  Widget _considerationCard(_Consideration c) {
+  Widget _considerationCard(BuildContext context, _Consideration c) {
     final (bg, fg) = _typeColors(c.type);
     return SchooKeepCard(
       padding: const EdgeInsets.all(12),
@@ -256,13 +301,16 @@ class _TeacherHealthConsiderationsScreenState extends State<TeacherHealthConside
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                       decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(999)),
-                      child: Text(_typeLabel(c.type),
+                      child: Text(_typeLabel(context, c.type),
                           style: TextStyle(fontSize: 10, fontWeight: FontWeight.w500, color: fg)),
                     ),
                   ],
                 ),
                 const SizedBox(height: 8),
-                Text(c.restriction, style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary)),
+                Text(
+                  context.tr(en: c.restrictionEn, ar: c.restrictionAr),
+                  style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary),
+                ),
               ],
             ),
           ),
@@ -271,7 +319,7 @@ class _TeacherHealthConsiderationsScreenState extends State<TeacherHealthConside
     );
   }
 
-  Widget _disclaimer() {
+  Widget _disclaimer(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -287,21 +335,30 @@ class _TeacherHealthConsiderationsScreenState extends State<TeacherHealthConside
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 Text.rich(
                   TextSpan(children: [
                     TextSpan(
-                        text: 'Privacy Notice: ',
-                        style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: SchooKeepColors.textSecondary)),
+                      text: context.tr(en: 'Privacy Notice: ', ar: 'إشعار الخصوصية: '),
+                      style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: SchooKeepColors.textSecondary),
+                    ),
                     TextSpan(
-                        text:
-                            'You cannot access full medical records. These restrictions are provided to support safe classroom activities only.',
-                        style: TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary, height: 1.5)),
+                      text: context.tr(
+                        en: 'You cannot access full medical records. These restrictions are provided to support safe classroom activities only.',
+                        ar: 'لا يمكنك الوصول للسجلات الطبية الكاملة. تقدم هذه القيود لدعم سلامة الأنشطة الصفية فقط.',
+                      ),
+                      style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary, height: 1.5),
+                    ),
                   ]),
                 ),
-                SizedBox(height: 8),
-                Text('For medical emergencies, contact the school nurse immediately at ext. 4521.',
-                    style: TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary, height: 1.5)),
+                const SizedBox(height: 8),
+                Text(
+                  context.tr(
+                    en: 'For medical emergencies, contact the school nurse immediately at ext. 4521.',
+                    ar: 'في حالات الطوارئ الطبية، اتصل فوراً بممرض المدرسة على التحويلة ٤٥٢١.',
+                  ),
+                  style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary, height: 1.5),
+                ),
               ],
             ),
           ),

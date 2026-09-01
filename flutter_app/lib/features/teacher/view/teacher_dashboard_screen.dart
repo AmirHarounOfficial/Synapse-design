@@ -14,9 +14,7 @@ import '../cubit/teacher_dashboard_cubit.dart';
 
 /// Ported from `TeacherDashboard.tsx`. Teacher greeting app bar, today's
 /// summary stats, dismissible dust-storm banner, health considerations card,
-/// upcoming clinic visits, and quick actions. The "Upcoming Clinic Visits"
-/// feed and the alert count are wired to `GET /clinic-visits?date=<today>`;
-/// the attendance stats and weather banner remain static (no API source).
+/// upcoming clinic visits, and quick actions. Localized in English & Arabic.
 class TeacherDashboardScreen extends StatelessWidget {
   const TeacherDashboardScreen({super.key});
 
@@ -39,12 +37,12 @@ class _TeacherDashboardView extends StatelessWidget {
   static const _total = 24; // no API source
   static const _absent = 2; // no API source
 
-  static String _formatTime(DateTime? dt) {
+  static String _formatTime(DateTime? dt, bool isRTL) {
     if (dt == null) return '';
     final local = dt.toLocal();
     final h = local.hour % 12 == 0 ? 12 : local.hour % 12;
     final m = local.minute.toString().padLeft(2, '0');
-    final period = local.hour < 12 ? 'AM' : 'PM';
+    final period = local.hour < 12 ? (isRTL ? 'ص' : 'AM') : (isRTL ? 'م' : 'PM');
     return '$h:$m $period';
   }
 
@@ -58,11 +56,15 @@ class _TeacherDashboardView extends StatelessWidget {
         titleWidget: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            Text('Ms. Sarah Johnson',
-                style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
-            Text('Room 204 — Grade 5',
-                style: TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary)),
+          children: [
+            Text(
+              context.tr(en: 'Ms. Sarah Johnson', ar: 'أ. سارة الجابري'),
+              style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+            ),
+            Text(
+              context.tr(en: 'Room 204 — Grade 5', ar: 'غرفة ٢٠٤ — الصف الخامس'),
+              style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary),
+            ),
           ],
         ),
         actions: [
@@ -78,14 +80,14 @@ class _TeacherDashboardView extends StatelessWidget {
         builder: (context, state) {
           final visits = state is DataLoaded<List<ClinicVisit>> ? state.data : const <ClinicVisit>[];
           final medicalAlerts = visits.length;
-          return Padding(
+          return SingleChildScrollView(
             padding: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _sectionLabel("Today's Summary"),
+                _sectionLabel(context.tr(en: "Today's Summary", ar: 'ملخص اليوم')),
                 const SizedBox(height: 12),
-                _statsRow(medicalAlerts),
+                _statsRow(context, medicalAlerts),
                 const SizedBox(height: 16),
                 if (_showWeatherBanner) ...[
                   _weatherBanner(context),
@@ -93,11 +95,11 @@ class _TeacherDashboardView extends StatelessWidget {
                 ],
                 _medicalAlertsCard(context, medicalAlerts),
                 const SizedBox(height: 16),
-                _sectionLabel('Upcoming Clinic Visits'),
+                _sectionLabel(context.tr(en: 'Upcoming Clinic Visits', ar: 'زيارات العيادة القادمة')),
                 const SizedBox(height: 12),
                 _visitsSection(context, state),
                 const SizedBox(height: 16),
-                _sectionLabel('Quick Actions'),
+                _sectionLabel(context.tr(en: 'Quick Actions', ar: 'الإجراءات السريعة')),
                 const SizedBox(height: 12),
                 SchooKeepButton(
                   label: context.tr(en: 'Take Attendance', ar: 'تسجيل الحضور والغياب'),
@@ -161,7 +163,11 @@ class _TeacherDashboardView extends StatelessWidget {
             const SizedBox(height: 12),
             Text(message, textAlign: TextAlign.center, style: const TextStyle(color: SchooKeepColors.textSecondary)),
             const SizedBox(height: 12),
-            SchooKeepButton(label: 'Retry', fullWidth: false, onPressed: () => _reload(context)),
+            SchooKeepButton(
+              label: context.tr(en: 'Retry', ar: 'إعادة المحاولة'),
+              fullWidth: false,
+              onPressed: () => _reload(context),
+            ),
           ],
         ),
       ),
@@ -178,15 +184,36 @@ class _TeacherDashboardView extends StatelessWidget {
         ),
       );
 
-  Widget _statsRow(int medicalAlerts) {
+  Widget _statsRow(BuildContext context, int medicalAlerts) {
     return Row(
       children: [
         // Present/Absent come from attendance, which has no API endpoint — static.
-        Expanded(child: _statCard(LucideIcons.checkCircle, SchooKeepColors.accent, 'Present', '$_present/$_total')),
+        Expanded(
+          child: _statCard(
+            LucideIcons.checkCircle,
+            SchooKeepColors.accent,
+            context.tr(en: 'Present', ar: 'الحاضرون'),
+            '$_present/$_total',
+          ),
+        ),
         const SizedBox(width: 8),
-        Expanded(child: _statCard(LucideIcons.users, SchooKeepColors.textSecondary, 'Absent', '$_absent')),
+        Expanded(
+          child: _statCard(
+            LucideIcons.users,
+            SchooKeepColors.textSecondary,
+            context.tr(en: 'Absent', ar: 'الغائبون'),
+            '$_absent',
+          ),
+        ),
         const SizedBox(width: 8),
-        Expanded(child: _statCard(LucideIcons.alertCircle, SchooKeepColors.warning, 'Alerts', '$medicalAlerts')),
+        Expanded(
+          child: _statCard(
+            LucideIcons.alertCircle,
+            SchooKeepColors.warning,
+            context.tr(en: 'Alerts', ar: 'التنبيهات'),
+            '$medicalAlerts',
+          ),
+        ),
       ],
     );
   }
@@ -203,16 +230,20 @@ class _TeacherDashboardView extends StatelessWidget {
               Icon(icon, size: 16, color: iconColor),
               const SizedBox(width: 4),
               Expanded(
-                child: Text(label,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(fontSize: 11, color: SchooKeepColors.textSecondary)),
+                child: Text(
+                  label,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(fontSize: 11, color: SchooKeepColors.textSecondary),
+                ),
               ),
             ],
           ),
           const SizedBox(height: 4),
-          Text(value,
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
+          Text(
+            value,
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary),
+          ),
         ],
       ),
     );
@@ -232,18 +263,22 @@ class _TeacherDashboardView extends StatelessWidget {
         children: [
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
-              Icon(LucideIcons.alertTriangle, size: 20, color: SchooKeepColors.warning),
-              SizedBox(width: 8),
+            children: [
+              const Icon(LucideIcons.alertTriangle, size: 20, color: SchooKeepColors.warning),
+              const SizedBox(width: 8),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Dust Storm Advisory',
-                        style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.amberText)),
-                    SizedBox(height: 4),
-                    Text('3 students must remain indoors today',
-                        style: TextStyle(fontSize: 13, color: SchooKeepColors.amberText)),
+                    Text(
+                      context.tr(en: 'Dust Storm Advisory', ar: 'تنبيه عاصفة ترابية'),
+                      style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.amberText),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      context.tr(en: '3 students must remain indoors today', ar: 'يجب أن يبقى ٣ طلاب بداخل المبنى اليوم'),
+                      style: const TextStyle(fontSize: 13, color: SchooKeepColors.amberText),
+                    ),
                   ],
                 ),
               ),
@@ -254,9 +289,9 @@ class _TeacherDashboardView extends StatelessWidget {
             child: Container(
               constraints: const BoxConstraints(minHeight: 44),
               alignment: AlignmentDirectional.centerStart,
-              child: const Text(
-                'View list',
-                style: TextStyle(
+              child: Text(
+                context.tr(en: 'View list', ar: 'عرض القائمة'),
+                style: const TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
                   color: SchooKeepColors.warning,
@@ -296,11 +331,18 @@ class _TeacherDashboardView extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text('Health Considerations',
-                            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
+                        Text(
+                          context.tr(en: 'Health Considerations', ar: 'الحالات الصحية الخاصة'),
+                          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+                        ),
                         const SizedBox(height: 4),
-                        Text('$medicalAlerts students have active health considerations',
-                            style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary)),
+                        Text(
+                          context.tr(
+                            en: '$medicalAlerts students have active health considerations',
+                            ar: 'لدى $medicalAlerts طلاب حالات صحية خاصة نشطة',
+                          ),
+                          style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary),
+                        ),
                       ],
                     ),
                   ),
@@ -309,8 +351,10 @@ class _TeacherDashboardView extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 8),
-              const Text('Tap to view safe-activity guidance',
-                  style: TextStyle(fontSize: 12, color: SchooKeepColors.amberText)),
+              Text(
+                context.tr(en: 'Tap to view safe-activity guidance', ar: 'اضغط لعرض إرشادات الأنشطة الآمنة'),
+                style: const TextStyle(fontSize: 12, color: SchooKeepColors.amberText),
+              ),
             ],
           ),
         ),
@@ -320,14 +364,17 @@ class _TeacherDashboardView extends StatelessWidget {
 
   Widget _releases(BuildContext context, List<ClinicVisit> visits) {
     if (visits.isEmpty) {
-      return const SchooKeepCard(
-        padding: EdgeInsets.all(16),
+      return SchooKeepCard(
+        padding: const EdgeInsets.all(16),
         child: Center(
-          child: Text('No clinic visits today',
-              style: TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary)),
+          child: Text(
+            context.tr(en: 'No clinic visits today', ar: 'لا توجد زيارات للعيادة اليوم'),
+            style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary),
+          ),
         ),
       );
     }
+    final isRTL = context.isRTL;
     return Column(
       children: [
         for (final v in visits)
@@ -346,37 +393,39 @@ class _TeacherDashboardView extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // The clinic-visit resource has no student name, only an id.
-                        Text('Student #${v.studentId}',
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
                         Text(
-                            [_formatTime(v.visitedAt), v.reason]
-                                .where((s) => s != null && s.isNotEmpty)
-                                .join(' • '),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary)),
+                          context.tr(en: 'Student #${v.studentId}', ar: 'الطالب #${v.studentId}'),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+                        ),
+                        Text(
+                          [_formatTime(v.visitedAt, isRTL), v.reason]
+                              .where((s) => s != null && s.isNotEmpty)
+                              .join(' • '),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary),
+                        ),
                       ],
                     ),
                   ),
                   const SizedBox(width: 8),
                   if (v.isEmergency)
-                    const SchooKeepBadge(
-                      label: 'Emergency',
+                    SchooKeepBadge(
+                      label: context.tr(en: 'Emergency', ar: 'طوارئ'),
                       icon: LucideIcons.alertCircle,
-                      background: Color(0xFFFEE2E2),
+                      background: const Color(0xFFFEE2E2),
                       foreground: SchooKeepColors.error,
                       fontSize: 11,
                       fontWeight: FontWeight.w500,
                     )
                   else
-                    const SchooKeepBadge(
-                      label: 'Visited',
+                    SchooKeepBadge(
+                      label: context.tr(en: 'Visited', ar: 'تمت الزيارة'),
                       icon: LucideIcons.stethoscope,
-                      background: Color(0xFFDBEAFE),
-                      foreground: Color(0xFF1E40AF),
+                      background: const Color(0xFFDBEAFE),
+                      foreground: const Color(0xFF1E40AF),
                       fontSize: 11,
                       fontWeight: FontWeight.w500,
                     ),

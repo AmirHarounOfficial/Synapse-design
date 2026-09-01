@@ -5,7 +5,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 import '../../../core/di/service_locator.dart';
+import '../../../core/localization/l10n_ext.dart';
 import '../../../core/network/data_state.dart';
+import '../../../core/router/safe_back.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../../data/models/student.dart';
@@ -13,16 +15,12 @@ import '../../../data/repositories/clinic_repository.dart';
 import '../../../data/repositories/student_repository.dart';
 import '../../../features/auth/data/auth_repository.dart';
 import '../cubit/teacher_clinic_referral_cubit.dart';
-import 'package:schookeep/core/router/safe_back.dart';
 
 enum _Severity { minor, moderate, emergency }
 
 /// Ported from `TeacherClinicReferral.tsx`, wired to the API. Student search
 /// hits `GET /students`, photo attach uses `image_picker`, and submit creates a
-/// clinic visit (`POST /clinic-visits`).
-///
-/// NOTE: clinic-visit writes are nurse-only on the backend, so a teacher submit
-/// returns 403; the mapped error is shown rather than a fake success.
+/// clinic visit (`POST /clinic-visits`). Localized in EN & AR.
 class TeacherClinicReferralScreen extends StatelessWidget {
   const TeacherClinicReferralScreen({super.key});
 
@@ -61,7 +59,14 @@ class _TeacherClinicReferralViewState extends State<_TeacherClinicReferralView> 
 
   final _searchController = TextEditingController();
 
-  static const _locations = ['Classroom', 'Hallway', 'Cafeteria', 'Field', 'Gym', 'Playground'];
+  static const _locations = [
+    (id: 'Classroom', en: 'Classroom', ar: 'الفصل الدراسي'),
+    (id: 'Hallway', en: 'Hallway', ar: 'الممر'),
+    (id: 'Cafeteria', en: 'Cafeteria', ar: 'الكافتيريا'),
+    (id: 'Field', en: 'Field', ar: 'الملعب'),
+    (id: 'Gym', en: 'Gym', ar: 'الصالة الرياضية'),
+    (id: 'Playground', en: 'Playground', ar: 'الفناء المدرسي'),
+  ];
 
   bool get _canSubmit =>
       _selectedStudent != null && _description.trim().isNotEmpty && _severity != null && _location != null;
@@ -90,7 +95,12 @@ class _TeacherClinicReferralViewState extends State<_TeacherClinicReferralView> 
       if (!mounted) return;
       ScaffoldMessenger.of(context)
         ..hideCurrentSnackBar()
-        ..showSnackBar(const SnackBar(content: Text('Could not access photos.')));
+        ..showSnackBar(SnackBar(
+          content: Text(context.tr(
+            en: 'Could not access photos.',
+            ar: 'تعذر الوصول إلى الصور.',
+          )),
+        ));
     }
   }
 
@@ -145,13 +155,17 @@ class _TeacherClinicReferralViewState extends State<_TeacherClinicReferralView> 
                   child: const Icon(LucideIcons.check, size: 32, color: SchooKeepColors.accent),
                 ),
                 const SizedBox(height: 16),
-                const Text('Referral Sent to Clinic',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
+                Text(
+                  context.tr(en: 'Referral Sent to Clinic', ar: 'تمت إحالة الطالب للعيادة بنجاح'),
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+                ),
                 const SizedBox(height: 8),
-                Text(_selectedStudent?.name ?? '',
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 14, color: SchooKeepColors.textSecondary)),
+                Text(
+                  _selectedStudent?.name ?? '',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 14, color: SchooKeepColors.textSecondary),
+                ),
                 const SizedBox(height: 16),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -161,11 +175,13 @@ class _TeacherClinicReferralViewState extends State<_TeacherClinicReferralView> 
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
-                    children: const [
-                      _PulseDot(),
-                      SizedBox(width: 8),
-                      Text('Awaiting nurse response',
-                          style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.amberText)),
+                    children: [
+                      const _PulseDot(),
+                      const SizedBox(width: 8),
+                      Text(
+                        context.tr(en: 'Awaiting nurse response', ar: 'في انتظار استجابة الممرض'),
+                        style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.amberText),
+                      ),
                     ],
                   ),
                 ),
@@ -181,10 +197,10 @@ class _TeacherClinicReferralViewState extends State<_TeacherClinicReferralView> 
       appBar: SchooKeepAppBar(
         onBack: () => context.canPop() ? context.safeBack() : context.go('/teacher/home'),
         centerTitle: true,
-        title: 'Clinic Referral',
+        title: context.tr(en: 'Clinic Referral', ar: 'إحالة إلى العيادة الطبية'),
       ),
       bottomBar: _submitBar(),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -224,11 +240,14 @@ class _TeacherClinicReferralViewState extends State<_TeacherClinicReferralView> 
                 const SizedBox(width: 12),
               ],
               Expanded(
-                child: Text('Mark as Emergency',
-                    style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
-                        color: _isEmergency ? SchooKeepColors.error : SchooKeepColors.textPrimary)),
+                child: Text(
+                  context.tr(en: 'Mark as Emergency', ar: 'تحديد كحالة طوارئ عاجلة'),
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    color: _isEmergency ? SchooKeepColors.error : SchooKeepColors.textPrimary,
+                  ),
+                ),
               ),
               Switch(
                 value: _isEmergency,
@@ -244,10 +263,12 @@ class _TeacherClinicReferralViewState extends State<_TeacherClinicReferralView> 
             ],
           ),
           if (_isEmergency)
-            const Padding(
-              padding: EdgeInsets.only(top: 8),
-              child: Text('Nurse will be notified immediately',
-                  style: TextStyle(fontSize: 12, color: SchooKeepColors.error)),
+            Padding(
+              padding: const EdgeInsets.only(top: 8),
+              child: Text(
+                context.tr(en: 'Nurse will be notified immediately', ar: 'سيتم تنبيه ممرض العيادة فوراً'),
+                style: const TextStyle(fontSize: 12, color: SchooKeepColors.error),
+              ),
             ),
         ],
       ),
@@ -260,8 +281,9 @@ class _TeacherClinicReferralViewState extends State<_TeacherClinicReferralView> 
       child: Text.rich(
         TextSpan(children: [
           TextSpan(
-              text: text,
-              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
+            text: text,
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+          ),
           if (required)
             const TextSpan(text: ' *', style: TextStyle(fontSize: 14, color: SchooKeepColors.error)),
         ]),
@@ -273,7 +295,7 @@ class _TeacherClinicReferralViewState extends State<_TeacherClinicReferralView> 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _fieldLabel('Select Student', required: true),
+        _fieldLabel(context.tr(en: 'Select Student', ar: 'اختر الطالب'), required: true),
         if (_selectedStudent != null)
           Container(
             padding: const EdgeInsets.all(12),
@@ -293,7 +315,7 @@ class _TeacherClinicReferralViewState extends State<_TeacherClinicReferralView> 
                       Text(_selectedStudent!.name,
                           style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
                       Text([
-                        if ((_selectedStudent!.grade ?? '').isNotEmpty) 'Grade ${_selectedStudent!.grade}',
+                        if ((_selectedStudent!.grade ?? '').isNotEmpty) context.tr(en: 'Grade ${_selectedStudent!.grade}', ar: 'الصف ${_selectedStudent!.grade}'),
                         if ((_selectedStudent!.section ?? '').isNotEmpty) _selectedStudent!.section!,
                       ].join(' · '),
                           style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary)),
@@ -322,8 +344,10 @@ class _TeacherClinicReferralViewState extends State<_TeacherClinicReferralView> 
               context.read<TeacherClinicReferralCubit>().search(v);
             },
             onTap: () => setState(() => _showResults = true),
-            decoration: _inputDecoration('Search student name...',
-                prefix: const Icon(LucideIcons.search, size: 20, color: SchooKeepColors.textSecondary)),
+            decoration: _inputDecoration(
+              context.tr(en: 'Search student name...', ar: 'ابحث عن اسم الطالب...'),
+              prefix: const Icon(LucideIcons.search, size: 20, color: SchooKeepColors.textSecondary),
+            ),
           ),
           if (_showResults && _searchQuery.isNotEmpty)
             BlocBuilder<TeacherClinicReferralCubit, DataState<List<Student>>>(
@@ -375,7 +399,7 @@ class _TeacherClinicReferralViewState extends State<_TeacherClinicReferralView> 
                                           style: const TextStyle(
                                               fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
                                       Text([
-                                        if ((results[i].grade ?? '').isNotEmpty) 'Grade ${results[i].grade}',
+                                        if ((results[i].grade ?? '').isNotEmpty) context.tr(en: 'Grade ${results[i].grade}', ar: 'الصف ${results[i].grade}'),
                                         if ((results[i].section ?? '').isNotEmpty) results[i].section!,
                                       ].join(' · '),
                                           style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary)),
@@ -400,11 +424,11 @@ class _TeacherClinicReferralViewState extends State<_TeacherClinicReferralView> 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _fieldLabel('Incident Description', required: true),
+        _fieldLabel(context.tr(en: 'Incident Description', ar: 'وصف الأعراض / الحالة الطبية'), required: true),
         TextField(
           maxLines: 4,
           onChanged: (v) => setState(() => _description = v),
-          decoration: _inputDecoration('Describe what happened...'),
+          decoration: _inputDecoration(context.tr(en: 'Describe what happened...', ar: 'اصف ما حدث أو الأعراض الظاهرة على الطالب...')),
         ),
       ],
     );
@@ -414,22 +438,25 @@ class _TeacherClinicReferralViewState extends State<_TeacherClinicReferralView> 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _fieldLabel('Photo or Video (Optional)'),
+        _fieldLabel(context.tr(en: 'Photo or Video (Optional)', ar: 'صورة أو فيديو (اختياري)')),
         Row(
           children: [
-            Expanded(child: _mediaButton(LucideIcons.camera, 'Take Photo', ImageSource.camera)),
+            Expanded(child: _mediaButton(LucideIcons.camera, context.tr(en: 'Take Photo', ar: 'التقاط صورة'), ImageSource.camera)),
             const SizedBox(width: 8),
-            Expanded(child: _mediaButton(LucideIcons.image, 'Choose from Gallery', ImageSource.gallery)),
+            Expanded(child: _mediaButton(LucideIcons.image, context.tr(en: 'Choose from Gallery', ar: 'من المعرض'), ImageSource.gallery)),
           ],
         ),
         if (_media != null)
-          const Padding(
-            padding: EdgeInsets.only(top: 8),
+          Padding(
+            padding: const EdgeInsets.only(top: 8),
             child: Row(
               children: [
-                Icon(LucideIcons.check, size: 16, color: SchooKeepColors.accent),
-                SizedBox(width: 8),
-                Text('1 photo attached', style: TextStyle(fontSize: 13, color: SchooKeepColors.accent)),
+                const Icon(LucideIcons.check, size: 16, color: SchooKeepColors.accent),
+                const SizedBox(width: 8),
+                Text(
+                  context.tr(en: '1 photo attached', ar: 'تم إرفاق صورة واحدة'),
+                  style: const TextStyle(fontSize: 13, color: SchooKeepColors.accent),
+                ),
               ],
             ),
           ),
@@ -469,14 +496,14 @@ class _TeacherClinicReferralViewState extends State<_TeacherClinicReferralView> 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _fieldLabel('Severity', required: true),
+        _fieldLabel(context.tr(en: 'Severity', ar: 'درجة الخطورة'), required: true),
         Row(
           children: [
-            Expanded(child: _severityButton(_Severity.minor, 'Minor', SchooKeepColors.accent, disabled: _isEmergency)),
+            Expanded(child: _severityButton(_Severity.minor, context.tr(en: 'Minor', ar: 'طفيفة'), SchooKeepColors.accent, disabled: _isEmergency)),
             const SizedBox(width: 8),
-            Expanded(child: _severityButton(_Severity.moderate, 'Moderate', SchooKeepColors.warning, disabled: _isEmergency)),
+            Expanded(child: _severityButton(_Severity.moderate, context.tr(en: 'Moderate', ar: 'متوسطة'), SchooKeepColors.warning, disabled: _isEmergency)),
             const SizedBox(width: 8),
-            Expanded(child: _severityButton(_Severity.emergency, 'Emergency', SchooKeepColors.error)),
+            Expanded(child: _severityButton(_Severity.emergency, context.tr(en: 'Emergency', ar: 'طوارئ'), SchooKeepColors.error)),
           ],
         ),
       ],
@@ -514,7 +541,7 @@ class _TeacherClinicReferralViewState extends State<_TeacherClinicReferralView> 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _fieldLabel('Location', required: true),
+        _fieldLabel(context.tr(en: 'Location', ar: 'الموقع'), required: true),
         GridView.count(
           crossAxisCount: 2,
           shrinkWrap: true,
@@ -525,21 +552,24 @@ class _TeacherClinicReferralViewState extends State<_TeacherClinicReferralView> 
           children: [
             for (final loc in _locations)
               Material(
-                color: _location == loc ? SchooKeepColors.primary : SchooKeepColors.surface,
-                shape: _location == loc
+                color: _location == loc.id ? SchooKeepColors.primary : SchooKeepColors.surface,
+                shape: _location == loc.id
                     ? RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8), side: BorderSide.none)
                     : RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8), side: const BorderSide(color: SchooKeepColors.border)),
                 child: InkWell(
                   borderRadius: BorderRadius.circular(8),
-                  onTap: () => setState(() => _location = loc),
+                  onTap: () => setState(() => _location = loc.id),
                   child: Center(
-                    child: Text(loc,
-                        style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            color: _location == loc ? Colors.white : SchooKeepColors.textSecondary)),
+                    child: Text(
+                      context.tr(en: loc.en, ar: loc.ar),
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: _location == loc.id ? Colors.white : SchooKeepColors.textSecondary,
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -576,11 +606,16 @@ class _TeacherClinicReferralViewState extends State<_TeacherClinicReferralView> 
                 child: _submitting
                     ? const SizedBox(
                         width: 22, height: 22, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
-                    : Text(_isEmergency ? 'Send Emergency Referral' : 'Send to Clinic',
+                    : Text(
+                        _isEmergency
+                            ? context.tr(en: 'Send Emergency Referral', ar: 'إرسال إحالة طارئة')
+                            : context.tr(en: 'Send to Clinic', ar: 'إرسال للعيادة الطبية'),
                         style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500,
-                            color: _canSubmit ? Colors.white : const Color(0xFF94A3B8))),
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                          color: _canSubmit ? Colors.white : const Color(0xFF94A3B8),
+                        ),
+                      ),
               ),
             ),
           ),

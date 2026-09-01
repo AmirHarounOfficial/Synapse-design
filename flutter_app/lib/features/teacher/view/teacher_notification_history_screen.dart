@@ -4,18 +4,18 @@ import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 import '../../../core/di/service_locator.dart';
+import '../../../core/localization/l10n_ext.dart';
 import '../../../core/network/data_state.dart';
+import '../../../core/router/safe_back.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../../data/models/app_notification.dart';
 import '../../../data/repositories/notification_repository.dart';
 import '../../nurse/cubit/notifications_cubit.dart';
-import 'package:schookeep/core/router/safe_back.dart';
 
 /// Ported from `TeacherNotificationHistory.tsx`, wired to `GET /notifications`.
 /// Filter chips, the notification list with per-type icon/color, and an empty
-/// state. "Clear all" marks every notification read (the API has no bulk-delete
-/// endpoint), and tapping a card marks it read via `POST /notifications/{id}/read`.
+/// state. Localized in EN & AR.
 class TeacherNotificationHistoryScreen extends StatelessWidget {
   const TeacherNotificationHistoryScreen({super.key});
 
@@ -39,12 +39,12 @@ class _TeacherNotificationHistoryViewState extends State<_TeacherNotificationHis
   String _activeFilter = 'all';
 
   static const _filters = [
-    (id: 'all', label: 'All'),
-    (id: 'medical', label: 'Medical Alerts'),
-    (id: 'weather', label: 'Weather'),
-    (id: 'clinic', label: 'Clinic'),
-    (id: 'students', label: 'Students'),
-    (id: 'system', label: 'System'),
+    (id: 'all', en: 'All', ar: 'الكل'),
+    (id: 'medical', en: 'Medical Alerts', ar: 'تنبيهات طبية'),
+    (id: 'weather', en: 'Weather', ar: 'تنبيهات الطقس'),
+    (id: 'clinic', en: 'Clinic', ar: 'العيادة'),
+    (id: 'students', en: 'Students', ar: 'الطلاب'),
+    (id: 'system', en: 'System', ar: 'النظام'),
   ];
 
   (IconData, Color, Color) _typeStyle(String? type) => switch (type) {
@@ -69,12 +69,17 @@ class _TeacherNotificationHistoryViewState extends State<_TeacherNotificationHis
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Clear All Notifications?',
-                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
+              Text(
+                ctx.tr(en: 'Clear All Notifications?', ar: 'هل تريد مسح جميع الإشعارات؟'),
+                style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary),
+              ),
               const SizedBox(height: 8),
-              const Text(
-                'This marks every notification in your history as read.',
-                style: TextStyle(fontSize: 14, color: SchooKeepColors.textSecondary),
+              Text(
+                ctx.tr(
+                  en: 'This marks every notification in your history as read.',
+                  ar: 'سيؤدي هذا إلى تحديد جميع الإشعارات في السجل كقروءة.',
+                ),
+                style: const TextStyle(fontSize: 14, color: SchooKeepColors.textSecondary),
               ),
               const SizedBox(height: 24),
               Row(
@@ -88,8 +93,10 @@ class _TeacherNotificationHistoryViewState extends State<_TeacherNotificationHis
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                         ),
                         onPressed: () => Navigator.of(ctx).pop(),
-                        child: const Text('Cancel',
-                            style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
+                        child: Text(
+                          ctx.tr(en: 'Cancel', ar: 'إلغاء'),
+                          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+                        ),
                       ),
                     ),
                   ),
@@ -106,8 +113,10 @@ class _TeacherNotificationHistoryViewState extends State<_TeacherNotificationHis
                           cubit.markAllRead();
                           Navigator.of(ctx).pop();
                         },
-                        child: const Text('Clear All',
-                            style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: Colors.white)),
+                        child: Text(
+                          ctx.tr(en: 'Clear All', ar: 'مسح الكل'),
+                          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: Colors.white),
+                        ),
                       ),
                     ),
                   ),
@@ -131,13 +140,15 @@ class _TeacherNotificationHistoryViewState extends State<_TeacherNotificationHis
           appBar: SchooKeepAppBar(
             onBack: () => context.canPop() ? context.safeBack() : context.go('/teacher/home'),
             centerTitle: true,
-            title: 'Alerts & Notifications',
+            title: context.tr(en: 'Alerts & Notifications', ar: 'التنبيهات والإشعارات'),
             actions: [
               if (all.isNotEmpty)
                 TextButton(
                   onPressed: _showClearDialog,
-                  child: const Text('Clear all',
-                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.error)),
+                  child: Text(
+                    context.tr(en: 'Clear all', ar: 'مسح الكل'),
+                    style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.error),
+                  ),
                 ),
             ],
           ),
@@ -186,7 +197,7 @@ class _TeacherNotificationHistoryViewState extends State<_TeacherNotificationHis
             Text(message, textAlign: TextAlign.center, style: const TextStyle(color: SchooKeepColors.textSecondary)),
             const SizedBox(height: 16),
             SchooKeepButton(
-              label: 'Retry',
+              label: context.tr(en: 'Retry', ar: 'إعادة المحاولة'),
               fullWidth: false,
               onPressed: () => context.read<NotificationsCubit>().load(),
             ),
@@ -205,7 +216,7 @@ class _TeacherNotificationHistoryViewState extends State<_TeacherNotificationHis
         child: Row(
           children: [
             for (final f in _filters) ...[
-              _chip(f.id, f.label),
+              _chip(f.id, context.tr(en: f.en, ar: f.ar)),
               const SizedBox(width: 8),
             ],
           ],
@@ -241,14 +252,14 @@ class _TeacherNotificationHistoryViewState extends State<_TeacherNotificationHis
     );
   }
 
-  static String _relativeTime(DateTime? d) {
+  static String _relativeTime(BuildContext context, DateTime? d) {
     if (d == null) return '';
     final diff = DateTime.now().difference(d.toLocal());
-    if (diff.inMinutes < 1) return 'Just now';
-    if (diff.inMinutes < 60) return '${diff.inMinutes} minute${diff.inMinutes == 1 ? '' : 's'} ago';
-    if (diff.inHours < 24) return '${diff.inHours} hour${diff.inHours == 1 ? '' : 's'} ago';
-    if (diff.inDays == 1) return 'Yesterday';
-    return '${diff.inDays} days ago';
+    if (diff.inMinutes < 1) return context.tr(en: 'Just now', ar: 'الآن');
+    if (diff.inMinutes < 60) return context.tr(en: '${diff.inMinutes} mins ago', ar: 'منذ ${diff.inMinutes} دقيقة');
+    if (diff.inHours < 24) return context.tr(en: '${diff.inHours} hours ago', ar: 'منذ ${diff.inHours} ساعة');
+    if (diff.inDays == 1) return context.tr(en: 'Yesterday', ar: 'الأمس');
+    return context.tr(en: '${diff.inDays} days ago', ar: 'منذ ${diff.inDays} يوم');
   }
 
   Widget _notificationCard(AppNotification n) {
@@ -307,7 +318,7 @@ class _TeacherNotificationHistoryViewState extends State<_TeacherNotificationHis
                       Text(n.body!, style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary)),
                     ],
                     const SizedBox(height: 4),
-                    Text(_relativeTime(n.createdAt),
+                    Text(_relativeTime(context, n.createdAt),
                         style: const TextStyle(fontSize: 12, color: Color(0xFF94A3B8))),
                   ],
                 ),
@@ -331,15 +342,20 @@ class _TeacherNotificationHistoryViewState extends State<_TeacherNotificationHis
           border: Border.all(color: SchooKeepColors.border),
         ),
         child: Column(
-          children: const [
-            _EmptyIcon(),
-            SizedBox(height: 16),
-            Text('No Alerts in This Category',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
-            SizedBox(height: 8),
-            Text("You're all caught up",
-                textAlign: TextAlign.center, style: TextStyle(fontSize: 14, color: SchooKeepColors.textSecondary)),
+          children: [
+            const _EmptyIcon(),
+            const SizedBox(height: 16),
+            Text(
+              context.tr(en: 'No Alerts in This Category', ar: 'لا توجد تنبيهات في هذه الفئة'),
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              context.tr(en: "You're all caught up", ar: 'أنت على اطلاع بكافة التحديثات'),
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 14, color: SchooKeepColors.textSecondary),
+            ),
           ],
         ),
       ),

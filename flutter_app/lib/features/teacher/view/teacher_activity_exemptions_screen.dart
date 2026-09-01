@@ -2,39 +2,65 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
+import '../../../core/localization/l10n_ext.dart';
+import '../../../core/router/safe_back.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
-import 'package:schookeep/core/router/safe_back.dart';
 
 class _Exemption {
   const _Exemption({
     required this.id,
     required this.name,
     required this.initials,
-    required this.grade,
-    required this.restriction,
+    required this.gradeEn,
+    required this.gradeAr,
+    required this.restrictionEn,
+    required this.restrictionAr,
     this.weatherLinked = false,
   });
   final String id;
   final String name;
   final String initials;
-  final String grade;
-  final String restriction;
+  final String gradeEn;
+  final String gradeAr;
+  final String restrictionEn;
+  final String restrictionAr;
   final bool weatherLinked;
 }
 
 /// Ported from `TeacherActivityExemptions.tsx`. FERPA banner, weather-linked
 /// exemptions during an AQI advisory, the active-exemptions list, and a PE
-/// teacher note. Falls back to an empty-state card when there are none.
+/// teacher note. Falls back to an empty-state card when there are none. Localized in EN & AR.
 class TeacherActivityExemptionsScreen extends StatelessWidget {
   const TeacherActivityExemptionsScreen({super.key});
 
   static const _hasWeatherAdvisory = true;
 
   static const _activeExemptions = [
-    _Exemption(id: '1', name: 'Emma Rodriguez', initials: 'ER', grade: '5th Grade', restriction: 'No vigorous physical activity'),
-    _Exemption(id: '2', name: 'Marcus Chen', initials: 'MC', grade: '5th Grade', restriction: 'Light activity only'),
-    _Exemption(id: '3', name: 'James Taylor', initials: 'JT', grade: '5th Grade', restriction: 'No swimming'),
+    _Exemption(
+        id: '1',
+        name: 'Emma Rodriguez',
+        initials: 'ER',
+        gradeEn: '5th Grade',
+        gradeAr: 'الصف الخامس',
+        restrictionEn: 'No vigorous physical activity',
+        restrictionAr: 'ممنوع من النشاط البدني المجهد'),
+    _Exemption(
+        id: '2',
+        name: 'Marcus Chen',
+        initials: 'MC',
+        gradeEn: '5th Grade',
+        gradeAr: 'الصف الخامس',
+        restrictionEn: 'Light activity only',
+        restrictionAr: 'أنشطة خفيفة فقط'),
+    _Exemption(
+        id: '3',
+        name: 'James Taylor',
+        initials: 'JT',
+        gradeEn: '5th Grade',
+        gradeAr: 'الصف الخامس',
+        restrictionEn: 'No swimming',
+        restrictionAr: 'ممنوع من حصص السباحة'),
   ];
 
   static const _weatherLinkedExemptions = [
@@ -42,37 +68,50 @@ class TeacherActivityExemptionsScreen extends StatelessWidget {
         id: '4',
         name: 'Sarah Williams',
         initials: 'SW',
-        grade: '5th Grade',
-        restriction: 'Indoor only today — weather advisory',
+        gradeEn: '5th Grade',
+        gradeAr: 'الصف الخامس',
+        restrictionEn: 'Indoor only today — weather advisory',
+        restrictionAr: 'البقاء بالداخل اليوم بسبب التنبيه الجوي',
         weatherLinked: true),
     _Exemption(
         id: '5',
         name: 'Alex Martinez',
         initials: 'AM',
-        grade: '5th Grade',
-        restriction: 'Indoor only today — weather advisory',
+        gradeEn: '5th Grade',
+        gradeAr: 'الصف الخامس',
+        restrictionEn: 'Indoor only today — weather advisory',
+        restrictionAr: 'البقاء بالداخل اليوم بسبب التنبيه الجوي',
         weatherLinked: true),
     _Exemption(
         id: '6',
         name: 'Jordan Lee',
         initials: 'JL',
-        grade: '5th Grade',
-        restriction: 'Indoor only today — weather advisory',
+        gradeEn: '5th Grade',
+        gradeAr: 'الصف الخامس',
+        restrictionEn: 'Indoor only today — weather advisory',
+        restrictionAr: 'البقاء بالداخل اليوم بسبب التنبيه الجوي',
         weatherLinked: true),
   ];
 
-  static const _months = [
+  static const _monthsEn = [
     'January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December',
   ];
 
-  String _todaysDate() {
+  static const _monthsAr = [
+    'يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو',
+    'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر',
+  ];
+
+  String _todaysDate(bool isAr) {
     final now = DateTime.now();
-    return '${_months[now.month - 1]} ${now.day}, ${now.year}';
+    final m = isAr ? _monthsAr[now.month - 1] : _monthsEn[now.month - 1];
+    return '$m ${now.day}, ${now.year}';
   }
 
   @override
   Widget build(BuildContext context) {
+    final isAr = context.isRTL;
     final hasExemptions = _activeExemptions.isNotEmpty || _weatherLinkedExemptions.isNotEmpty;
 
     return SchooKeepScaffold(
@@ -83,52 +122,60 @@ class TeacherActivityExemptionsScreen extends StatelessWidget {
         titleWidget: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('Activity Exemptions',
-                style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
-            Text(_todaysDate(), style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary)),
+            Text(
+              context.tr(en: 'Activity Exemptions', ar: 'إعفاءات التربية الرياضية والأنشطة'),
+              style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+            ),
+            Text(_todaysDate(isAr), style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary)),
           ],
         ),
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _ferpaBanner(),
+            _ferpaBanner(context),
             const SizedBox(height: 16),
             if (hasExemptions) ...[
               if (_hasWeatherAdvisory && _weatherLinkedExemptions.isNotEmpty) ...[
-                _aqiDividerLabel(),
+                _aqiDividerLabel(context),
                 const SizedBox(height: 12),
-                _aqiSummary(),
+                _aqiSummary(context),
                 const SizedBox(height: 12),
                 for (final s in _weatherLinkedExemptions) ...[
-                  _exemptionCard(s, weather: true),
+                  _exemptionCard(context, s, weather: true),
                   const SizedBox(height: 8),
                 ],
                 const SizedBox(height: 8),
               ],
               if (_activeExemptions.isNotEmpty) ...[
-                Text('Active Exemptions'.toUpperCase(),
-                    style: const TextStyle(
-                        fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.textSecondary, letterSpacing: 0.5)),
+                Text(
+                  context.tr(en: 'Active Exemptions', ar: 'الإعفاءات الرياضية النشطة').toUpperCase(),
+                  style: const TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w500,
+                    color: SchooKeepColors.textSecondary,
+                    letterSpacing: 0.5,
+                  ),
+                ),
                 const SizedBox(height: 12),
                 for (final s in _activeExemptions) ...[
-                  _exemptionCard(s, weather: false),
+                  _exemptionCard(context, s, weather: false),
                   const SizedBox(height: 8),
                 ],
                 const SizedBox(height: 8),
               ],
-              _peNote(),
+              _peNote(context),
             ] else
-              _emptyState(),
+              _emptyState(context),
           ],
         ),
       ),
     );
   }
 
-  Widget _ferpaBanner() {
+  Widget _ferpaBanner(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -138,19 +185,24 @@ class TeacherActivityExemptionsScreen extends StatelessWidget {
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
-          Icon(LucideIcons.info, size: 20, color: SchooKeepColors.primary),
-          SizedBox(width: 8),
+        children: [
+          const Icon(LucideIcons.info, size: 20, color: SchooKeepColors.primary),
+          const SizedBox(width: 8),
           Expanded(
-            child: Text('You are viewing activity restrictions only. Medical conditions are confidential.',
-                style: TextStyle(fontSize: 13, color: Color(0xFF1E40AF), height: 1.5)),
+            child: Text(
+              context.tr(
+                en: 'You are viewing activity restrictions only. Medical conditions are confidential.',
+                ar: 'تعرض هذه الشاشة قيود الأنشطة فقط. التفاصيل الحالات الصحية سرية.',
+              ),
+              style: const TextStyle(fontSize: 13, color: Color(0xFF1E40AF), height: 1.5),
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _aqiDividerLabel() {
+  Widget _aqiDividerLabel(BuildContext context) {
     return Row(
       children: [
         const Expanded(child: Divider(color: SchooKeepColors.warning, thickness: 1, height: 1)),
@@ -158,12 +210,18 @@ class TeacherActivityExemptionsScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 8),
           child: Row(
             mainAxisSize: MainAxisSize.min,
-            children: const [
-              Icon(LucideIcons.alertTriangle, size: 16, color: SchooKeepColors.warning),
-              SizedBox(width: 8),
-              Text('During Current AQI Advisory',
-                  style: TextStyle(
-                      fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.warning, letterSpacing: 0.5)),
+            children: [
+              const Icon(LucideIcons.alertTriangle, size: 16, color: SchooKeepColors.warning),
+              const SizedBox(width: 8),
+              Text(
+                context.tr(en: 'During Current AQI Advisory', ar: 'خلال تنبيه جودة الهواء الحالي'),
+                style: const TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                  color: SchooKeepColors.warning,
+                  letterSpacing: 0.5,
+                ),
+              ),
             ],
           ),
         ),
@@ -172,7 +230,7 @@ class TeacherActivityExemptionsScreen extends StatelessWidget {
     );
   }
 
-  Widget _aqiSummary() {
+  Widget _aqiSummary(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -180,12 +238,17 @@ class TeacherActivityExemptionsScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: SchooKeepColors.warning),
       ),
-      child: Text('${_weatherLinkedExemptions.length} students must remain fully sedentary',
-          style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.amberText)),
+      child: Text(
+        context.tr(
+          en: '${_weatherLinkedExemptions.length} students must remain fully sedentary',
+          ar: 'يجب على ${_weatherLinkedExemptions.length} طلاب عدم ممارسة أي نشاط جثماني مجهد',
+        ),
+        style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.amberText),
+      ),
     );
   }
 
-  Widget _exemptionCard(_Exemption s, {required bool weather}) {
+  Widget _exemptionCard(BuildContext context, _Exemption s, {required bool weather}) {
     final content = Row(
       children: [
         Container(
@@ -213,11 +276,17 @@ class TeacherActivityExemptionsScreen extends StatelessWidget {
                             fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
                   ),
                   const SizedBox(width: 8),
-                  Text(s.grade, style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary)),
+                  Text(
+                    context.tr(en: s.gradeEn, ar: s.gradeAr),
+                    style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary),
+                  ),
                 ],
               ),
               const SizedBox(height: 4),
-              Text(s.restriction, style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary)),
+              Text(
+                context.tr(en: s.restrictionEn, ar: s.restrictionAr),
+                style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary),
+              ),
             ],
           ),
         ),
@@ -249,7 +318,7 @@ class TeacherActivityExemptionsScreen extends StatelessWidget {
     );
   }
 
-  Widget _peNote() {
+  Widget _peNote(BuildContext context) {
     final count = _activeExemptions.length + _weatherLinkedExemptions.length;
     return Container(
       padding: const EdgeInsets.all(16),
@@ -266,12 +335,14 @@ class TeacherActivityExemptionsScreen extends StatelessWidget {
           Expanded(
             child: Text.rich(
               TextSpan(children: [
-                const TextSpan(
-                    text: "Students excused from today's class: ",
-                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: SchooKeepColors.textSecondary)),
                 TextSpan(
-                    text: '$count',
-                    style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary, height: 1.5)),
+                  text: context.tr(en: "Students excused from today's class: ", ar: 'إجمالي الطلاب المعفيين من حصة اليوم: '),
+                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: SchooKeepColors.textSecondary),
+                ),
+                TextSpan(
+                  text: '$count',
+                  style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary, height: 1.5),
+                ),
               ]),
             ),
           ),
@@ -280,7 +351,7 @@ class TeacherActivityExemptionsScreen extends StatelessWidget {
     );
   }
 
-  Widget _emptyState() {
+  Widget _emptyState(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 32),
       child: Container(
@@ -292,15 +363,20 @@ class TeacherActivityExemptionsScreen extends StatelessWidget {
           border: Border.all(color: SchooKeepColors.border),
         ),
         child: Column(
-          children: const [
-            _CircleIcon(bg: SchooKeepColors.greenChipBg, icon: LucideIcons.checkCircle, color: SchooKeepColors.accent),
-            SizedBox(height: 16),
-            Text('No Activity Restrictions Today',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
-            SizedBox(height: 8),
-            Text('All students are cleared for regular physical activity',
-                textAlign: TextAlign.center, style: TextStyle(fontSize: 14, color: SchooKeepColors.textSecondary)),
+          children: [
+            const _CircleIcon(bg: SchooKeepColors.greenChipBg, icon: LucideIcons.checkCircle, color: SchooKeepColors.accent),
+            const SizedBox(height: 16),
+            Text(
+              context.tr(en: 'No Activity Restrictions Today', ar: 'لا توجد قيود على الأنشطة اليوم'),
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              context.tr(en: 'All students are cleared for regular physical activity', ar: 'جميع الطلاب مصرح لهم بالمشاركة في الرياضة العادية'),
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 14, color: SchooKeepColors.textSecondary),
+            ),
           ],
         ),
       ),

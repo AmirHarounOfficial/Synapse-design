@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
+import '../../../core/localization/l10n_ext.dart';
+import '../../../core/router/safe_back.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
-import 'package:schookeep/core/router/safe_back.dart';
 
 enum _AttStatus { present, late, absent }
 
@@ -19,7 +20,7 @@ class _Student {
 
 /// Ported from `TeacherAttendance.tsx`. Searchable student roster with
 /// per-student present/late/absent toggles, a progress footer, and a success
-/// state on submit (auto-returns home after 2s).
+/// state on submit (auto-returns home after 2s). Localized in EN & AR.
 class TeacherAttendanceScreen extends StatefulWidget {
   const TeacherAttendanceScreen({super.key});
 
@@ -61,23 +62,32 @@ class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen> {
     });
   }
 
-  static const _months = [
+  static const _monthsEn = [
     'January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December',
   ];
 
-  String _dateShort() {
+  static const _monthsAr = [
+    'يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو',
+    'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر',
+  ];
+
+  String _dateShort(bool isAr) {
     final now = DateTime.now();
-    return '${_months[now.month - 1]} ${now.day}';
+    final m = isAr ? _monthsAr[now.month - 1] : _monthsEn[now.month - 1];
+    return '$m ${now.day}';
   }
 
-  String _dateLong() {
+  String _dateLong(bool isAr) {
     final now = DateTime.now();
-    return '${_months[now.month - 1]} ${now.day}, ${now.year}';
+    final m = isAr ? _monthsAr[now.month - 1] : _monthsEn[now.month - 1];
+    return '$m ${now.day}, ${now.year}';
   }
 
   @override
   Widget build(BuildContext context) {
+    final isAr = context.isRTL;
+
     if (_showSuccess) {
       return SchooKeepScaffold(
         reserveBottomNav: true,
@@ -96,13 +106,20 @@ class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen> {
                   child: const Icon(LucideIcons.check, size: 32, color: SchooKeepColors.accent),
                 ),
                 const SizedBox(height: 16),
-                const Text('Attendance Submitted',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
+                Text(
+                  context.tr(en: 'Attendance Submitted', ar: 'تم إرسال سجل الحضور والغياب'),
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+                ),
                 const SizedBox(height: 8),
-                Text('$_markedCount students marked for ${_dateShort()}',
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 14, color: SchooKeepColors.textSecondary)),
+                Text(
+                  context.tr(
+                    en: '$_markedCount students marked for ${_dateShort(isAr)}',
+                    ar: 'تم تسجيل $_markedCount طالب بتاريخ ${_dateShort(isAr)}',
+                  ),
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 14, color: SchooKeepColors.textSecondary),
+                ),
               ],
             ),
           ),
@@ -119,20 +136,24 @@ class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen> {
         titleWidget: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('Attendance',
-                style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
-            Text(_dateLong(), style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary)),
+            Text(
+              context.tr(en: 'Attendance', ar: 'حضور وغياب الفصل'),
+              style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+            ),
+            Text(_dateLong(isAr), style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary)),
           ],
         ),
         actions: [
           TextButton(
             onPressed: _allMarked ? _submit : null,
-            child: Text('Submit',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: _allMarked ? SchooKeepColors.primary : const Color(0xFF94A3B8),
-                )),
+            child: Text(
+              context.tr(en: 'Submit', ar: 'إرسال'),
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: _allMarked ? SchooKeepColors.primary : const Color(0xFF94A3B8),
+              ),
+            ),
           ),
         ],
       ),
@@ -145,7 +166,7 @@ class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen> {
             child: TextField(
               onChanged: (v) => setState(() => _searchQuery = v),
               decoration: InputDecoration(
-                hintText: 'Search by name...',
+                hintText: context.tr(en: 'Search by name...', ar: 'ابحث باسم الطالب...'),
                 hintStyle: const TextStyle(color: SchooKeepColors.textSecondary),
                 prefixIcon: const Icon(LucideIcons.search, size: 20, color: SchooKeepColors.textSecondary),
                 filled: true,
@@ -173,19 +194,19 @@ class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen> {
               padding: const EdgeInsets.all(16),
               children: [
                 for (final s in _filtered) ...[
-                  _studentCard(s),
+                  _studentCard(context, s),
                   const SizedBox(height: 12),
                 ],
               ],
             ),
           ),
-          _footer(),
+          _footer(context),
         ],
       ),
     );
   }
 
-  Widget _studentCard(_Student s) {
+  Widget _studentCard(BuildContext context, _Student s) {
     return SchooKeepCard(
       padding: const EdgeInsets.all(12),
       child: Column(
@@ -208,8 +229,10 @@ class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen> {
                   children: [
                     Text(s.name,
                         style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
-                    Text('Room ${s.room}',
-                        style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary)),
+                    Text(
+                      context.tr(en: 'Room ${s.room}', ar: 'غرفة ${s.room}'),
+                      style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary),
+                    ),
                   ],
                 ),
               ),
@@ -218,11 +241,11 @@ class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen> {
           const SizedBox(height: 12),
           Row(
             children: [
-              Expanded(child: _statusButton(s, _AttStatus.present, 'P', SchooKeepColors.accent)),
+              Expanded(child: _statusButton(s, _AttStatus.present, context.tr(en: 'Present', ar: 'حاضر'), SchooKeepColors.accent)),
               const SizedBox(width: 8),
-              Expanded(child: _statusButton(s, _AttStatus.late, 'L', SchooKeepColors.warning)),
+              Expanded(child: _statusButton(s, _AttStatus.late, context.tr(en: 'Late', ar: 'متأخر'), SchooKeepColors.warning)),
               const SizedBox(width: 8),
-              Expanded(child: _statusButton(s, _AttStatus.absent, 'A', SchooKeepColors.error)),
+              Expanded(child: _statusButton(s, _AttStatus.absent, context.tr(en: 'Absent', ar: 'غائب'), SchooKeepColors.error)),
             ],
           ),
         ],
@@ -251,7 +274,7 @@ class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen> {
           child: Center(
             child: Text(label,
                 style: TextStyle(
-                  fontSize: 14,
+                  fontSize: 13,
                   fontWeight: FontWeight.w500,
                   color: selected ? Colors.white : SchooKeepColors.textSecondary,
                 )),
@@ -261,7 +284,7 @@ class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen> {
     );
   }
 
-  Widget _footer() {
+  Widget _footer(BuildContext context) {
     final pct = ((_markedCount / _totalCount) * 100).round();
     return Container(
       decoration: const BoxDecoration(
@@ -275,8 +298,10 @@ class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('$_markedCount of $_totalCount marked',
-                  style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary)),
+              Text(
+                context.tr(en: '$_markedCount of $_totalCount marked', ar: 'تم تسجيل $_markedCount من أصل $_totalCount'),
+                style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary),
+              ),
               Text('$pct%',
                   style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
             ],
@@ -302,12 +327,14 @@ class _TeacherAttendanceScreenState extends State<TeacherAttendanceScreen> {
                 borderRadius: BorderRadius.circular(8),
                 onTap: _allMarked ? _submit : null,
                 child: Center(
-                  child: Text('Submit Attendance',
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
-                        color: _allMarked ? Colors.white : const Color(0xFF94A3B8),
-                      )),
+                  child: Text(
+                    context.tr(en: 'Submit Attendance', ar: 'إرسال سجل الحضور والغياب'),
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                      color: _allMarked ? Colors.white : const Color(0xFF94A3B8),
+                    ),
+                  ),
                 ),
               ),
             ),
