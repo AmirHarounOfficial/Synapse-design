@@ -6,7 +6,7 @@ import { RamadanBanner } from './components/RamadanBanner';
 export default function App() {
   return (
     <LanguageProvider>
-      <div className="w-full max-w-[393px] mx-auto relative">
+      <div className="w-full min-h-screen relative">
         <RamadanBanner />
         <RouterProvider router={router} />
       </div>

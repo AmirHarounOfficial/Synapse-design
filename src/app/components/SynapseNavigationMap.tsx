@@ -33,6 +33,7 @@ import {
   UserCog,
   Users,
   Moon,
+  Globe,
 } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
