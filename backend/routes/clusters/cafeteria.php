@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\CafeteriaAlertController;
+use App\Http\Controllers\Api\CafeteriaWalletController;
 use App\Http\Controllers\Api\HalalCertificationController;
 use App\Http\Controllers\Api\MealController;
 use Illuminate\Support\Facades\Route;
@@ -15,6 +16,12 @@ Route::get('halal-certifications', [HalalCertificationController::class, 'index'
 Route::get('halal-certifications/{halal_certification}', [HalalCertificationController::class, 'show']);
 Route::get('cafeteria-alerts', [CafeteriaAlertController::class, 'index']);
 Route::get('cafeteria-alerts/{cafeteria_alert}', [CafeteriaAlertController::class, 'show']);
+
+// Cafeteria Wallet & Budget endpoints
+Route::get('cafeteria/wallet/{studentId}', [CafeteriaWalletController::class, 'show']);
+Route::post('cafeteria/wallet/{studentId}', [CafeteriaWalletController::class, 'update']);
+Route::post('cafeteria/wallet/{studentId}/charge', [CafeteriaWalletController::class, 'charge']);
+Route::get('cafeteria/wallet/{studentId}/transactions', [CafeteriaWalletController::class, 'transactions']);
 
 // Writes
 Route::middleware('role:cafeteria,nurse')->group(function () {

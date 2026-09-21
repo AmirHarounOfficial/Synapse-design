@@ -59,6 +59,31 @@ type RouteGroup = {
 
 const routeGroups: RouteGroup[] = [
   {
+    title: 'SchooKeep Platform & Owner Requirements',
+    titleAr: 'متطلبات وتعديلات مالك المنصة (schookeep.com)',
+    audience: 'Platform Admins & Owners',
+    audienceAr: 'المالك، الإدارة العليا، وأولياء الأمور',
+    summary: 'Central hub for landing page, payment gateways, subscriptions, BI analytics, legal policies, and onboarding.',
+    summaryAr: 'المركز الرئيسي لصفحة الهبوط، بوابة الدفع، الاشتراكات، تحليلات BI، والوثائق القانونية.',
+    accent: 'bg-[#0D9488]',
+    icon: Globe,
+    routes: [
+      { label: 'SchooKeep Landing Page (schookeep.com)', labelAr: 'صفحة الهبوط الرئيسية (schookeep.com)', path: '/', type: 'Primary' },
+      { label: 'B2B Subscriptions & Payment Gateway', labelAr: 'إدارة الاشتراكات وبوابة الدفع B2B', path: '/b2b-subscriptions', type: 'Primary' },
+      { label: 'Parent Service Marketplace & Gateway', labelAr: 'سوق خدمات ولي الأمر وبوابة الدفع', path: '/parent-marketplace', type: 'Primary' },
+      { label: 'First-time Admin Setup & RBAC', labelAr: 'الدخول لأول مرة وتوزيع الصلاحيات للمدراء', path: '/first-time-setup', type: 'Flow' },
+      { label: 'BI Analytics User & Dashboard', labelAr: 'يوزر BI والإحصائيات المؤسسية', path: '/bi-dashboard', type: 'Primary' },
+      { label: 'Complaints & Support Portal', labelAr: 'صفحة الشكاوى والاقتراحات والدعم الفني', path: '/support-portal', type: 'Flow' },
+      { label: 'Email Verification & App Downloads', labelAr: 'توثيق الإيميل وتنزيل التطبيق', path: '/email-verification', type: 'Flow' },
+      { label: 'System Training Center', labelAr: 'مركز تدريب ودليل استخدام البرنامج', path: '/system-training', type: 'Utility' },
+      { label: 'Auditor Inspection & Test Certificate', labelAr: 'معاينة زيارة التطبيق لشهادة اختبارية', path: '/auditor-inspection', type: 'Utility' },
+      { label: 'Terms & Conditions', labelAr: 'الشروط والأحكام', path: '/legal/terms', type: 'Utility' },
+      { label: 'Privacy Policy (PDPL)', labelAr: 'سياسة الخصوصية PDPL', path: '/legal/privacy', type: 'Utility' },
+      { label: 'Medical Disclaimer', labelAr: 'إخلاء المسؤولية', path: '/legal/disclaimer', type: 'Utility' },
+      { label: 'Platform Refund Policy', labelAr: 'سياسة المرجوع من المنصة', path: '/legal/refund', type: 'Utility' },
+    ],
+  },
+  {
     title: 'Entry & Trust',
     titleAr: 'الدخول والتحقق والأمان',
     audience: 'All users',

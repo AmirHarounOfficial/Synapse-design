@@ -135,6 +135,7 @@ class _NavigationMapScreenState extends State<NavigationMapScreen> {
         (labelEn: 'Full QR Code View', labelAr: 'رمز QR للاستلام', route: '/parent/app/full-qrcode/person-1'),
         (labelEn: 'Document Expiry Alert', labelAr: 'تنبيه انتهاء صلاحية وثيقة', route: '/parent/app/document-expiry-alert'),
         (labelEn: 'Bus Live Tracking', labelAr: 'التتبع المباشر للحافلة', route: '/parent/app/bus-tracking'),
+        (labelEn: 'Cafeteria Budget & Allowance', labelAr: 'ميزانية الكافتيريا والحد اليومي', route: '/parent/app/cafeteria-budget'),
         (labelEn: 'Parent Profile Settings', labelAr: 'إعدادات حساب ولي الأمر', route: '/parent/app/profile-settings'),
       ],
     ),
@@ -215,6 +216,7 @@ class _NavigationMapScreenState extends State<NavigationMapScreen> {
       titleAr: 'أخصائي المقصف والحساسية',
       links: [
         (labelEn: 'Allergen Alert Dashboard', labelAr: 'لوحة تنبيهات الحساسية والحلال', route: '/cafeteria/alerts'),
+        (labelEn: 'Student POS & Allowance Lookup', labelAr: 'نقطة بيع الكافتيريا ورصيد الطلاب', route: '/cafeteria/pos'),
         (labelEn: 'Allergen Incident Detail', labelAr: 'تفاصيل تنبيه الحساسية', route: '/cafeteria/detail/1'),
         (labelEn: 'Realtime Emergency Alert', labelAr: 'تنبيه طوارئ فوري بالمقصف', route: '/cafeteria/realtime-alert'),
         (labelEn: 'Daily Delivery Log', labelAr: 'سجل التوريد والوجبات اليومية', route: '/cafeteria/history'),

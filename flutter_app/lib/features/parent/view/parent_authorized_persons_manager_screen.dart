@@ -85,6 +85,8 @@ class _AuthorizedPersonsView extends StatelessWidget {
   Widget _content(BuildContext context, bool isRTL, List<AuthorizedPerson> people) {
     return Column(
       children: [
+        _freeFirstMonthBanner(context),
+        const SizedBox(height: 16),
         if (people.isEmpty)
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 32),
@@ -137,6 +139,51 @@ class _AuthorizedPersonsView extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _freeFirstMonthBanner(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          colors: [Color(0xFF8B5CF6), Color(0xFF6366F1)],
+        ),
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: const [BoxShadow(color: Color(0x338B5CF6), blurRadius: 6, offset: Offset(0, 2))],
+      ),
+      child: Row(
+        children: [
+          const Icon(LucideIcons.sparkles, size: 20, color: Colors.white),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  context.tr(en: 'FREE FOR FIRST MONTH', ar: 'مجاني للشهر الأول 🎁'),
+                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w800, color: Colors.white, letterSpacing: 0.5),
+                ),
+                Text(
+                  context.tr(
+                    en: 'Adding authorized persons for child pickup is 100% free for your 1st month!',
+                    ar: 'إضافة المفوضين والأشخاص المخولين بالاستلام مجانية 100% خلال شهرك الأول!',
+                  ),
+                  style: const TextStyle(fontSize: 11, color: Colors.white70),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.2), borderRadius: BorderRadius.circular(999)),
+            child: Text(
+              context.tr(en: 'FREE', ar: 'مجاناً'),
+              style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.white),
+            ),
+          ),
+        ],
+      ),
     );
   }
 

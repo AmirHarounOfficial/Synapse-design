@@ -8,6 +8,7 @@ import 'view/parent_add_authorized_person_screen.dart';
 import 'view/parent_authorized_persons_manager_screen.dart';
 import 'view/parent_authorized_pickups_screen.dart';
 import 'view/parent_bus_live_tracking_screen.dart';
+import 'view/parent_cafeteria_budget_screen.dart';
 import 'view/parent_chat_tab_screen.dart';
 import 'view/parent_chatbot_assistant_screen.dart';
 import 'view/parent_child_confirmation_screen.dart';
@@ -71,6 +72,10 @@ final List<RouteBase> parentRoutes = [
       GoRoute(
         path: '/parent/app/notifications',
         builder: (c, s) => const ParentNotificationSettingsScreen(),
+      ),
+      GoRoute(
+        path: '/parent/app/cafeteria-budget',
+        builder: (c, s) => const ParentCafeteriaBudgetScreen(),
       ),
     ],
   ),

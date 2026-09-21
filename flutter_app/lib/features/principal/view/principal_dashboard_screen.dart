@@ -463,7 +463,7 @@ class _PrincipalDashboardViewState extends State<_PrincipalDashboardView> {
       ),
       _managementRow(
         LucideIcons.wallet,
-        context.tr(en: 'SMS wallet', ar: 'محفظة الرسائل النصية'),
+        context.tr(en: 'SMS Payment Gateway', ar: 'بوابة الدفع ورصيد الرسائل'),
         context.tr(en: 'Balance & top-up history', ar: 'الرصيد وسجل الشحن'),
         () => context.go('/principal/sms-wallet'),
       ),

@@ -68,7 +68,7 @@ class _PrincipalSmsWalletViewState extends State<_PrincipalSmsWalletView> {
   Widget build(BuildContext context) {
     return SchooKeepScaffold(
       scrollable: true,
-      title: context.tr(en: 'SMS Wallet', ar: 'محفظة الرسائل النصية والواتساب'),
+      title: context.tr(en: 'SMS Payment Gateway', ar: 'بوابة الدفع ورصيد الرسائل النصية والواتساب'),
       onBack: () => context.safeBack(),
       body: BlocBuilder<SmsWalletCubit, DataState<SmsWalletData>>(
         builder: (context, state) {

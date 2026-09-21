@@ -6,6 +6,7 @@ import 'view/cafeteria_alert_dashboard_screen.dart';
 import 'view/cafeteria_allergen_detail_screen.dart';
 import 'view/cafeteria_delivery_history_screen.dart';
 import 'view/cafeteria_empty_state_screen.dart';
+import 'view/cafeteria_pos_screen.dart';
 import 'view/cafeteria_realtime_alert_screen.dart';
 import 'view/cafeteria_settings_screen.dart';
 
@@ -17,6 +18,7 @@ final List<RouteBase> cafeteriaRoutes = [
     builder: (c, s, child) => RoleShell(tabs: cafeteriaTabs, child: child),
     routes: [
       GoRoute(path: '/cafeteria/alerts', builder: (c, s) => const CafeteriaAlertDashboardScreen()),
+      GoRoute(path: '/cafeteria/pos', builder: (c, s) => const CafeteriaPosScreen()),
       GoRoute(
         path: '/cafeteria/detail/:id',
         builder: (c, s) => CafeteriaAllergenDetailScreen(id: s.pathParameters['id'] ?? '1'),

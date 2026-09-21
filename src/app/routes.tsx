@@ -181,12 +181,78 @@ import { SysSessionExpiry } from './components/SysSessionExpiry';
 import { SystemStateShowcase } from './components/SystemStateShowcase';
 import { RamadanModeScreen } from './components/RamadanModeScreen';
 
+// SchooKeep New Components
+import { LandingPage } from './components/LandingPage';
+import { TermsAndConditions } from './components/TermsAndConditions';
+import { PrivacyPolicy } from './components/PrivacyPolicy';
+import { DisclaimerPage } from './components/DisclaimerPage';
+import { RefundPolicyPage } from './components/RefundPolicyPage';
+import { SubscriptionManagement } from './components/SubscriptionManagement';
+import { ParentServiceMarketplace } from './components/ParentServiceMarketplace';
+import { FirstTimeAdminSetup } from './components/FirstTimeAdminSetup';
+import { BIDashboard } from './components/BIDashboard';
+import { SupportPortal } from './components/SupportPortal';
+import { EmailVerificationModal } from './components/EmailVerificationModal';
+import { SystemTrainingCenter } from './components/SystemTrainingCenter';
+import { AuditorInspectionMode } from './components/AuditorInspectionMode';
 
 export const router = createBrowserRouter([
-  // Default redirect
+  // Main SchooKeep Landing Page (schookeep.com)
   {
     path: '/',
+    Component: LandingPage
+  },
+  {
+    path: '/navigation-map',
     Component: SynapseNavigationMap
+  },
+  {
+    path: '/legal/terms',
+    Component: TermsAndConditions
+  },
+  {
+    path: '/legal/privacy',
+    Component: PrivacyPolicy
+  },
+  {
+    path: '/legal/disclaimer',
+    Component: DisclaimerPage
+  },
+  {
+    path: '/legal/refund',
+    Component: RefundPolicyPage
+  },
+  {
+    path: '/b2b-subscriptions',
+    Component: SubscriptionManagement
+  },
+  {
+    path: '/parent-marketplace',
+    Component: ParentServiceMarketplace
+  },
+  {
+    path: '/first-time-setup',
+    Component: FirstTimeAdminSetup
+  },
+  {
+    path: '/bi-dashboard',
+    Component: BIDashboard
+  },
+  {
+    path: '/support-portal',
+    Component: SupportPortal
+  },
+  {
+    path: '/email-verification',
+    Component: EmailVerificationModal
+  },
+  {
+    path: '/system-training',
+    Component: SystemTrainingCenter
+  },
+  {
+    path: '/auditor-inspection',
+    Component: AuditorInspectionMode
   },
 
 

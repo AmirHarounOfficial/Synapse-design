@@ -136,6 +136,8 @@ class _CafeteriaAlertDashboardViewState extends State<_CafeteriaAlertDashboardVi
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            _posQuickBanner(context, isRTL),
+            const SizedBox(height: 16),
             _halalBannerSection(isRTL),
             const SizedBox(height: 16),
             _isAcknowledged ? _acknowledgedBanner(isRTL) : _acknowledgeBlock(isRTL, canAcknowledge),
@@ -190,6 +192,53 @@ class _CafeteriaAlertDashboardViewState extends State<_CafeteriaAlertDashboardVi
             const SizedBox(height: 12),
           ],
       ],
+    );
+  }
+
+  Widget _posQuickBanner(BuildContext context, bool isRTL) {
+    return Material(
+      color: SchooKeepColors.surface,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+        side: const BorderSide(color: SchooKeepColors.primary, width: 2),
+      ),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(12),
+        onTap: () => context.go('/cafeteria/pos'),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            children: [
+              Container(
+                width: 44,
+                height: 44,
+                decoration: const BoxDecoration(color: Color(0xFFEFF6FF), shape: BoxShape.circle),
+                alignment: Alignment.center,
+                child: const Icon(LucideIcons.calculator, size: 22, color: SchooKeepColors.primary),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      isRTL ? 'نقطة بيع الكافتيريا ورصيد الطلاب (POS)' : 'Student POS & Allowance Lookup',
+                      style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: SchooKeepColors.textPrimary),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      isRTL ? 'التحقق من الرصيد اليومي المسموح والخصم للطالب' : 'Check student daily limits & charge meals',
+                      style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 8),
+              const RtlIcon(LucideIcons.chevronRight, size: 20, color: SchooKeepColors.primary),
+            ],
+          ),
+        ),
+      ),
     );
   }
 

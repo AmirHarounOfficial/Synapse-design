@@ -49,6 +49,23 @@ class _ParentHomeDashboardView extends StatelessWidget {
         color: SchooKeepColors.primary,
         bg: const Color(0xFFEFF6FF),
         route: '/parent/app/report-home-dose',
+        freeBadge: false,
+      ),
+      (
+        label: isRTL ? 'ميزانية الكافتيريا' : 'Cafeteria budget',
+        icon: LucideIcons.wallet,
+        color: const Color(0xFF10B981),
+        bg: const Color(0xFFD1FAE5),
+        route: '/parent/app/cafeteria-budget',
+        freeBadge: true,
+      ),
+      (
+        label: isRTL ? 'الأشخاص المخولون' : 'Authorized Pickups',
+        icon: LucideIcons.userCheck,
+        color: const Color(0xFF6366F1),
+        bg: const Color(0xFFEEF2FF),
+        route: '/parent/app/authorized-persons',
+        freeBadge: true,
       ),
       (
         label: isRTL ? 'عرض الأدوية' : 'View medications',
@@ -56,6 +73,7 @@ class _ParentHomeDashboardView extends StatelessWidget {
         color: SchooKeepColors.accent,
         bg: SchooKeepColors.greenChipBg,
         route: '/parent/app/medications',
+        freeBadge: false,
       ),
       (
         label: isRTL ? 'رفع مستند' : 'Upload document',
@@ -63,6 +81,7 @@ class _ParentHomeDashboardView extends StatelessWidget {
         color: SchooKeepColors.warning,
         bg: SchooKeepColors.amberChipBg,
         route: '/parent/app/document-upload',
+        freeBadge: false,
       ),
       (
         label: isRTL ? 'محادثة المدرسة' : 'Chat with school',
@@ -70,6 +89,7 @@ class _ParentHomeDashboardView extends StatelessWidget {
         color: const Color(0xFF8B5CF6),
         bg: const Color(0xFFEDE9FE),
         route: '/parent/app/chat',
+        freeBadge: false,
       ),
     ];
 
@@ -263,9 +283,25 @@ class _ParentHomeDashboardView extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      isRTL ? 'تتبع الحافلة المباشر' : 'Live bus tracking',
-                      style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary),
+                    Row(
+                      children: [
+                        Text(
+                          isRTL ? 'تتبع الحافلة المباشر' : 'Live bus tracking',
+                          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary),
+                        ),
+                        const SizedBox(width: 8),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                          decoration: BoxDecoration(
+                            gradient: const LinearGradient(colors: [Color(0xFF8B5CF6), Color(0xFF6366F1)]),
+                            borderRadius: BorderRadius.circular(999),
+                          ),
+                          child: Text(
+                            isRTL ? 'مجاني للشهر الأول' : 'Free 1st Month',
+                            style: const TextStyle(fontSize: 9, fontWeight: FontWeight.bold, color: Colors.white),
+                          ),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 2),
                     Text(
@@ -439,45 +475,78 @@ class _ParentHomeDashboardView extends StatelessWidget {
   static Color _activityBg(ParentActivityKind k) =>
       k == ParentActivityKind.dose ? const Color(0xFFEFF6FF) : const Color(0xFFF3F4F6);
 
-  Widget _quickActionsGrid(BuildContext context, List<({String label, IconData icon, Color color, Color bg, String route})> actions) {
+  Widget _quickActionsGrid(
+    BuildContext context,
+    List<({String label, IconData icon, Color color, Color bg, String route, bool freeBadge})> actions,
+  ) {
+    final isRTL = context.isRTL;
     return GridView.count(
       crossAxisCount: 2,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       mainAxisSpacing: 12,
       crossAxisSpacing: 12,
-      childAspectRatio: 1.45,
+      childAspectRatio: 1.4,
       children: [
         for (final a in actions)
-          Material(
-            color: SchooKeepColors.surface,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-              side: const BorderSide(color: SchooKeepColors.border),
-            ),
-            child: InkWell(
-              borderRadius: BorderRadius.circular(12),
-              onTap: () => context.go(a.route),
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 48,
-                      height: 48,
-                      decoration: BoxDecoration(color: a.bg, shape: BoxShape.circle),
-                      alignment: Alignment.center,
-                      child: Icon(a.icon, size: 24, color: a.color),
+          Stack(
+            clipBehavior: Clip.none,
+            children: [
+              Positioned.fill(
+                child: Material(
+                  color: SchooKeepColors.surface,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    side: const BorderSide(color: SchooKeepColors.border),
+                  ),
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(12),
+                    onTap: () => context.go(a.route),
+                    child: Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: 44,
+                            height: 44,
+                            decoration: BoxDecoration(color: a.bg, shape: BoxShape.circle),
+                            alignment: Alignment.center,
+                            child: Icon(a.icon, size: 22, color: a.color),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            a.label,
+                            textAlign: TextAlign.center,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+                          ),
+                        ],
+                      ),
                     ),
-                    const SizedBox(height: 12),
-                    Text(a.label,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
-                  ],
+                  ),
                 ),
               ),
-            ),
+              if (a.freeBadge)
+                Positioned(
+                  top: -6,
+                  right: isRTL ? null : 6,
+                  left: isRTL ? 6 : null,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(colors: [Color(0xFF8B5CF6), Color(0xFF6366F1)]),
+                      borderRadius: BorderRadius.circular(999),
+                      boxShadow: const [BoxShadow(color: Color(0x338B5CF6), blurRadius: 4, offset: Offset(0, 2))],
+                    ),
+                    child: Text(
+                      isRTL ? 'مجاني الشهر 1' : 'Free 1st Month',
+                      style: const TextStyle(fontSize: 9, fontWeight: FontWeight.bold, color: Colors.white),
+                    ),
+                  ),
+                ),
+            ],
           ),
       ],
     );
