@@ -48,14 +48,6 @@ export function SubscriptionManagement() {
         {/* Tab Switcher */}
         <div className="flex bg-slate-900 border border-slate-800 p-1 rounded-xl">
           <button
-            onClick={() => setActiveTab('platform')}
-            className={`px-4 py-2 rounded-lg text-xs font-bold transition-all ${
-              activeTab === 'platform' ? 'bg-teal-500 text-slate-950' : 'text-slate-400 hover:text-white'
-            }`}
-          >
-            إدارة المنصة (Super Admin)
-          </button>
-          <button
             onClick={() => setActiveTab('school')}
             className={`px-4 py-2 rounded-lg text-xs font-bold transition-all ${
               activeTab === 'school' ? 'bg-teal-500 text-slate-950' : 'text-slate-400 hover:text-white'
