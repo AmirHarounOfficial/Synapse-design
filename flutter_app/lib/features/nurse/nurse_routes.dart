@@ -29,6 +29,7 @@ import 'view/report_preview_screen.dart';
 import 'view/send_cafeteria_alert_screen.dart';
 import 'view/student_health_profile_screen.dart';
 import 'view/student_search_screen.dart';
+import 'view/student_inventory_directory_screen.dart';
 
 /// All Nurse routes. The 5 tab roots + their sub-screens live inside the role
 /// shell (bottom nav). Each route maps to its ported screen, with the exact
@@ -37,62 +38,142 @@ final List<RouteBase> nurseRoutes = [
   ShellRoute(
     builder: (c, s, child) => RoleShell(tabs: nurseTabs, child: child),
     routes: [
-      GoRoute(path: '/nurse/dashboard', builder: (c, s) => const NurseDashboardScreen()),
-      GoRoute(path: '/nurse/daily-doses', builder: (c, s) => const DailyDoseViewScreen()),
-      GoRoute(path: '/nurse/medications', builder: (c, s) => const NurseMedicationsScreen()),
-      GoRoute(path: '/nurse/medications/inventory', builder: (c, s) => const NursePharmacyInventoryScreen()),
-      GoRoute(path: '/nurse/medications/add/step1', builder: (c, s) => const AddMedicationStep1Screen()),
-      GoRoute(path: '/nurse/medications/add/step2', builder: (c, s) => const AddMedicationStep2Screen()),
-      GoRoute(path: '/nurse/medications/add/step3', builder: (c, s) => const AddMedicationStep3Screen()),
+      GoRoute(
+        path: '/nurse/dashboard',
+        builder: (c, s) => const NurseDashboardScreen(),
+      ),
+      GoRoute(
+        path: '/nurse/daily-doses',
+        builder: (c, s) => const DailyDoseViewScreen(),
+      ),
+      GoRoute(
+        path: '/nurse/medications',
+        builder: (c, s) => const NurseMedicationsScreen(),
+      ),
+      GoRoute(
+        path: '/nurse/medications/inventory',
+        builder: (c, s) => const NursePharmacyInventoryScreen(),
+      ),
+      GoRoute(
+        path: '/nurse/medications/student-inventory',
+        builder: (c, s) => const StudentInventoryDirectoryScreen(),
+      ),
+      GoRoute(
+        path: '/nurse/students/:id/inventory',
+        builder: (c, s) => NursePharmacyInventoryScreen(
+          studentId: int.tryParse(s.pathParameters['id'] ?? '') ?? -1,
+        ),
+      ),
+      GoRoute(
+        path: '/nurse/medications/add/step1',
+        builder: (c, s) => const AddMedicationStep1Screen(),
+      ),
+      GoRoute(
+        path: '/nurse/medications/add/step2',
+        builder: (c, s) => const AddMedicationStep2Screen(),
+      ),
+      GoRoute(
+        path: '/nurse/medications/add/step3',
+        builder: (c, s) => const AddMedicationStep3Screen(),
+      ),
       GoRoute(
         path: '/nurse/medications/dose-confirmation',
         builder: (c, s) => DoseConfirmationScreen(
-          medicationId: int.tryParse(s.uri.queryParameters['medication_id'] ?? ''),
+          medicationId: int.tryParse(
+            s.uri.queryParameters['medication_id'] ?? '',
+          ),
           studentId: int.tryParse(s.uri.queryParameters['student_id'] ?? ''),
         ),
       ),
       GoRoute(
         path: '/nurse/medications/dose-conflict',
         builder: (c, s) => DoseConflictAlertScreen(
-          medicationId: int.tryParse(s.uri.queryParameters['medication_id'] ?? ''),
+          medicationId: int.tryParse(
+            s.uri.queryParameters['medication_id'] ?? '',
+          ),
           studentId: int.tryParse(s.uri.queryParameters['student_id'] ?? ''),
         ),
       ),
       GoRoute(
         path: '/nurse/medications/low-supply',
         builder: (c, s) => LowSupplyAlertScreen(
-          medicationId: int.tryParse(s.uri.queryParameters['medication_id'] ?? ''),
+          medicationId: int.tryParse(
+            s.uri.queryParameters['medication_id'] ?? '',
+          ),
         ),
       ),
       GoRoute(
         path: '/nurse/medications/:id',
-        builder: (c, s) => NurseMedicationDetailScreen(id: s.pathParameters['id'] ?? ''),
+        builder: (c, s) =>
+            NurseMedicationDetailScreen(id: s.pathParameters['id'] ?? ''),
       ),
-      GoRoute(path: '/nurse/clinic', builder: (c, s) => const ClinicVisitListScreen()),
+      GoRoute(
+        path: '/nurse/clinic',
+        builder: (c, s) => const ClinicVisitListScreen(),
+      ),
       GoRoute(
         path: '/nurse/clinic/visit/:id',
-        builder: (c, s) => ClinicVisitDetailScreen(id: s.pathParameters['id'] ?? ''),
+        builder: (c, s) =>
+            ClinicVisitDetailScreen(id: s.pathParameters['id'] ?? ''),
       ),
-      GoRoute(path: '/nurse/clinic/new-visit', builder: (c, s) => const NewClinicVisitScreen()),
-      GoRoute(path: '/nurse/clinic/emergency-photo', builder: (c, s) => const EmergencyPhotoUploadScreen()),
-      GoRoute(path: '/nurse/clinic/emergency-consent', builder: (c, s) => const EmergencyConsentRequestScreen()),
-      GoRoute(path: '/nurse/clinic/emergency-escalation', builder: (c, s) => const EmergencyEscalationScreen()),
-      GoRoute(path: '/nurse/students', builder: (c, s) => const StudentSearchScreen()),
+      GoRoute(
+        path: '/nurse/clinic/new-visit',
+        builder: (c, s) => const NewClinicVisitScreen(),
+      ),
+      GoRoute(
+        path: '/nurse/clinic/emergency-photo',
+        builder: (c, s) => const EmergencyPhotoUploadScreen(),
+      ),
+      GoRoute(
+        path: '/nurse/clinic/emergency-consent',
+        builder: (c, s) => const EmergencyConsentRequestScreen(),
+      ),
+      GoRoute(
+        path: '/nurse/clinic/emergency-escalation',
+        builder: (c, s) => const EmergencyEscalationScreen(),
+      ),
+      GoRoute(
+        path: '/nurse/students',
+        builder: (c, s) => const StudentSearchScreen(),
+      ),
       GoRoute(
         path: '/nurse/students/:id',
-        builder: (c, s) => StudentHealthProfileScreen(id: s.pathParameters['id'] ?? ''),
+        builder: (c, s) =>
+            StudentHealthProfileScreen(id: s.pathParameters['id'] ?? ''),
       ),
-      GoRoute(path: '/nurse/documents/review', builder: (c, s) => const DocumentReviewQueueScreen()),
+      GoRoute(
+        path: '/nurse/documents/review',
+        builder: (c, s) => const DocumentReviewQueueScreen(),
+      ),
       GoRoute(
         path: '/nurse/documents/review/:id',
-        builder: (c, s) => DocumentViewerScreen(id: s.pathParameters['id'] ?? ''),
+        builder: (c, s) =>
+            DocumentViewerScreen(id: s.pathParameters['id'] ?? ''),
       ),
-      GoRoute(path: '/nurse/cafeteria-alert', builder: (c, s) => const SendCafeteriaAlertScreen()),
-      GoRoute(path: '/nurse/reports', builder: (c, s) => const NurseReportsScreen()),
-      GoRoute(path: '/nurse/reports/generate', builder: (c, s) => const GenerateReportScreen()),
-      GoRoute(path: '/nurse/reports/preview', builder: (c, s) => const ReportPreviewScreen()),
-      GoRoute(path: '/nurse/settings', builder: (c, s) => const NurseSettingsScreen()),
-      GoRoute(path: '/nurse/notifications', builder: (c, s) => const NurseNotificationsScreen()),
+      GoRoute(
+        path: '/nurse/cafeteria-alert',
+        builder: (c, s) => const SendCafeteriaAlertScreen(),
+      ),
+      GoRoute(
+        path: '/nurse/reports',
+        builder: (c, s) => const NurseReportsScreen(),
+      ),
+      GoRoute(
+        path: '/nurse/reports/generate',
+        builder: (c, s) => const GenerateReportScreen(),
+      ),
+      GoRoute(
+        path: '/nurse/reports/preview',
+        builder: (c, s) => const ReportPreviewScreen(),
+      ),
+      GoRoute(
+        path: '/nurse/settings',
+        builder: (c, s) => const NurseSettingsScreen(),
+      ),
+      GoRoute(
+        path: '/nurse/notifications',
+        builder: (c, s) => const NurseNotificationsScreen(),
+      ),
     ],
   ),
 ];

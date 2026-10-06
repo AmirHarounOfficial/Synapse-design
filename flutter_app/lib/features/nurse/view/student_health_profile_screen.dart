@@ -18,7 +18,8 @@ class StudentHealthProfileScreen extends StatefulWidget {
   final String id;
 
   @override
-  State<StudentHealthProfileScreen> createState() => _StudentHealthProfileScreenState();
+  State<StudentHealthProfileScreen> createState() =>
+      _StudentHealthProfileScreenState();
 }
 
 class _Medication {
@@ -51,7 +52,8 @@ class _Screening {
   final String values;
 }
 
-class _StudentHealthProfileScreenState extends State<StudentHealthProfileScreen> {
+class _StudentHealthProfileScreenState
+    extends State<StudentHealthProfileScreen> {
   String _activeTab = 'medications';
   String _curriculum = 'British';
 
@@ -60,7 +62,14 @@ class _StudentHealthProfileScreenState extends State<StudentHealthProfileScreen>
     _Medication('Adderall XR 10mg', '1 tablet', '8:00 AM', 'given'),
   ];
 
-  static const _curricula = ['UAE MoE', 'British', 'American', 'Indian', 'IB', 'Other'];
+  static const _curricula = [
+    'UAE MoE',
+    'British',
+    'American',
+    'Indian',
+    'IB',
+    'Other',
+  ];
 
   static (Color bg, Color fg) _statusStyle(String status) {
     switch (status) {
@@ -105,7 +114,8 @@ class _StudentHealthProfileScreenState extends State<StudentHealthProfileScreen>
   }
 
   Future<void> _shareProfile(bool isRTL) async {
-    const summary = 'Emma Rodriguez\n'
+    const summary =
+        'Emma Rodriguez\n'
         'Grade 3 · Room 204\n'
         'Emirates ID: 784-2016-1234567-1\n'
         'DOB: 19/05/2016\n'
@@ -113,9 +123,11 @@ class _StudentHealthProfileScreenState extends State<StudentHealthProfileScreen>
         'Insurance: Daman Health (DM-992384-01)';
     await Clipboard.setData(const ClipboardData(text: summary));
     if (!mounted) return;
-    _toast(isRTL
-        ? 'تم نسخ ملخص الملف الصحي إلى الحافظة'
-        : 'Health profile summary copied to clipboard');
+    _toast(
+      isRTL
+          ? 'تم نسخ ملخص الملف الصحي إلى الحافظة'
+          : 'Health profile summary copied to clipboard',
+    );
   }
 
   @override
@@ -123,9 +135,24 @@ class _StudentHealthProfileScreenState extends State<StudentHealthProfileScreen>
     final isRTL = context.isRTL;
 
     final visits = <_Visit>[
-      _Visit('24/05/2026', isRTL ? 'إعطاء الدواء المعتاد' : 'Routine medication', 'Nurse Emily Smith RN-4521', true),
-      _Visit('23/05/2026', isRTL ? 'إصابة طفيفة' : 'Minor injury', 'Nurse Emily Smith RN-4521', true),
-      _Visit('20/05/2026', isRTL ? 'وعكة صحية' : 'Illness', 'Nurse Sarah Johnson RN-3298', true),
+      _Visit(
+        '24/05/2026',
+        isRTL ? 'إعطاء الدواء المعتاد' : 'Routine medication',
+        'Nurse Emily Smith RN-4521',
+        true,
+      ),
+      _Visit(
+        '23/05/2026',
+        isRTL ? 'إصابة طفيفة' : 'Minor injury',
+        'Nurse Emily Smith RN-4521',
+        true,
+      ),
+      _Visit(
+        '20/05/2026',
+        isRTL ? 'وعكة صحية' : 'Illness',
+        'Nurse Sarah Johnson RN-3298',
+        true,
+      ),
     ];
 
     final documents = <_Doc>[
@@ -136,8 +163,18 @@ class _StudentHealthProfileScreenState extends State<StudentHealthProfileScreen>
     ];
 
     final screenings = <_Screening>[
-      _Screening(isRTL ? 'فحص النظر' : 'Vision', '01/05/2026', 'ES', '20/20 OD, 20/20 OS'),
-      _Screening(isRTL ? 'فحص السمع' : 'Hearing', '01/05/2026', 'ES', isRTL ? 'سليم' : 'Pass bilateral'),
+      _Screening(
+        isRTL ? 'فحص النظر' : 'Vision',
+        '01/05/2026',
+        'ES',
+        '20/20 OD, 20/20 OS',
+      ),
+      _Screening(
+        isRTL ? 'فحص السمع' : 'Hearing',
+        '01/05/2026',
+        'ES',
+        isRTL ? 'سليم' : 'Pass bilateral',
+      ),
     ];
 
     final tabs = [
@@ -154,13 +191,24 @@ class _StudentHealthProfileScreenState extends State<StudentHealthProfileScreen>
         centerTitle: true,
         onBack: () => context.safeBack(),
         actions: [
+          IconButton(
+            tooltip: context.tr(en: 'Medicine inventory', ar: 'مخزون الأدوية'),
+            onPressed: int.tryParse(widget.id) == null
+                ? null
+                : () => context.go('/nurse/students/${widget.id}/inventory'),
+            icon: const Icon(LucideIcons.package, size: 20),
+          ),
           InkWell(
             onTap: () => _shareProfile(isRTL),
             borderRadius: BorderRadius.circular(999),
             child: const SizedBox(
               width: 44,
               height: 44,
-              child: Icon(LucideIcons.share2, size: 20, color: SchooKeepColors.textSecondary),
+              child: Icon(
+                LucideIcons.share2,
+                size: 20,
+                color: SchooKeepColors.textSecondary,
+              ),
             ),
           ),
         ],
@@ -184,7 +232,9 @@ class _StudentHealthProfileScreenState extends State<StudentHealthProfileScreen>
   }
 
   Widget _heroCard(bool isRTL) {
-    final medicalAlerts = isRTL ? ['ربو', 'حساسية الفول السوداني'] : ['Asthma', 'Peanut Allergy'];
+    final medicalAlerts = isRTL
+        ? ['ربو', 'حساسية الفول السوداني']
+        : ['Asthma', 'Peanut Allergy'];
     return SchooKeepCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -195,21 +245,41 @@ class _StudentHealthProfileScreenState extends State<StudentHealthProfileScreen>
               Container(
                 width: 64,
                 height: 64,
-                decoration: const BoxDecoration(color: Color(0xFFEFF6FF), shape: BoxShape.circle),
+                decoration: const BoxDecoration(
+                  color: Color(0xFFEFF6FF),
+                  shape: BoxShape.circle,
+                ),
                 alignment: Alignment.center,
-                child: const Text('ER',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500, color: SchooKeepColors.primary)),
+                child: const Text(
+                  'ER',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500,
+                    color: SchooKeepColors.primary,
+                  ),
+                ),
               ),
               const SizedBox(width: 16),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Emma Rodriguez',
-                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: SchooKeepColors.textPrimary)),
+                    const Text(
+                      'Emma Rodriguez',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: SchooKeepColors.textPrimary,
+                      ),
+                    ),
                     const SizedBox(height: 4),
-                    Text(isRTL ? 'الصف الثالث · غرفة 204' : 'Grade 3 · Room 204',
-                        style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary)),
+                    Text(
+                      isRTL ? 'الصف الثالث · غرفة 204' : 'Grade 3 · Room 204',
+                      style: const TextStyle(
+                        fontSize: 13,
+                        color: SchooKeepColors.textSecondary,
+                      ),
+                    ),
                     const SizedBox(height: 12),
                     _curriculumSelector(isRTL),
                     const SizedBox(height: 8),
@@ -221,7 +291,9 @@ class _StudentHealthProfileScreenState extends State<StudentHealthProfileScreen>
           ),
           const SizedBox(height: 16),
           Container(
-            decoration: const BoxDecoration(border: Border(top: BorderSide(color: Color(0xFFF1F5F9)))),
+            decoration: const BoxDecoration(
+              border: Border(top: BorderSide(color: Color(0xFFF1F5F9))),
+            ),
             padding: const EdgeInsets.only(top: 8),
             child: Row(
               children: [
@@ -232,8 +304,15 @@ class _StudentHealthProfileScreenState extends State<StudentHealthProfileScreen>
             ),
           ),
           const SizedBox(height: 8),
-          Text(isRTL ? 'تنبيهات طبية مهمة' : 'Medical Alerts',
-              style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: SchooKeepColors.textSecondary, letterSpacing: 0.5)),
+          Text(
+            isRTL ? 'تنبيهات طبية مهمة' : 'Medical Alerts',
+            style: const TextStyle(
+              fontSize: 11,
+              fontWeight: FontWeight.bold,
+              color: SchooKeepColors.textSecondary,
+              letterSpacing: 0.5,
+            ),
+          ),
           const SizedBox(height: 6),
           Wrap(
             spacing: 8,
@@ -241,9 +320,22 @@ class _StudentHealthProfileScreenState extends State<StudentHealthProfileScreen>
             children: [
               for (final a in medicalAlerts)
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                  decoration: BoxDecoration(color: const Color(0xFFFEE2E2), borderRadius: BorderRadius.circular(999)),
-                  child: Text(a, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: SchooKeepColors.error)),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 4,
+                  ),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFFEE2E2),
+                    borderRadius: BorderRadius.circular(999),
+                  ),
+                  child: Text(
+                    a,
+                    style: const TextStyle(
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold,
+                      color: SchooKeepColors.error,
+                    ),
+                  ),
                 ),
             ],
           ),
@@ -255,14 +347,28 @@ class _StudentHealthProfileScreenState extends State<StudentHealthProfileScreen>
   Widget _statusPill(String label, bool complete) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-      decoration: BoxDecoration(color: SchooKeepColors.greenChipBg, borderRadius: BorderRadius.circular(999)),
+      decoration: BoxDecoration(
+        color: SchooKeepColors.greenChipBg,
+        borderRadius: BorderRadius.circular(999),
+      ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(label, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: SchooKeepColors.greenChipText)),
+          Text(
+            label,
+            style: const TextStyle(
+              fontSize: 11,
+              fontWeight: FontWeight.w600,
+              color: SchooKeepColors.greenChipText,
+            ),
+          ),
           if (complete) ...[
             const SizedBox(width: 4),
-            const Icon(LucideIcons.check, size: 14, color: SchooKeepColors.greenChipText),
+            const Icon(
+              LucideIcons.check,
+              size: 14,
+              color: SchooKeepColors.greenChipText,
+            ),
           ],
         ],
       ),
@@ -273,19 +379,36 @@ class _StudentHealthProfileScreenState extends State<StudentHealthProfileScreen>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(isRTL ? 'المنهج الدراسي للمدرسة' : 'School Curriculum',
-            style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: SchooKeepColors.textSecondary, letterSpacing: 0.5)),
+        Text(
+          isRTL ? 'المنهج الدراسي للمدرسة' : 'School Curriculum',
+          style: const TextStyle(
+            fontSize: 10,
+            fontWeight: FontWeight.bold,
+            color: SchooKeepColors.textSecondary,
+            letterSpacing: 0.5,
+          ),
+        ),
         const SizedBox(height: 4),
         SizedBox(
           height: 36,
           child: DropdownButtonFormField<String>(
             initialValue: _curriculum,
             isExpanded: true,
-            icon: const Icon(LucideIcons.chevronDown, size: 16, color: SchooKeepColors.textSecondary),
-            style: const TextStyle(fontSize: 12, color: SchooKeepColors.textPrimary),
+            icon: const Icon(
+              LucideIcons.chevronDown,
+              size: 16,
+              color: SchooKeepColors.textSecondary,
+            ),
+            style: const TextStyle(
+              fontSize: 12,
+              color: SchooKeepColors.textPrimary,
+            ),
             decoration: InputDecoration(
               isDense: true,
-              contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 8,
+                vertical: 8,
+              ),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
                 borderSide: const BorderSide(color: SchooKeepColors.border),
@@ -299,11 +422,18 @@ class _StudentHealthProfileScreenState extends State<StudentHealthProfileScreen>
                 borderSide: const BorderSide(color: SchooKeepColors.primary),
               ),
             ),
-            items: [for (final c in _curricula) DropdownMenuItem(value: c, child: Text(c))],
+            items: [
+              for (final c in _curricula)
+                DropdownMenuItem(value: c, child: Text(c)),
+            ],
             onChanged: (v) {
               if (v == null) return;
               setState(() => _curriculum = v);
-              _toast(isRTL ? 'تم تحديث المنهج الدراسي بنجاح' : 'Curriculum updated successfully.');
+              _toast(
+                isRTL
+                    ? 'تم تحديث المنهج الدراسي بنجاح'
+                    : 'Curriculum updated successfully.',
+              );
             },
           ),
         ),
@@ -322,21 +452,48 @@ class _StudentHealthProfileScreenState extends State<StudentHealthProfileScreen>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(isRTL ? 'رقم الهوية الإماراتية (EID)' : 'Emirates ID (EID)',
-              style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: SchooKeepColors.textSecondary, letterSpacing: 0.5)),
-          const Text('784-2016-1234567-1',
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: SchooKeepColors.textPrimary, fontFamily: 'monospace')),
+          Text(
+            isRTL ? 'رقم الهوية الإماراتية (EID)' : 'Emirates ID (EID)',
+            style: const TextStyle(
+              fontSize: 10,
+              fontWeight: FontWeight.w600,
+              color: SchooKeepColors.textSecondary,
+              letterSpacing: 0.5,
+            ),
+          ),
+          const Text(
+            '784-2016-1234567-1',
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+              color: SchooKeepColors.textPrimary,
+              fontFamily: 'monospace',
+            ),
+          ),
           const SizedBox(height: 6),
-          Text(isRTL ? 'تاريخ الميلاد' : 'Date of Birth',
-              style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: SchooKeepColors.textSecondary, letterSpacing: 0.5)),
+          Text(
+            isRTL ? 'تاريخ الميلاد' : 'Date of Birth',
+            style: const TextStyle(
+              fontSize: 10,
+              fontWeight: FontWeight.w600,
+              color: SchooKeepColors.textSecondary,
+              letterSpacing: 0.5,
+            ),
+          ),
           const SizedBox(height: 2),
           Wrap(
             crossAxisAlignment: WrapCrossAlignment.center,
             spacing: 6,
             runSpacing: 4,
             children: [
-              const Text('19/05/2016',
-                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
+              const Text(
+                '19/05/2016',
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  color: SchooKeepColors.textPrimary,
+                ),
+              ),
               HijriDateChip(date: _dob),
             ],
           ),
@@ -355,39 +512,85 @@ class _StudentHealthProfileScreenState extends State<StudentHealthProfileScreen>
           Container(
             width: double.infinity,
             padding: const EdgeInsets.only(bottom: 8),
-            decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Color(0xFFF1F5F9)))),
-            child: Text(isRTL ? 'التأمين الصحي الإماراتي' : 'UAE Health Insurance',
-                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: SchooKeepColors.textPrimary)),
+            decoration: const BoxDecoration(
+              border: Border(bottom: BorderSide(color: Color(0xFFF1F5F9))),
+            ),
+            child: Text(
+              isRTL ? 'التأمين الصحي الإماراتي' : 'UAE Health Insurance',
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                color: SchooKeepColors.textPrimary,
+              ),
+            ),
           ),
           const SizedBox(height: 12),
           Row(
             children: [
-              Expanded(child: _insuranceField(isRTL ? 'شركة التأمين' : 'Insurer', 'Daman Health')),
-              Expanded(child: _insuranceField(isRTL ? 'رقم وثيقة التأمين' : 'Policy Number', 'DM-992384-01', mono: true)),
+              Expanded(
+                child: _insuranceField(
+                  isRTL ? 'شركة التأمين' : 'Insurer',
+                  'Daman Health',
+                ),
+              ),
+              Expanded(
+                child: _insuranceField(
+                  isRTL ? 'رقم وثيقة التأمين' : 'Policy Number',
+                  'DM-992384-01',
+                  mono: true,
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 12),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(child: _insuranceField(isRTL ? 'تاريخ انتهاء البطاقة' : 'Card Expiry', '12/2026', mono: true)),
+              Expanded(
+                child: _insuranceField(
+                  isRTL ? 'تاريخ انتهاء البطاقة' : 'Card Expiry',
+                  '12/2026',
+                  mono: true,
+                ),
+              ),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(isRTL ? 'حالة التغطية' : 'Coverage Status',
-                        style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary)),
+                    Text(
+                      isRTL ? 'حالة التغطية' : 'Coverage Status',
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: SchooKeepColors.textSecondary,
+                      ),
+                    ),
                     const SizedBox(height: 2),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                      decoration: BoxDecoration(color: SchooKeepColors.greenChipBg, borderRadius: BorderRadius.circular(999)),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 2,
+                      ),
+                      decoration: BoxDecoration(
+                        color: SchooKeepColors.greenChipBg,
+                        borderRadius: BorderRadius.circular(999),
+                      ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Icon(LucideIcons.check, size: 12, color: SchooKeepColors.greenChipText),
+                          const Icon(
+                            LucideIcons.check,
+                            size: 12,
+                            color: SchooKeepColors.greenChipText,
+                          ),
                           const SizedBox(width: 4),
-                          Text(isRTL ? 'نشط' : 'Active',
-                              style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: SchooKeepColors.greenChipText)),
+                          Text(
+                            isRTL ? 'نشط' : 'Active',
+                            style: const TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                              color: SchooKeepColors.greenChipText,
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -406,18 +609,40 @@ class _StudentHealthProfileScreenState extends State<StudentHealthProfileScreen>
             ),
             child: Row(
               children: [
-                const Icon(LucideIcons.fileText, size: 16, color: SchooKeepColors.textSecondary),
+                const Icon(
+                  LucideIcons.fileText,
+                  size: 16,
+                  color: SchooKeepColors.textSecondary,
+                ),
                 const SizedBox(width: 8),
                 Expanded(
-                  child: Text(isRTL ? 'بطاقة_التأمين_الصحية.pdf' : 'Health_Insurance_Card.pdf',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
+                  child: Text(
+                    isRTL
+                        ? 'بطاقة_التأمين_الصحية.pdf'
+                        : 'Health_Insurance_Card.pdf',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: SchooKeepColors.textPrimary,
+                    ),
+                  ),
                 ),
                 GestureDetector(
-                  onTap: () => _toast(isRTL ? 'جاري تحميل بطاقة التأمين...' : 'Downloading insurance card file...'),
-                  child: Text(isRTL ? 'تحميل' : 'Download',
-                      style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: SchooKeepColors.primary)),
+                  onTap: () => _toast(
+                    isRTL
+                        ? 'جاري تحميل بطاقة التأمين...'
+                        : 'Downloading insurance card file...',
+                  ),
+                  child: Text(
+                    isRTL ? 'تحميل' : 'Download',
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: SchooKeepColors.primary,
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -431,29 +656,35 @@ class _StudentHealthProfileScreenState extends State<StudentHealthProfileScreen>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary)),
+        Text(
+          label,
+          style: const TextStyle(
+            fontSize: 12,
+            color: SchooKeepColors.textSecondary,
+          ),
+        ),
         const SizedBox(height: 2),
-        Text(value,
-            style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w600,
-              color: SchooKeepColors.textPrimary,
-              fontFamily: mono ? 'monospace' : null,
-            )),
+        Text(
+          value,
+          style: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
+            color: SchooKeepColors.textPrimary,
+            fontFamily: mono ? 'monospace' : null,
+          ),
+        ),
       ],
     );
   }
 
   Widget _tabBar(List<({String id, String label})> tabs) {
     return Container(
-      decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: SchooKeepColors.border))),
+      decoration: const BoxDecoration(
+        border: Border(bottom: BorderSide(color: SchooKeepColors.border)),
+      ),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
-        child: Row(
-          children: [
-            for (final t in tabs) _tab(t.id, t.label),
-          ],
-        ),
+        child: Row(children: [for (final t in tabs) _tab(t.id, t.label)]),
       ),
     );
   }
@@ -468,15 +699,22 @@ class _StudentHealthProfileScreenState extends State<StudentHealthProfileScreen>
         alignment: Alignment.center,
         decoration: BoxDecoration(
           border: Border(
-            bottom: BorderSide(color: active ? SchooKeepColors.primary : Colors.transparent, width: 2),
+            bottom: BorderSide(
+              color: active ? SchooKeepColors.primary : Colors.transparent,
+              width: 2,
+            ),
           ),
         ),
-        child: Text(label,
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-              color: active ? SchooKeepColors.primary : SchooKeepColors.textSecondary,
-            )),
+        child: Text(
+          label,
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+            color: active
+                ? SchooKeepColors.primary
+                : SchooKeepColors.textSecondary,
+          ),
+        ),
       ),
     );
   }
@@ -540,16 +778,32 @@ class _StudentHealthProfileScreenState extends State<StudentHealthProfileScreen>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(med.name,
-                    style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
+                Text(
+                  med.name,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: SchooKeepColors.textPrimary,
+                  ),
+                ),
                 const SizedBox(height: 4),
-                Text('${med.dose} • ${isRTL ? 'التالي' : 'Next'}: ${med.nextTime}',
-                    style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary)),
+                Text(
+                  '${med.dose} • ${isRTL ? 'التالي' : 'Next'}: ${med.nextTime}',
+                  style: const TextStyle(
+                    fontSize: 13,
+                    color: SchooKeepColors.textSecondary,
+                  ),
+                ),
               ],
             ),
           ),
           const SizedBox(width: 8),
-          SchooKeepBadge(label: _statusLabel(med.status, isRTL), background: bg, foreground: fg, fontSize: 11),
+          SchooKeepBadge(
+            label: _statusLabel(med.status, isRTL),
+            background: bg,
+            foreground: fg,
+            fontSize: 11,
+          ),
         ],
       ),
     );
@@ -570,10 +824,20 @@ class _StudentHealthProfileScreenState extends State<StudentHealthProfileScreen>
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(LucideIcons.plus, size: 20, color: SchooKeepColors.primary),
+            const Icon(
+              LucideIcons.plus,
+              size: 20,
+              color: SchooKeepColors.primary,
+            ),
             const SizedBox(width: 8),
-            Text(isRTL ? 'إضافة دواء جديد للطالب' : 'Add medication',
-                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.primary)),
+            Text(
+              isRTL ? 'إضافة دواء جديد للطالب' : 'Add medication',
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: SchooKeepColors.primary,
+              ),
+            ),
           ],
         ),
       ),
@@ -588,18 +852,40 @@ class _StudentHealthProfileScreenState extends State<StudentHealthProfileScreen>
         children: [
           Row(
             children: [
-              Text(visit.date,
-                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
+              Text(
+                visit.date,
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: SchooKeepColors.textPrimary,
+                ),
+              ),
               if (visit.locked) ...[
                 const SizedBox(width: 8),
-                const Icon(LucideIcons.lock, size: 14, color: SchooKeepColors.textSecondary),
+                const Icon(
+                  LucideIcons.lock,
+                  size: 14,
+                  color: SchooKeepColors.textSecondary,
+                ),
               ],
             ],
           ),
           const SizedBox(height: 4),
-          Text(visit.reason, style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary)),
+          Text(
+            visit.reason,
+            style: const TextStyle(
+              fontSize: 13,
+              color: SchooKeepColors.textSecondary,
+            ),
+          ),
           const SizedBox(height: 4),
-          Text(visit.nurse, style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary)),
+          Text(
+            visit.nurse,
+            style: const TextStyle(
+              fontSize: 12,
+              color: SchooKeepColors.textSecondary,
+            ),
+          ),
         ],
       ),
     );
@@ -614,16 +900,34 @@ class _StudentHealthProfileScreenState extends State<StudentHealthProfileScreen>
           Container(
             width: 48,
             height: 48,
-            decoration: BoxDecoration(color: SchooKeepColors.background, borderRadius: BorderRadius.circular(8)),
-            child: const Icon(LucideIcons.fileText, size: 24, color: SchooKeepColors.textSecondary),
+            decoration: BoxDecoration(
+              color: SchooKeepColors.background,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: const Icon(
+              LucideIcons.fileText,
+              size: 24,
+              color: SchooKeepColors.textSecondary,
+            ),
           ),
           const SizedBox(height: 12),
-          Text(doc.name,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: SchooKeepColors.textPrimary)),
+          Text(
+            doc.name,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.bold,
+              color: SchooKeepColors.textPrimary,
+            ),
+          ),
           const SizedBox(height: 8),
-          SchooKeepBadge(label: _statusLabel(doc.status, isRTL), background: bg, foreground: fg, fontSize: 10),
+          SchooKeepBadge(
+            label: _statusLabel(doc.status, isRTL),
+            background: bg,
+            foreground: fg,
+            fontSize: 10,
+          ),
         ],
       ),
     );
@@ -637,17 +941,38 @@ class _StudentHealthProfileScreenState extends State<StudentHealthProfileScreen>
         children: [
           Row(
             children: [
-              Text(screening.type,
-                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
+              Text(
+                screening.type,
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: SchooKeepColors.textPrimary,
+                ),
+              ),
               const SizedBox(width: 8),
-              const Icon(LucideIcons.lock, size: 14, color: SchooKeepColors.textSecondary),
+              const Icon(
+                LucideIcons.lock,
+                size: 14,
+                color: SchooKeepColors.textSecondary,
+              ),
             ],
           ),
           const SizedBox(height: 4),
-          Text(screening.values, style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary)),
+          Text(
+            screening.values,
+            style: const TextStyle(
+              fontSize: 13,
+              color: SchooKeepColors.textSecondary,
+            ),
+          ),
           const SizedBox(height: 4),
-          Text('${screening.date} • ${screening.nurse}',
-              style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary)),
+          Text(
+            '${screening.date} • ${screening.nurse}',
+            style: const TextStyle(
+              fontSize: 12,
+              color: SchooKeepColors.textSecondary,
+            ),
+          ),
         ],
       ),
     );

@@ -11,6 +11,8 @@ class PharmacyInventoryItemResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'student_id' => $this->student_id,
+            'student_name' => $this->whenLoaded('student', fn () => $this->student?->name),
             'name' => $this->name,
             'name_ar' => $this->name_ar,
             'category' => $this->category,

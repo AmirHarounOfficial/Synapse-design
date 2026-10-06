@@ -8,11 +8,27 @@ use App\Http\Resources\PharmacyInventoryItemResource;
 use App\Http\Resources\PharmacyInventoryLogResource;
 use App\Models\PharmacyInventoryItem;
 use App\Models\PharmacyInventoryLog;
+use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 class PharmacyInventoryController extends Controller
 {
+    private function authorizeStudent(Request $request, int $studentId): void
+    {
+        $student = Student::findOrFail($studentId);
+        abort_unless($request->user()->role === Role::Admin ||
+            $student->school_id === $request->user()->school_id, 403);
+    }
+
+    private function authorizeItem(Request $request, PharmacyInventoryItem $item): void
+    {
+        if ($item->student_id !== null) {
+            $this->authorizeStudent($request, $item->student_id);
+        }
+    }
+
     /**
      * Helper to compute item status based on stock count & expiry
      */
@@ -27,6 +43,7 @@ class PharmacyInventoryController extends Controller
         if ($stock <= $minThreshold) {
             return 'low_stock';
         }
+
         return 'active';
     }
 
@@ -45,7 +62,7 @@ class PharmacyInventoryController extends Controller
             'quantity_change' => $quantityChange,
             'new_quantity' => $newQuantity ?? $item?->stock_quantity,
             'reason' => $reason,
-            'meta' => $meta,
+            'meta' => array_merge($meta ?? [], ['student_id' => $item?->student_id]),
             'created_at' => now(),
         ]);
     }
@@ -56,14 +73,21 @@ class PharmacyInventoryController extends Controller
     public function index(Request $request)
     {
         $query = PharmacyInventoryItem::query();
+        $request->validate(['student_id' => ['nullable', 'integer', 'exists:students,id']]);
+        if ($request->filled('student_id')) {
+            $this->authorizeStudent($request, $request->integer('student_id'));
+            $query->where('student_id', $request->integer('student_id'));
+        } else {
+            $query->whereNull('student_id');
+        }
 
         if ($request->filled('search')) {
             $search = $request->string('search');
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('name_ar', 'like', "%{$search}%")
-                  ->orWhere('category', 'like', "%{$search}%")
-                  ->orWhere('location', 'like', "%{$search}%");
+                    ->orWhere('name_ar', 'like', "%{$search}%")
+                    ->orWhere('category', 'like', "%{$search}%")
+                    ->orWhere('location', 'like', "%{$search}%");
             });
         }
 
@@ -75,7 +99,7 @@ class PharmacyInventoryController extends Controller
             if ($request->string('status') === 'low_stock') {
                 $query->where(function ($q) {
                     $q->where('status', 'low_stock')
-                      ->orWhereRaw('stock_quantity <= min_threshold');
+                        ->orWhereRaw('stock_quantity <= min_threshold');
                 });
             } else {
                 $query->where('status', $request->string('status'));
@@ -90,8 +114,10 @@ class PharmacyInventoryController extends Controller
     /**
      * GET /api/pharmacy-inventory/{item}
      */
-    public function show(PharmacyInventoryItem $pharmacy_inventory)
+    public function show(Request $request, PharmacyInventoryItem $pharmacy_inventory)
     {
+        $this->authorizeItem($request, $pharmacy_inventory);
+
         return new PharmacyInventoryItemResource($pharmacy_inventory->load('logs'));
     }
 
@@ -103,6 +129,7 @@ class PharmacyInventoryController extends Controller
         $user = $request->user();
 
         $data = $request->validate([
+            'student_id' => ['nullable', 'integer', 'exists:students,id'],
             'name' => ['required', 'string', 'max:255'],
             'name_ar' => ['nullable', 'string', 'max:255'],
             'category' => ['required', 'string', 'max:100'],
@@ -116,6 +143,9 @@ class PharmacyInventoryController extends Controller
             'notes' => ['nullable', 'string'],
         ]);
 
+        if (isset($data['student_id'])) {
+            $this->authorizeStudent($request, $data['student_id']);
+        }
         $data['status'] = $this->computeStatus($data['stock_quantity'], $data['min_threshold'], $data['expiry_date'] ?? null);
         $data['created_by'] = $user?->id;
         $data['updated_by'] = $user?->id;
@@ -140,6 +170,10 @@ class PharmacyInventoryController extends Controller
      */
     public function update(Request $request, PharmacyInventoryItem $pharmacy_inventory)
     {
+        $this->authorizeItem($request, $pharmacy_inventory);
+        if ($request->has('student_id') && $request->input('student_id') != $pharmacy_inventory->student_id) {
+            throw ValidationException::withMessages(['student_id' => 'Inventory ownership cannot be changed.']);
+        }
         $user = $request->user();
 
         $data = $request->validate([
@@ -186,6 +220,7 @@ class PharmacyInventoryController extends Controller
      */
     public function adjustStock(Request $request, PharmacyInventoryItem $pharmacy_inventory)
     {
+        $this->authorizeItem($request, $pharmacy_inventory);
         $user = $request->user();
 
         $data = $request->validate([
@@ -193,29 +228,35 @@ class PharmacyInventoryController extends Controller
             'reason' => ['required', 'string', 'max:255'],
         ]);
 
-        $oldStock = $pharmacy_inventory->stock_quantity;
-        $newStock = max(0, $oldStock + $data['adjustment']);
+        return DB::transaction(function () use ($pharmacy_inventory, $data, $user) {
+            $pharmacy_inventory = PharmacyInventoryItem::whereKey($pharmacy_inventory->id)->lockForUpdate()->firstOrFail();
+            $oldStock = $pharmacy_inventory->stock_quantity;
+            $newStock = $oldStock + $data['adjustment'];
+            if ($newStock < 0) {
+                throw ValidationException::withMessages(['adjustment' => 'Cannot dispense more than the available stock.']);
+            }
 
-        $pharmacy_inventory->stock_quantity = $newStock;
-        $pharmacy_inventory->status = $this->computeStatus(
-            $newStock,
-            $pharmacy_inventory->min_threshold,
-            $pharmacy_inventory->expiry_date?->format('Y-m-d')
-        );
-        $pharmacy_inventory->updated_by = $user?->id;
-        $pharmacy_inventory->save();
+            $pharmacy_inventory->stock_quantity = $newStock;
+            $pharmacy_inventory->status = $this->computeStatus(
+                $newStock,
+                $pharmacy_inventory->min_threshold,
+                $pharmacy_inventory->expiry_date?->format('Y-m-d')
+            );
+            $pharmacy_inventory->updated_by = $user?->id;
+            $pharmacy_inventory->save();
 
-        $this->recordLog(
-            $user,
-            $pharmacy_inventory,
-            'stock_adjusted',
-            $data['adjustment'],
-            $newStock,
-            $data['reason'],
-            ['previous_stock' => $oldStock, 'adjustment' => $data['adjustment']]
-        );
+            $this->recordLog(
+                $user,
+                $pharmacy_inventory,
+                'stock_adjusted',
+                $data['adjustment'],
+                $newStock,
+                $data['reason'],
+                ['previous_stock' => $oldStock, 'adjustment' => $data['adjustment']]
+            );
 
-        return new PharmacyInventoryItemResource($pharmacy_inventory);
+            return new PharmacyInventoryItemResource($pharmacy_inventory);
+        });
     }
 
     /**
@@ -223,6 +264,7 @@ class PharmacyInventoryController extends Controller
      */
     public function destroy(Request $request, PharmacyInventoryItem $pharmacy_inventory)
     {
+        $this->authorizeItem($request, $pharmacy_inventory);
         $user = $request->user();
         $itemName = $pharmacy_inventory->name;
         $lastStock = $pharmacy_inventory->stock_quantity;
@@ -251,6 +293,13 @@ class PharmacyInventoryController extends Controller
     public function logs(Request $request)
     {
         $query = PharmacyInventoryLog::query();
+        $request->validate(['student_id' => ['nullable', 'integer', 'exists:students,id']]);
+        if ($request->filled('student_id')) {
+            $this->authorizeStudent($request, $request->integer('student_id'));
+            $query->where('meta->student_id', $request->integer('student_id'));
+        } else {
+            $query->whereNull('meta->student_id');
+        }
 
         if ($request->filled('item_id')) {
             $query->where('pharmacy_inventory_item_id', $request->integer('item_id'));
@@ -260,7 +309,7 @@ class PharmacyInventoryController extends Controller
             $query->where('action', $request->string('action'));
         }
 
-        $logs = $query->latest('created_at')->limit(100)->get();
+        $logs = $query->latest('created_at')->latest('id')->limit(100)->get();
 
         return PharmacyInventoryLogResource::collection($logs);
     }

@@ -12,6 +12,7 @@ class PharmacyInventoryItem extends Model
     use HasFactory;
 
     protected $fillable = [
+        'student_id',
         'name',
         'name_ar',
         'category',
@@ -40,6 +41,11 @@ class PharmacyInventoryItem extends Model
     public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function student(): BelongsTo
+    {
+        return $this->belongsTo(Student::class);
     }
 
     public function updater(): BelongsTo

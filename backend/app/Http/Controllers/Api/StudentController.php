@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\Role;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\StudentResource;
 use App\Models\Student;
@@ -9,10 +10,13 @@ use Illuminate\Http\Request;
 
 class StudentController extends Controller
 {
-    /// GET /api/students?grade=&q=&school_id=
+    // / GET /api/students?grade=&q=&school_id=
     public function index(Request $request)
     {
         $query = Student::query()->with('allergens');
+        if ($request->boolean('for_inventory') && $request->user()->role !== Role::Admin) {
+            $query->where('school_id', $request->user()->school_id);
+        }
 
         if ($request->filled('school_id')) {
             $query->where('school_id', $request->integer('school_id'));

@@ -1,5 +1,6 @@
 class PharmacyInventoryItem {
   final int id;
+  final int? studentId;
   final String name;
   final String? nameAr;
   final String category;
@@ -15,6 +16,7 @@ class PharmacyInventoryItem {
 
   const PharmacyInventoryItem({
     required this.id,
+    this.studentId,
     required this.name,
     this.nameAr,
     required this.category,
@@ -31,13 +33,20 @@ class PharmacyInventoryItem {
 
   factory PharmacyInventoryItem.fromJson(Map<String, dynamic> json) {
     return PharmacyInventoryItem(
-      id: json['id'] is int ? json['id'] as int : int.parse(json['id'].toString()),
+      id: json['id'] is int
+          ? json['id'] as int
+          : int.parse(json['id'].toString()),
+      studentId: (json['student_id'] as num?)?.toInt(),
       name: json['name'] as String? ?? '',
       nameAr: json['name_ar'] as String?,
       category: json['category'] as String? ?? 'General',
       dosageForm: json['dosage_form'] as String? ?? '',
-      stockQuantity: json['stock_quantity'] is int ? json['stock_quantity'] as int : int.parse(json['stock_quantity']?.toString() ?? '0'),
-      minThreshold: json['min_threshold'] is int ? json['min_threshold'] as int : int.parse(json['min_threshold']?.toString() ?? '10'),
+      stockQuantity: json['stock_quantity'] is int
+          ? json['stock_quantity'] as int
+          : int.parse(json['stock_quantity']?.toString() ?? '0'),
+      minThreshold: json['min_threshold'] is int
+          ? json['min_threshold'] as int
+          : int.parse(json['min_threshold']?.toString() ?? '10'),
       unit: json['unit'] as String? ?? 'tablets',
       location: json['location'] as String? ?? '',
       expiryDate: json['expiry_date'] as String? ?? '',
@@ -50,6 +59,7 @@ class PharmacyInventoryItem {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
+      'student_id': studentId,
       'name': name,
       'name_ar': nameAr,
       'category': category,
@@ -82,6 +92,7 @@ class PharmacyInventoryItem {
   }) {
     return PharmacyInventoryItem(
       id: id ?? this.id,
+      studentId: studentId,
       name: name ?? this.name,
       nameAr: nameAr ?? this.nameAr,
       category: category ?? this.category,
@@ -123,13 +134,23 @@ class PharmacyInventoryLog {
 
   factory PharmacyInventoryLog.fromJson(Map<String, dynamic> json) {
     return PharmacyInventoryLog(
-      id: json['id'] is int ? json['id'] as int : int.parse(json['id'].toString()),
+      id: json['id'] is int
+          ? json['id'] as int
+          : int.parse(json['id'].toString()),
       itemName: json['item_name'] as String? ?? 'Pharmacy Item',
       performedByName: json['performed_by_name'] as String? ?? 'Nurse',
       performedByRole: json['performed_by_role'] as String? ?? 'nurse',
       action: json['action'] as String? ?? 'updated',
-      quantityChange: json['quantity_change'] != null ? (json['quantity_change'] is int ? json['quantity_change'] as int : int.tryParse(json['quantity_change'].toString())) : null,
-      newQuantity: json['new_quantity'] != null ? (json['new_quantity'] is int ? json['new_quantity'] as int : int.tryParse(json['new_quantity'].toString())) : null,
+      quantityChange: json['quantity_change'] != null
+          ? (json['quantity_change'] is int
+                ? json['quantity_change'] as int
+                : int.tryParse(json['quantity_change'].toString()))
+          : null,
+      newQuantity: json['new_quantity'] != null
+          ? (json['new_quantity'] is int
+                ? json['new_quantity'] as int
+                : int.tryParse(json['new_quantity'].toString()))
+          : null,
       reason: json['reason'] as String?,
       createdAt: json['created_at'] as String? ?? '',
     );

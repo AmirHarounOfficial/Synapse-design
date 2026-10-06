@@ -8,20 +8,29 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../../data/models/pharmacy_inventory_item.dart';
 import '../../../data/repositories/pharmacy_inventory_repository.dart';
+import '../../../data/repositories/medication_repository.dart';
+import '../../../data/repositories/student_repository.dart';
 
 class NursePharmacyInventoryScreen extends StatefulWidget {
-  const NursePharmacyInventoryScreen({super.key});
+  const NursePharmacyInventoryScreen({super.key, this.studentId});
+  final int? studentId;
 
   @override
-  State<NursePharmacyInventoryScreen> createState() => _NursePharmacyInventoryScreenState();
+  State<NursePharmacyInventoryScreen> createState() =>
+      _NursePharmacyInventoryScreenState();
 }
 
-class _NursePharmacyInventoryScreenState extends State<NursePharmacyInventoryScreen> {
+class _NursePharmacyInventoryScreenState
+    extends State<NursePharmacyInventoryScreen> {
   final PharmacyInventoryRepository _repo = sl<PharmacyInventoryRepository>();
 
   List<PharmacyInventoryItem> _items = [];
   List<PharmacyInventoryLog> _logs = [];
   bool _isLoading = true;
+  String? _error;
+  String? _studentName;
+  bool _saving = false;
+  int _loadVersion = 0;
 
   String _activeTab = 'all'; // 'all', 'low_stock', 'out_of_stock', 'audit_log'
   String _searchQuery = '';
@@ -33,20 +42,60 @@ class _NursePharmacyInventoryScreenState extends State<NursePharmacyInventoryScr
     _loadData();
   }
 
+  @override
+  void didUpdateWidget(covariant NursePharmacyInventoryScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.studentId != widget.studentId) _loadData();
+  }
+
   Future<void> _loadData() async {
-    setState(() => _isLoading = true);
+    final version = ++_loadVersion;
+    final studentId = widget.studentId;
+    setState(() {
+      _isLoading = true;
+      _error = null;
+    });
     try {
-      final items = await _repo.list();
-      final logs = await _repo.logs();
-      if (mounted) {
+      if (studentId != null) {
+        final student = await sl<StudentRepository>().show(studentId);
+        if (!mounted || version != _loadVersion) return;
+        _studentName = context.isRTL
+            ? student.nameAr ?? student.name
+            : student.name;
+      }
+      final items = await _repo.list(studentId: studentId);
+      final logs = await _repo.logs(studentId: studentId);
+      if (mounted && version == _loadVersion) {
         setState(() {
           _items = items;
           _logs = logs;
           _isLoading = false;
         });
       }
-    } catch (_) {
-      if (mounted) setState(() => _isLoading = false);
+    } catch (e) {
+      if (mounted && version == _loadVersion) {
+        setState(() {
+          _isLoading = false;
+          _error = MedicationRepository.messageFor(e);
+        });
+      }
+    }
+  }
+
+  Future<T?> _attempt<T>(Future<T> Function() action) async {
+    if (_saving) return null;
+    setState(() => _saving = true);
+    try {
+      return await action();
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(MedicationRepository.messageFor(e))),
+        );
+      }
+      return null;
+    } finally {
+      if (mounted) setState(() => _saving = false);
     }
   }
 
@@ -69,15 +118,27 @@ class _NursePharmacyInventoryScreenState extends State<NursePharmacyInventoryScr
       context: context,
       builder: (dialogCtx) {
         return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
           title: Row(
             children: [
-              const Icon(LucideIcons.slidersHorizontal, color: SchooKeepColors.primary, size: 20),
+              const Icon(
+                LucideIcons.slidersHorizontal,
+                color: SchooKeepColors.primary,
+                size: 20,
+              ),
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
-                  context.tr(en: 'Adjust Stock Count', ar: 'تعديل كمية المخزون'),
-                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  context.tr(
+                    en: 'Adjust Stock Count',
+                    ar: 'تعديل كمية المخزون',
+                  ),
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
@@ -100,46 +161,77 @@ class _NursePharmacyInventoryScreenState extends State<NursePharmacyInventoryScr
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        context.isRTL && item.nameAr != null && item.nameAr!.isNotEmpty
+                        context.isRTL &&
+                                item.nameAr != null &&
+                                item.nameAr!.isNotEmpty
                             ? item.nameAr!
                             : item.name,
-                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
                       ),
                       const SizedBox(height: 4),
                       Text(
                         '${context.tr(en: 'Current Stock', ar: 'المخزون الحالي')}: ${item.stockQuantity} ${item.unit}',
-                        style: const TextStyle(fontSize: 13, color: SchooKeepColors.primary, fontWeight: FontWeight.w600),
+                        style: const TextStyle(
+                          fontSize: 13,
+                          color: SchooKeepColors.primary,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ],
                   ),
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  context.tr(en: 'Adjustment (+ for intake, - for dispense)', ar: 'التعديل (+ للإضافة، - للصرف)'),
-                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+                  context.tr(
+                    en: 'Adjustment (+ for intake, - for dispense)',
+                    ar: 'التعديل (+ للإضافة، - للصرف)',
+                  ),
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
                 const SizedBox(height: 6),
                 TextField(
                   controller: qtyController,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
-                    hintText: context.tr(en: 'e.g. 20 or -5', ar: 'مثال: 20 أو -5'),
+                    hintText: context.tr(
+                      en: 'e.g. 20 or -5',
+                      ar: 'مثال: 20 أو -5',
+                    ),
                     isDense: true,
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 14),
                 Text(
-                  context.tr(en: 'Reason for Audit Log *', ar: 'السبب لسجل التدقيق *'),
-                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+                  context.tr(
+                    en: 'Reason for Audit Log *',
+                    ar: 'السبب لسجل التدقيق *',
+                  ),
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
                 const SizedBox(height: 6),
                 TextField(
                   controller: reasonController,
                   decoration: InputDecoration(
-                    hintText: context.tr(en: 'Reason for inventory change...', ar: 'سبب تغيير المخزون...'),
+                    hintText: context.tr(
+                      en: 'Reason for inventory change...',
+                      ar: 'سبب تغيير المخزون...',
+                    ),
                     isDense: true,
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
                   ),
                 ),
               ],
@@ -153,7 +245,9 @@ class _NursePharmacyInventoryScreenState extends State<NursePharmacyInventoryScr
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: SchooKeepColors.primary,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
               ),
               onPressed: () async {
                 final adj = int.tryParse(qtyController.text) ?? 0;
@@ -161,35 +255,18 @@ class _NursePharmacyInventoryScreenState extends State<NursePharmacyInventoryScr
                 if (adj == 0) return;
 
                 Navigator.pop(dialogCtx);
-                await _repo.adjustStock(item.id, adj, reason.isEmpty ? 'Stock adjustment' : reason);
-
-                final nowStr = DateTime.now().toString().substring(0, 16);
-                final updatedItem = item.copyWith(
-                  stockQuantity: (item.stockQuantity + adj).clamp(0, 999999),
-                  status: (item.stockQuantity + adj) <= 0
-                      ? 'out_of_stock'
-                      : ((item.stockQuantity + adj) <= item.minThreshold ? 'low_stock' : 'active'),
+                if (reason.isEmpty) return;
+                final saved = await _attempt(
+                  () => _repo.adjustStock(item.id, adj, reason),
                 );
+                if (saved == null || !mounted) return;
 
-                setState(() {
-                  _items = _items.map((i) => i.id == item.id ? updatedItem : i).toList();
-                  _logs.insert(
-                    0,
-                    PharmacyInventoryLog(
-                      id: DateTime.now().millisecondsSinceEpoch,
-                      itemName: item.name,
-                      performedByName: context.tr(en: 'Aisha Rahman (Nurse)', ar: 'عائشة الرحمن (ممرضة)'),
-                      performedByRole: 'nurse',
-                      action: 'stock_adjusted',
-                      quantityChange: adj,
-                      newQuantity: updatedItem.stockQuantity,
-                      reason: reason,
-                      createdAt: nowStr,
-                    ),
-                  );
-                });
+                await _loadData();
               },
-              child: Text(context.tr(en: 'Confirm', ar: 'تأكيد'), style: const TextStyle(color: Colors.white)),
+              child: Text(
+                context.tr(en: 'Confirm', ar: 'تأكيد'),
+                style: const TextStyle(color: Colors.white),
+              ),
             ),
           ],
         );
@@ -202,14 +279,19 @@ class _NursePharmacyInventoryScreenState extends State<NursePharmacyInventoryScr
       context: context,
       builder: (dialogCtx) {
         return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
           title: Row(
             children: [
               const Icon(LucideIcons.trash2, color: Colors.red, size: 20),
               const SizedBox(width: 8),
               Text(
                 context.tr(en: 'Remove Item?', ar: 'حذف العنصر؟'),
-                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ],
           ),
@@ -227,32 +309,24 @@ class _NursePharmacyInventoryScreenState extends State<NursePharmacyInventoryScr
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.red,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
               ),
               onPressed: () async {
                 Navigator.pop(dialogCtx);
-                await _repo.delete(item.id);
-
-                final nowStr = DateTime.now().toString().substring(0, 16);
-                setState(() {
-                  _items.removeWhere((i) => i.id == item.id);
-                  _logs.insert(
-                    0,
-                    PharmacyInventoryLog(
-                      id: DateTime.now().millisecondsSinceEpoch,
-                      itemName: item.name,
-                      performedByName: context.tr(en: 'Aisha Rahman (Nurse)', ar: 'عائشة الرحمن (ممرضة)'),
-                      performedByRole: 'nurse',
-                      action: 'deleted',
-                      quantityChange: -item.stockQuantity,
-                      newQuantity: 0,
-                      reason: context.tr(en: 'Item deleted from pharmacy catalog', ar: 'تم حذف الدواء من دليل الصيدلية'),
-                      createdAt: nowStr,
-                    ),
-                  );
+                final deleted = await _attempt(() async {
+                  await _repo.delete(item.id);
+                  return true;
                 });
+                if (deleted != true || !mounted) return;
+
+                await _loadData();
               },
-              child: Text(context.tr(en: 'Delete', ar: 'حذف'), style: const TextStyle(color: Colors.white)),
+              child: Text(
+                context.tr(en: 'Delete', ar: 'حذف'),
+                style: const TextStyle(color: Colors.white),
+              ),
             ),
           ],
         );
@@ -263,31 +337,60 @@ class _NursePharmacyInventoryScreenState extends State<NursePharmacyInventoryScr
   void _showAddEditDialog({PharmacyInventoryItem? existing}) {
     final nameCtrl = TextEditingController(text: existing?.name ?? '');
     final nameArCtrl = TextEditingController(text: existing?.nameAr ?? '');
-    final categoryCtrl = TextEditingController(text: existing?.category ?? 'Analgesic');
-    final dosageCtrl = TextEditingController(text: existing?.dosageForm ?? '500mg Tablet');
-    final stockCtrl = TextEditingController(text: (existing?.stockQuantity ?? 20).toString());
-    final minCtrl = TextEditingController(text: (existing?.minThreshold ?? 10).toString());
+    final categoryCtrl = TextEditingController(
+      text: existing?.category ?? '',
+    );
+    final dosageCtrl = TextEditingController(
+      text: existing?.dosageForm ?? '',
+    );
+    final stockCtrl = TextEditingController(
+      text: (existing?.stockQuantity ?? 0).toString(),
+    );
+    final minCtrl = TextEditingController(
+      text: (existing?.minThreshold ?? 0).toString(),
+    );
     final unitCtrl = TextEditingController(text: existing?.unit ?? 'tablets');
-    final locCtrl = TextEditingController(text: existing?.location ?? 'Cabinet A-1');
-    final expCtrl = TextEditingController(text: existing?.expiryDate ?? '2027-12-31');
-    final suppCtrl = TextEditingController(text: existing?.supplier ?? 'Julphar Pharmaceuticals');
+    final locCtrl = TextEditingController(
+      text: existing?.location ?? '',
+    );
+    final expCtrl = TextEditingController(
+      text: existing?.expiryDate ?? '',
+    );
+    final suppCtrl = TextEditingController(
+      text: existing?.supplier ?? '',
+    );
     final notesCtrl = TextEditingController(text: existing?.notes ?? '');
 
     showDialog<void>(
       context: context,
       builder: (dialogCtx) {
         return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
           title: Row(
             children: [
-              const Icon(LucideIcons.package, color: SchooKeepColors.primary, size: 20),
+              const Icon(
+                LucideIcons.package,
+                color: SchooKeepColors.primary,
+                size: 20,
+              ),
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
                   existing != null
-                      ? context.tr(en: 'Edit Pharmacy Item', ar: 'تعديل عنصر الصيدلية')
-                      : context.tr(en: 'Add Pharmacy Item', ar: 'إضافة دواء جديد للصيدلية'),
-                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      ? context.tr(
+                          en: 'Edit Pharmacy Item',
+                          ar: 'تعديل عنصر الصيدلية',
+                        )
+                      : context.tr(
+                          en: 'Add Pharmacy Item',
+                          ar: 'إضافة دواء جديد للصيدلية',
+                        ),
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
@@ -302,7 +405,10 @@ class _NursePharmacyInventoryScreenState extends State<NursePharmacyInventoryScr
                   TextField(
                     controller: nameCtrl,
                     decoration: InputDecoration(
-                      labelText: context.tr(en: 'Item Name (EN) *', ar: 'اسم الدواء (الإنجليزية) *'),
+                      labelText: context.tr(
+                        en: 'Item Name (EN) *',
+                        ar: 'اسم الدواء (الإنجليزية) *',
+                      ),
                       isDense: true,
                     ),
                   ),
@@ -310,7 +416,10 @@ class _NursePharmacyInventoryScreenState extends State<NursePharmacyInventoryScr
                   TextField(
                     controller: nameArCtrl,
                     decoration: InputDecoration(
-                      labelText: context.tr(en: 'Item Name (AR)', ar: 'اسم الدواء (العربية)'),
+                      labelText: context.tr(
+                        en: 'Item Name (AR)',
+                        ar: 'اسم الدواء (العربية)',
+                      ),
                       isDense: true,
                     ),
                   ),
@@ -326,7 +435,10 @@ class _NursePharmacyInventoryScreenState extends State<NursePharmacyInventoryScr
                   TextField(
                     controller: dosageCtrl,
                     decoration: InputDecoration(
-                      labelText: context.tr(en: 'Dosage Form / Strength', ar: 'الشكل الصيدلاني / الجرعة'),
+                      labelText: context.tr(
+                        en: 'Dosage Form / Strength',
+                        ar: 'الشكل الصيدلاني / الجرعة',
+                      ),
                       isDense: true,
                     ),
                   ),
@@ -338,7 +450,10 @@ class _NursePharmacyInventoryScreenState extends State<NursePharmacyInventoryScr
                           controller: stockCtrl,
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(
-                            labelText: context.tr(en: 'Stock Qty *', ar: 'الكمية *'),
+                            labelText: context.tr(
+                              en: 'Stock Qty *',
+                              ar: 'الكمية *',
+                            ),
                             isDense: true,
                           ),
                         ),
@@ -349,7 +464,10 @@ class _NursePharmacyInventoryScreenState extends State<NursePharmacyInventoryScr
                           controller: minCtrl,
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(
-                            labelText: context.tr(en: 'Min Alert *', ar: 'حد التنبيه *'),
+                            labelText: context.tr(
+                              en: 'Min Alert *',
+                              ar: 'حد التنبيه *',
+                            ),
                             isDense: true,
                           ),
                         ),
@@ -373,7 +491,10 @@ class _NursePharmacyInventoryScreenState extends State<NursePharmacyInventoryScr
                         child: TextField(
                           controller: locCtrl,
                           decoration: InputDecoration(
-                            labelText: context.tr(en: 'Location', ar: 'الموقع/المكان'),
+                            labelText: context.tr(
+                              en: 'Location',
+                              ar: 'الموقع/المكان',
+                            ),
                             isDense: true,
                           ),
                         ),
@@ -384,7 +505,10 @@ class _NursePharmacyInventoryScreenState extends State<NursePharmacyInventoryScr
                   TextField(
                     controller: expCtrl,
                     decoration: InputDecoration(
-                      labelText: context.tr(en: 'Expiry Date (YYYY-MM-DD)', ar: 'تاريخ الانتهاء (سسسس-شه-يو)'),
+                      labelText: context.tr(
+                        en: 'Expiry Date (YYYY-MM-DD)',
+                        ar: 'تاريخ الانتهاء (سسسس-شه-يو)',
+                      ),
                       isDense: true,
                     ),
                   ),
@@ -392,7 +516,12 @@ class _NursePharmacyInventoryScreenState extends State<NursePharmacyInventoryScr
                   TextField(
                     controller: suppCtrl,
                     decoration: InputDecoration(
-                      labelText: context.tr(en: 'Supplier', ar: 'المورد/المصنع'),
+                      labelText: widget.studentId == null
+                          ? context.tr(en: 'Supplier', ar: 'المورد/المصنع')
+                          : context.tr(
+                              en: 'Brought by / Guardian',
+                              ar: 'مقدم الدواء / ولي الأمر',
+                            ),
                       isDense: true,
                     ),
                   ),
@@ -401,7 +530,10 @@ class _NursePharmacyInventoryScreenState extends State<NursePharmacyInventoryScr
                     controller: notesCtrl,
                     maxLines: 2,
                     decoration: InputDecoration(
-                      labelText: context.tr(en: 'Notes', ar: 'ملاحظات وتدابير الاستخدام'),
+                      labelText: context.tr(
+                        en: 'Notes',
+                        ar: 'ملاحظات وتدابير الاستخدام',
+                      ),
                       isDense: true,
                     ),
                   ),
@@ -417,89 +549,76 @@ class _NursePharmacyInventoryScreenState extends State<NursePharmacyInventoryScr
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: SchooKeepColors.primary,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
               ),
               onPressed: () async {
                 final name = nameCtrl.text.trim();
                 if (name.isEmpty) return;
 
-                final stock = int.tryParse(stockCtrl.text) ?? 0;
-                final minT = int.tryParse(minCtrl.text) ?? 10;
-                final status = stock <= 0 ? 'out_of_stock' : (stock <= minT ? 'low_stock' : 'active');
+                final stock = int.tryParse(stockCtrl.text);
+                final minT = int.tryParse(minCtrl.text);
+                if (stock == null || minT == null || stock < 0 || minT < 0) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        context.tr(
+                          en: 'Enter valid non-negative stock and alert quantities.',
+                          ar: 'أدخل كميات صحيحة غير سالبة للمخزون وحد التنبيه.',
+                        ),
+                      ),
+                    ),
+                  );
+                  return;
+                }
+                final status = stock <= 0
+                    ? 'out_of_stock'
+                    : (stock <= minT ? 'low_stock' : 'active');
 
                 final payload = {
                   'name': name,
-                  'name_ar': nameArCtrl.text.trim().isEmpty ? null : nameArCtrl.text.trim(),
-                  'category': categoryCtrl.text.trim().isEmpty ? 'Analgesic' : categoryCtrl.text.trim(),
+                  'name_ar': nameArCtrl.text.trim().isEmpty
+                      ? null
+                      : nameArCtrl.text.trim(),
+                  'category': categoryCtrl.text.trim().isEmpty
+                      ? 'Analgesic'
+                      : categoryCtrl.text.trim(),
                   'dosage_form': dosageCtrl.text.trim(),
                   'stock_quantity': stock,
                   'min_threshold': minT,
-                  'unit': unitCtrl.text.trim().isEmpty ? 'tablets' : unitCtrl.text.trim(),
-                  'location': locCtrl.text.trim().isEmpty ? 'Cabinet A-1' : locCtrl.text.trim(),
-                  'expiry_date': expCtrl.text.trim(),
+                  'unit': unitCtrl.text.trim().isEmpty
+                      ? 'tablets'
+                      : unitCtrl.text.trim(),
+                  'location': locCtrl.text.trim().isEmpty
+                      ? 'Cabinet A-1'
+                      : locCtrl.text.trim(),
+                  'expiry_date': expCtrl.text.trim().isEmpty
+                      ? null
+                      : expCtrl.text.trim(),
+                  if (widget.studentId != null) 'student_id': widget.studentId,
                   'supplier': suppCtrl.text.trim(),
                   'notes': notesCtrl.text.trim(),
                   'status': status,
                 };
 
                 Navigator.pop(dialogCtx);
-                final nowStr = DateTime.now().toString().substring(0, 16);
 
                 if (existing != null) {
-                  await _repo.update(existing.id, payload);
-                  final updated = existing.copyWith(
-                    name: name,
-                    nameAr: payload['name_ar'] as String?,
-                    category: payload['category'] as String,
-                    dosageForm: payload['dosage_form'] as String,
-                    stockQuantity: stock,
-                    minThreshold: minT,
-                    unit: payload['unit'] as String,
-                    location: payload['location'] as String,
-                    expiryDate: payload['expiry_date'] as String,
-                    supplier: payload['supplier'] as String,
-                    notes: payload['notes'] as String?,
-                    status: status,
+                  final updated = await _attempt(
+                    () => _repo.update(existing.id, payload),
                   );
-                  setState(() {
-                    _items = _items.map((i) => i.id == existing.id ? updated : i).toList();
-                    _logs.insert(
-                      0,
-                      PharmacyInventoryLog(
-                        id: DateTime.now().millisecondsSinceEpoch,
-                        itemName: name,
-                        performedByName: context.tr(en: 'Aisha Rahman (Nurse)', ar: 'عائشة الرحمن (ممرضة)'),
-                        performedByRole: 'nurse',
-                        action: 'updated',
-                        quantityChange: stock - existing.stockQuantity,
-                        newQuantity: stock,
-                        reason: context.tr(en: 'Updated item specifications', ar: 'تم تحديث مواصفات الدواء'),
-                        createdAt: nowStr,
-                      ),
-                    );
-                  });
+                  if (updated == null || !mounted) return;
                 } else {
-                  final created = await _repo.create(payload);
-                  setState(() {
-                    _items.insert(0, created);
-                    _logs.insert(
-                      0,
-                      PharmacyInventoryLog(
-                        id: DateTime.now().millisecondsSinceEpoch,
-                        itemName: name,
-                        performedByName: context.tr(en: 'Aisha Rahman (Nurse)', ar: 'عائشة الرحمن (ممرضة)'),
-                        performedByRole: 'nurse',
-                        action: 'created',
-                        quantityChange: stock,
-                        newQuantity: stock,
-                        reason: context.tr(en: 'Added new item to catalog', ar: 'تمت إضافة دواء جديد للدليل'),
-                        createdAt: nowStr,
-                      ),
-                    );
-                  });
+                  final created = await _attempt(() => _repo.create(payload));
+                  if (created == null || !mounted) return;
                 }
+                await _loadData();
               },
-              child: Text(context.tr(en: 'Save Item', ar: 'حفظ الدواء'), style: const TextStyle(color: Colors.white)),
+              child: Text(
+                context.tr(en: 'Save Item', ar: 'حفظ الدواء'),
+                style: const TextStyle(color: Colors.white),
+              ),
             ),
           ],
         );
@@ -511,18 +630,21 @@ class _NursePharmacyInventoryScreenState extends State<NursePharmacyInventoryScr
   List<PharmacyInventoryItem> get _filteredItems {
     return _items.where((item) {
       final q = _searchQuery.toLowerCase();
-      final matchesSearch = q.isEmpty ||
+      final matchesSearch =
+          q.isEmpty ||
           item.name.toLowerCase().contains(q) ||
           (item.nameAr ?? '').toLowerCase().contains(q) ||
           item.category.toLowerCase().contains(q) ||
           item.location.toLowerCase().contains(q);
 
-      final matchesCat = _categoryFilter == 'all' || item.category == _categoryFilter;
+      final matchesCat =
+          _categoryFilter == 'all' || item.category == _categoryFilter;
 
       if (!matchesSearch || !matchesCat) return false;
 
       if (_activeTab == 'low_stock') {
-        return item.stockQuantity <= item.minThreshold && item.stockQuantity > 0;
+        return item.stockQuantity <= item.minThreshold &&
+            item.stockQuantity > 0;
       }
       if (_activeTab == 'out_of_stock') {
         return item.stockQuantity == 0;
@@ -533,7 +655,9 @@ class _NursePharmacyInventoryScreenState extends State<NursePharmacyInventoryScr
 
   @override
   Widget build(BuildContext context) {
-    final lowStockCount = _items.where((i) => i.stockQuantity <= i.minThreshold && i.stockQuantity > 0).length;
+    final lowStockCount = _items
+        .where((i) => i.stockQuantity <= i.minThreshold && i.stockQuantity > 0)
+        .length;
     final outOfStockCount = _items.where((i) => i.stockQuantity == 0).length;
     final totalUnits = _items.fold(0, (acc, item) => acc + item.stockQuantity);
 
@@ -541,23 +665,87 @@ class _NursePharmacyInventoryScreenState extends State<NursePharmacyInventoryScr
       reserveBottomNav: true,
       scrollable: false,
       appBar: SchooKeepAppBar(
-        title: context.tr(en: 'Pharmacy Inventory', ar: 'مخزون الصيدلية'),
+        title: widget.studentId == null
+            ? context.tr(en: 'Pharmacy Inventory', ar: 'مخزون الصيدلية')
+            : context.tr(en: 'Student Inventory', ar: 'مخزون الطالب'),
         centerTitle: true,
-        onBack: () => context.go('/nurse/medications'),
+        onBack: () => context.go(
+          widget.studentId == null
+              ? '/nurse/medications'
+              : '/nurse/medications/student-inventory',
+        ),
         actions: [
           IconButton(
             icon: const Icon(LucideIcons.plus, color: SchooKeepColors.primary),
-            onPressed: _openAddModal,
+            tooltip: context.tr(en: 'Add medicine', ar: 'إضافة دواء'),
+            onPressed: _saving || _isLoading || _error != null
+                ? null
+                : _openAddModal,
           ),
         ],
       ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
+          : _error != null
+          ? Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Text(_error!, textAlign: TextAlign.center),
+                  ),
+                  TextButton(
+                    onPressed: _loadData,
+                    child: Text(context.tr(en: 'Retry', ar: 'إعادة المحاولة')),
+                  ),
+                ],
+              ),
+            )
           : Column(
               children: [
+                if (widget.studentId == null)
+                  Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: SegmentedButton<String>(
+                      segments: [
+                        ButtonSegment(
+                          value: 'school',
+                          icon: const Icon(LucideIcons.building, size: 16),
+                          label: Text(
+                            context.tr(en: 'School stock', ar: 'مخزون المدرسة'),
+                          ),
+                        ),
+                        ButtonSegment(
+                          value: 'students',
+                          icon: const Icon(LucideIcons.users, size: 16),
+                          label: Text(
+                            context.tr(en: 'Student stock', ar: 'مخزون الطلاب'),
+                          ),
+                        ),
+                      ],
+                      selected: const {'school'},
+                      onSelectionChanged: (_) =>
+                          context.go('/nurse/medications/student-inventory'),
+                    ),
+                  ),
+                if (widget.studentId != null)
+                  ListTile(
+                    leading: const Icon(LucideIcons.user),
+                    title: Text(_studentName ?? '', maxLines: 2),
+                    subtitle: Text(
+                      context.tr(
+                        en: 'Student-supplied medicine',
+                        ar: 'الأدوية التي أحضرها الطالب',
+                      ),
+                    ),
+                  ),
                 // Nurse Session Banner (Prevents RenderFlex overflow with Flexible)
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
                   color: const Color(0xFFEFF6FF),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -565,12 +753,23 @@ class _NursePharmacyInventoryScreenState extends State<NursePharmacyInventoryScr
                       Expanded(
                         child: Row(
                           children: [
-                            const Icon(LucideIcons.userCheck, size: 16, color: SchooKeepColors.primary),
+                            const Icon(
+                              LucideIcons.userCheck,
+                              size: 16,
+                              color: SchooKeepColors.primary,
+                            ),
                             const SizedBox(width: 6),
                             Flexible(
                               child: Text(
-                                context.tr(en: 'Aisha Rahman (Nurse)', ar: 'عائشة الرحمن (ممرضة المدرسية)'),
-                                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF1E40AF)),
+                                context.tr(
+                                  en: 'Inventory audit',
+                                  ar: 'تدقيق المخزون',
+                                ),
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF1E40AF),
+                                ),
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),
@@ -579,14 +778,24 @@ class _NursePharmacyInventoryScreenState extends State<NursePharmacyInventoryScr
                       ),
                       const SizedBox(width: 8),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 2,
+                        ),
                         decoration: BoxDecoration(
                           color: const Color(0xFFDBEAFE),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Text(
-                          context.tr(en: 'All Actions Logged', ar: 'موثق بالسجل'),
-                          style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: Color(0xFF1E40AF)),
+                          context.tr(
+                            en: 'All Actions Logged',
+                            ar: 'موثق بالسجل',
+                          ),
+                          style: const TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFF1E40AF),
+                          ),
                         ),
                       ),
                     ],
@@ -612,7 +821,8 @@ class _NursePharmacyInventoryScreenState extends State<NursePharmacyInventoryScr
                                     LucideIcons.package,
                                     SchooKeepColors.primary,
                                     isActive: _activeTab == 'all',
-                                    onTap: () => setState(() => _activeTab = 'all'),
+                                    onTap: () =>
+                                        setState(() => _activeTab = 'all'),
                                   ),
                                 ),
                                 const SizedBox(width: 6),
@@ -624,7 +834,9 @@ class _NursePharmacyInventoryScreenState extends State<NursePharmacyInventoryScr
                                     LucideIcons.alertTriangle,
                                     const Color(0xFFD97706),
                                     isActive: _activeTab == 'low_stock',
-                                    onTap: () => setState(() => _activeTab = 'low_stock'),
+                                    onTap: () => setState(
+                                      () => _activeTab = 'low_stock',
+                                    ),
                                   ),
                                 ),
                                 const SizedBox(width: 6),
@@ -636,7 +848,9 @@ class _NursePharmacyInventoryScreenState extends State<NursePharmacyInventoryScr
                                     LucideIcons.shieldAlert,
                                     Colors.red,
                                     isActive: _activeTab == 'out_of_stock',
-                                    onTap: () => setState(() => _activeTab = 'out_of_stock'),
+                                    onTap: () => setState(
+                                      () => _activeTab = 'out_of_stock',
+                                    ),
                                   ),
                                 ),
                                 const SizedBox(width: 6),
@@ -648,7 +862,9 @@ class _NursePharmacyInventoryScreenState extends State<NursePharmacyInventoryScr
                                     LucideIcons.history,
                                     const Color(0xFF7C3AED),
                                     isActive: _activeTab == 'audit_log',
-                                    onTap: () => setState(() => _activeTab = 'audit_log'),
+                                    onTap: () => setState(
+                                      () => _activeTab = 'audit_log',
+                                    ),
                                   ),
                                 ),
                               ],
@@ -662,13 +878,25 @@ class _NursePharmacyInventoryScreenState extends State<NursePharmacyInventoryScr
                           scrollDirection: Axis.horizontal,
                           child: Row(
                             children: [
-                              _tabChip('all', '${context.tr(en: 'All', ar: 'الكل')} (${_items.length})'),
+                              _tabChip(
+                                'all',
+                                '${context.tr(en: 'All', ar: 'الكل')} (${_items.length})',
+                              ),
                               const SizedBox(width: 8),
-                              _tabChip('low_stock', '${context.tr(en: 'Low Stock', ar: 'مخزون منخفض')} ($lowStockCount)'),
+                              _tabChip(
+                                'low_stock',
+                                '${context.tr(en: 'Low Stock', ar: 'مخزون منخفض')} ($lowStockCount)',
+                              ),
                               const SizedBox(width: 8),
-                              _tabChip('out_of_stock', '${context.tr(en: 'Out of Stock', ar: 'نفد المخزون')} ($outOfStockCount)'),
+                              _tabChip(
+                                'out_of_stock',
+                                '${context.tr(en: 'Out of Stock', ar: 'نفد المخزون')} ($outOfStockCount)',
+                              ),
                               const SizedBox(width: 8),
-                              _tabChip('audit_log', '${context.tr(en: 'Audit History', ar: 'سجل التدقيق')} (${_logs.length})'),
+                              _tabChip(
+                                'audit_log',
+                                '${context.tr(en: 'Audit History', ar: 'سجل التدقيق')} (${_logs.length})',
+                              ),
                             ],
                           ),
                         ),
@@ -679,15 +907,24 @@ class _NursePharmacyInventoryScreenState extends State<NursePharmacyInventoryScr
                           SizedBox(
                             height: 42,
                             child: TextField(
-                              onChanged: (v) => setState(() => _searchQuery = v),
+                              onChanged: (v) =>
+                                  setState(() => _searchQuery = v),
                               style: const TextStyle(fontSize: 13),
                               decoration: InputDecoration(
-                                hintText: context.tr(en: 'Search pharmacy stock...', ar: 'بحث في مخزون الصيدلية...'),
-                                prefixIcon: const Icon(LucideIcons.search, size: 18),
+                                hintText: context.tr(
+                                  en: 'Search pharmacy stock...',
+                                  ar: 'بحث في مخزون الصيدلية...',
+                                ),
+                                prefixIcon: const Icon(
+                                  LucideIcons.search,
+                                  size: 18,
+                                ),
                                 isDense: true,
                                 fillColor: Colors.white,
                                 filled: true,
-                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
                               ),
                             ),
                           ),
@@ -695,7 +932,10 @@ class _NursePharmacyInventoryScreenState extends State<NursePharmacyInventoryScr
                         ],
 
                         // Main List or Audit Log
-                        if (_activeTab == 'audit_log') _buildAuditLogList() else _buildItemList(),
+                        if (_activeTab == 'audit_log')
+                          _buildAuditLogList()
+                        else
+                          _buildItemList(),
                       ],
                     ),
                   ),
@@ -733,7 +973,7 @@ class _NursePharmacyInventoryScreenState extends State<NursePharmacyInventoryScr
                     color: color.withValues(alpha: 0.15),
                     blurRadius: 6,
                     offset: const Offset(0, 2),
-                  )
+                  ),
                 ]
               : null,
         ),
@@ -760,11 +1000,24 @@ class _NursePharmacyInventoryScreenState extends State<NursePharmacyInventoryScr
             const SizedBox(height: 4),
             FittedBox(
               fit: BoxFit.scaleDown,
-              child: Text(value, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: color)),
+              child: Text(
+                value,
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: color,
+                ),
+              ),
             ),
             FittedBox(
               fit: BoxFit.scaleDown,
-              child: Text(sub, style: TextStyle(fontSize: 9, color: color.withValues(alpha: 0.8))),
+              child: Text(
+                sub,
+                style: TextStyle(
+                  fontSize: 9,
+                  color: color.withValues(alpha: 0.8),
+                ),
+              ),
             ),
           ],
         ),
@@ -806,7 +1059,10 @@ class _NursePharmacyInventoryScreenState extends State<NursePharmacyInventoryScr
               const Icon(LucideIcons.package, size: 48, color: Colors.grey),
               const SizedBox(height: 12),
               Text(
-                context.tr(en: 'No Pharmacy Items Found', ar: 'لم يتم العثور على أدوية في الصيدلية'),
+                context.tr(
+                  en: 'No Pharmacy Items Found',
+                  ar: 'لم يتم العثور على أدوية في الصيدلية',
+                ),
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
@@ -814,7 +1070,7 @@ class _NursePharmacyInventoryScreenState extends State<NursePharmacyInventoryScr
                 onPressed: _openAddModal,
                 icon: const Icon(LucideIcons.plus, size: 16),
                 label: Text(context.tr(en: 'Add Item', ar: 'إضافة دواء')),
-              )
+              ),
             ],
           ),
         ),
@@ -831,17 +1087,22 @@ class _NursePharmacyInventoryScreenState extends State<NursePharmacyInventoryScr
         final isOut = item.stockQuantity == 0;
         final isLow = item.stockQuantity <= item.minThreshold && !isOut;
 
-        final displayName = context.isRTL && item.nameAr != null && item.nameAr!.isNotEmpty
+        final displayName =
+            context.isRTL && item.nameAr != null && item.nameAr!.isNotEmpty
             ? item.nameAr!
             : item.name;
 
         return Container(
           padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
-            color: isOut ? const Color(0xFFFEF2F2) : (isLow ? const Color(0xFFFFFBEB) : Colors.white),
+            color: isOut
+                ? const Color(0xFFFEF2F2)
+                : (isLow ? const Color(0xFFFFFBEB) : Colors.white),
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
-              color: isOut ? const Color(0xFFFCA5A5) : (isLow ? const Color(0xFFFDE68A) : SchooKeepColors.border),
+              color: isOut
+                  ? const Color(0xFFFCA5A5)
+                  : (isLow ? const Color(0xFFFDE68A) : SchooKeepColors.border),
             ),
           ),
           child: Column(
@@ -853,27 +1114,40 @@ class _NursePharmacyInventoryScreenState extends State<NursePharmacyInventoryScr
                   Expanded(
                     child: Text(
                       displayName,
-                      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: SchooKeepColors.textPrimary),
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: SchooKeepColors.textPrimary,
+                      ),
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   const SizedBox(width: 8),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
                     decoration: BoxDecoration(
-                      color: isOut ? const Color(0xFFFEE2E2) : (isLow ? const Color(0xFFFEF3C7) : const Color(0xFFD1FAE5)),
+                      color: isOut
+                          ? const Color(0xFFFEE2E2)
+                          : (isLow
+                                ? const Color(0xFFFEF3C7)
+                                : const Color(0xFFD1FAE5)),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Text(
                       isOut
                           ? context.tr(en: 'Out of Stock', ar: 'نفد المخزون')
                           : (isLow
-                              ? context.tr(en: 'Low Stock', ar: 'مخزون منخفض')
-                              : context.tr(en: 'Active', ar: 'نشط')),
+                                ? context.tr(en: 'Low Stock', ar: 'مخزون منخفض')
+                                : context.tr(en: 'Active', ar: 'نشط')),
                       style: TextStyle(
                         fontSize: 11,
                         fontWeight: FontWeight.bold,
-                        color: isOut ? Colors.red[900] : (isLow ? Colors.amber[900] : Colors.green[900]),
+                        color: isOut
+                            ? Colors.red[900]
+                            : (isLow ? Colors.amber[900] : Colors.green[900]),
                       ),
                     ),
                   ),
@@ -882,7 +1156,10 @@ class _NursePharmacyInventoryScreenState extends State<NursePharmacyInventoryScr
               const SizedBox(height: 4),
               Text(
                 '${item.category} • ${item.dosageForm}',
-                style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary),
+                style: const TextStyle(
+                  fontSize: 12,
+                  color: SchooKeepColors.textSecondary,
+                ),
               ),
               const SizedBox(height: 10),
               Row(
@@ -891,21 +1168,30 @@ class _NursePharmacyInventoryScreenState extends State<NursePharmacyInventoryScr
                   Flexible(
                     child: Text(
                       '${context.tr(en: 'Stock', ar: 'المخزون')}: ${item.stockQuantity} ${item.unit}',
-                      style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                      ),
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   Flexible(
                     child: Text(
                       '${context.tr(en: 'Loc', ar: 'الموقع')}: ${item.location}',
-                      style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary),
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: SchooKeepColors.textSecondary,
+                      ),
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   Flexible(
                     child: Text(
                       '${context.tr(en: 'Exp', ar: 'الانتهاء')}: ${item.expiryDate}',
-                      style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary),
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: SchooKeepColors.textSecondary,
+                      ),
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
@@ -919,7 +1205,10 @@ class _NursePharmacyInventoryScreenState extends State<NursePharmacyInventoryScr
                   Flexible(
                     child: OutlinedButton.icon(
                       style: OutlinedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 6,
+                        ),
                         minimumSize: Size.zero,
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       ),
@@ -937,13 +1226,21 @@ class _NursePharmacyInventoryScreenState extends State<NursePharmacyInventoryScr
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       IconButton(
-                        icon: const Icon(LucideIcons.edit2, size: 18, color: SchooKeepColors.primary),
+                        icon: const Icon(
+                          LucideIcons.edit2,
+                          size: 18,
+                          color: SchooKeepColors.primary,
+                        ),
                         onPressed: () => _openEditModal(item),
                         constraints: const BoxConstraints(),
                         padding: const EdgeInsets.all(6),
                       ),
                       IconButton(
-                        icon: const Icon(LucideIcons.trash2, size: 18, color: Colors.red),
+                        icon: const Icon(
+                          LucideIcons.trash2,
+                          size: 18,
+                          color: Colors.red,
+                        ),
                         onPressed: () => _openDeleteModal(item),
                         constraints: const BoxConstraints(),
                         padding: const EdgeInsets.all(6),
@@ -961,7 +1258,14 @@ class _NursePharmacyInventoryScreenState extends State<NursePharmacyInventoryScr
 
   Widget _buildAuditLogList() {
     if (_logs.isEmpty) {
-      return Center(child: Text(context.tr(en: 'No audit logs recorded yet.', ar: 'لا توجد سجلات تدقيق حتى الآن.')));
+      return Center(
+        child: Text(
+          context.tr(
+            en: 'No audit logs recorded yet.',
+            ar: 'لا توجد سجلات تدقيق حتى الآن.',
+          ),
+        ),
+      );
     }
 
     return ListView.separated(
@@ -986,24 +1290,51 @@ class _NursePharmacyInventoryScreenState extends State<NursePharmacyInventoryScr
                 children: [
                   Text(
                     log.action.toUpperCase().replaceAll('_', ' '),
-                    style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: SchooKeepColors.primary),
+                    style: const TextStyle(
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold,
+                      color: SchooKeepColors.primary,
+                    ),
                   ),
-                  Text(log.createdAt, style: const TextStyle(fontSize: 11, color: Colors.grey)),
+                  Text(
+                    log.createdAt,
+                    style: const TextStyle(fontSize: 11, color: Colors.grey),
+                  ),
                 ],
               ),
               const SizedBox(height: 4),
-              Text(log.itemName, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold)),
+              Text(
+                log.itemName,
+                style: const TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               const SizedBox(height: 4),
               Text(
-                '${context.tr(en: 'Nurse', ar: 'الممرضة')}: ${log.performedByName}',
-                style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary),
+                '${context.tr(en: 'Performed by', ar: 'بواسطة')}: ${log.performedByName}',
+                style: const TextStyle(
+                  fontSize: 12,
+                  color: SchooKeepColors.textSecondary,
+                ),
               ),
               if (log.reason != null && log.reason!.isNotEmpty)
-                Text('"${log.reason}"', style: const TextStyle(fontSize: 12, fontStyle: FontStyle.italic, color: Colors.grey)),
+                Text(
+                  '"${log.reason}"',
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontStyle: FontStyle.italic,
+                    color: Colors.grey,
+                  ),
+                ),
               if (log.quantityChange != null)
                 Text(
                   '${context.tr(en: 'Change', ar: 'التغيير')}: ${log.quantityChange! > 0 ? "+${log.quantityChange}" : log.quantityChange} (${context.tr(en: 'New', ar: 'الإجمالي الجديد')}: ${log.newQuantity})',
-                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: SchooKeepColors.textPrimary),
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    color: SchooKeepColors.textPrimary,
+                  ),
                 ),
             ],
           ),
