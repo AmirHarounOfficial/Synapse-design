@@ -170,7 +170,7 @@ class _NurseDashboardViewState extends State<_NurseDashboardView> {
             child: Text(
               isRTL
                   ? 'تحذير جوي (المركز الوطني للأرصاد): عاصفة رملية (هبوب) متوقعة الساعة 2 ظهراً. يرجى الاطلاع على القيود.'
-                  : 'AQI Advisory (UAE NCM): Haboob (dust storm) expected at 2:00 PM. See activity restrictions.',
+                  : 'AQI Advisory (Saudi NCM): Dust storm expected. See activity restrictions.',
               style: const TextStyle(fontSize: 13, color: SchooKeepColors.amberText),
             ),
           ),

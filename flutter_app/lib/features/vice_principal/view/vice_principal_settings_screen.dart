@@ -237,7 +237,7 @@ class _VicePrincipalSettingsScreenState extends State<VicePrincipalSettingsScree
             alignment: WrapAlignment.center,
             children: [
               Text(
-                context.tr(en: 'UAE PDPL Privacy Declaration', ar: 'إعلان خصوصية البيانات الإماراتي (PDPL)'),
+                context.tr(en: 'Saudi PDPL Privacy Declaration', ar: 'إعلان خصوصية البيانات السعودي (PDPL)'),
                 style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.primary),
               ),
               const Text(' · ', style: TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary)),
@@ -275,8 +275,8 @@ class _VicePrincipalSettingsScreenState extends State<VicePrincipalSettingsScree
       decoration: BoxDecoration(color: const Color(0xFFF1F5F9), borderRadius: BorderRadius.circular(8)),
       child: Text(
         context.tr(
-          en: 'Access to SchooKeep is governed by UAE PDPL and DHA school health guidelines. All activities are logged for compliance and audit purposes under UAE regulations.',
-          ar: 'تخضع صلاحيات الوصول لقانون حماية البيانات الإماراتي ولوائح هيئة الصحة بدبي للصحة المدرسية. يتم تسجيل جميع الأنشطة لأغراض التدقيق والامتثال.',
+          en: 'Access to SchooKeep is governed by Saudi PDPL and MOH KSA school health guidelines. All activities are logged for compliance and audit purposes under Saudi regulations.',
+          ar: 'تخضع صلاحيات الوصول لنظام حماية البيانات السعودي ولوائح وزارة الصحة السعودية للصحة المدرسية. يتم تسجيل جميع الأنشطة لأغراض التدقيق والامتثال.',
         ),
         textAlign: TextAlign.center,
         style: const TextStyle(fontSize: 11, height: 1.5, fontWeight: FontWeight.w500, color: SchooKeepColors.textSecondary),

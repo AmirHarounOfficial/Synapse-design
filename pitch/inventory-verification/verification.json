@@ -1,0 +1,10 @@
+{
+  "student": "Emma Rodriguez",
+  "failures": [],
+  "fontWarnings": [
+    "393: offline fallback font checksum mismatch",
+    "320: offline fallback font checksum mismatch",
+    "1280: offline fallback font checksum mismatch"
+  ],
+  "screenshots": "D:\\work\\Synapse Health App\\pitch\\inventory-verification"
+}

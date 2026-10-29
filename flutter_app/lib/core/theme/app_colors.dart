@@ -14,8 +14,8 @@ abstract final class SchooKeepColors {
   static const Color warning = Color(0xFFF59E0B); // Amber — warnings, pending states
   static const Color border = Color(0xFFE2E8F0); // Slate 200 — dividers, card borders
 
-  // UAE additions
-  static const Color uaeGreen = Color(0xFF006C35); // UAE flag green — compliance badges only
+  // Saudi additions
+  static const Color saudiGreen = Color(0xFF006C35); // Saudi flag green — compliance badges only
   static const Color physicianTeal = Color(0xFF0D9488); // Physician role color
   static const Color halalGreen = Color(0xFF15803D); // Halal badge color
 

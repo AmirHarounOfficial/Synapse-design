@@ -114,8 +114,8 @@ class _ClinicalEscalationInboxScreenState extends State<ClinicalEscalationInboxS
                 const SizedBox(height: 8),
                 Text(
                   isRTL
-                      ? 'سيتم تسجيل هذا الإجراء بشكل دائم وغير قابل للتعديل بموجب ترخيص DHA الخاص بك.'
-                      : 'This action is logged permanently under your DHA MD-4029 license.',
+                      ? 'سيتم تسجيل هذا الإجراء بشكل دائم وغير قابل للتعديل بموجب ترخيص وزارة الصحة السعودية الخاص بك.'
+                      : 'This action is logged permanently under your MOH KSA MD-4029 license.',
                   textAlign: TextAlign.center,
                   style: const TextStyle(fontSize: 11, color: SchooKeepColors.textSecondary),
                 ),
@@ -250,8 +250,8 @@ class _ClinicalEscalationInboxScreenState extends State<ClinicalEscalationInboxS
                 const SizedBox(height: 2),
                 Text(
                   isRTL
-                      ? 'بموجب شروط هيئة الصحة (DHA)، يرجى الاستجابة للتصعيدات الطبية الطارئة خلال 10 دقائق.'
-                      : 'DHA mandate requires responding to emergency escalations within 10 minutes SLA.',
+                      ? 'بموجب شروط وزارة الصحة السعودية (MOH KSA)، يرجى الاستجابة للتصعيدات الطبية الطارئة خلال 10 دقائق.'
+                      : 'MOH KSA mandate requires responding to emergency escalations within 10 minutes SLA.',
                   style: const TextStyle(fontSize: 11, color: Color(0xFFB45309), height: 1.4),
                 ),
               ],
@@ -388,15 +388,15 @@ class _ClinicalEscalationInboxScreenState extends State<ClinicalEscalationInboxS
               ),
               onPressed: () => _handleAction(
                 esc.studentName,
-                'Emergency Ambulance Transport (998)',
-                'نقل إسعاف طوارئ (998)',
+                'Emergency Ambulance Transport (997)',
+                'نقل إسعاف طوارئ (997)',
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Icon(LucideIcons.truck, size: 16, color: Colors.white),
                   const SizedBox(width: 8),
-                  Text(isRTL ? 'ترخيص النقل بالإسعاف (998)' : 'Authorize Emergency Transport',
+                  Text(isRTL ? 'ترخيص النقل بالإسعاف (997)' : 'Authorize Emergency Transport',
                       style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white)),
                 ],
               ),

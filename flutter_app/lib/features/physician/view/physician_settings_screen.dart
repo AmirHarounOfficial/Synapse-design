@@ -2,15 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
-import '../../../core/constants/uae_tokens.dart';
+import '../../../core/constants/sa_tokens.dart';
 import '../../../core/localization/l10n_ext.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
 
-/// Ported from `PhysicianSettings.tsx`. Profile card, UAE clinical licensing
-/// section (authority selector + read-only license + expiry status), locked &
-/// editable notification toggles, a confidentiality agreement sheet, and a sign
-/// out flow. `LicenseAuthoritySelector` is ported inline as a dropdown.
+/// Profile card, Saudi clinical licensing section
 class PhysicianSettingsScreen extends StatefulWidget {
   const PhysicianSettingsScreen({super.key});
 
@@ -19,7 +16,7 @@ class PhysicianSettingsScreen extends StatefulWidget {
 }
 
 class _PhysicianSettingsScreenState extends State<PhysicianSettingsScreen> {
-  String _authority = 'DHA';
+  String _authority = 'MOH KSA';
   static const String _licenseNum = 'MD-4029';
   static const String _specialty = 'General Pediatrics';
   static const String _expiryDate = '24/11/2026';
@@ -151,7 +148,7 @@ class _PhysicianSettingsScreenState extends State<PhysicianSettingsScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(isRTL ? 'الترخيص الطبي المهني بدولة الإمارات' : 'UAE CLINICAL LICENSING',
+          Text(isRTL ? 'الترخيص الطبي المهني في المملكة العربية السعودية' : 'SAUDI CLINICAL LICENSING',
               style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: SchooKeepColors.textPrimary, letterSpacing: 0.8)),
           const SizedBox(height: 16),
           // License authority selector (ported inline).
@@ -173,7 +170,7 @@ class _PhysicianSettingsScreenState extends State<PhysicianSettingsScreen> {
                 icon: const Icon(LucideIcons.chevronDown, size: 20, color: SchooKeepColors.textSecondary),
                 style: const TextStyle(fontSize: 14, color: SchooKeepColors.textPrimary),
                 items: [
-                  for (final auth in UaeTokens.licenseAuthorities)
+                  for (final auth in SaTokens.licenseAuthorities)
                     DropdownMenuItem(value: auth, child: Text(auth)),
                 ],
                 onChanged: (v) => setState(() => _authority = v ?? _authority),
@@ -512,22 +509,22 @@ class _PhysicianSettingsScreenState extends State<PhysicianSettingsScreen> {
                     children: [
                       Text(
                         isRTL
-                            ? 'مستند قانوني للامتثال للمادة الطبية رَقَم 4 لسنة 2016 لدولة الإمارات وقانون حماية البيانات الشخصية الإمارتي (PDPL):'
-                            : 'UAE Legal compliance document pursuant to Medical Liability Law No. 4/2016 and UAE Personal Data Protection Law (PDPL):',
+                            ? 'مستند قانوني للامتثال لقانون المسؤولية الطبية السعودي وقانون حماية البيانات الشخصية (PDPL):'
+                            : 'Saudi Legal compliance document pursuant to Saudi Medical Liability Law and Personal Data Protection Law (PDPL):',
                         style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: SchooKeepColors.textPrimary, height: 1.6),
                       ),
                       const SizedBox(height: 14),
                       Text(
                         isRTL
                             ? 'يقر المستخدم الموقّع أدناه بمسؤوليته الكاملة عن الحفاظ على سرية سجلات الطلاب الصحية وكافة التشخيصات الطبية والبروتوكولات التي يتم الاطلاع عليها أو اعتمادها عبر التطبيق.'
-                            : 'The undersigned practitioner acknowledges full legal responsibility under UAE law for maintaining student record privacy. Personal health records, medication orders, and escalation details accessed herein constitute protected health files.',
+                            : 'The undersigned practitioner acknowledges full legal responsibility under Saudi law for maintaining student record privacy. Personal health records, medication orders, and escalation details accessed herein constitute protected health files.',
                         style: const TextStyle(fontSize: 12, color: Color(0xFF374151), height: 1.6),
                       ),
                       const SizedBox(height: 14),
                       Text(
                         isRTL
-                            ? 'يخضع هذا الترخيص لرقابة هيئة الصحة بدبي (DHA) وتطبيقات التفتيش الدورية، وأي تسريب أو مشاركة غير مرخصة للملفات الطبية يعرض صاحبها للملاحقة القانونية.'
-                            : 'Access logs are monitored in compliance with DHA clinical audit policies. Unauthorized disclosure, sharing, or modification of these files violates medical ethics and Federal laws.',
+                            ? 'يخضع هذا الترخيص لرقابة وزارة الصحة السعودية (MOH) وتطبيقات التفتيش الدورية، وأي تسريب أو مشاركة غير مرخصة للملفات الطبية يعرض صاحبها للملاحقة القانونية.'
+                            : 'Access logs are monitored in compliance with MOH clinical audit policies. Unauthorized disclosure, sharing, or modification of these files violates medical ethics and Federal laws.',
                         style: const TextStyle(fontSize: 12, color: Color(0xFF374151), height: 1.6),
                       ),
                     ],

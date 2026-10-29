@@ -23,7 +23,7 @@ class Student {
     this.nameAr,
     this.grade,
     this.section,
-    this.emiratesId,
+    this.nationalId,
     this.dateOfBirth,
     this.gender,
     this.photoUrl,
@@ -40,7 +40,7 @@ class Student {
   final String? nameAr;
   final String? grade;
   final String? section;
-  final String? emiratesId;
+  final String? nationalId;
   final String? dateOfBirth;
   final String? gender;
   final String? photoUrl;
@@ -65,7 +65,7 @@ class Student {
         nameAr: j['name_ar'] as String?,
         grade: j['grade'] as String?,
         section: j['section'] as String?,
-        emiratesId: j['emirates_id'] as String?,
+        nationalId: j['national_id'] as String?,
         dateOfBirth: j['date_of_birth'] as String?,
         gender: j['gender'] as String?,
         photoUrl: j['photo_url'] as String?,

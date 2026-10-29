@@ -110,10 +110,10 @@ class CafeteriaRepository {
       }
       final wallet = await getWallet(studentId);
       if (amount > wallet.remainingDaily) {
-        throw Exception('Transaction exceeds daily spending limit of ${wallet.dailyLimit.toStringAsFixed(2)} AED.');
+        throw Exception('Transaction exceeds daily spending limit of ${wallet.dailyLimit.toStringAsFixed(2)} SAR.');
       }
       if (amount > wallet.remainingMonthly) {
-        throw Exception('Transaction exceeds remaining monthly budget of ${wallet.remainingMonthly.toStringAsFixed(2)} AED.');
+        throw Exception('Transaction exceeds remaining monthly budget of ${wallet.remainingMonthly.toStringAsFixed(2)} SAR.');
       }
 
       final newToday = wallet.todaySpent + amount;

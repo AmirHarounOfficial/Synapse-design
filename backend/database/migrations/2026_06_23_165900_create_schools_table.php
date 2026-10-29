@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('name_ar')->nullable();
-            $table->string('emirate')->nullable();
+            $table->string('region')->nullable();
             $table->string('curriculum')->nullable();
             $table->string('license_authority')->nullable();
             $table->string('code')->unique();

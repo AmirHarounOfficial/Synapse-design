@@ -9,7 +9,7 @@ import '../../../core/widgets/widgets.dart';
 import '../widgets/hijri_date_chip.dart';
 import 'package:schookeep/core/router/safe_back.dart';
 
-/// Ported from `StudentHealthProfile.tsx`. Student hero card, UAE insurance
+/// Student health profile screen with Saudi insurance and ID fields.
 /// block, and a tabbed section (Medications / Visit History / Documents /
 /// Screenings). Bilingual. Route is `/nurse/students/:id`.
 class StudentHealthProfileScreen extends StatefulWidget {
@@ -63,7 +63,7 @@ class _StudentHealthProfileScreenState
   ];
 
   static const _curricula = [
-    'UAE MoE',
+    'Saudi National',
     'British',
     'American',
     'Indian',
@@ -117,7 +117,7 @@ class _StudentHealthProfileScreenState
     const summary =
         'Emma Rodriguez\n'
         'Grade 3 · Room 204\n'
-        'Emirates ID: 784-2016-1234567-1\n'
+        'National ID: 1123456789\n'
         'DOB: 19/05/2016\n'
         'Medical Alerts: Asthma, Peanut Allergy\n'
         'Insurance: Daman Health (DM-992384-01)';
@@ -453,7 +453,7 @@ class _StudentHealthProfileScreenState
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            isRTL ? 'رقم الهوية الإماراتية (EID)' : 'Emirates ID (EID)',
+            isRTL ? 'رقم الهوية الوطنية' : 'National ID',
             style: const TextStyle(
               fontSize: 10,
               fontWeight: FontWeight.w600,
@@ -516,7 +516,7 @@ class _StudentHealthProfileScreenState
               border: Border(bottom: BorderSide(color: Color(0xFFF1F5F9))),
             ),
             child: Text(
-              isRTL ? 'التأمين الصحي الإماراتي' : 'UAE Health Insurance',
+              isRTL ? 'التأمين الصحي السعودي' : 'Saudi Health Insurance',
               style: const TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.bold,

@@ -164,13 +164,13 @@ class _PrincipalSettingsPlaceholderScreenState extends State<PrincipalSettingsPl
               ),
               _navRow(
                 LucideIcons.shield,
-                context.tr(en: 'UAE PDPL Privacy Declaration', ar: 'إعلان خصوصية البيانات الإماراتي (PDPL)'),
-                context.tr(en: 'Governed by Federal Decree-Law No. 45 of 2021', ar: 'خاضع للمرسوم بقانون اتحادي رقم 45 لسنة 2021'),
+                context.tr(en: 'Saudi PDPL Privacy Declaration', ar: 'إعلان خصوصية البيانات السعودي (PDPL)'),
+                context.tr(en: 'Governed by Saudi Personal Data Protection Law', ar: 'خاضع لنظام حماية البيانات الشخصية'),
                 onTap: () => _showInfo(
-                  context.tr(en: 'UAE PDPL Privacy Declaration', ar: 'إعلان خصوصية البيانات الإماراتي (PDPL)'),
+                  context.tr(en: 'Saudi PDPL Privacy Declaration', ar: 'إعلان خصوصية البيانات السعودي (PDPL)'),
                   context.tr(
-                    en: 'Student health data is processed in accordance with UAE Federal Decree-Law No. 45 of 2021 (PDPL) and DHA School Health Guidelines.',
-                    ar: 'تمت معالجة البيانات الصحية للطلاب وفقاً لأحكام قانون حماية البيانات الشخصية الإماراتي ولوائح هيئة الصحة بدبي.',
+                    en: 'Student health data is processed in accordance with Saudi Personal Data Protection Law (PDPL) and MOH KSA School Health Guidelines.',
+                    ar: 'تمت معالجة البيانات الصحية للطلاب وفقاً لنظام حماية البيانات الشخصية السعودي ولوائح وزارة الصحة السعودية.',
                   ),
                 ),
               ),

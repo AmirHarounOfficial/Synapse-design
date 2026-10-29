@@ -7,7 +7,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/utils/validators.dart';
 import '../../../core/widgets/widgets.dart';
 
-/// Ported from `PhysicianScheduleConfig.tsx`. On-site day selector with a DHA
+/// Ported from `PhysicianScheduleConfig.tsx`. On-site day selector with an MOH KSA
 /// 3-day minimum compliance check, per-day clinic hours, on-call emergency
 /// coverage details, and a backup physician section. Phone fields format /
 /// validate via `Validators` (mirrors `phoneValidator.ts`).
@@ -42,7 +42,7 @@ class _PhysicianScheduleConfigScreenState extends State<PhysicianScheduleConfigS
     _onCallStart = TextEditingController(text: '03:00 PM');
     _onCallEnd = TextEditingController(text: '09:00 PM');
     _backupName = TextEditingController(text: 'Dr. Tariq Al-Mansoori');
-    _backupLicense = TextEditingController(text: 'DHA MD-4982');
+    _backupLicense = TextEditingController(text: 'MOH-MD-4982');
     _backupPhone = TextEditingController(text: '+971 55 987 6543');
   }
 
@@ -94,22 +94,22 @@ class _PhysicianScheduleConfigScreenState extends State<PhysicianScheduleConfigS
       _toast(
         isRTL
             ? 'تنبيه هيئة الصحة: يجب تحديد 3 أيام دوام في الموقع كحد أدنى أسبوعياً.'
-            : 'DHA Compliance Alert: A minimum of 3 on-site days per week is required.',
+            : 'MOH KSA Compliance Alert: A minimum of 3 on-site days per week is required.',
         error: true,
       );
       return;
     }
-    if (!Validators.isValidUaePhone(_onCallPhone.text)) {
+    if (!Validators.isValidSaudiPhone(_onCallPhone.text)) {
       _toast(isRTL ? 'رقم هاتف المناوبة غير صالح' : 'Invalid On-call phone format.', error: true);
       return;
     }
-    if (_backupPhone.text.isNotEmpty && !Validators.isValidUaePhone(_backupPhone.text)) {
+    if (_backupPhone.text.isNotEmpty && !Validators.isValidSaudiPhone(_backupPhone.text)) {
       _toast(isRTL ? 'رقم هاتف الطبيب البديل غير صالح' : 'Invalid Backup physician phone format.', error: true);
       return;
     }
     _toast(isRTL
         ? 'تم حفظ الجدول الزمني بنجاح والتحقق من الامتثال'
-        : 'Schedule saved successfully! DHA compliance verified.');
+        : 'Schedule saved successfully! MOH KSA compliance verified.');
     Future.delayed(const Duration(milliseconds: 1500), () {
       if (mounted) context.go('/physician/dashboard');
     });
@@ -262,8 +262,8 @@ class _PhysicianScheduleConfigScreenState extends State<PhysicianScheduleConfigS
             ),
             child: Text(
               isRTL
-                  ? '⚠ تشترط هيئة الصحة بدبي (DHA) وجود طبيب المدرسة في الموقع 3 أيام أسبوعياً كحد أدنى.'
-                  : 'DHA Compliance: School physicians must configure a minimum of 3 on-site days weekly.',
+                  ? '⚠ تشترط وزارة الصحة السعودية (MOH KSA) وجود طبيب المدرسة في الموقع 3 أيام أسبوعياً كحد أدنى.'
+                  : 'MOH KSA Compliance: School physicians must configure a minimum of 3 on-site days weekly.',
               style: const TextStyle(fontSize: 11, color: Color(0xFFB45309), height: 1.5),
             ),
           ),
@@ -347,7 +347,7 @@ class _PhysicianScheduleConfigScreenState extends State<PhysicianScheduleConfigS
             child: TextField(
               controller: _onCallPhone,
               onChanged: (v) {
-                final formatted = Validators.formatUaePhone(v);
+                final formatted = Validators.formatSaudiPhone(v);
                 _onCallPhone.value = TextEditingValue(
                   text: formatted,
                   selection: TextSelection.collapsed(offset: formatted.length),
@@ -398,7 +398,7 @@ class _PhysicianScheduleConfigScreenState extends State<PhysicianScheduleConfigS
                   child: Text(
                     isRTL
                         ? 'يجب الرد على جميع تصعيدات الحالات الحرجة خلال 10 دقائق بموجب شروط الترخيص ولا يمكن تعديل هذه الاتفاقية.'
-                        : 'Critical Response SLA: Must respond to clinical dispatches within 10 minutes (Locked DHA requirement).',
+                        : 'Critical Response SLA: Must respond to clinical dispatches within 10 minutes (Locked MOH KSA requirement).',
                     style: const TextStyle(fontSize: 11, color: Color(0xFFB45309), height: 1.5),
                   ),
                 ),
@@ -430,7 +430,7 @@ class _PhysicianScheduleConfigScreenState extends State<PhysicianScheduleConfigS
                   isRTL ? 'رقم الهاتف البديل' : 'Backup Phone',
                   _backupPhone,
                   onChanged: (v) {
-                    final formatted = Validators.formatUaePhone(v);
+                    final formatted = Validators.formatSaudiPhone(v);
                     _backupPhone.value = TextEditingValue(
                       text: formatted,
                       selection: TextSelection.collapsed(offset: formatted.length),

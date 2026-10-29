@@ -6,7 +6,7 @@ import '../widgets/simulator_frame.dart';
 
 /// Ported from `SysAfterHoursLock.tsx` (SYS-01). A blurred dashboard behind a
 /// 0.85 black overlay with a centred lock card. Staff roles are locked outside
-/// school hours; entering a valid emergency code (`9999` or `EMERGENCY2026`)
+/// school hours; entering a valid emergency code (`99999` or `EMERGENCY2026`)
 /// shows the override-accepted card. A demo role selector switches between the
 /// locked staff view and the unrestricted Parent view.
 class SysAfterHoursLockScreen extends StatefulWidget {
@@ -32,7 +32,7 @@ class _SysAfterHoursLockScreenState extends State<SysAfterHoursLockScreen> {
 
   void _override() {
     final code = _codeController.text;
-    if (code == '9999' || code.toUpperCase() == 'EMERGENCY2026') {
+    if (code == '99999' || code.toUpperCase() == 'EMERGENCY2026') {
       setState(() {
         _success = true;
         _error = '';
@@ -208,7 +208,7 @@ class _SysAfterHoursLockScreenState extends State<SysAfterHoursLockScreen> {
             TextSpan(
               children: [
                 TextSpan(text: 'Try demo bypass code: ', style: TextStyle(fontSize: 10, color: SimColors.slate400)),
-                TextSpan(text: '9999', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: SimColors.slate500)),
+                TextSpan(text: '99999', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: SimColors.slate500)),
               ],
             ),
             textAlign: TextAlign.center,

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
-import '../../../core/constants/uae_tokens.dart';
+import '../../../core/constants/sa_tokens.dart';
 import '../../../core/di/service_locator.dart';
 import '../../../core/localization/l10n_ext.dart';
 import '../../../core/theme/app_colors.dart';
@@ -14,7 +14,7 @@ import 'package:schookeep/core/router/safe_back.dart';
 
 /// Ported from `PrincipalAddEditStaff.tsx` (used for both `/principal/add-staff`
 /// and `/principal/edit-staff/:staffId`), wired to [StaffFormCubit]. Personal
-/// info, role grid, conditional UAE medical-license fields, permissions
+/// info, role grid, conditional Saudi medical-license fields, permissions
 /// preview, status toggle, and a pinned submit button. In edit mode the form
 /// pre-fills from `GET /staff/{id}` and exposes a Deactivate action.
 class PrincipalAddEditStaffScreen extends StatelessWidget {
@@ -75,8 +75,8 @@ class _PrincipalAddEditStaffViewState extends State<_PrincipalAddEditStaffView> 
   @override
   void initState() {
     super.initState();
-    // Auto-select license authority for the configured emirate (Dubai → DHA).
-    _licenseAuthority = 'DHA';
+    // Auto-select license authority for the configured region (Riyadh → MOH KSA).
+    _licenseAuthority = 'MOH KSA';
   }
 
   @override
@@ -378,7 +378,7 @@ class _PrincipalAddEditStaffViewState extends State<_PrincipalAddEditStaffView> 
           _licenseAuthoritySelector(),
           const SizedBox(height: 12),
           _fieldLabel('License Number'),
-          _textField(_licenseNumber, '${_licenseAuthority.isEmpty ? 'DHA' : _licenseAuthority}-XXXX-XX',
+          _textField(_licenseNumber, '${_licenseAuthority.isEmpty ? 'MOH KSA' : _licenseAuthority}-XXXX-XX',
               onChanged: (_) => setState(() {})),
           const SizedBox(height: 12),
           _fieldLabel('License Expiry Date'),
@@ -401,7 +401,7 @@ class _PrincipalAddEditStaffViewState extends State<_PrincipalAddEditStaffView> 
     );
   }
 
-  /// Inlined `LicenseAuthoritySelector.tsx` — emirate-aware authority dropdown
+  /// Inlined `LicenseAuthoritySelector.tsx` — region-aware authority dropdown
   /// with a bilingual compliance note below.
   Widget _licenseAuthoritySelector() {
     final isRTL = context.isRTL;
@@ -416,7 +416,7 @@ class _PrincipalAddEditStaffViewState extends State<_PrincipalAddEditStaffView> 
         const SizedBox(height: 6),
         _dropdown(
           value: _licenseAuthority,
-          items: {for (final a in UaeTokens.licenseAuthorities) a: a},
+          items: {for (final a in SaTokens.licenseAuthorities) a: a},
           height: 52,
           onChanged: (v) => setState(() => _licenseAuthority = v),
         ),

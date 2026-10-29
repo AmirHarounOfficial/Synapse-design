@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('name_ar')->nullable();
             $table->string('grade')->nullable();
             $table->string('section')->nullable();
-            $table->string('emirates_id')->nullable()->unique();
+            $table->string('national_id')->nullable()->unique();
             $table->date('date_of_birth')->nullable();
             $table->string('gender')->nullable();
             $table->string('photo_url')->nullable();
@@ -43,7 +43,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('relationship')->nullable();
             $table->string('phone')->nullable();
-            $table->string('emirates_id')->nullable();
+            $table->string('national_id')->nullable();
             $table->string('photo_url')->nullable();
             $table->string('qr_token')->unique();
             $table->boolean('is_active')->default(true);

@@ -216,8 +216,8 @@ class _ProtocolReviewViewState extends State<_ProtocolReviewView> {
     final timeStr = '${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}:${now.second.toString().padLeft(2, '0')}';
     final dateStr = '${now.day.toString().padLeft(2, '0')}/${now.month.toString().padLeft(2, '0')}/${now.year}';
     final stamp = isRTL
-        ? '✓ معتمد من د. أمينة الهاشمي · ترخيص DHA MD-4029 · بتاريخ $dateStr الساعة $timeStr'
-        : '✓ Approved by Dr. Amina Al-Hashimi · DHA MD-4029 · $dateStr at $timeStr';
+        ? '✓ معتمد من د. أمينة الهاشمي · ترخيص وزارة الصحة MOH KSA MD-4029 · بتاريخ $dateStr الساعة $timeStr'
+        : '✓ Approved by Dr. Amina Al-Hashimi · MOH KSA MD-4029 · $dateStr at $timeStr';
     setState(() {
       _isApproved = true;
       _approvedRecord = stamp;
@@ -331,8 +331,8 @@ class _ProtocolReviewViewState extends State<_ProtocolReviewView> {
           Expanded(
             child: Text(
               isRTL
-                  ? 'موافقة الطبيب إلزامية قبل إعطاء هذا الدواء بالمدرسة بموجب لوائح هيئة الصحة ST-22 وقانون حماية البيانات الشخصية الإماراتي.'
-                  : 'Physician approval is required before this medication can be administered per DHA/HRS/HPSD/ST-22 and UAE PDPL compliance.',
+                  ? 'موافقة الطبيب إلزامية قبل إعطاء هذا الدواء بالمدرسة بموجب لائحة وزارة الصحة SH-2024 وقانون حماية البيانات الشخصية السعودي.'
+                  : 'Physician approval is required before this medication can be administered per MOH KSA/SH-2024 and Saudi PDPL compliance.',
               style: const TextStyle(fontSize: 12, color: Color(0xFF1E40AF), height: 1.5),
             ),
           ),

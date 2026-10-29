@@ -95,7 +95,7 @@ class MessagingSeeder extends Seeder
             ],
             [
                 'sender_id' => null,
-                'sender_name' => 'ADEK Communications',
+                'sender_name' => 'Ministry of Education (KSA)',
                 'recipient_id' => $principal?->id,
                 'category' => 'general',
                 'subject' => 'Circular: updated first-aid training schedule',

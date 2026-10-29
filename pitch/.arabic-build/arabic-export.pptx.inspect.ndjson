@@ -1,0 +1,486 @@
+{"kind":"deck","id":"pr/x8z2tw","name":"Deck"}
+{"kind":"layout","layoutId":"/ppt/slideMasters/slideMaster1.xml","name":"","type":"master","placeholders":[{"name":"title","type":"title","textPreview":"Click to edit Master title style"},{"name":"body","type":"body","textPreview":"Click to edit Master text styles | Second level | Third level | Fourth level | Fifth level"},{"name":"dateTime","type":"dateTime","textPreview":"1/27/13"},{"name":"footer","type":"footer"},{"name":"slideNumber","type":"slideNumber","textPreview":"‹#›"}]}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout1.xml","name":"Title Slide","type":"title","placeholders":[{"name":"title","type":"title","textPreview":"Click to edit Master title style"},{"name":"subtitle","type":"subtitle","textPreview":"Click to edit Master subtitle style"},{"name":"dateTime","type":"dateTime","textPreview":"1/27/13"},{"name":"footer","type":"footer"},{"name":"slideNumber","type":"slideNumber","textPreview":"‹#›"}]}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout2.xml","name":"Title and Content","type":"obj","placeholders":[{"name":"title","type":"title","textPreview":"Click to edit Master title style"},{"name":"content placeholder 2","textPreview":"Click to edit Master text styles | Second level | Third level | Fourth level | Fifth level"},{"name":"dateTime","type":"dateTime","textPreview":"1/27/13"},{"name":"footer","type":"footer"},{"name":"slideNumber","type":"slideNumber","textPreview":"‹#›"}]}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout3.xml","name":"Section Header","type":"secHead","placeholders":[{"name":"title","type":"title","textPreview":"Click to edit Master title style"},{"name":"body","type":"body","textPreview":"Click to edit Master text styles"},{"name":"dateTime","type":"dateTime","textPreview":"1/27/13"},{"name":"footer","type":"footer"},{"name":"slideNumber","type":"slideNumber","textPreview":"‹#›"}]}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout4.xml","name":"Two Content","type":"twoObj","placeholders":[{"name":"title","type":"title","textPreview":"Click to edit Master title style"},{"name":"content placeholder 2","textPreview":"Click to edit Master text styles | Second level | Third level | Fourth level | Fifth level"},{"name":"content placeholder 3","textPreview":"Click to edit Master text styles | Second level | Third level | Fourth level | Fifth level"},{"name":"dateTime","type":"dateTime","textPreview":"1/27/13"},{"name":"footer","type":"footer"},{"name":"slideNumber","type":"slideNumber","textPreview":"‹#›"}]}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout5.xml","name":"Comparison","type":"twoTxTwoObj","placeholders":[{"name":"title","type":"title","textPreview":"Click to edit Master title style"},{"name":"body","type":"body","textPreview":"Click to edit Master text styles"},{"name":"content placeholder 3","textPreview":"Click to edit Master text styles | Second level | Third level | Fourth level | Fifth level"},{"name":"body","type":"body","textPreview":"Click to edit Master text styles"},{"name":"content placeholder 5","textPreview":"Click to edit Master text styles | Second level | Third level | Fourth level | Fifth level"},{"name":"dateTime","type":"dateTime","textPreview":"1/27/13"},{"name":"footer","type":"footer"},{"name":"slideNumber","type":"slideNumber","textPreview":"‹#›"}]}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout6.xml","name":"Title Only","type":"titleOnly","placeholders":[{"name":"title","type":"title","textPreview":"Click to edit Master title style"},{"name":"dateTime","type":"dateTime","textPreview":"1/27/13"},{"name":"footer","type":"footer"},{"name":"slideNumber","type":"slideNumber","textPreview":"‹#›"}]}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout7.xml","name":"Blank","type":"blank","placeholders":[{"name":"dateTime","type":"dateTime","textPreview":"1/27/13"},{"name":"footer","type":"footer"},{"name":"slideNumber","type":"slideNumber","textPreview":"‹#›"}]}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout8.xml","name":"Content with Caption","type":"objTx","placeholders":[{"name":"title","type":"title","textPreview":"Click to edit Master title style"},{"name":"content placeholder 2","textPreview":"Click to edit Master text styles | Second level | Third level | Fourth level | Fifth level"},{"name":"body","type":"body","textPreview":"Click to edit Master text styles"},{"name":"dateTime","type":"dateTime","textPreview":"1/27/13"},{"name":"footer","type":"footer"},{"name":"slideNumber","type":"slideNumber","textPreview":"‹#›"}]}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout9.xml","name":"Picture with Caption","type":"picTx","placeholders":[{"name":"title","type":"title","textPreview":"Click to edit Master title style"},{"name":"picture","type":"picture"},{"name":"body","type":"body","textPreview":"Click to edit Master text styles"},{"name":"dateTime","type":"dateTime","textPreview":"1/27/13"},{"name":"footer","type":"footer"},{"name":"slideNumber","type":"slideNumber","textPreview":"‹#›"}]}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout10.xml","name":"Title and Vertical Text","type":"vertTx","placeholders":[{"name":"title","type":"title","textPreview":"Click to edit Master title style"},{"name":"body","type":"body","textPreview":"Click to edit Master text styles | Second level | Third level | Fourth level | Fifth level"},{"name":"dateTime","type":"dateTime","textPreview":"1/27/13"},{"name":"footer","type":"footer"},{"name":"slideNumber","type":"slideNumber","textPreview":"‹#›"}]}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout11.xml","name":"Vertical Title and Text","type":"vertTitleAndTx","placeholders":[{"name":"title","type":"title","textPreview":"Click to edit Master title style"},{"name":"body","type":"body","textPreview":"Click to edit Master text styles | Second level | Third level | Fourth level | Fifth level"},{"name":"dateTime","type":"dateTime","textPreview":"1/27/13"},{"name":"footer","type":"footer"},{"name":"slideNumber","type":"slideNumber","textPreview":"‹#›"}]}
+{"kind":"slide","id":"sl/y90nupkv","slide":1,"title":"الصحة المدرسية المتصلة","textShapes":9}
+{"kind":"shape","id":"sh/547294r6","slide":1,"name":"Rectangle 1","bbox":[1266.53,0,13.44,720]}
+{"kind":"textbox","id":"sh/k3yl0zql","slide":1,"name":"TextBox 2","text":"الصحة المدرسية المتصلة","textPreview":"الصحة المدرسية المتصلة","textChars":22,"textLines":1,"bbox":[171.17,31.68,1056,28.8]}
+{"kind":"textbox","id":"sh/7qp4be9c","slide":1,"name":"TextBox 3","text":"SchooKeep","textPreview":"SchooKeep","textChars":9,"textLines":1,"bbox":[55.97,86.4,1171.2,96]}
+{"kind":"textbox","id":"sh/65g3298r","slide":1,"name":"TextBox 4","text":"منصة مشتركة للصحة المدرسية والتواصل مع الأسرة وسلامة الطلاب","textPreview":"منصة مشتركة للصحة المدرسية والتواصل مع الأسرة وسلامة الطلاب","textChars":59,"textLines":1,"bbox":[65.57,175.68,1161.6,67.2]}
+{"kind":"shape","id":"sh/ts7md4r2","slide":1,"name":"Rectangle 5","bbox":[55.97,673.92,1171.2,1.15]}
+{"kind":"textbox","id":"sh/sryl4zqx","slide":1,"name":"TextBox 6","text":"SchooKeep     عرض المنتج     ٥ أكتوبر ٢٠٢٦","textPreview":"SchooKeep     عرض المنتج     ٥ أكتوبر ٢٠٢٦","textChars":42,"textLines":1,"bbox":[267.17,686.4,960,28.8]}
+{"kind":"textbox","id":"sh/fu94fe98","slide":1,"name":"TextBox 7","text":"٠١","textPreview":"٠١","textChars":2,"textLines":1,"bbox":[60.77,683.52,57.6,28.8]}
+{"kind":"textbox","id":"sh/utg3698n","slide":1,"name":"TextBox 8","text":"تنسيق أفضل للرعاية\nمسؤوليات أوضح\nمجتمع مدرسي واحد","textPreview":"تنسيق أفضل للرعاية | مسؤوليات أوضح | مجتمع مدرسي واحد","textChars":49,"textLines":3,"bbox":[713.57,283.2,504,220.8]}
+{"kind":"textbox","id":"sh/wn6dc7eh","slide":1,"name":"TextBox 9","text":"عرض توضيحي لتطبيق Flutter\nلقطات من التطبيق ببيانات تجريبية محلية","textPreview":"عرض توضيحي لتطبيق Flutter | لقطات من التطبيق ببيانات تجريبية محلية","textChars":64,"textLines":2,"bbox":[737.57,547.2,480,76.8]}
+{"kind":"shape","id":"sh/hofulsf2","slide":1,"name":"Rectangle 10","bbox":[482.65,230.88,196.84,416.64]}
+{"kind":"textbox","id":"sh/vmdcj2xw","slide":1,"name":"TextBox 12","text":"إدارة المدرسة","textPreview":"إدارة المدرسة","textChars":13,"textLines":1,"bbox":[477.37,655.68,207.4,40.32]}
+{"kind":"shape","id":"sh/4r6dg7et","slide":1,"name":"Rectangle 13","bbox":[223.45,230.88,196.84,416.64]}
+{"kind":"textbox","id":"sh/ipovexwn","slide":1,"name":"TextBox 15","text":"تجربة ولي الأمر","textPreview":"تجربة ولي الأمر","textChars":15,"textLines":1,"bbox":[218.17,655.68,207.4,40.32]}
+{"kind":"image","id":"im/wn6xcnut","slide":1,"name":"Picture 11","bbox":[486.97,235.2,188.2,408]}
+{"kind":"image","id":"im/nidwzydc","slide":1,"name":"Picture 14","bbox":[227.77,235.2,188.2,408]}
+{"kind":"notes","id":"nt/y90nupkv","slide":1,"text":"نسخة عربية من العرض الأصلي، مع تخطيط من اليمين إلى اليسار. لقطات الواجهة محفوظة كما ظهرت في النسخة الأصلية. توثق اللقطات نسخة Flutter مع خادم Laravel محلي وبيانات تجريبية وحساب الإدارة المقدم. لا يثبت العرض نتائج تجارية أو سريرية."}
+{"kind":"slide","id":"sl/hwbqtkby","slide":2,"title":"التحدي","textShapes":14}
+{"kind":"shape","id":"sh/9072xkry","slide":2,"name":"Rectangle 1","bbox":[1266.53,0,13.44,720]}
+{"kind":"textbox","id":"sh/ozy1ofad","slide":2,"name":"TextBox 2","text":"التحدي","textPreview":"التحدي","textChars":6,"textLines":1,"bbox":[171.17,31.68,1056,28.8]}
+{"kind":"textbox","id":"sh/b29kza94","slide":2,"name":"TextBox 3","text":"فجوات التنسيق في الرعاية","textPreview":"فجوات التنسيق في الرعاية","textChars":24,"textLines":1,"bbox":[55.97,86.4,1171.2,96]}
+{"kind":"textbox","id":"sh/a10jqpsj","slide":2,"name":"TextBox 4","text":"يعالج التطبيق فجوات تبادل المعلومات خلال اليوم الدراسي","textPreview":"يعالج التطبيق فجوات تبادل المعلومات خلال اليوم الدراسي","textChars":54,"textLines":1,"bbox":[65.57,175.68,1161.6,67.2]}
+{"kind":"shape","id":"sh/x4r21kru","slide":2,"name":"Rectangle 5","bbox":[55.97,673.92,1171.2,1.15]}
+{"kind":"textbox","id":"sh/w3i1sfa9","slide":2,"name":"TextBox 6","text":"SchooKeep     عرض المنتج     ٥ أكتوبر ٢٠٢٦","textPreview":"SchooKeep     عرض المنتج     ٥ أكتوبر ٢٠٢٦","textChars":42,"textLines":1,"bbox":[267.17,686.4,960,28.8]}
+{"kind":"textbox","id":"sh/r65knqtk","slide":2,"name":"TextBox 7","text":"٠٢","textPreview":"٠٢","textChars":2,"textLines":1,"bbox":[60.77,683.52,57.6,28.8]}
+{"kind":"textbox","id":"sh/q5wjelsz","slide":2,"name":"TextBox 8","text":"٠١","textPreview":"٠١","textChars":2,"textLines":1,"bbox":[875.17,259.2,342.4,67.2]}
+{"kind":"textbox","id":"sh/ove9o7yd","slide":2,"name":"TextBox 9","text":"معلومات متفرقة","textPreview":"معلومات متفرقة","textChars":14,"textLines":1,"bbox":[875.17,350.4,342.4,76.8]}
+{"kind":"textbox","id":"sh/9wnqhczy","slide":2,"name":"TextBox 10","text":"تتوزع ملاحظات العيادة والموافقات وحالة الدواء وتعليمات الاستلام بين إجراءات مختلفة.","textPreview":"تتوزع ملاحظات العيادة والموافقات وحالة الدواء وتعليمات الاستلام بين إجراءات مختلفة.","textChars":83,"textLines":1,"bbox":[884.77,446.4,332.8,182.4]}
+{"kind":"textbox","id":"sh/mtwrmxg7","slide":2,"name":"TextBox 11","text":"٠٢","textPreview":"٠٢","textChars":2,"textLines":1,"bbox":[494.37,259.2,342.4,67.2]}
+{"kind":"textbox","id":"sh/nu58f2hs","slide":2,"name":"TextBox 12","text":"قرارات عاجلة","textPreview":"قرارات عاجلة","textChars":12,"textLines":1,"bbox":[494.37,350.4,342.4,76.8]}
+{"kind":"textbox","id":"sh/wjy9sry9","slide":2,"name":"TextBox 13","text":"تتطلب الحالات الصحية من الممرضة والأسرة والمعلم والإدارة العمل انطلاقاً من المعلومات نفسها.","textPreview":"تتطلب الحالات الصحية من الممرضة والأسرة والمعلم والإدارة العمل انطلاقاً من المعلومات نفسها.","textChars":91,"textLines":1,"bbox":[503.97,446.4,332.8,182.4]}
+{"kind":"textbox","id":"sh/xk7qlczu","slide":2,"name":"TextBox 14","text":"٠٣","textPreview":"٠٣","textChars":2,"textLines":1,"bbox":[113.57,259.2,342.4,67.2]}
+{"kind":"textbox","id":"sh/ahwrqhgj","slide":2,"name":"TextBox 15","text":"رؤية محدودة","textPreview":"رؤية محدودة","textChars":11,"textLines":1,"bbox":[113.57,350.4,342.4,76.8]}
+{"kind":"textbox","id":"sh/bip8jmho","slide":2,"name":"TextBox 16","text":"تحتاج المدرسة إلى متابعة واضحة للعمليات وسجل يبيّن من اتخذ الإجراء ومتى.","textPreview":"تحتاج المدرسة إلى متابعة واضحة للعمليات وسجل يبيّن من اتخذ الإجراء ومتى.","textChars":72,"textLines":1,"bbox":[123.17,446.4,332.8,182.4]}
+{"kind":"notes","id":"nt/hwbqtkby","slide":2,"text":"نسخة عربية من العرض الأصلي، مع تخطيط من اليمين إلى اليسار. لقطات الواجهة محفوظة كما ظهرت في النسخة الأصلية. توثق اللقطات نسخة Flutter مع خادم Laravel محلي وبيانات تجريبية وحساب الإدارة المقدم. لا يثبت العرض نتائج تجارية أو سريرية."}
+{"kind":"slide","id":"sl/ofy9wn61","slide":3,"title":"الحل","textShapes":14}
+{"kind":"shape","id":"sh/cza94vmx","slide":3,"name":"Rectangle 1","bbox":[1266.53,0,13.44,720]}
+{"kind":"textbox","id":"sh/d0jax03i","slide":3,"name":"TextBox 2","text":"الحل","textPreview":"الحل","textChars":4,"textLines":1,"bbox":[171.17,31.68,1056,28.8]}
+{"kind":"textbox","id":"sh/298ryl4v","slide":3,"name":"TextBox 3","text":"مساحة عمل موحدة للصحة المدرسية","textPreview":"مساحة عمل موحدة للصحة المدرسية","textChars":30,"textLines":1,"bbox":[55.97,86.4,1171.2,96]}
+{"kind":"textbox","id":"sh/3ah8rqlg","slide":3,"name":"TextBox 4","text":"واجهات جوال مخصصة لكل دور تجمع فرق المدرسة ضمن نموذج عمل واحد","textPreview":"واجهات جوال مخصصة لكل دور تجمع فرق المدرسة ضمن نموذج عمل واحد","textChars":61,"textLines":1,"bbox":[65.57,175.68,1161.6,67.2]}
+{"kind":"shape","id":"sh/obq90bml","slide":3,"name":"Rectangle 5","bbox":[55.97,673.92,1171.2,1.15]}
+{"kind":"textbox","id":"sh/pcjqtg36","slide":3,"name":"TextBox 6","text":"SchooKeep     عرض المنتج     ٥ أكتوبر ٢٠٢٦","textPreview":"SchooKeep     عرض المنتج     ٥ أكتوبر ٢٠٢٦","textChars":42,"textLines":1,"bbox":[267.17,686.4,960,28.8]}
+{"kind":"textbox","id":"sh/m5cra54z","slide":3,"name":"TextBox 7","text":"٠٣","textPreview":"٠٣","textChars":2,"textLines":1,"bbox":[60.77,683.52,57.6,28.8]}
+{"kind":"textbox","id":"sh/n6ls3alk","slide":3,"name":"TextBox 8","text":"٠١","textPreview":"٠١","textChars":2,"textLines":1,"bbox":[875.17,259.2,342.4,67.2]}
+{"kind":"textbox","id":"sh/n2l4fq98","slide":3,"name":"TextBox 9","text":"تنسيق الرعاية","textPreview":"تنسيق الرعاية","textChars":13,"textLines":1,"bbox":[875.17,350.4,342.4,76.8]}
+{"kind":"textbox","id":"sh/m1c3mlsn","slide":3,"name":"TextBox 10","text":"زيارات العيادة وإعطاء الجرعات ومراجعة الطبيب والسجلات الصحية للطلاب.","textPreview":"زيارات العيادة وإعطاء الجرعات ومراجعة الطبيب والسجلات الصحية للطلاب.","textChars":68,"textLines":1,"bbox":[884.77,446.4,332.8,182.4]}
+{"kind":"textbox","id":"sh/943mhgre","slide":3,"name":"TextBox 11","text":"٠٢","textPreview":"٠٢","textChars":2,"textLines":1,"bbox":[494.37,259.2,342.4,67.2]}
+{"kind":"textbox","id":"sh/83ulovat","slide":3,"name":"TextBox 12","text":"التواصل مع الأسرة","textPreview":"التواصل مع الأسرة","textChars":17,"textLines":1,"bbox":[494.37,350.4,342.4,76.8]}
+{"kind":"textbox","id":"sh/v6l4jq94","slide":3,"name":"TextBox 13","text":"الموافقات والمستندات والتاريخ الصحي وتقارير الأدوية والمصرح لهم بالاستلام.","textPreview":"الموافقات والمستندات والتاريخ الصحي وتقارير الأدوية والمصرح لهم بالاستلام.","textChars":74,"textLines":1,"bbox":[503.97,446.4,332.8,182.4]}
+{"kind":"textbox","id":"sh/a5c3ql8z","slide":3,"name":"TextBox 14","text":"٠٣","textPreview":"٠٣","textChars":2,"textLines":1,"bbox":[113.57,259.2,342.4,67.2]}
+{"kind":"textbox","id":"sh/x8nml0ra","slide":3,"name":"TextBox 15","text":"متابعة الإجراءات","textPreview":"متابعة الإجراءات","textChars":16,"textLines":1,"bbox":[113.57,350.4,342.4,76.8]}
+{"kind":"textbox","id":"sh/w7ulsvqp","slide":3,"name":"TextBox 16","text":"تحليلات الإدارة وصلاحيات الموظفين والتنبيهات المدرسية وسجلات التدقيق.","textPreview":"تحليلات الإدارة وصلاحيات الموظفين والتنبيهات المدرسية وسجلات التدقيق.","textChars":69,"textLines":1,"bbox":[123.17,446.4,332.8,182.4]}
+{"kind":"notes","id":"nt/ofy9wn61","slide":3,"text":"نسخة عربية من العرض الأصلي، مع تخطيط من اليمين إلى اليسار. لقطات الواجهة محفوظة كما ظهرت في النسخة الأصلية. توثق اللقطات نسخة Flutter مع خادم Laravel محلي وبيانات تجريبية وحساب الإدارة المقدم. لا يثبت العرض نتائج تجارية أو سريرية."}
+{"kind":"slide","id":"sl/jyx0ra1s","slide":4,"title":"نطاق المنتج","textShapes":17}
+{"kind":"shape","id":"sh/1cj2d8b6","slide":4,"name":"Rectangle 1","bbox":[1266.53,0,13.44,720]}
+{"kind":"textbox","id":"sh/0ba143al","slide":4,"name":"TextBox 2","text":"نطاق المنتج","textPreview":"نطاق المنتج","textChars":11,"textLines":1,"bbox":[171.17,31.68,1056,28.8]}
+{"kind":"textbox","id":"sh/rm1k7yt4","slide":4,"name":"TextBox 3","text":"تجارب تخدم المدرسة بأكملها","textPreview":"تجارب تخدم المدرسة بأكملها","textChars":26,"textLines":1,"bbox":[55.97,86.4,1171.2,96]}
+{"kind":"textbox","id":"sh/ql8jytsj","slide":4,"name":"TextBox 4","text":"إحدى عشرة تجربة حسب الدور، مع تسجيل دخول وحالات تشغيل مشتركة","textPreview":"إحدى عشرة تجربة حسب الدور، مع تسجيل دخول وحالات تشغيل مشتركة","textChars":60,"textLines":1,"bbox":[65.57,175.68,1161.6,67.2]}
+{"kind":"shape","id":"sh/doj29oba","slide":4,"name":"Rectangle 5","bbox":[55.97,673.92,1171.2,1.15]}
+{"kind":"textbox","id":"sh/sna103ap","slide":4,"name":"TextBox 6","text":"SchooKeep     عرض المنتج     ٥ أكتوبر ٢٠٢٦","textPreview":"SchooKeep     عرض المنتج     ٥ أكتوبر ٢٠٢٦","textChars":42,"textLines":1,"bbox":[267.17,686.4,960,28.8]}
+{"kind":"textbox","id":"sh/3ihk3et8","slide":4,"name":"TextBox 7","text":"٠٤","textPreview":"٠٤","textChars":2,"textLines":1,"bbox":[60.77,683.52,57.6,28.8]}
+{"kind":"shape","id":"sh/ih8ju9sn","slide":4,"name":"Rectangle 8","bbox":[1176.29,254.4,36.48,36.48]}
+{"kind":"textbox","id":"sh/kbm987y5","slide":4,"name":"TextBox 9","text":"مدير المدرسة","textPreview":"مدير المدرسة","textChars":12,"textLines":1,"bbox":[929.57,252.48,230.4,57.6]}
+{"kind":"shape","id":"sh/5cva1cfq","slide":4,"name":"Rectangle 10","bbox":[878.69,254.4,36.48,36.48]}
+{"kind":"textbox","id":"sh/i94r6xgz","slide":4,"name":"TextBox 11","text":"نائب المدير","textPreview":"نائب المدير","textChars":11,"textLines":1,"bbox":[631.97,252.48,230.4,57.6]}
+{"kind":"shape","id":"sh/jadsz2xk","slide":4,"name":"Rectangle 12","bbox":[581.09,254.4,36.48,36.48]}
+{"kind":"textbox","id":"sh/w72947yt","slide":4,"name":"TextBox 13","text":"الممرضة","textPreview":"الممرضة","textChars":7,"textLines":1,"bbox":[334.37,252.48,230.4,57.6]}
+{"kind":"shape","id":"sh/x8vaxsfe","slide":4,"name":"Rectangle 14","bbox":[283.49,254.4,36.48,36.48]}
+{"kind":"textbox","id":"sh/a5kr2xg3","slide":4,"name":"TextBox 15","text":"الطبيب","textPreview":"الطبيب","textChars":6,"textLines":1,"bbox":[36.77,252.48,230.4,57.6]}
+{"kind":"shape","id":"sh/v6tsv2xo","slide":4,"name":"Rectangle 16","bbox":[1176.29,372.48,36.48,36.48]}
+{"kind":"textbox","id":"sh/g36tgryd","slide":4,"name":"TextBox 17","text":"ولي الأمر","textPreview":"ولي الأمر","textChars":9,"textLines":1,"bbox":[929.57,370.56,230.4,57.6]}
+{"kind":"shape","id":"sh/h4fa9wfy","slide":4,"name":"Rectangle 18","bbox":[878.69,372.48,36.48,36.48]}
+{"kind":"textbox","id":"sh/p0batw72","slide":4,"name":"TextBox 19","text":"المعلم","textPreview":"المعلم","textChars":6,"textLines":1,"bbox":[631.97,370.56,230.4,57.6]}
+{"kind":"shape","id":"sh/oz29krqh","slide":4,"name":"Rectangle 20","bbox":[581.09,372.48,36.48,36.48]}
+{"kind":"textbox","id":"sh/3ytsrmpw","slide":4,"name":"TextBox 21","text":"المرشد الطلابي","textPreview":"المرشد الطلابي","textChars":14,"textLines":1,"bbox":[334.37,370.56,230.4,57.6]}
+{"kind":"shape","id":"sh/2xkrih8b","slide":4,"name":"Rectangle 22","bbox":[283.49,372.48,36.48,36.48]}
+{"kind":"textbox","id":"sh/1wbapc7q","slide":4,"name":"TextBox 23","text":"السكرتارية","textPreview":"السكرتارية","textChars":10,"textLines":1,"bbox":[36.77,370.56,230.4,57.6]}
+{"kind":"shape","id":"sh/gv29g7q5","slide":4,"name":"Rectangle 24","bbox":[1176.29,490.56,36.48,36.48]}
+{"kind":"textbox","id":"sh/fu9sn2p0","slide":4,"name":"TextBox 25","text":"المقصف","textPreview":"المقصف","textChars":6,"textLines":1,"bbox":[929.57,488.64,230.4,57.6]}
+{"kind":"shape","id":"sh/et0reh8f","slide":4,"name":"Rectangle 26","bbox":[878.69,490.56,36.48,36.48]}
+{"kind":"textbox","id":"sh/tsrqlc7u","slide":4,"name":"TextBox 27","text":"الأمن","textPreview":"الأمن","textChars":5,"textLines":1,"bbox":[631.97,488.64,230.4,57.6]}
+{"kind":"shape","id":"sh/sri9s7q9","slide":4,"name":"Rectangle 28","bbox":[581.09,490.56,36.48,36.48]}
+{"kind":"textbox","id":"sh/ilwf69kv","slide":4,"name":"TextBox 29","text":"سائق الحافلة","textPreview":"سائق الحافلة","textChars":12,"textLines":1,"bbox":[334.37,488.64,230.4,57.6]}
+{"kind":"textbox","id":"sh/jm5gze1g","slide":4,"name":"TextBox 30","text":"تتضمن مكتبة المنتج ١٤٨ لقطة شاشة مرتبطة بمسارات التطبيق.","textPreview":"تتضمن مكتبة المنتج ١٤٨ لقطة شاشة مرتبطة بمسارات التطبيق.","textChars":56,"textLines":1,"bbox":[156.77,622.08,1056,38.4]}
+{"kind":"notes","id":"nt/jyx0ra1s","slide":4,"text":"نسخة عربية من العرض الأصلي، مع تخطيط من اليمين إلى اليسار. لقطات الواجهة محفوظة كما ظهرت في النسخة الأصلية. توثق اللقطات نسخة Flutter مع خادم Laravel محلي وبيانات تجريبية وحساب الإدارة المقدم. لا يثبت العرض نتائج تجارية أو سريرية."}
+{"kind":"slide","id":"sl/i107q5of","slide":5,"title":"الإدارة المدرسية","textShapes":14}
+{"kind":"shape","id":"sh/dgbulwnm","slide":5,"name":"Rectangle 1","bbox":[1266.53,0,13.44,720]}
+{"kind":"textbox","id":"sh/cf2tcr61","slide":5,"name":"TextBox 2","text":"الإدارة المدرسية","textPreview":"الإدارة المدرسية","textChars":16,"textLines":1,"bbox":[171.17,31.68,1056,28.8]}
+{"kind":"textbox","id":"sh/z2tcnm5s","slide":5,"name":"TextBox 3","text":"رؤية شاملة للصحة المدرسية","textPreview":"رؤية شاملة للصحة المدرسية","textChars":25,"textLines":1,"bbox":[55.97,86.4,1171.2,96]}
+{"kind":"textbox","id":"sh/yhkbe1o7","slide":5,"name":"TextBox 4","text":"نظرة يومية تجمع أنشطة الرعاية والمستندات والتنبيهات ومتابعة الموظفين","textPreview":"نظرة يومية تجمع أنشطة الرعاية والمستندات والتنبيهات ومتابعة الموظفين","textChars":68,"textLines":1,"bbox":[65.57,175.68,1161.6,67.2]}
+{"kind":"shape","id":"sh/l4bupwny","slide":5,"name":"Rectangle 5","bbox":[55.97,673.92,1171.2,1.15]}
+{"kind":"textbox","id":"sh/032tgr6d","slide":5,"name":"TextBox 6","text":"SchooKeep     عرض المنتج     ٥ أكتوبر ٢٠٢٦","textPreview":"SchooKeep     عرض المنتج     ٥ أكتوبر ٢٠٢٦","textChars":42,"textLines":1,"bbox":[267.17,686.4,960,28.8]}
+{"kind":"textbox","id":"sh/n6dcr65o","slide":5,"name":"TextBox 7","text":"٠٥","textPreview":"٠٥","textChars":2,"textLines":1,"bbox":[60.77,683.52,57.6,28.8]}
+{"kind":"shape","id":"sh/m5kbi1oj","slide":5,"name":"Rectangle 8","bbox":[1215.65,254.4,8.64,52.8]}
+{"kind":"textbox","id":"sh/w32dkbuh","slide":5,"name":"TextBox 9","text":"متابعة العمل اليومي","textPreview":"متابعة العمل اليومي","textChars":19,"textLines":1,"bbox":[765.41,254.4,432,33.6]}
+{"kind":"textbox","id":"sh/x4vedgvm","slide":5,"name":"TextBox 10","text":"جمع أولويات اليوم في شاشة واحدة للإدارة.","textPreview":"جمع أولويات اليوم في شاشة واحدة للإدارة.","textChars":40,"textLines":1,"bbox":[770.21,295.68,427.2,62.4]}
+{"kind":"shape","id":"sh/ahkvi1cb","slide":5,"name":"Rectangle 11","bbox":[1215.65,364.8,8.64,52.8]}
+{"kind":"textbox","id":"sh/v2twb6dw","slide":5,"name":"TextBox 12","text":"الموظفون والصلاحيات","textPreview":"الموظفون والصلاحيات","textChars":19,"textLines":1,"bbox":[765.41,364.8,432,33.6]}
+{"kind":"textbox","id":"sh/k7mxovud","slide":5,"name":"TextBox 13","text":"إدارة فرق العمل المسؤولة عن تقديم الخدمة.","textPreview":"إدارة فرق العمل المسؤولة عن تقديم الخدمة.","textChars":41,"textLines":1,"bbox":[770.21,406.08,427.2,62.4]}
+{"kind":"shape","id":"sh/58vehgvy","slide":5,"name":"Rectangle 14","bbox":[1215.65,475.2,8.64,52.8]}
+{"kind":"textbox","id":"sh/i54fmlc7","slide":5,"name":"TextBox 15","text":"التحليلات والتقارير","textPreview":"التحليلات والتقارير","textChars":19,"textLines":1,"bbox":[765.41,475.2,432,33.6]}
+{"kind":"textbox","id":"sh/j6dwfqds","slide":5,"name":"TextBox 16","text":"مراجعة الاتجاهات ودعم التخطيط على مستوى المدرسة.","textPreview":"مراجعة الاتجاهات ودعم التخطيط على مستوى المدرسة.","textChars":48,"textLines":1,"bbox":[770.21,516.48,427.2,62.4]}
+{"kind":"shape","id":"sh/sb6xsvu9","slide":5,"name":"Rectangle 17","bbox":[553.91,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/hgrmpwj2","slide":5,"name":"TextBox 19","text":"نظرة يومية","textPreview":"نظرة يومية","textChars":10,"textLines":1,"bbox":[548.63,641.28,198.54,40.32]}
+{"kind":"shape","id":"sh/gfi5grih","slide":5,"name":"Rectangle 20","bbox":[325.43,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/ud0ne10b","slide":5,"name":"TextBox 22","text":"تحليلات الصحة","textPreview":"تحليلات الصحة","textChars":13,"textLines":1,"bbox":[320.15,641.28,198.54,40.32]}
+{"kind":"shape","id":"sh/pkr6tgjy","slide":5,"name":"Rectangle 23","bbox":[96.95,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/3i94r61s","slide":5,"name":"TextBox 25","text":"إدارة الموظفين","textPreview":"إدارة الموظفين","textChars":14,"textLines":1,"bbox":[91.67,641.28,198.54,40.32]}
+{"kind":"image","id":"im/9kbyhg7e","slide":5,"name":"Picture 18","bbox":[558.23,240,179.34,388.8]}
+{"kind":"image","id":"im/ulkfaloz","slide":5,"name":"Picture 21","bbox":[329.75,240,179.34,388.8]}
+{"kind":"image","id":"im/vmdgjqpk","slide":5,"name":"Picture 24","bbox":[101.27,240,179.34,388.8]}
+{"kind":"notes","id":"nt/i107q5of","slide":5,"text":"نسخة عربية من العرض الأصلي، مع تخطيط من اليمين إلى اليسار. لقطات الواجهة محفوظة كما ظهرت في النسخة الأصلية. توثق اللقطات نسخة Flutter مع خادم Laravel محلي وبيانات تجريبية وحساب الإدارة المقدم. لا يثبت العرض نتائج تجارية أو سريرية."}
+{"kind":"slide","id":"sl/x8f69ofe","slide":6,"title":"الرعاية الصحية","textShapes":14}
+{"kind":"shape","id":"sh/yhg7epsj","slide":6,"name":"Rectangle 1","bbox":[1266.53,0,13.44,720]}
+{"kind":"textbox","id":"sh/zi98nu94","slide":6,"name":"TextBox 2","text":"الرعاية الصحية","textPreview":"الرعاية الصحية","textChars":14,"textLines":1,"bbox":[171.17,31.68,1056,28.8]}
+{"kind":"textbox","id":"sh/87ipkzal","slide":6,"name":"TextBox 3","text":"مساحة عمل مخصصة للممرضة","textPreview":"مساحة عمل مخصصة للممرضة","textChars":23,"textLines":1,"bbox":[55.97,86.4,1171.2,96]}
+{"kind":"textbox","id":"sh/98rqt4r6","slide":6,"name":"TextBox 4","text":"تشمل العمليات البحث عن الطلاب والزيارات والتوثيق وتصعيد الحالات الطارئة","textPreview":"تشمل العمليات البحث عن الطلاب والزيارات والتوثيق وتصعيد الحالات الطارئة","textChars":71,"textLines":1,"bbox":[65.57,175.68,1161.6,67.2]}
+{"kind":"shape","id":"sh/ml07i9sv","slide":6,"name":"Rectangle 5","bbox":[55.97,673.92,1171.2,1.15]}
+{"kind":"textbox","id":"sh/7m98ru9g","slide":6,"name":"TextBox 6","text":"SchooKeep     عرض المنتج     ٥ أكتوبر ٢٠٢٦","textPreview":"SchooKeep     عرض المنتج     ٥ أكتوبر ٢٠٢٦","textChars":42,"textLines":1,"bbox":[267.17,686.4,960,28.8]}
+{"kind":"textbox","id":"sh/oryp8fah","slide":6,"name":"TextBox 7","text":"٠٦","textPreview":"٠٦","textChars":2,"textLines":1,"bbox":[60.77,683.52,57.6,28.8]}
+{"kind":"shape","id":"sh/pc76hkr2","slide":6,"name":"Rectangle 8","bbox":[1215.65,254.4,8.64,52.8]}
+{"kind":"textbox","id":"sh/h4bupgn6","slide":6,"name":"TextBox 9","text":"المعلومات الصحية","textPreview":"المعلومات الصحية","textChars":16,"textLines":1,"bbox":[765.41,254.4,432,33.6]}
+{"kind":"textbox","id":"sh/w32twb6l","slide":6,"name":"TextBox 10","text":"الوصول إلى المعلومات الصحية ضمن سجل الطالب.","textPreview":"الوصول إلى المعلومات الصحية ضمن سجل الطالب.","textChars":43,"textLines":1,"bbox":[770.21,295.68,427.2,62.4]}
+{"kind":"shape","id":"sh/v2tcn650","slide":6,"name":"Rectangle 11","bbox":[1215.65,364.8,8.64,52.8]}
+{"kind":"textbox","id":"sh/u1kbu1ov","slide":6,"name":"TextBox 12","text":"توثيق الزيارات","textPreview":"توثيق الزيارات","textChars":14,"textLines":1,"bbox":[765.41,364.8,432,33.6]}
+{"kind":"textbox","id":"sh/5svutgni","slide":6,"name":"TextBox 13","text":"تنظيم نشاط العيادة اليومي وتفاصيل الزيارات.","textPreview":"تنظيم نشاط العيادة اليومي وتفاصيل الزيارات.","textChars":43,"textLines":1,"bbox":[770.21,406.08,427.2,62.4]}
+{"kind":"shape","id":"sh/47mt0b6x","slide":6,"name":"Rectangle 14","bbox":[1215.65,475.2,8.64,52.8]}
+{"kind":"textbox","id":"sh/j6dcr65c","slide":6,"name":"TextBox 15","text":"تصعيد الحالات","textPreview":"تصعيد الحالات","textChars":13,"textLines":1,"bbox":[765.41,475.2,432,33.6]}
+{"kind":"textbox","id":"sh/i54bylor","slide":6,"name":"TextBox 16","text":"إظهار الخطوات العاجلة التالية ضمن مسار العمل.","textPreview":"إظهار الخطوات العاجلة التالية ضمن مسار العمل.","textChars":45,"textLines":1,"bbox":[770.21,516.48,427.2,62.4]}
+{"kind":"shape","id":"sh/twfux0ne","slide":6,"name":"Rectangle 17","bbox":[553.91,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/cbe5g3ih","slide":6,"name":"TextBox 19","text":"زيارات العيادة","textPreview":"زيارات العيادة","textChars":14,"textLines":1,"bbox":[548.63,641.28,198.54,40.32]}
+{"kind":"shape","id":"sh/dcnm98zm","slide":6,"name":"Rectangle 20","bbox":[325.43,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/bq547yhw","slide":6,"name":"TextBox 22","text":"زيارة جديدة","textPreview":"زيارة جديدة","textChars":11,"textLines":1,"bbox":[320.15,641.28,198.54,40.32]}
+{"kind":"shape","id":"sh/0fy5k3id","slide":6,"name":"Rectangle 23","bbox":[96.95,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/ydgnit07","slide":6,"name":"TextBox 25","text":"تصعيد حالة طارئة","textPreview":"تصعيد حالة طارئة","textChars":16,"textLines":1,"bbox":[91.67,641.28,198.54,40.32]}
+{"kind":"image","id":"im/ofq9wfal","slide":6,"name":"Picture 18","bbox":[558.23,240,179.34,388.8]}
+{"kind":"image","id":"im/3id8b69w","slide":6,"name":"Picture 21","bbox":[329.75,240,179.34,388.8]}
+{"kind":"image","id":"im/2h47i1sb","slide":6,"name":"Picture 24","bbox":[101.27,240,179.34,388.8]}
+{"kind":"notes","id":"nt/x8f69ofe","slide":6,"text":"نسخة عربية من العرض الأصلي، مع تخطيط من اليمين إلى اليسار. لقطات الواجهة محفوظة كما ظهرت في النسخة الأصلية. توثق اللقطات نسخة Flutter مع خادم Laravel محلي وبيانات تجريبية وحساب الإدارة المقدم. لا يثبت العرض نتائج تجارية أو سريرية."}
+{"kind":"slide","id":"sl/gnmp4jqx","slide":7,"title":"إدارة الأدوية","textShapes":14}
+{"kind":"shape","id":"sh/cb2tkvap","slide":7,"name":"Rectangle 1","bbox":[1266.53,0,13.44,720]}
+{"kind":"textbox","id":"sh/dcbud0ra","slide":7,"name":"TextBox 2","text":"إدارة الأدوية","textPreview":"إدارة الأدوية","textChars":13,"textLines":1,"bbox":[171.17,31.68,1056,28.8]}
+{"kind":"textbox","id":"sh/ydkbm5sv","slide":7,"name":"TextBox 3","text":"متابعة الجرعات ومخزون الأدوية","textPreview":"متابعة الجرعات ومخزون الأدوية","textChars":29,"textLines":1,"bbox":[55.97,86.4,1171.2,96]}
+{"kind":"textbox","id":"sh/zedcfa9g","slide":7,"name":"TextBox 4","text":"تعرض الواجهة الجرعات اليومية وحالات التعارض ومخزون الصيدلية","textPreview":"تعرض الواجهة الجرعات اليومية وحالات التعارض ومخزون الصيدلية","textChars":59,"textLines":1,"bbox":[65.57,175.68,1161.6,67.2]}
+{"kind":"shape","id":"sh/kzmdova1","slide":7,"name":"Rectangle 5","bbox":[55.97,673.92,1171.2,1.15]}
+{"kind":"textbox","id":"sh/l0vuh0rm","slide":7,"name":"TextBox 6","text":"SchooKeep     عرض المنتج     ٥ أكتوبر ٢٠٢٦","textPreview":"SchooKeep     عرض المنتج     ٥ أكتوبر ٢٠٢٦","textChars":42,"textLines":1,"bbox":[267.17,686.4,960,28.8]}
+{"kind":"textbox","id":"sh/eh0ba1sr","slide":7,"name":"TextBox 7","text":"٠٧","textPreview":"٠٧","textChars":2,"textLines":1,"bbox":[60.77,683.52,57.6,28.8]}
+{"kind":"shape","id":"sh/fi9c369c","slide":7,"name":"Rectangle 8","bbox":[1215.65,254.4,8.64,52.8]}
+{"kind":"textbox","id":"sh/baxkjqlk","slide":7,"name":"TextBox 9","text":"تخطيط الجرعات","textPreview":"تخطيط الجرعات","textChars":13,"textLines":1,"bbox":[765.41,254.4,432,33.6]}
+{"kind":"textbox","id":"sh/a9ojq5kz","slide":7,"name":"TextBox 10","text":"مراجعة مهام الأدوية في شاشة مخصصة للجرعات.","textPreview":"مراجعة مهام الأدوية في شاشة مخصصة للجرعات.","textChars":42,"textLines":1,"bbox":[770.21,295.68,427.2,62.4]}
+{"kind":"shape","id":"sh/xcz2l03q","slide":7,"name":"Rectangle 11","bbox":[1215.65,364.8,8.64,52.8]}
+{"kind":"textbox","id":"sh/cbq1sv25","slide":7,"name":"TextBox 12","text":"التأكيد والتنبيه","textPreview":"التأكيد والتنبيه","textChars":16,"textLines":1,"bbox":[765.41,364.8,432,33.6]}
+{"kind":"textbox","id":"sh/n6x0fqlo","slide":7,"name":"TextBox 13","text":"تنظيم الإجراءات عبر شاشات تأكيد الجرعات وتنبيهات التعارض.","textPreview":"تنظيم الإجراءات عبر شاشات تأكيد الجرعات وتنبيهات التعارض.","textChars":57,"textLines":1,"bbox":[770.21,406.08,427.2,62.4]}
+{"kind":"shape","id":"sh/25ojml43","slide":7,"name":"Rectangle 14","bbox":[1215.65,475.2,8.64,52.8]}
+{"kind":"textbox","id":"sh/p8fih03e","slide":7,"name":"TextBox 15","text":"متابعة المخزون","textPreview":"متابعة المخزون","textChars":14,"textLines":1,"bbox":[765.41,475.2,432,33.6]}
+{"kind":"textbox","id":"sh/o761ov2t","slide":7,"name":"TextBox 16","text":"تخصيص شاشة لمتابعة مخزون الأدوية.","textPreview":"تخصيص شاشة لمتابعة مخزون الأدوية.","textChars":33,"textLines":1,"bbox":[770.21,516.48,427.2,62.4]}
+{"kind":"shape","id":"sh/f2d0b6lc","slide":7,"name":"Rectangle 17","bbox":[553.91,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/id4ju1oz","slide":7,"name":"TextBox 19","text":"قائمة الأدوية","textPreview":"قائمة الأدوية","textChars":13,"textLines":1,"bbox":[548.63,641.28,198.54,40.32]}
+{"kind":"shape","id":"sh/jedkn654","slide":7,"name":"Rectangle 20","bbox":[325.43,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/50v2pgna","slide":7,"name":"TextBox 22","text":"تنبيه التعارض","textPreview":"تنبيه التعارض","textChars":13,"textLines":1,"bbox":[320.15,641.28,198.54,40.32]}
+{"kind":"shape","id":"sh/q143ylov","slide":7,"name":"Rectangle 23","bbox":[96.95,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/s3ml0v61","slide":7,"name":"TextBox 25","text":"مخزون الصيدلية","textPreview":"مخزون الصيدلية","textChars":14,"textLines":1,"bbox":[91.67,641.28,198.54,40.32]}
+{"kind":"image","id":"im/ix4nytoz","slide":7,"name":"Picture 18","bbox":[558.23,240,179.34,388.8]}
+{"kind":"image","id":"im/l4rmh4n6","slide":7,"name":"Picture 21","bbox":[329.75,240,179.34,388.8]}
+{"kind":"image","id":"im/k3i5oz61","slide":7,"name":"Picture 24","bbox":[101.27,240,179.34,388.8]}
+{"kind":"notes","id":"nt/gnmp4jqx","slide":7,"text":"نسخة عربية من العرض الأصلي، مع تخطيط من اليمين إلى اليسار. لقطات الواجهة محفوظة كما ظهرت في النسخة الأصلية. توثق اللقطات نسخة Flutter مع خادم Laravel محلي وبيانات تجريبية وحساب الإدارة المقدم. لا يثبت العرض نتائج تجارية أو سريرية."}
+{"kind":"slide","id":"sl/fu1gfa1s","slide":8,"title":"إشراف الطبيب","textShapes":14}
+{"kind":"shape","id":"sh/18byd4zy","slide":8,"name":"Rectangle 1","bbox":[1266.53,0,13.44,720]}
+{"kind":"textbox","id":"sh/g72x4zyd","slide":8,"name":"TextBox 2","text":"إشراف الطبيب","textPreview":"إشراف الطبيب","textChars":12,"textLines":1,"bbox":[171.17,31.68,1056,28.8]}
+{"kind":"textbox","id":"sh/ri9g7uhw","slide":8,"name":"TextBox 3","text":"مراجعة طبية تتجاوز العيادة","textPreview":"مراجعة طبية تتجاوز العيادة","textChars":26,"textLines":1,"bbox":[55.97,86.4,1171.2,96]}
+{"kind":"textbox","id":"sh/6h0fypgb","slide":8,"name":"TextBox 4","text":"مساحة عمل للطبيب تدعم مراجعة البروتوكولات والحالات المحالة والمواعيد","textPreview":"مساحة عمل للطبيب تدعم مراجعة البروتوكولات والحالات المحالة والمواعيد","textChars":68,"textLines":1,"bbox":[65.57,175.68,1161.6,67.2]}
+{"kind":"shape","id":"sh/tkby9kzm","slide":8,"name":"Rectangle 5","bbox":[55.97,673.92,1171.2,1.15]}
+{"kind":"textbox","id":"sh/sjix0zy1","slide":8,"name":"TextBox 6","text":"SchooKeep     عرض المنتج     ٥ أكتوبر ٢٠٢٦","textPreview":"SchooKeep     عرض المنتج     ٥ أكتوبر ٢٠٢٦","textChars":42,"textLines":1,"bbox":[267.17,686.4,960,28.8]}
+{"kind":"textbox","id":"sh/je9g3ahk","slide":8,"name":"TextBox 7","text":"٠٨","textPreview":"٠٨","textChars":2,"textLines":1,"bbox":[60.77,683.52,57.6,28.8]}
+{"kind":"shape","id":"sh/id0fu50z","slide":8,"name":"Rectangle 8","bbox":[1215.65,254.4,8.64,52.8]}
+{"kind":"textbox","id":"sh/o7ydoret","slide":8,"name":"TextBox 9","text":"مراجعة البروتوكولات","textPreview":"مراجعة البروتوكولات","textChars":19,"textLines":1,"bbox":[765.41,254.4,432,33.6]}
+{"kind":"textbox","id":"sh/98rehwve","slide":8,"name":"TextBox 10","text":"قسم مخصص لمراجعة بروتوكولات الأدوية.","textPreview":"قسم مخصص لمراجعة بروتوكولات الأدوية.","textChars":36,"textLines":1,"bbox":[770.21,295.68,427.2,62.4]}
+{"kind":"shape","id":"sh/m5gvmhwn","slide":8,"name":"Rectangle 11","bbox":[1215.65,364.8,8.64,52.8]}
+{"kind":"textbox","id":"sh/n6pwfmd8","slide":8,"name":"TextBox 12","text":"الحالات المحالة","textPreview":"الحالات المحالة","textChars":15,"textLines":1,"bbox":[765.41,364.8,432,33.6]}
+{"kind":"textbox","id":"sh/0jydkreh","slide":8,"name":"TextBox 13","text":"إبراز الحالات التي تتطلب متابعة طبية إضافية.","textPreview":"إبراز الحالات التي تتطلب متابعة طبية إضافية.","textChars":44,"textLines":1,"bbox":[770.21,406.08,427.2,62.4]}
+{"kind":"shape","id":"sh/1k7edwv2","slide":8,"name":"Rectangle 14","bbox":[1215.65,475.2,8.64,52.8]}
+{"kind":"textbox","id":"sh/ehgvihwr","slide":8,"name":"TextBox 15","text":"تنظيم المواعيد","textPreview":"تنظيم المواعيد","textChars":14,"textLines":1,"bbox":[765.41,475.2,432,33.6]}
+{"kind":"textbox","id":"sh/zipwbmdc","slide":8,"name":"TextBox 16","text":"عرض جدول الطبيب ضمن التطبيق.","textPreview":"عرض جدول الطبيب ضمن التطبيق.","textChars":28,"textLines":1,"bbox":[770.21,516.48,427.2,62.4]}
+{"kind":"shape","id":"sh/kfixwbe1","slide":8,"name":"Rectangle 17","bbox":[553.91,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/tw7e9gnq","slide":8,"name":"TextBox 19","text":"الرئيسية للطبيب","textPreview":"الرئيسية للطبيب","textChars":15,"textLines":1,"bbox":[548.63,641.28,198.54,40.32]}
+{"kind":"shape","id":"sh/svydgb65","slide":8,"name":"Rectangle 20","bbox":[325.43,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/6twve1oz","slide":8,"name":"TextBox 22","text":"مراجعة البروتوكولات","textPreview":"مراجعة البروتوكولات","textChars":19,"textLines":1,"bbox":[320.15,641.28,198.54,40.32]}
+{"kind":"shape","id":"sh/5sne5wne","slide":8,"name":"Rectangle 23","bbox":[96.95,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/jq5w365o","slide":8,"name":"TextBox 25","text":"الحالات المحالة","textPreview":"الحالات المحالة","textChars":15,"textLines":1,"bbox":[91.67,641.28,198.54,40.32]}
+{"kind":"image","id":"im/xoza9s3m","slide":8,"name":"Picture 18","bbox":[558.23,240,179.34,388.8]}
+{"kind":"image","id":"im/uhsbqhkf","slide":8,"name":"Picture 21","bbox":[329.75,240,179.34,388.8]}
+{"kind":"image","id":"im/fi1sjmlk","slide":8,"name":"Picture 24","bbox":[101.27,240,179.34,388.8]}
+{"kind":"notes","id":"nt/fu1gfa1s","slide":8,"text":"نسخة عربية من العرض الأصلي، مع تخطيط من اليمين إلى اليسار. لقطات الواجهة محفوظة كما ظهرت في النسخة الأصلية. توثق اللقطات نسخة Flutter مع خادم Laravel محلي وبيانات تجريبية وحساب الإدارة المقدم. لا يثبت العرض نتائج تجارية أو سريرية."}
+{"kind":"slide","id":"sl/udsvah03","slide":9,"title":"تجربة الأسرة","textShapes":14}
+{"kind":"shape","id":"sh/1cfmhgne","slide":9,"name":"Rectangle 1","bbox":[1266.53,0,13.44,720]}
+{"kind":"textbox","id":"sh/0b65obm9","slide":9,"name":"TextBox 2","text":"تجربة الأسرة","textPreview":"تجربة الأسرة","textChars":12,"textLines":1,"bbox":[171.17,31.68,1056,28.8]}
+{"kind":"textbox","id":"sh/nex4jq5k","slide":9,"name":"TextBox 3","text":"الأسرة ضمن مسار الرعاية","textPreview":"الأسرة ضمن مسار الرعاية","textChars":23,"textLines":1,"bbox":[55.97,86.4,1171.2,96]}
+{"kind":"textbox","id":"sh/mdonql4z","slide":9,"name":"TextBox 4","text":"يجمع تطبيق ولي الأمر الصحة والأدوية والمستندات في تجربة جوال مألوفة","textPreview":"يجمع تطبيق ولي الأمر الصحة والأدوية والمستندات في تجربة جوال مألوفة","textChars":67,"textLines":1,"bbox":[65.57,175.68,1161.6,67.2]}
+{"kind":"shape","id":"sh/9gzml0nq","slide":9,"name":"Rectangle 5","bbox":[55.97,673.92,1171.2,1.15]}
+{"kind":"textbox","id":"sh/ofq5svm5","slide":9,"name":"TextBox 6","text":"SchooKeep     عرض المنتج     ٥ أكتوبر ٢٠٢٦","textPreview":"SchooKeep     عرض المنتج     ٥ أكتوبر ٢٠٢٦","textChars":42,"textLines":1,"bbox":[267.17,686.4,960,28.8]}
+{"kind":"textbox","id":"sh/bih4na5w","slide":9,"name":"TextBox 7","text":"٠٩","textPreview":"٠٩","textChars":2,"textLines":1,"bbox":[60.77,683.52,57.6,28.8]}
+{"kind":"shape","id":"sh/ah8nu54b","slide":9,"name":"Rectangle 8","bbox":[1215.65,254.4,8.64,52.8]}
+{"kind":"textbox","id":"sh/oza1gfyh","slide":9,"name":"TextBox 9","text":"الرئيسية للأسرة","textPreview":"الرئيسية للأسرة","textChars":15,"textLines":1,"bbox":[765.41,254.4,432,33.6]}
+{"kind":"textbox","id":"sh/p0ji9kf2","slide":9,"name":"TextBox 10","text":"نقطة بداية واضحة لولي الأمر خلال اليوم الدراسي.","textPreview":"نقطة بداية واضحة لولي الأمر خلال اليوم الدراسي.","textChars":47,"textLines":1,"bbox":[770.21,295.68,427.2,62.4]}
+{"kind":"shape","id":"sh/2xsjepgb","slide":9,"name":"Rectangle 11","bbox":[1215.65,364.8,8.64,52.8]}
+{"kind":"textbox","id":"sh/3y107axw","slide":9,"name":"TextBox 12","text":"السجل الصحي والدوائي","textPreview":"السجل الصحي والدوائي","textChars":20,"textLines":1,"bbox":[765.41,364.8,432,33.6]}
+{"kind":"textbox","id":"sh/cnu1kzyd","slide":9,"name":"TextBox 13","text":"إبقاء الأسرة على اطلاع بأنشطة رعاية الطفل.","textPreview":"إبقاء الأسرة على اطلاع بأنشطة رعاية الطفل.","textChars":42,"textLines":1,"bbox":[770.21,406.08,427.2,62.4]}
+{"kind":"shape","id":"sh/do3id4fy","slide":9,"name":"Rectangle 14","bbox":[1215.65,475.2,8.64,52.8]}
+{"kind":"textbox","id":"sh/qlcjipgn","slide":9,"name":"TextBox 15","text":"المستندات في مكان واحد","textPreview":"المستندات في مكان واحد","textChars":22,"textLines":1,"bbox":[765.41,475.2,432,33.6]}
+{"kind":"textbox","id":"sh/bml0buxs","slide":9,"name":"TextBox 16","text":"الوصول بسهولة إلى مستندات الصحة المدرسية.","textPreview":"الوصول بسهولة إلى مستندات الصحة المدرسية.","textChars":41,"textLines":1,"bbox":[770.21,516.48,427.2,62.4]}
+{"kind":"shape","id":"sh/0ru1ozyp","slide":9,"name":"Rectangle 17","bbox":[553.91,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/98ji147e","slide":9,"name":"TextBox 19","text":"الرئيسية لولي الأمر","textPreview":"الرئيسية لولي الأمر","textChars":19,"textLines":1,"bbox":[548.63,641.28,198.54,40.32]}
+{"kind":"shape","id":"sh/87a18zqt","slide":9,"name":"Rectangle 20","bbox":[325.43,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/ml8j6p8n","slide":9,"name":"TextBox 22","text":"السجل الصحي","textPreview":"السجل الصحي","textChars":11,"textLines":1,"bbox":[320.15,641.28,198.54,40.32]}
+{"kind":"shape","id":"sh/hcji5o7a","slide":9,"name":"Rectangle 23","bbox":[96.95,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/va103ep4","slide":9,"name":"TextBox 25","text":"المستندات","textPreview":"المستندات","textChars":9,"textLines":1,"bbox":[91.67,641.28,198.54,40.32]}
+{"kind":"image","id":"im/xkfqd0fm","slide":9,"name":"Picture 18","bbox":[558.23,240,179.34,388.8]}
+{"kind":"image","id":"im/y5or65w7","slide":9,"name":"Picture 21","bbox":[329.75,240,179.34,388.8]}
+{"kind":"image","id":"im/j6x8faxs","slide":9,"name":"Picture 24","bbox":[101.27,240,179.34,388.8]}
+{"kind":"notes","id":"nt/udsvah03","slide":9,"text":"نسخة عربية من العرض الأصلي، مع تخطيط من اليمين إلى اليسار. لقطات الواجهة محفوظة كما ظهرت في النسخة الأصلية. توثق اللقطات نسخة Flutter مع خادم Laravel محلي وبيانات تجريبية وحساب الإدارة المقدم. لا يثبت العرض نتائج تجارية أو سريرية."}
+{"kind":"slide","id":"sl/m90b6t0r","slide":10,"title":"الموافقات والاستلام","textShapes":14}
+{"kind":"shape","id":"sh/xc3mho32","slide":10,"name":"Rectangle 1","bbox":[1266.53,0,13.44,720]}
+{"kind":"textbox","id":"sh/cbu58j2h","slide":10,"name":"TextBox 2","text":"الموافقات والاستلام","textPreview":"الموافقات والاستلام","textChars":19,"textLines":1,"bbox":[171.17,31.68,1056,28.8]}
+{"kind":"textbox","id":"sh/zelojyl8","slide":10,"name":"TextBox 3","text":"ربط الطلب باستجابة ولي الأمر","textPreview":"ربط الطلب باستجابة ولي الأمر","textChars":28,"textLines":1,"bbox":[55.97,86.4,1171.2,96]}
+{"kind":"textbox","id":"sh/ydcnatkn","slide":10,"name":"TextBox 4","text":"تربط شاشات الموافقة والاستلام المصرح به بين إجراءات المدرسة وولي الأمر","textPreview":"تربط شاشات الموافقة والاستلام المصرح به بين إجراءات المدرسة وولي الأمر","textChars":70,"textLines":1,"bbox":[65.57,175.68,1161.6,67.2]}
+{"kind":"shape","id":"sh/l036l83y","slide":10,"name":"Rectangle 5","bbox":[55.97,673.92,1171.2,1.15]}
+{"kind":"textbox","id":"sh/kzu5c32t","slide":10,"name":"TextBox 6","text":"SchooKeep     عرض المنتج     ٥ أكتوبر ٢٠٢٦","textPreview":"SchooKeep     عرض المنتج     ٥ أكتوبر ٢٠٢٦","textChars":42,"textLines":1,"bbox":[267.17,686.4,960,28.8]}
+{"kind":"textbox","id":"sh/725onyl4","slide":10,"name":"TextBox 7","text":"١٠","textPreview":"١٠","textChars":2,"textLines":1,"bbox":[60.77,683.52,57.6,28.8]}
+{"kind":"shape","id":"sh/m1cnetkj","slide":10,"name":"Rectangle 8","bbox":[1215.65,254.4,8.64,52.8]}
+{"kind":"textbox","id":"sh/s7yt4b21","slide":10,"name":"TextBox 9","text":"الاستجابة للطوارئ","textPreview":"الاستجابة للطوارئ","textChars":17,"textLines":1,"bbox":[765.41,254.4,432,33.6]}
+{"kind":"textbox","id":"sh/d87uxg3m","slide":10,"name":"TextBox 10","text":"شاشة مخصصة لموافقة ولي الأمر في الحالات الطارئة.","textPreview":"شاشة مخصصة لموافقة ولي الأمر في الحالات الطارئة.","textChars":48,"textLines":1,"bbox":[770.21,295.68,427.2,62.4]}
+{"kind":"shape","id":"sh/q5gb21kb","slide":10,"name":"Rectangle 11","bbox":[1215.65,364.8,8.64,52.8]}
+{"kind":"textbox","id":"sh/r6pcv6lw","slide":10,"name":"TextBox 12","text":"المصرح لهم بالاستلام","textPreview":"المصرح لهم بالاستلام","textChars":20,"textLines":1,"bbox":[765.41,364.8,432,33.6]}
+{"kind":"textbox","id":"sh/0bit8b2d","slide":10,"name":"TextBox 13","text":"تنظيم قائمة الأشخاص المصرح لهم باستلام الطالب.","textPreview":"تنظيم قائمة الأشخاص المصرح لهم باستلام الطالب.","textChars":46,"textLines":1,"bbox":[770.21,406.08,427.2,62.4]}
+{"kind":"shape","id":"sh/1cru1g3y","slide":10,"name":"Rectangle 14","bbox":[1215.65,475.2,8.64,52.8]}
+{"kind":"textbox","id":"sh/e9gb61k7","slide":10,"name":"TextBox 15","text":"رمز الاستلام","textPreview":"رمز الاستلام","textChars":12,"textLines":1,"bbox":[765.41,475.2,432,33.6]}
+{"kind":"textbox","id":"sh/fapcz6ls","slide":10,"name":"TextBox 16","text":"عرض هوية الاستلام القابلة للمسح في تطبيق الأسرة.","textPreview":"عرض هوية الاستلام القابلة للمسح في تطبيق الأسرة.","textChars":48,"textLines":1,"bbox":[770.21,516.48,427.2,62.4]}
+{"kind":"shape","id":"sh/ozitcv29","slide":10,"name":"Rectangle 17","bbox":[553.91,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/xwnupgvy","slide":10,"name":"TextBox 19","text":"الرد على طلب الموافقة","textPreview":"الرد على طلب الموافقة","textChars":21,"textLines":1,"bbox":[548.63,641.28,198.54,40.32]}
+{"kind":"shape","id":"sh/wvetgbud","slide":10,"name":"Rectangle 20","bbox":[325.43,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/atwbelcn","slide":10,"name":"TextBox 22","text":"المصرح لهم بالاستلام","textPreview":"المصرح لهم بالاستلام","textChars":20,"textLines":1,"bbox":[320.15,641.28,198.54,40.32]}
+{"kind":"shape","id":"sh/lk7ut0va","slide":10,"name":"Rectangle 23","bbox":[96.95,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/jypcrqd4","slide":10,"name":"TextBox 25","text":"رمز الاستلام","textPreview":"رمز الاستلام","textChars":12,"textLines":1,"bbox":[91.67,641.28,198.54,40.32]}
+{"kind":"image","id":"im/h8fu1g7q","slide":10,"name":"Picture 18","bbox":[558.23,240,179.34,388.8]}
+{"kind":"image","id":"im/q9kbeh8v","slide":10,"name":"Picture 21","bbox":[329.75,240,179.34,388.8]}
+{"kind":"image","id":"im/batcnm9g","slide":10,"name":"Picture 24","bbox":[101.27,240,179.34,388.8]}
+{"kind":"notes","id":"nt/m90b6t0r","slide":10,"text":"نسخة عربية من العرض الأصلي، مع تخطيط من اليمين إلى اليسار. لقطات الواجهة محفوظة كما ظهرت في النسخة الأصلية. توثق اللقطات نسخة Flutter مع خادم Laravel محلي وبيانات تجريبية وحساب الإدارة المقدم. لا يثبت العرض نتائج تجارية أو سريرية."}
+{"kind":"slide","id":"sl/jetc3ut0","slide":11,"title":"المتابعة الصفية","textShapes":14}
+{"kind":"shape","id":"sh/xcryxg7y","slide":11,"name":"Rectangle 1","bbox":[1266.53,0,13.44,720]}
+{"kind":"textbox","id":"sh/wbih4b6d","slide":11,"name":"TextBox 2","text":"المتابعة الصفية","textPreview":"المتابعة الصفية","textChars":15,"textLines":1,"bbox":[171.17,31.68,1056,28.8]}
+{"kind":"textbox","id":"sh/n69grmpw","slide":11,"name":"TextBox 3","text":"المعلومات الصحية خلال اليوم الدراسي","textPreview":"المعلومات الصحية خلال اليوم الدراسي","textChars":35,"textLines":1,"bbox":[55.97,86.4,1171.2,96]}
+{"kind":"textbox","id":"sh/250zy18b","slide":11,"name":"TextBox 4","text":"واجهات للمعلم تركز على الحضور والاعتبارات الصحية والإحالات والإعفاءات","textPreview":"واجهات للمعلم تركز على الحضور والاعتبارات الصحية والإحالات والإعفاءات","textChars":69,"textLines":1,"bbox":[65.57,175.68,1161.6,67.2]}
+{"kind":"shape","id":"sh/98rytw72","slide":11,"name":"Rectangle 5","bbox":[55.97,673.92,1171.2,1.15]}
+{"kind":"textbox","id":"sh/o7ih0r6h","slide":11,"name":"TextBox 6","text":"SchooKeep     عرض المنتج     ٥ أكتوبر ٢٠٢٦","textPreview":"SchooKeep     عرض المنتج     ٥ أكتوبر ٢٠٢٦","textChars":42,"textLines":1,"bbox":[267.17,686.4,960,28.8]}
+{"kind":"textbox","id":"sh/72t03qp0","slide":11,"name":"TextBox 7","text":"١١","textPreview":"١١","textChars":2,"textLines":1,"bbox":[60.77,683.52,57.6,28.8]}
+{"kind":"shape","id":"sh/61kzalof","slide":11,"name":"Rectangle 8","bbox":[1215.65,254.4,8.64,52.8]}
+{"kind":"textbox","id":"sh/ofqtgnyt","slide":11,"name":"TextBox 9","text":"متابعة الحضور","textPreview":"متابعة الحضور","textChars":13,"textLines":1,"bbox":[765.41,254.4,432,33.6]}
+{"kind":"textbox","id":"sh/9gza9sze","slide":11,"name":"TextBox 10","text":"عرض صفي يدعم متابعة العمل اليومي.","textPreview":"عرض صفي يدعم متابعة العمل اليومي.","textChars":33,"textLines":1,"bbox":[770.21,295.68,427.2,62.4]}
+{"kind":"shape","id":"sh/mdobedg3","slide":11,"name":"Rectangle 11","bbox":[1215.65,364.8,8.64,52.8]}
+{"kind":"textbox","id":"sh/nehs7iho","slide":11,"name":"TextBox 12","text":"الاعتبارات الصحية","textPreview":"الاعتبارات الصحية","textChars":17,"textLines":1,"bbox":[765.41,364.8,432,33.6]}
+{"kind":"textbox","id":"sh/0b6tc3yx","slide":11,"name":"TextBox 13","text":"إظهار احتياجات الطلاب ذات الصلة للمعلم.","textPreview":"إظهار احتياجات الطلاب ذات الصلة للمعلم.","textChars":39,"textLines":1,"bbox":[770.21,406.08,427.2,62.4]}
+{"kind":"shape","id":"sh/1cfa58zi","slide":11,"name":"Rectangle 14","bbox":[1215.65,475.2,8.64,52.8]}
+{"kind":"textbox","id":"sh/epobatgr","slide":11,"name":"TextBox 15","text":"الإحالة إلى العيادة","textPreview":"الإحالة إلى العيادة","textChars":19,"textLines":1,"bbox":[765.41,475.2,432,33.6]}
+{"kind":"textbox","id":"sh/zaxs3yhc","slide":11,"name":"TextBox 16","text":"مسار واضح لإحالة الطالب إلى العيادة المدرسية.","textPreview":"مسار واضح لإحالة الطالب إلى العيادة المدرسية.","textChars":45,"textLines":1,"bbox":[770.21,516.48,427.2,62.4]}
+{"kind":"shape","id":"sh/cn6t83y1","slide":11,"name":"Rectangle 17","bbox":[553.91,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/tsnip0ny","slide":11,"name":"TextBox 19","text":"الحضور","textPreview":"الحضور","textChars":6,"textLines":1,"bbox":[548.63,641.28,198.54,40.32]}
+{"kind":"shape","id":"sh/87ehgv6d","slide":11,"name":"Rectangle 20","bbox":[325.43,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/65wzelo7","slide":11,"name":"TextBox 22","text":"الاعتبارات الصحية","textPreview":"الاعتبارات الصحية","textChars":17,"textLines":1,"bbox":[320.15,641.28,198.54,40.32]}
+{"kind":"shape","id":"sh/l43ilgn2","slide":11,"name":"Rectangle 23","bbox":[96.95,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/j2lgjq5w","slide":11,"name":"TextBox 25","text":"الإحالة إلى العيادة","textPreview":"الإحالة إلى العيادة","textChars":19,"textLines":1,"bbox":[91.67,641.28,198.54,40.32]}
+{"kind":"image","id":"im/tkva143e","slide":11,"name":"Picture 18","bbox":[558.23,240,179.34,388.8]}
+{"kind":"image","id":"im/ml0re54j","slide":11,"name":"Picture 21","bbox":[329.75,240,179.34,388.8]}
+{"kind":"image","id":"im/nm98nq54","slide":11,"name":"Picture 24","bbox":[101.27,240,179.34,388.8]}
+{"kind":"notes","id":"nt/jetc3ut0","slide":11,"text":"نسخة عربية من العرض الأصلي، مع تخطيط من اليمين إلى اليسار. لقطات الواجهة محفوظة كما ظهرت في النسخة الأصلية. توثق اللقطات نسخة Flutter مع خادم Laravel محلي وبيانات تجريبية وحساب الإدارة المقدم. لا يثبت العرض نتائج تجارية أو سريرية."}
+{"kind":"slide","id":"sl/8f2psfyx","slide":12,"title":"سلامة الطلاب","textShapes":14}
+{"kind":"shape","id":"sh/1gbm9s3a","slide":12,"name":"Rectangle 1","bbox":[1266.53,0,13.44,720]}
+{"kind":"textbox","id":"sh/0f2lgnmp","slide":12,"name":"TextBox 2","text":"سلامة الطلاب","textPreview":"سلامة الطلاب","textChars":12,"textLines":1,"bbox":[171.17,31.68,1056,28.8]}
+{"kind":"textbox","id":"sh/ra943il8","slide":12,"name":"TextBox 3","text":"تنسيق الوصول والمغادرة","textPreview":"تنسيق الوصول والمغادرة","textChars":22,"textLines":1,"bbox":[55.97,86.4,1171.2,96]}
+{"kind":"textbox","id":"sh/q903ad4n","slide":12,"name":"TextBox 4","text":"واجهات تشغيل مخصصة لفرق الأمن والنقل","textPreview":"واجهات تشغيل مخصصة لفرق الأمن والنقل","textChars":36,"textLines":1,"bbox":[65.57,175.68,1161.6,67.2]}
+{"kind":"shape","id":"sh/dcbm583y","slide":12,"name":"Rectangle 5","bbox":[55.97,673.92,1171.2,1.15]}
+{"kind":"textbox","id":"sh/sb2lcnmd","slide":12,"name":"TextBox 6","text":"SchooKeep     عرض المنتج     ٥ أكتوبر ٢٠٢٦","textPreview":"SchooKeep     عرض المنتج     ٥ أكتوبر ٢٠٢٦","textChars":42,"textLines":1,"bbox":[267.17,686.4,960,28.8]}
+{"kind":"textbox","id":"sh/b6d4f2lc","slide":12,"name":"TextBox 7","text":"١٢","textPreview":"١٢","textChars":2,"textLines":1,"bbox":[60.77,683.52,57.6,28.8]}
+{"kind":"shape","id":"sh/a543mx4r","slide":12,"name":"Rectangle 8","bbox":[1215.65,254.4,8.64,52.8]}
+{"kind":"textbox","id":"sh/wvupgz6t","slide":12,"name":"TextBox 9","text":"التحقق عند الاستلام","textPreview":"التحقق عند الاستلام","textChars":19,"textLines":1,"bbox":[765.41,254.4,432,33.6]}
+{"kind":"textbox","id":"sh/xw3q94ne","slide":12,"name":"TextBox 10","text":"تنظيم عمل البوابة عبر قائمة الاستلام والتحقق اليدوي.","textPreview":"تنظيم عمل البوابة عبر قائمة الاستلام والتحقق اليدوي.","textChars":52,"textLines":1,"bbox":[770.21,295.68,427.2,62.4]}
+{"kind":"shape","id":"sh/atc7epon","slide":12,"name":"Rectangle 11","bbox":[1215.65,364.8,8.64,52.8]}
+{"kind":"textbox","id":"sh/bulo7u58","slide":12,"name":"TextBox 12","text":"عمليات النقل","textPreview":"عمليات النقل","textChars":12,"textLines":1,"bbox":[765.41,364.8,432,33.6]}
+{"kind":"textbox","id":"sh/orapcf6h","slide":12,"name":"TextBox 13","text":"مسارات الحافلة والصعود وسجل الرحلات لدعم السائق.","textPreview":"مسارات الحافلة والصعود وسجل الرحلات لدعم السائق.","textChars":48,"textLines":1,"bbox":[770.21,406.08,427.2,62.4]}
+{"kind":"shape","id":"sh/9sj65kn2","slide":12,"name":"Rectangle 14","bbox":[1215.65,475.2,8.64,52.8]}
+{"kind":"textbox","id":"sh/mps7a5or","slide":12,"name":"TextBox 15","text":"مسؤولية مشتركة","textPreview":"مسؤولية مشتركة","textChars":14,"textLines":1,"bbox":[765.41,475.2,432,33.6]}
+{"kind":"textbox","id":"sh/nq1o3a5w","slide":12,"name":"TextBox 16","text":"ربط المدرسة وموظفي النقل وأولياء الأمور المصرح لهم.","textPreview":"ربط المدرسة وموظفي النقل وأولياء الأمور المصرح لهم.","textChars":51,"textLines":1,"bbox":[770.21,516.48,427.2,62.4]}
+{"kind":"shape","id":"sh/0nap8f6l","slide":12,"name":"Rectangle 17","bbox":[553.91,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/hkbm5wzu","slide":12,"name":"TextBox 19","text":"قائمة الاستلام","textPreview":"قائمة الاستلام","textChars":14,"textLines":1,"bbox":[548.63,641.28,198.54,40.32]}
+{"kind":"shape","id":"sh/gj25cry9","slide":12,"name":"Rectangle 20","bbox":[325.43,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/uh0na1g3","slide":12,"name":"TextBox 22","text":"التحقق اليدوي","textPreview":"التحقق اليدوي","textChars":13,"textLines":1,"bbox":[320.15,641.28,198.54,40.32]}
+{"kind":"shape","id":"sh/tgrm1wzy","slide":12,"name":"Rectangle 23","bbox":[96.95,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/7u94zmhs","slide":12,"name":"TextBox 25","text":"مسار الحافلة","textPreview":"مسار الحافلة","textChars":12,"textLines":1,"bbox":[91.67,641.28,198.54,40.32]}
+{"kind":"image","id":"im/xsza54n2","slide":12,"name":"Picture 18","bbox":[558.23,240,179.34,388.8]}
+{"kind":"image","id":"im/2lorqpof","slide":12,"name":"Picture 21","bbox":[329.75,240,179.34,388.8]}
+{"kind":"image","id":"im/nmx8zu50","slide":12,"name":"Picture 24","bbox":[101.27,240,179.34,388.8]}
+{"kind":"notes","id":"nt/8f2psfyx","slide":12,"text":"نسخة عربية من العرض الأصلي، مع تخطيط من اليمين إلى اليسار. لقطات الواجهة محفوظة كما ظهرت في النسخة الأصلية. توثق اللقطات نسخة Flutter مع خادم Laravel محلي وبيانات تجريبية وحساب الإدارة المقدم. لا يثبت العرض نتائج تجارية أو سريرية."}
+{"kind":"slide","id":"sl/hgzapcr6","slide":13,"title":"سلامة الغذاء","textShapes":14}
+{"kind":"shape","id":"sh/q50nydsj","slide":13,"name":"Rectangle 1","bbox":[1266.53,0,13.44,720]}
+{"kind":"textbox","id":"sh/bq9orito","slide":13,"name":"TextBox 2","text":"سلامة الغذاء","textPreview":"سلامة الغذاء","textChars":12,"textLines":1,"bbox":[171.17,31.68,1056,28.8]}
+{"kind":"textbox","id":"sh/o3i5w3ad","slide":13,"name":"TextBox 3","text":"معلومات أوضح لقرارات المقصف","textPreview":"معلومات أوضح لقرارات المقصف","textChars":27,"textLines":1,"bbox":[55.97,86.4,1171.2,96]}
+{"kind":"textbox","id":"sh/p4r6p8by","slide":13,"name":"TextBox 4","text":"توسّع تنبيهات الحساسية ونقاط البيع نطاق المنتج خارج العيادة","textPreview":"توسّع تنبيهات الحساسية ونقاط البيع نطاق المنتج خارج العيادة","textChars":59,"textLines":1,"bbox":[65.57,175.68,1161.6,67.2]}
+{"kind":"shape","id":"sh/21gnuts7","slide":13,"name":"Rectangle 5","bbox":[55.97,673.92,1171.2,1.15]}
+{"kind":"textbox","id":"sh/32ponyts","slide":13,"name":"TextBox 6","text":"SchooKeep     عرض المنتج     ٥ أكتوبر ٢٠٢٦","textPreview":"SchooKeep     عرض المنتج     ٥ أكتوبر ٢٠٢٦","textChars":42,"textLines":1,"bbox":[267.17,686.4,960,28.8]}
+{"kind":"textbox","id":"sh/gzy5s3a1","slide":13,"name":"TextBox 7","text":"١٣","textPreview":"١٣","textChars":2,"textLines":1,"bbox":[60.77,683.52,57.6,28.8]}
+{"kind":"shape","id":"sh/1076lobm","slide":13,"name":"Rectangle 8","bbox":[1215.65,254.4,8.64,52.8]}
+{"kind":"textbox","id":"sh/hcfy9k3u","slide":13,"name":"TextBox 9","text":"تنبيهات الحساسية","textPreview":"تنبيهات الحساسية","textChars":16,"textLines":1,"bbox":[765.41,254.4,432,33.6]}
+{"kind":"textbox","id":"sh/gb6x0zm9","slide":13,"name":"TextBox 10","text":"شاشات تنبيه مخصصة للعاملين في المقصف.","textPreview":"شاشات تنبيه مخصصة للعاملين في المقصف.","textChars":37,"textLines":1,"bbox":[770.21,295.68,427.2,62.4]}
+{"kind":"shape","id":"sh/vaxg7ulo","slide":13,"name":"Rectangle 11","bbox":[1215.65,364.8,8.64,52.8]}
+{"kind":"textbox","id":"sh/u9ofyp43","slide":13,"name":"TextBox 12","text":"العمليات اليومية","textPreview":"العمليات اليومية","textChars":16,"textLines":1,"bbox":[765.41,364.8,432,33.6]}
+{"kind":"textbox","id":"sh/t8fy5k3i","slide":13,"name":"TextBox 13","text":"إتاحة نقطة البيع ضمن تجربة الموظف.","textPreview":"إتاحة نقطة البيع ضمن تجربة الموظف.","textChars":34,"textLines":1,"bbox":[770.21,406.08,427.2,62.4]}
+{"kind":"shape","id":"sh/876xwfmx","slide":13,"name":"Rectangle 14","bbox":[1215.65,475.2,8.64,52.8]}
+{"kind":"textbox","id":"sh/7mdg3als","slide":13,"name":"TextBox 15","text":"ميزانية الأسرة","textPreview":"ميزانية الأسرة","textChars":14,"textLines":1,"bbox":[765.41,475.2,432,33.6]}
+{"kind":"textbox","id":"sh/6l4fu547","slide":13,"name":"TextBox 16","text":"عرض ميزانية المقصف في تطبيق ولي الأمر.","textPreview":"عرض ميزانية المقصف في تطبيق ولي الأمر.","textChars":38,"textLines":1,"bbox":[770.21,516.48,427.2,62.4]}
+{"kind":"shape","id":"sh/lkvy103m","slide":13,"name":"Rectangle 17","bbox":[553.91,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/cnqh8fux","slide":13,"name":"TextBox 19","text":"تنبيهات المقصف","textPreview":"تنبيهات المقصف","textChars":14,"textLines":1,"bbox":[548.63,641.28,198.54,40.32]}
+{"kind":"shape","id":"sh/xozyhkbi","slide":13,"name":"Rectangle 20","bbox":[325.43,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/bmhgfatc","slide":13,"name":"TextBox 22","text":"نقطة البيع","textPreview":"نقطة البيع","textChars":10,"textLines":1,"bbox":[320.15,641.28,198.54,40.32]}
+{"kind":"shape","id":"sh/oz6x4vul","slide":13,"name":"Rectangle 23","bbox":[96.95,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/2xof2lcv","slide":13,"name":"TextBox 25","text":"ميزانية الأسرة","textPreview":"ميزانية الأسرة","textChars":14,"textLines":1,"bbox":[91.67,641.28,198.54,40.32]}
+{"kind":"image","id":"im/cf6xwrad","slide":13,"name":"Picture 18","bbox":[558.23,240,179.34,388.8]}
+{"kind":"image","id":"im/ritwri9o","slide":13,"name":"Picture 21","bbox":[329.75,240,179.34,388.8]}
+{"kind":"image","id":"im/6hkfixs3","slide":13,"name":"Picture 24","bbox":[101.27,240,179.34,388.8]}
+{"kind":"notes","id":"nt/hgzapcr6","slide":13,"text":"نسخة عربية من العرض الأصلي، مع تخطيط من اليمين إلى اليسار. لقطات الواجهة محفوظة كما ظهرت في النسخة الأصلية. توثق اللقطات نسخة Flutter مع خادم Laravel محلي وبيانات تجريبية وحساب الإدارة المقدم. لا يثبت العرض نتائج تجارية أو سريرية."}
+{"kind":"slide","id":"sl/6lsnupw7","slide":14,"title":"الدعم المدرسي","textShapes":14}
+{"kind":"shape","id":"sh/xc7eds76","slide":14,"name":"Rectangle 1","bbox":[1266.53,0,13.44,720]}
+{"kind":"textbox","id":"sh/wbydknq1","slide":14,"name":"TextBox 2","text":"الدعم المدرسي","textPreview":"الدعم المدرسي","textChars":13,"textLines":1,"bbox":[171.17,31.68,1056,28.8]}
+{"kind":"textbox","id":"sh/jepwf2pc","slide":14,"name":"TextBox 3","text":"دعم فرق التنسيق والمتابعة","textPreview":"دعم فرق التنسيق والمتابعة","textChars":25,"textLines":1,"bbox":[55.97,86.4,1171.2,96]}
+{"kind":"textbox","id":"sh/idgvmx8r","slide":14,"name":"TextBox 4","text":"توسّع شاشات المرشد والسكرتارية نطاق العمل المدرسي","textPreview":"توسّع شاشات المرشد والسكرتارية نطاق العمل المدرسي","textChars":49,"textLines":1,"bbox":[65.57,175.68,1161.6,67.2]}
+{"kind":"shape","id":"sh/5grehs7i","slide":14,"name":"Rectangle 5","bbox":[55.97,673.92,1171.2,1.15]}
+{"kind":"textbox","id":"sh/kfidonqx","slide":14,"name":"TextBox 6","text":"SchooKeep     عرض المنتج     ٥ أكتوبر ٢٠٢٦","textPreview":"SchooKeep     عرض المنتج     ٥ أكتوبر ٢٠٢٦","textChars":42,"textLines":1,"bbox":[267.17,686.4,960,28.8]}
+{"kind":"textbox","id":"sh/zi5c3y98","slide":14,"name":"TextBox 7","text":"١٤","textPreview":"١٤","textChars":2,"textLines":1,"bbox":[60.77,683.52,57.6,28.8]}
+{"kind":"shape","id":"sh/ehwvat8n","slide":14,"name":"Rectangle 8","bbox":[1215.65,254.4,8.64,52.8]}
+{"kind":"textbox","id":"sh/c3e1gjyd","slide":14,"name":"TextBox 9","text":"دعم الطلاب","textPreview":"دعم الطلاب","textChars":10,"textLines":1,"bbox":[765.41,254.4,432,33.6]}
+{"kind":"textbox","id":"sh/x4ni9ofy","slide":14,"name":"TextBox 10","text":"سجلات المرشد وتقاريره لمتابعة الرعاية المستمرة.","textPreview":"سجلات المرشد وتقاريره لمتابعة الرعاية المستمرة.","textChars":47,"textLines":1,"bbox":[770.21,295.68,427.2,62.4]}
+{"kind":"shape","id":"sh/a1wze9g7","slide":14,"name":"Rectangle 11","bbox":[1215.65,364.8,8.64,52.8]}
+{"kind":"textbox","id":"sh/b2507exs","slide":14,"name":"TextBox 12","text":"تنسيق المكتب","textPreview":"تنسيق المكتب","textChars":12,"textLines":1,"bbox":[765.41,364.8,432,33.6]}
+{"kind":"textbox","id":"sh/kre1k3y9","slide":14,"name":"TextBox 13","text":"واجهات للسكرتارية تشمل الطلاب والرسائل واستيراد البيانات.","textPreview":"واجهات للسكرتارية تشمل الطلاب والرسائل واستيراد البيانات.","textChars":57,"textLines":1,"bbox":[770.21,406.08,427.2,62.4]}
+{"kind":"shape","id":"sh/ls7idofu","slide":14,"name":"Rectangle 14","bbox":[1215.65,475.2,8.64,52.8]}
+{"kind":"textbox","id":"sh/y5wjitgj","slide":14,"name":"TextBox 15","text":"الفرز والمتابعة","textPreview":"الفرز والمتابعة","textChars":15,"textLines":1,"bbox":[765.41,475.2,432,33.6]}
+{"kind":"textbox","id":"sh/z650byxo","slide":14,"name":"TextBox 16","text":"قوائم انتظار توضح المهام التي تحتاج إلى متابعة.","textPreview":"قوائم انتظار توضح المهام التي تحتاج إلى متابعة.","textChars":47,"textLines":1,"bbox":[770.21,516.48,427.2,62.4]}
+{"kind":"shape","id":"sh/0buh8zy5","slide":14,"name":"Rectangle 17","bbox":[553.91,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/hsvy50re","slide":14,"name":"TextBox 19","text":"لوحة المرشد","textPreview":"لوحة المرشد","textChars":11,"textLines":1,"bbox":[548.63,641.28,198.54,40.32]}
+{"kind":"shape","id":"sh/grmxwvqt","slide":14,"name":"Rectangle 20","bbox":[325.43,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/up4fal83","slide":14,"name":"TextBox 22","text":"رسائل المكتب","textPreview":"رسائل المكتب","textChars":12,"textLines":1,"bbox":[320.15,641.28,198.54,40.32]}
+{"kind":"shape","id":"sh/pwvy90rq","slide":14,"name":"Rectangle 23","bbox":[96.95,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/3udg7q9k","slide":14,"name":"TextBox 25","text":"طلبات المساعد الآلي","textPreview":"طلبات المساعد الآلي","textChars":19,"textLines":1,"bbox":[91.67,641.28,198.54,40.32]}
+{"kind":"image","id":"im/hory583a","slide":14,"name":"Picture 18","bbox":[558.23,240,179.34,388.8]}
+{"kind":"image","id":"im/apwfy94f","slide":14,"name":"Picture 21","bbox":[329.75,240,179.34,388.8]}
+{"kind":"image","id":"im/bq5wrul0","slide":14,"name":"Picture 24","bbox":[101.27,240,179.34,388.8]}
+{"kind":"notes","id":"nt/6lsnupw7","slide":14,"text":"نسخة عربية من العرض الأصلي، مع تخطيط من اليمين إلى اليسار. لقطات الواجهة محفوظة كما ظهرت في النسخة الأصلية. توثق اللقطات نسخة Flutter مع خادم Laravel محلي وبيانات تجريبية وحساب الإدارة المقدم. لا يثبت العرض نتائج تجارية أو سريرية."}
+{"kind":"slide","id":"sl/vaxsvy10","slide":15,"title":"الحوكمة","textShapes":14}
+{"kind":"shape","id":"sh/547mhg3m","slide":15,"name":"Rectangle 1","bbox":[1266.53,0,13.44,720]}
+{"kind":"textbox","id":"sh/k3y5ov21","slide":15,"name":"TextBox 2","text":"الحوكمة","textPreview":"الحوكمة","textChars":7,"textLines":1,"bbox":[171.17,31.68,1056,28.8]}
+{"kind":"textbox","id":"sh/76p4jqls","slide":15,"name":"TextBox 3","text":"وضوح الصلاحيات والجاهزية","textPreview":"وضوح الصلاحيات والجاهزية","textChars":24,"textLines":1,"bbox":[55.97,86.4,1171.2,96]}
+{"kind":"textbox","id":"sh/65gnqlk7","slide":15,"name":"TextBox 4","text":"تدعم واجهات الصلاحيات والتدقيق والجاهزية وضوح المسؤوليات","textPreview":"تدعم واجهات الصلاحيات والتدقيق والجاهزية وضوح المسؤوليات","textChars":56,"textLines":1,"bbox":[65.57,175.68,1161.6,67.2]}
+{"kind":"shape","id":"sh/t87ml0ji","slide":15,"name":"Rectangle 5","bbox":[55.97,673.92,1171.2,1.15]}
+{"kind":"textbox","id":"sh/s7y5sv2x","slide":15,"name":"TextBox 6","text":"SchooKeep     عرض المنتج     ٥ أكتوبر ٢٠٢٦","textPreview":"SchooKeep     عرض المنتج     ٥ أكتوبر ٢٠٢٦","textChars":42,"textLines":1,"bbox":[267.17,686.4,960,28.8]}
+{"kind":"textbox","id":"sh/na5476l8","slide":15,"name":"TextBox 7","text":"١٥","textPreview":"١٥","textChars":2,"textLines":1,"bbox":[60.77,683.52,57.6,28.8]}
+{"kind":"shape","id":"sh/m9c3e1kn","slide":15,"name":"Rectangle 8","bbox":[1215.65,254.4,8.64,52.8]}
+{"kind":"textbox","id":"sh/wrm9kvep","slide":15,"name":"TextBox 9","text":"صلاحيات الأدوار","textPreview":"صلاحيات الأدوار","textChars":15,"textLines":1,"bbox":[765.41,254.4,432,33.6]}
+{"kind":"textbox","id":"sh/hsvat0fa","slide":15,"name":"TextBox 10","text":"عرض نموذج الوصول في مصفوفة مخصصة.","textPreview":"عرض نموذج الوصول في مصفوفة مخصصة.","textChars":33,"textLines":1,"bbox":[770.21,295.68,427.2,62.4]}
+{"kind":"shape","id":"sh/upkrilwj","slide":15,"name":"Rectangle 11","bbox":[1215.65,364.8,8.64,52.8]}
+{"kind":"textbox","id":"sh/vqdsrqx4","slide":15,"name":"TextBox 12","text":"سجل التدقيق","textPreview":"سجل التدقيق","textChars":11,"textLines":1,"bbox":[765.41,364.8,432,33.6]}
+{"kind":"textbox","id":"sh/4vm9ovel","slide":15,"name":"TextBox 13","text":"متابعة أنشطة النظام المسجلة.","textPreview":"متابعة أنشطة النظام المسجلة.","textChars":28,"textLines":1,"bbox":[770.21,406.08,427.2,62.4]}
+{"kind":"shape","id":"sh/5wvax0f6","slide":15,"name":"Rectangle 14","bbox":[1215.65,475.2,8.64,52.8]}
+{"kind":"textbox","id":"sh/it4rm5wv","slide":15,"name":"TextBox 15","text":"جاهزية العيادة","textPreview":"جاهزية العيادة","textChars":14,"textLines":1,"bbox":[765.41,475.2,432,33.6]}
+{"kind":"textbox","id":"sh/judsvqxg","slide":15,"name":"TextBox 16","text":"متابعة جاهزية العيادة ومعداتها ضمن العمليات المدرسية.","textPreview":"متابعة جاهزية العيادة ومعداتها ضمن العمليات المدرسية.","textChars":53,"textLines":1,"bbox":[770.21,516.48,427.2,62.4]}
+{"kind":"shape","id":"sh/0z29cbyh","slide":15,"name":"Rectangle 17","bbox":[553.91,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/1kjyt83e","slide":15,"name":"TextBox 19","text":"الصلاحيات","textPreview":"الصلاحيات","textChars":9,"textLines":1,"bbox":[548.63,641.28,198.54,40.32]}
+{"kind":"shape","id":"sh/gjax03m9","slide":15,"name":"Rectangle 20","bbox":[325.43,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/ehsfyt43","slide":15,"name":"TextBox 22","text":"سجل التدقيق","textPreview":"سجل التدقيق","textChars":11,"textLines":1,"bbox":[320.15,641.28,198.54,40.32]}
+{"kind":"shape","id":"sh/p8jyx83q","slide":15,"name":"Rectangle 23","bbox":[96.95,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/361gvilk","slide":15,"name":"TextBox 25","text":"جاهزية العيادة","textPreview":"جاهزية العيادة","textChars":14,"textLines":1,"bbox":[91.67,641.28,198.54,40.32]}
+{"kind":"image","id":"im/1wn65cb6","slide":15,"name":"Picture 18","bbox":[558.23,240,179.34,388.8]}
+{"kind":"image","id":"im/65cn6xcj","slide":15,"name":"Picture 21","bbox":[329.75,240,179.34,388.8]}
+{"kind":"image","id":"im/r6loz2t4","slide":15,"name":"Picture 24","bbox":[101.27,240,179.34,388.8]}
+{"kind":"notes","id":"nt/vaxsvy10","slide":15,"text":"نسخة عربية من العرض الأصلي، مع تخطيط من اليمين إلى اليسار. لقطات الواجهة محفوظة كما ظهرت في النسخة الأصلية. توثق اللقطات نسخة Flutter مع خادم Laravel محلي وبيانات تجريبية وحساب الإدارة المقدم. لا يثبت العرض نتائج تجارية أو سريرية."}
+{"kind":"slide","id":"sl/gny5sjyp","slide":16,"title":"التصميم للسوق المحلي","textShapes":14}
+{"kind":"shape","id":"sh/8z2h8bq1","slide":16,"name":"Rectangle 1","bbox":[1266.53,0,13.44,720]}
+{"kind":"textbox","id":"sh/9kby1g7m","slide":16,"name":"TextBox 2","text":"التصميم للسوق المحلي","textPreview":"التصميم للسوق المحلي","textChars":20,"textLines":1,"bbox":[171.17,31.68,1056,28.8]}
+{"kind":"textbox","id":"sh/ytkf2h8j","slide":16,"name":"TextBox 3","text":"تصميم يراعي البيئة المدرسية","textPreview":"تصميم يراعي البيئة المدرسية","textChars":27,"textLines":1,"bbox":[55.97,86.4,1171.2,96]}
+{"kind":"textbox","id":"sh/zutgvm94","slide":16,"name":"TextBox 4","text":"يدعم التطبيق العربية والإنجليزية وحالات تشغيل تناسب سياق المدرسة","textPreview":"يدعم التطبيق العربية والإنجليزية وحالات تشغيل تناسب سياق المدرسة","textChars":64,"textLines":1,"bbox":[65.57,175.68,1161.6,67.2]}
+{"kind":"shape","id":"sh/kv2h4rqp","slide":16,"name":"Rectangle 5","bbox":[55.97,673.92,1171.2,1.15]}
+{"kind":"textbox","id":"sh/lwbyxwra","slide":16,"name":"TextBox 6","text":"SchooKeep     عرض المنتج     ٥ أكتوبر ٢٠٢٦","textPreview":"SchooKeep     عرض المنتج     ٥ أكتوبر ٢٠٢٦","textChars":42,"textLines":1,"bbox":[267.17,686.4,960,28.8]}
+{"kind":"textbox","id":"sh/ip4zel83","slide":16,"name":"TextBox 7","text":"١٦","textPreview":"١٦","textChars":2,"textLines":1,"bbox":[60.77,683.52,57.6,28.8]}
+{"kind":"shape","id":"sh/3qdg7qpo","slide":16,"name":"Rectangle 8","bbox":[1215.65,254.4,8.64,52.8]}
+{"kind":"textbox","id":"sh/fm1gzq5o","slide":16,"name":"TextBox 9","text":"دعم اللغتين","textPreview":"دعم اللغتين","textChars":11,"textLines":1,"bbox":[765.41,254.4,432,33.6]}
+{"kind":"textbox","id":"sh/e1sf65o3","slide":16,"name":"TextBox 10","text":"نصوص عربية وإنجليزية وتخطيطات من اليمين إلى اليسار في التطبيق.","textPreview":"نصوص عربية وإنجليزية وتخطيطات من اليمين إلى اليسار في التطبيق.","textChars":62,"textLines":1,"bbox":[770.21,295.68,427.2,62.4]}
+{"kind":"shape","id":"sh/1ojy10ne","slide":16,"name":"Rectangle 11","bbox":[1215.65,364.8,8.64,52.8]}
+{"kind":"textbox","id":"sh/gnax8v6t","slide":16,"name":"TextBox 12","text":"تنبيهات المدرسة","textPreview":"تنبيهات المدرسة","textChars":15,"textLines":1,"bbox":[765.41,364.8,432,33.6]}
+{"kind":"textbox","id":"sh/nqlg3a5k","slide":16,"name":"TextBox 13","text":"تعرض شاشات الطقس القيود المشتركة على الأنشطة.","textPreview":"تعرض شاشات الطقس القيود المشتركة على الأنشطة.","textChars":45,"textLines":1,"bbox":[770.21,406.08,427.2,62.4]}
+{"kind":"shape","id":"sh/2pcfa5oz","slide":16,"name":"Rectangle 14","bbox":[1215.65,475.2,8.64,52.8]}
+{"kind":"textbox","id":"sh/ps3y5knq","slide":16,"name":"TextBox 15","text":"أوضاع التشغيل","textPreview":"أوضاع التشغيل","textChars":13,"textLines":1,"bbox":[765.41,475.2,432,33.6]}
+{"kind":"textbox","id":"sh/oruhcf65","slide":16,"name":"TextBox 16","text":"تشمل التجربة وضع رمضان وحالة خارج أوقات الدوام.","textPreview":"تشمل التجربة وضع رمضان وحالة خارج أوقات الدوام.","textChars":47,"textLines":1,"bbox":[770.21,516.48,427.2,62.4]}
+{"kind":"shape","id":"sh/bulg7u5g","slide":16,"name":"Rectangle 17","bbox":[553.91,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/mpgj6t8j","slide":16,"name":"TextBox 19","text":"تنبيه الطقس","textPreview":"تنبيه الطقس","textChars":11,"textLines":1,"bbox":[548.63,641.28,198.54,40.32]}
+{"kind":"shape","id":"sh/7qp0zepo","slide":16,"name":"Rectangle 20","bbox":[325.43,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/9c7i1o7u","slide":16,"name":"TextBox 22","text":"وضع رمضان","textPreview":"وضع رمضان","textChars":9,"textLines":1,"bbox":[320.15,641.28,198.54,40.32]}
+{"kind":"shape","id":"sh/ylwj2987","slide":16,"name":"Rectangle 23","bbox":[96.95,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/kne14jqd","slide":16,"name":"TextBox 25","text":"خارج أوقات الدوام","textPreview":"خارج أوقات الدوام","textChars":17,"textLines":1,"bbox":[91.67,641.28,198.54,40.32]}
+{"kind":"image","id":"im/25grqpkb","slide":16,"name":"Picture 18","bbox":[558.23,240,179.34,388.8]}
+{"kind":"image","id":"im/147ahkjq","slide":16,"name":"Picture 21","bbox":[329.75,240,179.34,388.8]}
+{"kind":"image","id":"im/g3y9of25","slide":16,"name":"Picture 24","bbox":[101.27,240,179.34,388.8]}
+{"kind":"notes","id":"nt/gny5sjyp","slide":16,"text":"نسخة عربية من العرض الأصلي، مع تخطيط من اليمين إلى اليسار. لقطات الواجهة محفوظة كما ظهرت في النسخة الأصلية. توثق اللقطات نسخة Flutter مع خادم Laravel محلي وبيانات تجريبية وحساب الإدارة المقدم. لا يثبت العرض نتائج تجارية أو سريرية."}
+{"kind":"slide","id":"sl/14bup87q","slide":17,"title":"فرضية النموذج التجاري","textShapes":14}
+{"kind":"shape","id":"sh/1c7e50ni","slide":17,"name":"Rectangle 1","bbox":[1266.53,0,13.44,720]}
+{"kind":"textbox","id":"sh/gbedwfmx","slide":17,"name":"TextBox 2","text":"فرضية النموذج التجاري","textPreview":"فرضية النموذج التجاري","textChars":21,"textLines":1,"bbox":[171.17,31.68,1056,28.8]}
+{"kind":"textbox","id":"sh/rm5czq50","slide":17,"name":"TextBox 3","text":"اشتراك على مستوى المدرسة","textPreview":"اشتراك على مستوى المدرسة","textChars":24,"textLines":1,"bbox":[55.97,86.4,1171.2,96]}
+{"kind":"textbox","id":"sh/6lwvql4v","slide":17,"name":"TextBox 4","text":"نموذج مقترح للتحقق في التجارب، دون أسعار نهائية معتمدة","textPreview":"نموذج مقترح للتحقق في التجارب، دون أسعار نهائية معتمدة","textChars":54,"textLines":1,"bbox":[65.57,175.68,1161.6,67.2]}
+{"kind":"shape","id":"sh/t8ne10n6","slide":17,"name":"Rectangle 5","bbox":[55.97,673.92,1171.2,1.15]}
+{"kind":"textbox","id":"sh/snedsvml","slide":17,"name":"TextBox 6","text":"SchooKeep     عرض المنتج     ٥ أكتوبر ٢٠٢٦","textPreview":"SchooKeep     عرض المنتج     ٥ أكتوبر ٢٠٢٦","textChars":42,"textLines":1,"bbox":[267.17,686.4,960,28.8]}
+{"kind":"textbox","id":"sh/jilcvq54","slide":17,"name":"TextBox 7","text":"١٧","textPreview":"١٧","textChars":2,"textLines":1,"bbox":[60.77,683.52,57.6,28.8]}
+{"kind":"textbox","id":"sh/ihcvml4j","slide":17,"name":"TextBox 8","text":"٠١","textPreview":"٠١","textChars":2,"textLines":1,"bbox":[875.17,259.2,342.4,67.2]}
+{"kind":"textbox","id":"sh/4by9or6l","slide":17,"name":"TextBox 9","text":"ترخيص المدرسة","textPreview":"ترخيص المدرسة","textChars":13,"textLines":1,"bbox":[875.17,350.4,342.4,76.8]}
+{"kind":"textbox","id":"sh/pc7qhwn6","slide":17,"name":"TextBox 10","text":"اشتراك سنوي حسب حجم المدرسة أو عدد الطلاب. تختبر التجارب استعداد المدارس للدفع.","textPreview":"اشتراك سنوي حسب حجم المدرسة أو عدد الطلاب. تختبر التجارب استعداد المدارس للدفع.","textChars":79,"textLines":1,"bbox":[884.77,446.4,332.8,182.4]}
+{"kind":"textbox","id":"sh/29grm1of","slide":17,"name":"TextBox 11","text":"٠٢","textPreview":"٠٢","textChars":2,"textLines":1,"bbox":[494.37,259.2,342.4,67.2]}
+{"kind":"textbox","id":"sh/3ap8fm50","slide":17,"name":"TextBox 12","text":"التنفيذ","textPreview":"التنفيذ","textChars":7,"textLines":1,"bbox":[494.37,350.4,342.4,76.8]}
+{"kind":"textbox","id":"sh/gnepkr69","slide":17,"name":"TextBox 13","text":"خدمات الإعداد والتدريب ودعم الإطلاق، مع تحديد نطاق التكاملات بصورة مستقلة.","textPreview":"خدمات الإعداد والتدريب ودعم الإطلاق، مع تحديد نطاق التكاملات بصورة مستقلة.","textChars":74,"textLines":1,"bbox":[503.97,446.4,332.8,182.4]}
+{"kind":"textbox","id":"sh/honqdwnu","slide":17,"name":"TextBox 14","text":"٠٣","textPreview":"٠٣","textChars":2,"textLines":1,"bbox":[113.57,259.2,342.4,67.2]}
+{"kind":"textbox","id":"sh/ulw7ihoj","slide":17,"name":"TextBox 15","text":"التوسع ضمن المجموعة","textPreview":"التوسع ضمن المجموعة","textChars":19,"textLines":1,"bbox":[113.57,350.4,342.4,76.8]}
+{"kind":"textbox","id":"sh/fm58bm54","slide":17,"name":"TextBox 16","text":"التوسع من مدرسة إلى مجموعة مدارس بعد إثبات الاستخدام والقيمة التشغيلية.","textPreview":"التوسع من مدرسة إلى مجموعة مدارس بعد إثبات الاستخدام والقيمة التشغيلية.","textChars":71,"textLines":1,"bbox":[123.17,446.4,332.8,182.4]}
+{"kind":"notes","id":"nt/14bup87q","slide":17,"text":"نسخة عربية من العرض الأصلي، مع تخطيط من اليمين إلى اليسار. لقطات الواجهة محفوظة كما ظهرت في النسخة الأصلية. توثق اللقطات نسخة Flutter مع خادم Laravel محلي وبيانات تجريبية وحساب الإدارة المقدم. لا يثبت العرض نتائج تجارية أو سريرية."}
+{"kind":"slide","id":"sl/y5wne50z","slide":18,"title":"مقترح التجربة","textShapes":14}
+{"kind":"shape","id":"sh/wrelszu9","slide":18,"name":"Rectangle 1","bbox":[1266.53,0,13.44,720]}
+{"kind":"textbox","id":"sh/hsn2l4bu","slide":18,"name":"TextBox 2","text":"مقترح التجربة","textPreview":"مقترح التجربة","textChars":13,"textLines":1,"bbox":[171.17,31.68,1056,28.8]}
+{"kind":"textbox","id":"sh/itw3upcf","slide":18,"name":"TextBox 3","text":"تجربة التشغيل قبل التوسع","textPreview":"تجربة التشغيل قبل التوسع","textChars":24,"textLines":1,"bbox":[55.97,86.4,1171.2,96]}
+{"kind":"textbox","id":"sh/je5knut0","slide":18,"name":"TextBox 4","text":"تجربة مقترحة لمدة ثمانية أسابيع بمقاييس ومسؤوليات متفق عليها","textPreview":"تجربة مقترحة لمدة ثمانية أسابيع بمقاييس ومسؤوليات متفق عليها","textChars":60,"textLines":1,"bbox":[65.57,175.68,1161.6,67.2]}
+{"kind":"shape","id":"sh/4felwzu5","slide":18,"name":"Rectangle 5","bbox":[55.97,673.92,1171.2,1.15]}
+{"kind":"textbox","id":"sh/5gnmp4bq","slide":18,"name":"TextBox 6","text":"SchooKeep     عرض المنتج     ٥ أكتوبر ٢٠٢٦","textPreview":"SchooKeep     عرض المنتج     ٥ أكتوبر ٢٠٢٦","textChars":42,"textLines":1,"bbox":[267.17,686.4,960,28.8]}
+{"kind":"textbox","id":"sh/6hw3y9sb","slide":18,"name":"TextBox 7","text":"١٨","textPreview":"١٨","textChars":2,"textLines":1,"bbox":[60.77,683.52,57.6,28.8]}
+{"kind":"textbox","id":"sh/rip4retw","slide":18,"name":"TextBox 8","text":"٠١","textPreview":"٠١","textChars":2,"textLines":1,"bbox":[875.17,259.2,342.4,67.2]}
+{"kind":"textbox","id":"sh/fapkr6pw","slide":18,"name":"TextBox 9","text":"الأسبوعان ١ و٢\nالتهيئة","textPreview":"الأسبوعان ١ و٢ | التهيئة","textChars":22,"textLines":2,"bbox":[875.17,350.4,342.4,76.8]}
+{"kind":"textbox","id":"sh/upg3i18r","slide":18,"name":"TextBox 10","text":"توثيق الإجراءات الحالية وتأكيد الأدوار ومراجعة التعامل مع البيانات وتحديد خط أساس.","textPreview":"توثيق الإجراءات الحالية وتأكيد الأدوار ومراجعة التعامل مع البيانات وتحديد خط أساس.","textChars":82,"textLines":1,"bbox":[884.77,446.4,332.8,182.4]}
+{"kind":"textbox","id":"sh/1cr2tg72","slide":18,"name":"TextBox 11","text":"٠٢","textPreview":"٠٢","textChars":2,"textLines":1,"bbox":[494.37,259.2,342.4,67.2]}
+{"kind":"textbox","id":"sh/gbylkbqh","slide":18,"name":"TextBox 12","text":"الأسابيع ٣ إلى ٦\nالتشغيل","textPreview":"الأسابيع ٣ إلى ٦ | التشغيل","textChars":24,"textLines":2,"bbox":[494.37,350.4,342.4,76.8]}
+{"kind":"textbox","id":"sh/7mpknmp0","slide":18,"name":"TextBox 13","text":"تجربة العيادة والموافقات والتواصل مع الأسرة ضمن مجموعة محددة وخطة دعم منتظمة.","textPreview":"تجربة العيادة والموافقات والتواصل مع الأسرة ضمن مجموعة محددة وخطة دعم منتظمة.","textChars":77,"textLines":1,"bbox":[503.97,446.4,332.8,182.4]}
+{"kind":"textbox","id":"sh/6lg3e18f","slide":18,"name":"TextBox 14","text":"٠٣","textPreview":"٠٣","textChars":2,"textLines":1,"bbox":[113.57,259.2,342.4,67.2]}
+{"kind":"textbox","id":"sh/to72pw76","slide":18,"name":"TextBox 15","text":"الأسبوعان ٧ و٨\nالتقييم","textPreview":"الأسبوعان ٧ و٨ | التقييم","textChars":22,"textLines":2,"bbox":[113.57,350.4,342.4,76.8]}
+{"kind":"textbox","id":"sh/snylgrql","slide":18,"name":"TextBox 16","text":"قياس الاستخدام واكتمال التوثيق وزمن الاستجابة للموافقات وإتمام إجراءات التنسيق.","textPreview":"قياس الاستخدام واكتمال التوثيق وزمن الاستجابة للموافقات وإتمام إجراءات التنسيق.","textChars":79,"textLines":1,"bbox":[123.17,446.4,332.8,182.4]}
+{"kind":"notes","id":"nt/y5wne50z","slide":18,"text":"نسخة عربية من العرض الأصلي، مع تخطيط من اليمين إلى اليسار. لقطات الواجهة محفوظة كما ظهرت في النسخة الأصلية. توثق اللقطات نسخة Flutter مع خادم Laravel محلي وبيانات تجريبية وحساب الإدارة المقدم. لا يثبت العرض نتائج تجارية أو سريرية."}
+{"kind":"slide","id":"sl/nid43ytk","slide":19,"title":"الخطوة التالية","textShapes":8}
+{"kind":"shape","id":"sh/9gb6xgbi","slide":19,"name":"Rectangle 1","bbox":[1266.53,0,13.44,720]}
+{"kind":"textbox","id":"sh/8v2pobax","slide":19,"name":"TextBox 2","text":"الخطوة التالية","textPreview":"الخطوة التالية","textChars":14,"textLines":1,"bbox":[171.17,31.68,1056,28.8]}
+{"kind":"textbox","id":"sh/vitozqt8","slide":19,"name":"TextBox 3","text":"المدرسة المناسبة للتجربة","textPreview":"المدرسة المناسبة للتجربة","textChars":24,"textLines":1,"bbox":[55.97,86.4,1171.2,96]}
+{"kind":"textbox","id":"sh/ahk7qls3","slide":19,"name":"TextBox 4","text":"التحقق من القيمة مع الأشخاص الذين سيستخدمون النظام يومياً","textPreview":"التحقق من القيمة مع الأشخاص الذين سيستخدمون النظام يومياً","textChars":57,"textLines":1,"bbox":[65.57,175.68,1161.6,67.2]}
+{"kind":"shape","id":"sh/xkbq10be","slide":19,"name":"Rectangle 5","bbox":[55.97,673.92,1171.2,1.15]}
+{"kind":"textbox","id":"sh/wj2psvat","slide":19,"name":"TextBox 6","text":"SchooKeep     عرض المنتج     ٥ أكتوبر ٢٠٢٦","textPreview":"SchooKeep     عرض المنتج     ٥ أكتوبر ٢٠٢٦","textChars":42,"textLines":1,"bbox":[267.17,686.4,960,28.8]}
+{"kind":"textbox","id":"sh/jmd83atk","slide":19,"name":"TextBox 7","text":"١٩","textPreview":"١٩","textChars":2,"textLines":1,"bbox":[60.77,683.52,57.6,28.8]}
+{"kind":"textbox","id":"sh/il47u5sz","slide":19,"name":"TextBox 8","text":"البحث عن شريك للتطوير","textPreview":"البحث عن شريك للتطوير","textChars":21,"textLines":1,"bbox":[540.77,273.6,672,62.4]}
+{"kind":"textbox","id":"sh/cri1gnql","slide":19,"name":"TextBox 9","text":"فريق إدارة مدرسية وممرضة ومجموعة من أولياء الأمور يشاركون في تصميم الإطلاق وتحديد النجاح.","textPreview":"فريق إدارة مدرسية وممرضة ومجموعة من أولياء الأمور يشاركون في تصميم الإطلاق وتحديد النجاح.","textChars":89,"textLines":1,"bbox":[531.17,364.8,681.6,115.2]}
+{"kind":"textbox","id":"sh/dsri9sr6","slide":19,"name":"TextBox 10","text":"الاتفاق على نطاق التجربة\nتعيين مسؤول للتشغيل\nاختيار المقاييس المناسبة","textPreview":"الاتفاق على نطاق التجربة | تعيين مسؤول للتشغيل | اختيار المقاييس المناسبة","textChars":69,"textLines":3,"bbox":[521.57,499.2,691.2,132.27]}
+{"kind":"shape","id":"sh/qpgjex8f","slide":19,"name":"Rectangle 11","bbox":[173.24,226.08,199.05,421.44]}
+{"kind":"image","id":"im/0v65432t","slide":19,"name":"Picture 12","bbox":[177.56,230.4,190.41,412.8]}
+{"kind":"notes","id":"nt/nid43ytk","slide":19,"text":"نسخة عربية من العرض الأصلي، مع تخطيط من اليمين إلى اليسار. لقطات الواجهة محفوظة كما ظهرت في النسخة الأصلية. توثق اللقطات نسخة Flutter مع خادم Laravel محلي وبيانات تجريبية وحساب الإدارة المقدم. لا يثبت العرض نتائج تجارية أو سريرية."}
+{"kind":"slide","id":"sl/zyxsni5k","slide":20,"title":"الأدلة ونطاق العرض","textShapes":10}
+{"kind":"shape","id":"sh/qpwjmh8n","slide":20,"name":"Rectangle 1","bbox":[1266.53,0,13.44,720]}
+{"kind":"textbox","id":"sh/rq50vmp8","slide":20,"name":"TextBox 2","text":"الأدلة ونطاق العرض","textPreview":"الأدلة ونطاق العرض","textChars":18,"textLines":1,"bbox":[171.17,31.68,1056,28.8]}
+{"kind":"textbox","id":"sh/4nu1krqh","slide":20,"name":"TextBox 3","text":"ما يوضحه هذا العرض","textPreview":"ما يوضحه هذا العرض","textChars":18,"textLines":1,"bbox":[55.97,86.4,1171.2,96]}
+{"kind":"textbox","id":"sh/po3itc72","slide":20,"name":"TextBox 4","text":"توثق اللقطات تجربة التطبيق الحالية، ولا تثبت نتائج تجارية أو سريرية","textPreview":"توثق اللقطات تجربة التطبيق الحالية، ولا تثبت نتائج تجارية أو سريرية","textChars":67,"textLines":1,"bbox":[65.57,175.68,1161.6,67.2]}
+{"kind":"shape","id":"sh/2lczih8r","slide":20,"name":"Rectangle 5","bbox":[55.97,673.92,1171.2,1.15]}
+{"kind":"textbox","id":"sh/3ml0rmpw","slide":20,"name":"TextBox 6","text":"SchooKeep     عرض المنتج     ٥ أكتوبر ٢٠٢٦","textPreview":"SchooKeep     عرض المنتج     ٥ أكتوبر ٢٠٢٦","textChars":42,"textLines":1,"bbox":[267.17,686.4,960,28.8]}
+{"kind":"textbox","id":"sh/gjuhg7ql","slide":20,"name":"TextBox 7","text":"٢٠","textPreview":"٢٠","textChars":2,"textLines":1,"bbox":[60.77,683.52,57.6,28.8]}
+{"kind":"textbox","id":"sh/hk3ipcr6","slide":20,"name":"TextBox 8","text":"طريقة التقاط الشاشات","textPreview":"طريقة التقاط الشاشات","textChars":20,"textLines":1,"bbox":[732.77,259.2,480,38.4]}
+{"kind":"textbox","id":"sh/dkfmp4zy","slide":20,"name":"TextBox 9","text":"نسخة الويب من Flutter بإعدادات الإصدار، وعرض جوال بعرض ٣٩٣ وارتفاع ٨٥٢ بكسل. خادم Laravel محلي ببيانات تجريبية وحساب الإدارة المقدم. أيقونات أصلية وخط Arial بديل للخطوط المحمّلة عبر الشبكة.","textPreview":"نسخة الويب من Flutter بإعدادات الإصدار، وعرض جوال بعرض ٣٩٣ وارتفاع ٨٥٢ بكسل. خادم Laravel محلي ببيانات تجريبية وحساب الإدارة المقدم. أيقو...","textChars":189,"textLines":1,"bbox":[689.57,314.88,523.2,201.6]}
+{"kind":"textbox","id":"sh/cj65wzyd","slide":20,"name":"TextBox 10","text":"حدود العرض","textPreview":"حدود العرض","textChars":10,"textLines":1,"bbox":[79.97,259.2,528,38.4]}
+{"kind":"textbox","id":"sh/rid4nuhs","slide":20,"name":"TextBox 11","text":"تعرض الشاشات بيانات تجريبية، وتستخدم بعض المسارات معرّفات أو حالات ثابتة. لم تُختبر الخرائط والخدمات الخارجية. لا يثبت العرض تشغيل الإنتاج أو النتائج السريرية أو شهادات الأمان أو الانتشار التجاري أو الأسعار أو التكاملات.","textPreview":"تعرض الشاشات بيانات تجريبية، وتستخدم بعض المسارات معرّفات أو حالات ثابتة. لم تُختبر الخرائط والخدمات الخارجية. لا يثبت العرض تشغيل الإنتا...","textChars":220,"textLines":1,"bbox":[84.77,314.88,523.2,240]}
+{"kind":"textbox","id":"sh/qh4nupg7","slide":20,"name":"TextBox 12","text":"المرفقات: مكتبة لقطات مفهرسة حسب المسار، ومعرض في المتصفح، وعرض PowerPoint قابل للتحرير.","textPreview":"المرفقات: مكتبة لقطات مفهرسة حسب المسار، ومعرض في المتصفح، وعرض PowerPoint قابل للتحرير.","textChars":88,"textLines":1,"bbox":[108.77,590.4,1104,52.8]}
+{"kind":"notes","id":"nt/zyxsni5k","slide":20,"text":"نسخة عربية من العرض الأصلي، مع تخطيط من اليمين إلى اليسار. لقطات الواجهة محفوظة كما ظهرت في النسخة الأصلية. توثق اللقطات نسخة Flutter مع خادم Laravel محلي وبيانات تجريبية وحساب الإدارة المقدم. لا يثبت العرض نتائج تجارية أو سريرية."}

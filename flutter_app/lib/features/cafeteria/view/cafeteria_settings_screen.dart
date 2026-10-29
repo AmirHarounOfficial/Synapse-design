@@ -560,8 +560,8 @@ class _CafeteriaSettingsViewState extends State<_CafeteriaSettingsView> {
         const SizedBox(height: 12),
         Text(
           isRTL
-              ? 'اتفاقية سرية معلومات صحة الطلاب (قانون حماية البيانات الشخصية PDPL)'
-              : 'Student Health Information Confidentiality Agreement (UAE PDPL)',
+              ? 'اتفاقية سرية معلومات صحة الطلاب (نظام حماية البيانات الشخصية السعودي PDPL)'
+              : 'Student Health Information Confidentiality Agreement (Saudi PDPL)',
           style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: SchooKeepColors.textPrimary),
         ),
         const SizedBox(height: 8),
@@ -577,13 +577,13 @@ class _CafeteriaSettingsViewState extends State<_CafeteriaSettingsView> {
         const SizedBox(height: 8),
         for (final item in (isRTL
             ? const [
-                'الحفاظ على السرية التامة لجميع البيانات الشخصية والصحية بموجب المرسوم بقانون رقم 45/2021.',
+                'الحفاظ على السرية التامة لجميع البيانات الشخصية والصحية بموجب نظام حماية البيانات الشخصية السعودي.',
                 'الوصول فقط إلى معلومات قيود الطعام الضرورية لإعداد الوجبات بسلامة.',
                 'عدم مناقشة قيود الطلاب الغذائية مع أي جهة غير مصرح لها.',
                 'الإبلاغ فوراً عن أي خرق أو تسريب محتمل للخصوصية لـ مسؤول حماية البيانات (DPO).',
               ]
             : const [
-                'Keep all student health information strictly confidential per UAE Decree Law No. 45/2021.',
+                'Keep all student health information strictly confidential per Saudi Personal Data Protection Law.',
                 'Only access information necessary to safely prepare and serve meals.',
                 'Never discuss student restrictions with unauthorized individuals.',
                 'Report any suspected privacy breaches immediately to the DPO.',
@@ -593,7 +593,7 @@ class _CafeteriaSettingsViewState extends State<_CafeteriaSettingsView> {
         Text(
           isRTL
               ? 'توقيعك الرقمي مسجل ونشط ومحفوظ قانوناً طوال فترة العمل.'
-              : 'Your digital signature is on file and this agreement remains active under UAE Data Office regulations.',
+              : 'Your digital signature is on file and this agreement remains active under SDAIA regulations.',
           style: const TextStyle(fontSize: 11, fontStyle: FontStyle.italic, color: Color(0xFF94A3B8)),
         ),
         const SizedBox(height: 16),
@@ -682,13 +682,13 @@ class _CafeteriaSettingsViewState extends State<_CafeteriaSettingsView> {
               style: const TextStyle(fontSize: 12, color: Color(0xFF1E40AF), height: 1.5),
               children: [
                 TextSpan(
-                  text: isRTL ? 'قانون حماية البيانات الإماراتي (PDPL): ' : 'UAE PDPL Protection: ',
+                  text: isRTL ? 'نظام حماية البيانات السعودي (PDPL): ' : 'Saudi PDPL Protection: ',
                   style: const TextStyle(fontWeight: FontWeight.w600),
                 ),
                 TextSpan(
                   text: isRTL
                       ? 'تم تقييد نطاق وصول موظفي الكافتيريا لحماية خصوصية بيانات الطلاب الصحية مع ضمان حصولك على القيود الغذائية اللازمة فقط لتحضير الوجبات بسلامة.'
-                      : 'This limited access scope is designed to protect student privacy per UAE PDPL compliance while ensuring you have dietary information needed to safely prepare meals.',
+                      : 'This limited access scope is designed to protect student privacy per Saudi PDPL compliance while ensuring you have dietary information needed to safely prepare meals.',
                 ),
               ],
             ),
@@ -745,8 +745,8 @@ class _CafeteriaSettingsViewState extends State<_CafeteriaSettingsView> {
   }
 
   void _showHalalCertificate(bool isRTL, HalalCertification? cert) {
-    final certNo = cert?.certificateNo ?? 'UAE-HALAL-2026-992';
-    final authority = cert?.supplier ?? 'MOHAP / Dubai Municipality';
+    final certNo = cert?.certificateNo ?? 'KSA-HALAL-2026-992';
+    final authority = cert?.supplier ?? 'SFDA / Ministry of Municipalities';
     final expiry = cert?.expiryDate ?? '15/06/2027';
     showDialog<void>(
       context: context,
@@ -781,7 +781,7 @@ class _CafeteriaSettingsViewState extends State<_CafeteriaSettingsView> {
               Text(
                 isRTL
                     ? 'هذه المنشأة الغذائية معتمدة بالكامل وحلال من الجهات الرسمية في دولة الإمارات العربية المتحدة.'
-                    : 'This school cafeteria facility is certified Halal and compliant with UAE food safety regulations.',
+                    : 'This school cafeteria facility is certified Halal and compliant with Saudi food safety regulations (SFDA).',
                 textAlign: TextAlign.center,
                 style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary),
               ),

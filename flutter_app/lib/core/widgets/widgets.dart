@@ -1,5 +1,6 @@
 export 'accent_card.dart';
 export 'rtl_icon.dart';
+export 'riyal_symbol.dart';
 export 'schookeep_app_bar.dart';
 export 'schookeep_badge.dart';
 export 'schookeep_bottom_nav.dart';

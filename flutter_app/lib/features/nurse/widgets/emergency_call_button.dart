@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
-import '../../../core/constants/uae_tokens.dart';
+import '../../../core/constants/sa_tokens.dart';
 import '../../../core/localization/l10n_ext.dart';
 import '../../../core/theme/app_colors.dart';
 
-/// Local port of `EmergencyCallButton.tsx`. Full-width 52px red (or outline)
-/// button that "dials" the UAE ambulance number. No real telephony — pops a
-/// snackbar to mirror the original `alert(...)`.
+/// Full-width 52px red (or outline) button that displays the Saudi ambulance
+/// number (997). No real telephony — pops a snackbar as a visual cue.
 class EmergencyCallButton extends StatelessWidget {
   const EmergencyCallButton({super.key, this.variant = EmergencyCallVariant.danger});
 
@@ -17,8 +16,8 @@ class EmergencyCallButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final isRTL = context.isRTL;
     final label = isRTL
-        ? 'طوارئ · اتصل بالإسعاف ${UaeTokens.ambulanceNumber}'
-        : 'Emergency · Call Ambulance ${UaeTokens.ambulanceNumber}';
+        ? 'طوارئ · اتصل بالإسعاف ${SaTokens.ambulanceNumber}'
+        : 'Emergency · Call Ambulance ${SaTokens.ambulanceNumber}';
 
     final isDanger = variant == EmergencyCallVariant.danger;
     final bg = isDanger ? SchooKeepColors.error : SchooKeepColors.surface;
@@ -42,8 +41,8 @@ class EmergencyCallButton extends StatelessWidget {
               ..hideCurrentSnackBar()
               ..showSnackBar(SnackBar(
                 content: Text(isRTL
-                    ? 'اتصال بالطوارئ: جارٍ الاتصال بالإسعاف على الرقم ${UaeTokens.ambulanceNumber}...'
-                    : 'Calling Emergency: Dialing Ambulance at ${UaeTokens.ambulanceNumber}...'),
+                    ? 'اتصال بالطوارئ: جارٍ الاتصال بالإسعاف على الرقم ${SaTokens.ambulanceNumber}...'
+                    : 'Calling Emergency: Dialing Ambulance at ${SaTokens.ambulanceNumber}...'),
               ));
           },
           child: Row(

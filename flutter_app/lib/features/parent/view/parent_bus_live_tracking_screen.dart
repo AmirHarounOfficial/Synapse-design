@@ -15,12 +15,12 @@ import 'package:schookeep/core/router/safe_back.dart';
 
 /// Ported from `ParentBusLiveTracking.tsx`, now wired to the bus-routes API and
 /// using a REAL [FlutterMap] (OpenStreetMap tiles). The backend exposes no live
-/// GPS, so the bus marker uses a static UAE coordinate (noted in the UI); the
+/// GPS, so the bus marker uses a static Saudi coordinate (noted in the UI); the
 /// route name + latest boarding status come from `GET /bus-routes/{id}`.
 class ParentBusLiveTrackingScreen extends StatelessWidget {
   const ParentBusLiveTrackingScreen({super.key});
 
-  /// Fallback coordinate (Dubai) used because the API has no live GPS feed.
+  /// Fallback coordinate (Riyadh) used because the API has no live GPS feed.
   static const LatLng _fallbackBus = LatLng(25.2048, 55.2708);
 
   @override

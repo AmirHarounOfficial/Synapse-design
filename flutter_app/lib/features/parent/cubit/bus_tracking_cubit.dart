@@ -14,7 +14,7 @@ class BusTrackingData {
 }
 
 /// Loads the bus route the parent is tracking. The backend does not expose live
-/// GPS coordinates, so the screen falls back to a static UAE coordinate for the
+/// GPS coordinates, so the screen falls back to a static Saudi coordinate for the
 /// map marker (and notes this in the UI).
 class BusTrackingCubit extends Cubit<DataState<BusTrackingData>> {
   BusTrackingCubit(this._repo, {this.routeId}) : super(const DataLoading()) {

@@ -160,8 +160,8 @@ class _SecretaryStudentDetailView extends StatelessWidget {
 
   Widget _identityCard(Student s, bool isRTL) {
     final rows = <({String label, String value, bool mono})>[
-      if ((s.emiratesId ?? '').isNotEmpty)
-        (label: isRTL ? 'رقم الهوية الإماراتية' : 'Emirates ID (EID)', value: s.emiratesId!, mono: true),
+      if ((s.nationalId ?? '').isNotEmpty)
+        (label: isRTL ? 'رقم الهوية الوطنية' : 'National ID', value: s.nationalId!, mono: true),
       if ((s.dateOfBirth ?? '').isNotEmpty)
         (label: isRTL ? 'تاريخ الميلاد' : 'Date of Birth', value: s.dateOfBirth!, mono: false),
       if ((s.gender ?? '').isNotEmpty)

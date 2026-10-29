@@ -327,9 +327,16 @@ class _ParentCafeteriaBudgetScreenState extends State<ParentCafeteriaBudgetScree
                       ),
                     ],
                   ),
-                  Text(
-                    '${w.remainingMonthly.toStringAsFixed(2)} AED',
-                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: SchooKeepColors.primary),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        w.remainingMonthly.toStringAsFixed(2),
+                        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: SchooKeepColors.primary),
+                      ),
+                      const SizedBox(width: 4),
+                      const RiyalSymbol(size: 14),
+                    ],
                   ),
                 ],
               ),
@@ -349,15 +356,15 @@ class _ParentCafeteriaBudgetScreenState extends State<ParentCafeteriaBudgetScree
                 children: [
                   Text(
                     context.tr(
-                      en: 'Spent this month: ${w.monthlySpent.toStringAsFixed(2)} AED',
-                      ar: 'المصروف هذا الشهر: ${w.monthlySpent.toStringAsFixed(2)} درهم',
+                      en: 'Spent this month: ${w.monthlySpent.toStringAsFixed(2)} SAR',
+                      ar: 'المصروف هذا الشهر: ${w.monthlySpent.toStringAsFixed(2)} ريال',
                     ),
                     style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary),
                   ),
                   Text(
                     context.tr(
-                      en: 'Total budget: ${w.monthlyBudget.toStringAsFixed(0)} AED',
-                      ar: 'إجمالي الميزانية: ${w.monthlyBudget.toStringAsFixed(0)} درهم',
+                      en: 'Total budget: ${w.monthlyBudget.toStringAsFixed(0)} SAR',
+                      ar: 'إجمالي الميزانية: ${w.monthlyBudget.toStringAsFixed(0)} ريال',
                     ),
                     style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary),
                   ),
@@ -392,9 +399,16 @@ class _ParentCafeteriaBudgetScreenState extends State<ParentCafeteriaBudgetScree
                       ),
                     ],
                   ),
-                  Text(
-                    '${w.remainingDaily.toStringAsFixed(2)} AED',
-                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: SchooKeepColors.accent),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        w.remainingDaily.toStringAsFixed(2),
+                        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: SchooKeepColors.accent),
+                      ),
+                      const SizedBox(width: 4),
+                      const RiyalSymbol(size: 14),
+                    ],
                   ),
                 ],
               ),
@@ -414,15 +428,15 @@ class _ParentCafeteriaBudgetScreenState extends State<ParentCafeteriaBudgetScree
                 children: [
                   Text(
                     context.tr(
-                      en: 'Spent today: ${w.todaySpent.toStringAsFixed(2)} AED',
-                      ar: 'مصروف اليوم: ${w.todaySpent.toStringAsFixed(2)} درهم',
+                      en: 'Spent today: ${w.todaySpent.toStringAsFixed(2)} SAR',
+                      ar: 'مصروف اليوم: ${w.todaySpent.toStringAsFixed(2)} ريال',
                     ),
                     style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary),
                   ),
                   Text(
                     context.tr(
-                      en: 'Max daily limit: ${w.dailyLimit.toStringAsFixed(0)} AED',
-                      ar: 'الحد اليومي الأقصى: ${w.dailyLimit.toStringAsFixed(0)} درهم',
+                      en: 'Max daily limit: ${w.dailyLimit.toStringAsFixed(0)} SAR',
+                      ar: 'الحد اليومي الأقصى: ${w.dailyLimit.toStringAsFixed(0)} ريال',
                     ),
                     style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary),
                   ),
@@ -462,9 +476,16 @@ class _ParentCafeteriaBudgetScreenState extends State<ParentCafeteriaBudgetScree
           const SizedBox(height: 16),
 
           // Monthly Budget Input
-          Text(
-            context.tr(en: 'Monthly Cafeteria Budget (AED)', ar: 'الميزانية الشهرية للكافتيريا (درهم إماراتي)'),
-            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                context.tr(en: 'Monthly Cafeteria Budget', ar: 'الميزانية الشهرية للكافتيريا'),
+                style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+              ),
+              const SizedBox(width: 4),
+              const RiyalSymbol(size: 14),
+            ],
           ),
           const SizedBox(height: 6),
           TextField(
@@ -472,16 +493,23 @@ class _ParentCafeteriaBudgetScreenState extends State<ParentCafeteriaBudgetScree
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
             decoration: _inputDecoration(
               hint: 'e.g. 500',
-              suffixText: 'AED',
+              suffixText: 'SAR',
               icon: LucideIcons.creditCard,
             ),
           ),
           const SizedBox(height: 16),
 
           // Daily Spending Limit Input
-          Text(
-            context.tr(en: 'Maximum Daily Spending Limit (AED)', ar: 'الحد الأقصى للإنفاق اليومي (درهم إماراتي)'),
-            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                context.tr(en: 'Maximum Daily Spending Limit', ar: 'الحد الأقصى للإنفاق اليومي'),
+                style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+              ),
+              const SizedBox(width: 4),
+              const RiyalSymbol(size: 14),
+            ],
           ),
           const SizedBox(height: 6),
           TextField(
@@ -489,7 +517,7 @@ class _ParentCafeteriaBudgetScreenState extends State<ParentCafeteriaBudgetScree
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
             decoration: _inputDecoration(
               hint: 'e.g. 25',
-              suffixText: 'AED',
+              suffixText: 'SAR',
               icon: LucideIcons.clock,
             ),
           ),
@@ -601,9 +629,15 @@ class _ParentCafeteriaBudgetScreenState extends State<ParentCafeteriaBudgetScree
             ),
           ),
           const SizedBox(width: 8),
-          Text(
-            '-${tx.amount.toStringAsFixed(2)} ${context.tr(en: 'AED', ar: 'درهم')}',
-            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: SchooKeepColors.error),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                '-${tx.amount.toStringAsFixed(2)} ',
+                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: SchooKeepColors.error),
+              ),
+              const RiyalSymbol(size: 14),
+            ],
           ),
         ],
       ),

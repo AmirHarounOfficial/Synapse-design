@@ -1,0 +1,4427 @@
+[
+  {
+    "slide": 1,
+    "shapes": [
+      {
+        "id": "2",
+        "text": "",
+        "position": {
+          "left": 0,
+          "top": 0,
+          "width": 13.440000000000001,
+          "height": 720
+        }
+      },
+      {
+        "id": "3",
+        "text": "SCHOOL HEALTH, CONNECTED",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 31.68,
+          "width": 1056,
+          "height": 28.8
+        }
+      },
+      {
+        "id": "4",
+        "text": "SchooKeep",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 86.4,
+          "width": 1171.2,
+          "height": 96
+        }
+      },
+      {
+        "id": "5",
+        "text": "A shared operating layer for school health, family communication, and student safety.",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 175.68,
+          "width": 1161.6000000000001,
+          "height": 67.2
+        }
+      },
+      {
+        "id": "6",
+        "text": "",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 673.9200000000001,
+          "width": 1171.2,
+          "height": 1.1519160104986876
+        }
+      },
+      {
+        "id": "7",
+        "text": "SchooKeep  |  Product pitch  |  05 October 2026",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 686.4,
+          "width": 960,
+          "height": 19.2
+        }
+      },
+      {
+        "id": "8",
+        "text": "01",
+        "position": {
+          "left": 1161.6000000000001,
+          "top": 683.52,
+          "width": 57.6,
+          "height": 24
+        }
+      },
+      {
+        "id": "9",
+        "text": "Better handoffs.\nClearer accountability.\nOne school community.",
+        "position": {
+          "left": 62.400000000000006,
+          "top": 283.2,
+          "width": 504,
+          "height": 220.8
+        }
+      },
+      {
+        "id": "10",
+        "text": "Flutter product demonstration\nLocal demo data, captured from the running app",
+        "position": {
+          "left": 62.400000000000006,
+          "top": 547.2,
+          "width": 480,
+          "height": 76.8
+        }
+      },
+      {
+        "id": "11",
+        "text": "",
+        "position": {
+          "left": 600.48,
+          "top": 230.88,
+          "width": 196.83716535433072,
+          "height": 416.64000000000004
+        }
+      },
+      {
+        "id": "13",
+        "text": "School leadership",
+        "position": {
+          "left": 595.2,
+          "top": 655.6800000000001,
+          "width": 207.39716535433072,
+          "height": 40.32
+        }
+      },
+      {
+        "id": "14",
+        "text": "",
+        "position": {
+          "left": 859.6800000000001,
+          "top": 230.88,
+          "width": 196.83716535433072,
+          "height": 416.64000000000004
+        }
+      },
+      {
+        "id": "16",
+        "text": "Parent experience",
+        "position": {
+          "left": 854.4,
+          "top": 655.6800000000001,
+          "width": 207.39716535433072,
+          "height": 40.32
+        }
+      }
+    ],
+    "images": [
+      {
+        "id": "17",
+        "frame": {
+          "left": 604.8000000000001,
+          "top": 235.20000000000002,
+          "width": 188.1971653543307,
+          "height": 408
+        }
+      },
+      {
+        "id": "18",
+        "frame": {
+          "left": 864,
+          "top": 235.20000000000002,
+          "width": 188.1971653543307,
+          "height": 408
+        }
+      }
+    ]
+  },
+  {
+    "slide": 2,
+    "shapes": [
+      {
+        "id": "2",
+        "text": "",
+        "position": {
+          "left": 0,
+          "top": 0,
+          "width": 13.440000000000001,
+          "height": 720
+        }
+      },
+      {
+        "id": "3",
+        "text": "THE PROBLEM",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 31.68,
+          "width": 1056,
+          "height": 28.8
+        }
+      },
+      {
+        "id": "4",
+        "text": "Care breaks down between handoffs",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 86.4,
+          "width": 1171.2,
+          "height": 96
+        }
+      },
+      {
+        "id": "5",
+        "text": "The product addresses coordination gaps across the school day.",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 175.68,
+          "width": 1161.6000000000001,
+          "height": 67.2
+        }
+      },
+      {
+        "id": "6",
+        "text": "",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 673.9200000000001,
+          "width": 1171.2,
+          "height": 1.1519160104986876
+        }
+      },
+      {
+        "id": "7",
+        "text": "SchooKeep  |  Product pitch  |  05 October 2026",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 686.4,
+          "width": 960,
+          "height": 19.2
+        }
+      },
+      {
+        "id": "8",
+        "text": "02",
+        "position": {
+          "left": 1161.6000000000001,
+          "top": 683.52,
+          "width": 57.6,
+          "height": 24
+        }
+      },
+      {
+        "id": "9",
+        "text": "01",
+        "position": {
+          "left": 62.400000000000006,
+          "top": 259.2,
+          "width": 342.40000000000003,
+          "height": 67.2
+        }
+      },
+      {
+        "id": "10",
+        "text": "Fragmented context",
+        "position": {
+          "left": 62.400000000000006,
+          "top": 350.40000000000003,
+          "width": 342.40000000000003,
+          "height": 76.8
+        }
+      },
+      {
+        "id": "11",
+        "text": "Clinic notes, consent, medication status, and pickup instructions sit in different workflows.",
+        "position": {
+          "left": 62.400000000000006,
+          "top": 446.40000000000003,
+          "width": 332.8,
+          "height": 182.4
+        }
+      },
+      {
+        "id": "12",
+        "text": "02",
+        "position": {
+          "left": 443.2,
+          "top": 259.2,
+          "width": 342.40000000000003,
+          "height": 67.2
+        }
+      },
+      {
+        "id": "13",
+        "text": "Time-sensitive decisions",
+        "position": {
+          "left": 443.2,
+          "top": 350.40000000000003,
+          "width": 342.40000000000003,
+          "height": 76.8
+        }
+      },
+      {
+        "id": "14",
+        "text": "A health event often requires the nurse, parent, teacher, and leadership to act on the same information.",
+        "position": {
+          "left": 443.2,
+          "top": 446.40000000000003,
+          "width": 332.8,
+          "height": 182.4
+        }
+      },
+      {
+        "id": "15",
+        "text": "03",
+        "position": {
+          "left": 824,
+          "top": 259.2,
+          "width": 342.40000000000003,
+          "height": 67.2
+        }
+      },
+      {
+        "id": "16",
+        "text": "Limited visibility",
+        "position": {
+          "left": 824,
+          "top": 350.40000000000003,
+          "width": 342.40000000000003,
+          "height": 76.8
+        }
+      },
+      {
+        "id": "17",
+        "text": "Schools need a clear operational view and a traceable record of who acted and when.",
+        "position": {
+          "left": 824,
+          "top": 446.40000000000003,
+          "width": 332.8,
+          "height": 182.4
+        }
+      }
+    ],
+    "images": []
+  },
+  {
+    "slide": 3,
+    "shapes": [
+      {
+        "id": "2",
+        "text": "",
+        "position": {
+          "left": 0,
+          "top": 0,
+          "width": 13.440000000000001,
+          "height": 720
+        }
+      },
+      {
+        "id": "3",
+        "text": "THE SOLUTION",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 31.68,
+          "width": 1056,
+          "height": 28.8
+        }
+      },
+      {
+        "id": "4",
+        "text": "A connected school health workspace",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 86.4,
+          "width": 1171.2,
+          "height": 96
+        }
+      },
+      {
+        "id": "5",
+        "text": "Role-specific mobile screens bring each team into the same operating model.",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 175.68,
+          "width": 1161.6000000000001,
+          "height": 67.2
+        }
+      },
+      {
+        "id": "6",
+        "text": "",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 673.9200000000001,
+          "width": 1171.2,
+          "height": 1.1519160104986876
+        }
+      },
+      {
+        "id": "7",
+        "text": "SchooKeep  |  Product pitch  |  05 October 2026",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 686.4,
+          "width": 960,
+          "height": 19.2
+        }
+      },
+      {
+        "id": "8",
+        "text": "03",
+        "position": {
+          "left": 1161.6000000000001,
+          "top": 683.52,
+          "width": 57.6,
+          "height": 24
+        }
+      },
+      {
+        "id": "9",
+        "text": "01",
+        "position": {
+          "left": 62.400000000000006,
+          "top": 259.2,
+          "width": 342.40000000000003,
+          "height": 67.2
+        }
+      },
+      {
+        "id": "10",
+        "text": "Coordinate care",
+        "position": {
+          "left": 62.400000000000006,
+          "top": 350.40000000000003,
+          "width": 342.40000000000003,
+          "height": 76.8
+        }
+      },
+      {
+        "id": "11",
+        "text": "Clinic visits, dose workflows, physician review, and student health records.",
+        "position": {
+          "left": 62.400000000000006,
+          "top": 446.40000000000003,
+          "width": 332.8,
+          "height": 182.4
+        }
+      },
+      {
+        "id": "12",
+        "text": "02",
+        "position": {
+          "left": 443.2,
+          "top": 259.2,
+          "width": 342.40000000000003,
+          "height": 67.2
+        }
+      },
+      {
+        "id": "13",
+        "text": "Connect families",
+        "position": {
+          "left": 443.2,
+          "top": 350.40000000000003,
+          "width": 342.40000000000003,
+          "height": 76.8
+        }
+      },
+      {
+        "id": "14",
+        "text": "Consent, documents, health history, medication reporting, and authorized pickups.",
+        "position": {
+          "left": 443.2,
+          "top": 446.40000000000003,
+          "width": 332.8,
+          "height": 182.4
+        }
+      },
+      {
+        "id": "15",
+        "text": "03",
+        "position": {
+          "left": 824,
+          "top": 259.2,
+          "width": 342.40000000000003,
+          "height": 67.2
+        }
+      },
+      {
+        "id": "16",
+        "text": "Close the loop",
+        "position": {
+          "left": 824,
+          "top": 350.40000000000003,
+          "width": 342.40000000000003,
+          "height": 76.8
+        }
+      },
+      {
+        "id": "17",
+        "text": "Leadership analytics, staff permissions, school advisories, and audit views.",
+        "position": {
+          "left": 824,
+          "top": 446.40000000000003,
+          "width": 332.8,
+          "height": 182.4
+        }
+      }
+    ],
+    "images": []
+  },
+  {
+    "slide": 4,
+    "shapes": [
+      {
+        "id": "2",
+        "text": "",
+        "position": {
+          "left": 0,
+          "top": 0,
+          "width": 13.440000000000001,
+          "height": 720
+        }
+      },
+      {
+        "id": "3",
+        "text": "PRODUCT BREADTH",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 31.68,
+          "width": 1056,
+          "height": 28.8
+        }
+      },
+      {
+        "id": "4",
+        "text": "Built around the whole school",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 86.4,
+          "width": 1171.2,
+          "height": 96
+        }
+      },
+      {
+        "id": "5",
+        "text": "Eleven role experiences, with shared authentication and system states.",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 175.68,
+          "width": 1161.6000000000001,
+          "height": 67.2
+        }
+      },
+      {
+        "id": "6",
+        "text": "",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 673.9200000000001,
+          "width": 1171.2,
+          "height": 1.1519160104986876
+        }
+      },
+      {
+        "id": "7",
+        "text": "SchooKeep  |  Product pitch  |  05 October 2026",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 686.4,
+          "width": 960,
+          "height": 19.2
+        }
+      },
+      {
+        "id": "8",
+        "text": "04",
+        "position": {
+          "left": 1161.6000000000001,
+          "top": 683.52,
+          "width": 57.6,
+          "height": 24
+        }
+      },
+      {
+        "id": "9",
+        "text": "",
+        "position": {
+          "left": 67.2,
+          "top": 254.4,
+          "width": 36.480000000000004,
+          "height": 36.480000000000004
+        }
+      },
+      {
+        "id": "10",
+        "text": "Principal",
+        "position": {
+          "left": 120,
+          "top": 252.48000000000002,
+          "width": 230.4,
+          "height": 57.6
+        }
+      },
+      {
+        "id": "11",
+        "text": "",
+        "position": {
+          "left": 364.8,
+          "top": 254.4,
+          "width": 36.480000000000004,
+          "height": 36.480000000000004
+        }
+      },
+      {
+        "id": "12",
+        "text": "Vice principal",
+        "position": {
+          "left": 417.5998950131234,
+          "top": 252.48000000000002,
+          "width": 230.4,
+          "height": 57.6
+        }
+      },
+      {
+        "id": "13",
+        "text": "",
+        "position": {
+          "left": 662.4,
+          "top": 254.4,
+          "width": 36.480000000000004,
+          "height": 36.480000000000004
+        }
+      },
+      {
+        "id": "14",
+        "text": "Nurse",
+        "position": {
+          "left": 715.2,
+          "top": 252.48000000000002,
+          "width": 230.4,
+          "height": 57.6
+        }
+      },
+      {
+        "id": "15",
+        "text": "",
+        "position": {
+          "left": 960,
+          "top": 254.4,
+          "width": 36.480000000000004,
+          "height": 36.480000000000004
+        }
+      },
+      {
+        "id": "16",
+        "text": "Physician",
+        "position": {
+          "left": 1012.8000000000001,
+          "top": 252.48000000000002,
+          "width": 230.4,
+          "height": 57.6
+        }
+      },
+      {
+        "id": "17",
+        "text": "",
+        "position": {
+          "left": 67.2,
+          "top": 372.48,
+          "width": 36.480000000000004,
+          "height": 36.480000000000004
+        }
+      },
+      {
+        "id": "18",
+        "text": "Parent",
+        "position": {
+          "left": 120,
+          "top": 370.56,
+          "width": 230.4,
+          "height": 57.6
+        }
+      },
+      {
+        "id": "19",
+        "text": "",
+        "position": {
+          "left": 364.8,
+          "top": 372.48,
+          "width": 36.480000000000004,
+          "height": 36.480000000000004
+        }
+      },
+      {
+        "id": "20",
+        "text": "Teacher",
+        "position": {
+          "left": 417.5998950131234,
+          "top": 370.56,
+          "width": 230.4,
+          "height": 57.6
+        }
+      },
+      {
+        "id": "21",
+        "text": "",
+        "position": {
+          "left": 662.4,
+          "top": 372.48,
+          "width": 36.480000000000004,
+          "height": 36.480000000000004
+        }
+      },
+      {
+        "id": "22",
+        "text": "Counselor",
+        "position": {
+          "left": 715.2,
+          "top": 370.56,
+          "width": 230.4,
+          "height": 57.6
+        }
+      },
+      {
+        "id": "23",
+        "text": "",
+        "position": {
+          "left": 960,
+          "top": 372.48,
+          "width": 36.480000000000004,
+          "height": 36.480000000000004
+        }
+      },
+      {
+        "id": "24",
+        "text": "Secretary",
+        "position": {
+          "left": 1012.8000000000001,
+          "top": 370.56,
+          "width": 230.4,
+          "height": 57.6
+        }
+      },
+      {
+        "id": "25",
+        "text": "",
+        "position": {
+          "left": 67.2,
+          "top": 490.55989501312337,
+          "width": 36.480000000000004,
+          "height": 36.480000000000004
+        }
+      },
+      {
+        "id": "26",
+        "text": "Cafeteria",
+        "position": {
+          "left": 120,
+          "top": 488.64000000000004,
+          "width": 230.4,
+          "height": 57.6
+        }
+      },
+      {
+        "id": "27",
+        "text": "",
+        "position": {
+          "left": 364.8,
+          "top": 490.55989501312337,
+          "width": 36.480000000000004,
+          "height": 36.480000000000004
+        }
+      },
+      {
+        "id": "28",
+        "text": "Security",
+        "position": {
+          "left": 417.5998950131234,
+          "top": 488.64000000000004,
+          "width": 230.4,
+          "height": 57.6
+        }
+      },
+      {
+        "id": "29",
+        "text": "",
+        "position": {
+          "left": 662.4,
+          "top": 490.55989501312337,
+          "width": 36.480000000000004,
+          "height": 36.480000000000004
+        }
+      },
+      {
+        "id": "30",
+        "text": "Bus driver",
+        "position": {
+          "left": 715.2,
+          "top": 488.64000000000004,
+          "width": 230.4,
+          "height": 57.6
+        }
+      },
+      {
+        "id": "31",
+        "text": "148 route screenshots included in the product library.",
+        "position": {
+          "left": 67.2,
+          "top": 622.08,
+          "width": 1056,
+          "height": 38.4
+        }
+      }
+    ],
+    "images": []
+  },
+  {
+    "slide": 5,
+    "shapes": [
+      {
+        "id": "2",
+        "text": "",
+        "position": {
+          "left": 0,
+          "top": 0,
+          "width": 13.440000000000001,
+          "height": 720
+        }
+      },
+      {
+        "id": "3",
+        "text": "LEADERSHIP",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 31.68,
+          "width": 1056,
+          "height": 28.8
+        }
+      },
+      {
+        "id": "4",
+        "text": "See the school health picture",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 86.4,
+          "width": 1171.2,
+          "height": 96
+        }
+      },
+      {
+        "id": "5",
+        "text": "A daily overview brings care activity, documents, alerts, and staff visibility together.",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 175.68,
+          "width": 1161.6000000000001,
+          "height": 67.2
+        }
+      },
+      {
+        "id": "6",
+        "text": "",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 673.9200000000001,
+          "width": 1171.2,
+          "height": 1.1519160104986876
+        }
+      },
+      {
+        "id": "7",
+        "text": "SchooKeep  |  Product pitch  |  05 October 2026",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 686.4,
+          "width": 960,
+          "height": 19.2
+        }
+      },
+      {
+        "id": "8",
+        "text": "05",
+        "position": {
+          "left": 1161.6000000000001,
+          "top": 683.52,
+          "width": 57.6,
+          "height": 24
+        }
+      },
+      {
+        "id": "9",
+        "text": "",
+        "position": {
+          "left": 55.68,
+          "top": 254.4,
+          "width": 8.64,
+          "height": 52.800000000000004
+        }
+      },
+      {
+        "id": "10",
+        "text": "An operational home",
+        "position": {
+          "left": 82.56,
+          "top": 254.4,
+          "width": 432,
+          "height": 33.6
+        }
+      },
+      {
+        "id": "11",
+        "text": "Bring today's priorities into one leadership screen.",
+        "position": {
+          "left": 82.56,
+          "top": 295.68,
+          "width": 427.2,
+          "height": 62.400000000000006
+        }
+      },
+      {
+        "id": "12",
+        "text": "",
+        "position": {
+          "left": 55.68,
+          "top": 364.8,
+          "width": 8.64,
+          "height": 52.800000000000004
+        }
+      },
+      {
+        "id": "13",
+        "text": "Staff and access oversight",
+        "position": {
+          "left": 82.56,
+          "top": 364.8,
+          "width": 432,
+          "height": 33.6
+        }
+      },
+      {
+        "id": "14",
+        "text": "Manage the people who deliver each part of the service.",
+        "position": {
+          "left": 82.56,
+          "top": 406.07989501312335,
+          "width": 427.2,
+          "height": 62.400000000000006
+        }
+      },
+      {
+        "id": "15",
+        "text": "",
+        "position": {
+          "left": 55.68,
+          "top": 475.19989501312335,
+          "width": 8.64,
+          "height": 52.800000000000004
+        }
+      },
+      {
+        "id": "16",
+        "text": "Analytics and reporting",
+        "position": {
+          "left": 82.56,
+          "top": 475.19989501312335,
+          "width": 432,
+          "height": 33.6
+        }
+      },
+      {
+        "id": "17",
+        "text": "Review trends and support school-level planning.",
+        "position": {
+          "left": 82.56,
+          "top": 516.4798950131234,
+          "width": 427.2,
+          "height": 62.400000000000006
+        }
+      },
+      {
+        "id": "18",
+        "text": "",
+        "position": {
+          "left": 538.08,
+          "top": 235.68,
+          "width": 187.98078740157482,
+          "height": 397.43989501312336
+        }
+      },
+      {
+        "id": "20",
+        "text": "Daily overview",
+        "position": {
+          "left": 532.8000000000001,
+          "top": 641.28,
+          "width": 198.54078740157482,
+          "height": 40.32
+        }
+      },
+      {
+        "id": "21",
+        "text": "",
+        "position": {
+          "left": 766.5600000000001,
+          "top": 235.68,
+          "width": 187.98078740157482,
+          "height": 397.43989501312336
+        }
+      },
+      {
+        "id": "23",
+        "text": "Health analytics",
+        "position": {
+          "left": 761.28,
+          "top": 641.28,
+          "width": 198.54078740157482,
+          "height": 40.32
+        }
+      },
+      {
+        "id": "24",
+        "text": "",
+        "position": {
+          "left": 995.0400000000001,
+          "top": 235.68,
+          "width": 187.98078740157482,
+          "height": 397.43989501312336
+        }
+      },
+      {
+        "id": "26",
+        "text": "Staff management",
+        "position": {
+          "left": 989.76,
+          "top": 641.28,
+          "width": 198.54078740157482,
+          "height": 40.32
+        }
+      }
+    ],
+    "images": [
+      {
+        "id": "27",
+        "frame": {
+          "left": 542.4,
+          "top": 240,
+          "width": 179.34089238845144,
+          "height": 388.8
+        }
+      },
+      {
+        "id": "28",
+        "frame": {
+          "left": 770.88,
+          "top": 240,
+          "width": 179.34089238845144,
+          "height": 388.8
+        }
+      },
+      {
+        "id": "29",
+        "frame": {
+          "left": 999.36,
+          "top": 240,
+          "width": 179.34089238845144,
+          "height": 388.8
+        }
+      }
+    ]
+  },
+  {
+    "slide": 6,
+    "shapes": [
+      {
+        "id": "2",
+        "text": "",
+        "position": {
+          "left": 0,
+          "top": 0,
+          "width": 13.440000000000001,
+          "height": 720
+        }
+      },
+      {
+        "id": "3",
+        "text": "CLINICAL CARE",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 31.68,
+          "width": 1056,
+          "height": 28.8
+        }
+      },
+      {
+        "id": "4",
+        "text": "Give the nurse a focused workspace",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 86.4,
+          "width": 1171.2,
+          "height": 96
+        }
+      },
+      {
+        "id": "5",
+        "text": "Clinical operations span student lookup, visits, documentation, and emergency escalation.",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 175.68,
+          "width": 1161.6000000000001,
+          "height": 67.2
+        }
+      },
+      {
+        "id": "6",
+        "text": "",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 673.9200000000001,
+          "width": 1171.2,
+          "height": 1.1519160104986876
+        }
+      },
+      {
+        "id": "7",
+        "text": "SchooKeep  |  Product pitch  |  05 October 2026",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 686.4,
+          "width": 960,
+          "height": 19.2
+        }
+      },
+      {
+        "id": "8",
+        "text": "06",
+        "position": {
+          "left": 1161.6000000000001,
+          "top": 683.52,
+          "width": 57.6,
+          "height": 24
+        }
+      },
+      {
+        "id": "9",
+        "text": "",
+        "position": {
+          "left": 55.68,
+          "top": 254.4,
+          "width": 8.64,
+          "height": 52.800000000000004
+        }
+      },
+      {
+        "id": "10",
+        "text": "Student health context",
+        "position": {
+          "left": 82.56,
+          "top": 254.4,
+          "width": 432,
+          "height": 33.6
+        }
+      },
+      {
+        "id": "11",
+        "text": "Access health information alongside the student record.",
+        "position": {
+          "left": 82.56,
+          "top": 295.68,
+          "width": 427.2,
+          "height": 62.400000000000006
+        }
+      },
+      {
+        "id": "12",
+        "text": "",
+        "position": {
+          "left": 55.68,
+          "top": 364.8,
+          "width": 8.64,
+          "height": 52.800000000000004
+        }
+      },
+      {
+        "id": "13",
+        "text": "Visit documentation",
+        "position": {
+          "left": 82.56,
+          "top": 364.8,
+          "width": 432,
+          "height": 33.6
+        }
+      },
+      {
+        "id": "14",
+        "text": "Organize routine clinic activity and visit details.",
+        "position": {
+          "left": 82.56,
+          "top": 406.07989501312335,
+          "width": 427.2,
+          "height": 62.400000000000006
+        }
+      },
+      {
+        "id": "15",
+        "text": "",
+        "position": {
+          "left": 55.68,
+          "top": 475.19989501312335,
+          "width": 8.64,
+          "height": 52.800000000000004
+        }
+      },
+      {
+        "id": "16",
+        "text": "Escalation paths",
+        "position": {
+          "left": 82.56,
+          "top": 475.19989501312335,
+          "width": 432,
+          "height": 33.6
+        }
+      },
+      {
+        "id": "17",
+        "text": "Make urgent next steps visible in the workflow.",
+        "position": {
+          "left": 82.56,
+          "top": 516.4798950131234,
+          "width": 427.2,
+          "height": 62.400000000000006
+        }
+      },
+      {
+        "id": "18",
+        "text": "",
+        "position": {
+          "left": 538.08,
+          "top": 235.68,
+          "width": 187.98078740157482,
+          "height": 397.43989501312336
+        }
+      },
+      {
+        "id": "20",
+        "text": "Clinic visits",
+        "position": {
+          "left": 532.8000000000001,
+          "top": 641.28,
+          "width": 198.54078740157482,
+          "height": 40.32
+        }
+      },
+      {
+        "id": "21",
+        "text": "",
+        "position": {
+          "left": 766.5600000000001,
+          "top": 235.68,
+          "width": 187.98078740157482,
+          "height": 397.43989501312336
+        }
+      },
+      {
+        "id": "23",
+        "text": "New visit",
+        "position": {
+          "left": 761.28,
+          "top": 641.28,
+          "width": 198.54078740157482,
+          "height": 40.32
+        }
+      },
+      {
+        "id": "24",
+        "text": "",
+        "position": {
+          "left": 995.0400000000001,
+          "top": 235.68,
+          "width": 187.98078740157482,
+          "height": 397.43989501312336
+        }
+      },
+      {
+        "id": "26",
+        "text": "Emergency escalation",
+        "position": {
+          "left": 989.76,
+          "top": 641.28,
+          "width": 198.54078740157482,
+          "height": 40.32
+        }
+      }
+    ],
+    "images": [
+      {
+        "id": "27",
+        "frame": {
+          "left": 542.4,
+          "top": 240,
+          "width": 179.34089238845144,
+          "height": 388.8
+        }
+      },
+      {
+        "id": "28",
+        "frame": {
+          "left": 770.88,
+          "top": 240,
+          "width": 179.34089238845144,
+          "height": 388.8
+        }
+      },
+      {
+        "id": "29",
+        "frame": {
+          "left": 999.36,
+          "top": 240,
+          "width": 179.34089238845144,
+          "height": 388.8
+        }
+      }
+    ]
+  },
+  {
+    "slide": 7,
+    "shapes": [
+      {
+        "id": "2",
+        "text": "",
+        "position": {
+          "left": 0,
+          "top": 0,
+          "width": 13.440000000000001,
+          "height": 720
+        }
+      },
+      {
+        "id": "3",
+        "text": "MEDICATION WORKFLOW",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 31.68,
+          "width": 1056,
+          "height": 28.8
+        }
+      },
+      {
+        "id": "4",
+        "text": "Make each dose a deliberate action",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 86.4,
+          "width": 1171.2,
+          "height": 96
+        }
+      },
+      {
+        "id": "5",
+        "text": "Daily doses, conflict states, and inventory are represented in the clinical experience.",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 175.68,
+          "width": 1161.6000000000001,
+          "height": 67.2
+        }
+      },
+      {
+        "id": "6",
+        "text": "",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 673.9200000000001,
+          "width": 1171.2,
+          "height": 1.1519160104986876
+        }
+      },
+      {
+        "id": "7",
+        "text": "SchooKeep  |  Product pitch  |  05 October 2026",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 686.4,
+          "width": 960,
+          "height": 19.2
+        }
+      },
+      {
+        "id": "8",
+        "text": "07",
+        "position": {
+          "left": 1161.6000000000001,
+          "top": 683.52,
+          "width": 57.6,
+          "height": 24
+        }
+      },
+      {
+        "id": "9",
+        "text": "",
+        "position": {
+          "left": 55.68,
+          "top": 254.4,
+          "width": 8.64,
+          "height": 52.800000000000004
+        }
+      },
+      {
+        "id": "10",
+        "text": "Plan the day",
+        "position": {
+          "left": 82.56,
+          "top": 254.4,
+          "width": 432,
+          "height": 33.6
+        }
+      },
+      {
+        "id": "11",
+        "text": "Review medication work in a dedicated dose view.",
+        "position": {
+          "left": 82.56,
+          "top": 295.68,
+          "width": 427.2,
+          "height": 62.400000000000006
+        }
+      },
+      {
+        "id": "12",
+        "text": "",
+        "position": {
+          "left": 55.68,
+          "top": 364.8,
+          "width": 8.64,
+          "height": 52.800000000000004
+        }
+      },
+      {
+        "id": "13",
+        "text": "Confirm and flag",
+        "position": {
+          "left": 82.56,
+          "top": 364.8,
+          "width": 432,
+          "height": 33.6
+        }
+      },
+      {
+        "id": "14",
+        "text": "Use confirmation and dose-conflict screens to structure the handoff.",
+        "position": {
+          "left": 82.56,
+          "top": 406.07989501312335,
+          "width": 427.2,
+          "height": 62.400000000000006
+        }
+      },
+      {
+        "id": "15",
+        "text": "",
+        "position": {
+          "left": 55.68,
+          "top": 475.19989501312335,
+          "width": 8.64,
+          "height": 52.800000000000004
+        }
+      },
+      {
+        "id": "16",
+        "text": "Track supplies",
+        "position": {
+          "left": 82.56,
+          "top": 475.19989501312335,
+          "width": 432,
+          "height": 33.6
+        }
+      },
+      {
+        "id": "17",
+        "text": "Give medication stock its own operational view.",
+        "position": {
+          "left": 82.56,
+          "top": 516.4798950131234,
+          "width": 427.2,
+          "height": 62.400000000000006
+        }
+      },
+      {
+        "id": "18",
+        "text": "",
+        "position": {
+          "left": 538.08,
+          "top": 235.68,
+          "width": 187.98078740157482,
+          "height": 397.43989501312336
+        }
+      },
+      {
+        "id": "20",
+        "text": "Medication list",
+        "position": {
+          "left": 532.8000000000001,
+          "top": 641.28,
+          "width": 198.54078740157482,
+          "height": 40.32
+        }
+      },
+      {
+        "id": "21",
+        "text": "",
+        "position": {
+          "left": 766.5600000000001,
+          "top": 235.68,
+          "width": 187.98078740157482,
+          "height": 397.43989501312336
+        }
+      },
+      {
+        "id": "23",
+        "text": "Conflict alert",
+        "position": {
+          "left": 761.28,
+          "top": 641.28,
+          "width": 198.54078740157482,
+          "height": 40.32
+        }
+      },
+      {
+        "id": "24",
+        "text": "",
+        "position": {
+          "left": 995.0400000000001,
+          "top": 235.68,
+          "width": 187.98078740157482,
+          "height": 397.43989501312336
+        }
+      },
+      {
+        "id": "26",
+        "text": "Pharmacy inventory",
+        "position": {
+          "left": 989.76,
+          "top": 641.28,
+          "width": 198.54078740157482,
+          "height": 40.32
+        }
+      }
+    ],
+    "images": [
+      {
+        "id": "27",
+        "frame": {
+          "left": 542.4,
+          "top": 240,
+          "width": 179.34089238845144,
+          "height": 388.8
+        }
+      },
+      {
+        "id": "28",
+        "frame": {
+          "left": 770.88,
+          "top": 240,
+          "width": 179.34089238845144,
+          "height": 388.8
+        }
+      },
+      {
+        "id": "29",
+        "frame": {
+          "left": 999.36,
+          "top": 240,
+          "width": 179.34089238845144,
+          "height": 388.8
+        }
+      }
+    ]
+  },
+  {
+    "slide": 8,
+    "shapes": [
+      {
+        "id": "2",
+        "text": "",
+        "position": {
+          "left": 0,
+          "top": 0,
+          "width": 13.440000000000001,
+          "height": 720
+        }
+      },
+      {
+        "id": "3",
+        "text": "PHYSICIAN OVERSIGHT",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 31.68,
+          "width": 1056,
+          "height": 28.8
+        }
+      },
+      {
+        "id": "4",
+        "text": "Extend care beyond the clinic desk",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 86.4,
+          "width": 1171.2,
+          "height": 96
+        }
+      },
+      {
+        "id": "5",
+        "text": "A physician workspace supports protocol review, escalations, and scheduling.",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 175.68,
+          "width": 1161.6000000000001,
+          "height": 67.2
+        }
+      },
+      {
+        "id": "6",
+        "text": "",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 673.9200000000001,
+          "width": 1171.2,
+          "height": 1.1519160104986876
+        }
+      },
+      {
+        "id": "7",
+        "text": "SchooKeep  |  Product pitch  |  05 October 2026",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 686.4,
+          "width": 960,
+          "height": 19.2
+        }
+      },
+      {
+        "id": "8",
+        "text": "08",
+        "position": {
+          "left": 1161.6000000000001,
+          "top": 683.52,
+          "width": 57.6,
+          "height": 24
+        }
+      },
+      {
+        "id": "9",
+        "text": "",
+        "position": {
+          "left": 55.68,
+          "top": 254.4,
+          "width": 8.64,
+          "height": 52.800000000000004
+        }
+      },
+      {
+        "id": "10",
+        "text": "Protocol review",
+        "position": {
+          "left": 82.56,
+          "top": 254.4,
+          "width": 432,
+          "height": 33.6
+        }
+      },
+      {
+        "id": "11",
+        "text": "Provide a dedicated review area for medication protocols.",
+        "position": {
+          "left": 82.56,
+          "top": 295.68,
+          "width": 427.2,
+          "height": 62.400000000000006
+        }
+      },
+      {
+        "id": "12",
+        "text": "",
+        "position": {
+          "left": 55.68,
+          "top": 364.8,
+          "width": 8.64,
+          "height": 52.800000000000004
+        }
+      },
+      {
+        "id": "13",
+        "text": "Clinical escalation inbox",
+        "position": {
+          "left": 82.56,
+          "top": 364.8,
+          "width": 432,
+          "height": 33.6
+        }
+      },
+      {
+        "id": "14",
+        "text": "Surface cases that need additional clinical attention.",
+        "position": {
+          "left": 82.56,
+          "top": 406.07989501312335,
+          "width": 427.2,
+          "height": 62.400000000000006
+        }
+      },
+      {
+        "id": "15",
+        "text": "",
+        "position": {
+          "left": 55.68,
+          "top": 475.19989501312335,
+          "width": 8.64,
+          "height": 52.800000000000004
+        }
+      },
+      {
+        "id": "16",
+        "text": "Availability planning",
+        "position": {
+          "left": 82.56,
+          "top": 475.19989501312335,
+          "width": 432,
+          "height": 33.6
+        }
+      },
+      {
+        "id": "17",
+        "text": "Represent physician schedules in the app.",
+        "position": {
+          "left": 82.56,
+          "top": 516.4798950131234,
+          "width": 427.2,
+          "height": 62.400000000000006
+        }
+      },
+      {
+        "id": "18",
+        "text": "",
+        "position": {
+          "left": 538.08,
+          "top": 235.68,
+          "width": 187.98078740157482,
+          "height": 397.43989501312336
+        }
+      },
+      {
+        "id": "20",
+        "text": "Physician home",
+        "position": {
+          "left": 532.8000000000001,
+          "top": 641.28,
+          "width": 198.54078740157482,
+          "height": 40.32
+        }
+      },
+      {
+        "id": "21",
+        "text": "",
+        "position": {
+          "left": 766.5600000000001,
+          "top": 235.68,
+          "width": 187.98078740157482,
+          "height": 397.43989501312336
+        }
+      },
+      {
+        "id": "23",
+        "text": "Protocol review",
+        "position": {
+          "left": 761.28,
+          "top": 641.28,
+          "width": 198.54078740157482,
+          "height": 40.32
+        }
+      },
+      {
+        "id": "24",
+        "text": "",
+        "position": {
+          "left": 995.0400000000001,
+          "top": 235.68,
+          "width": 187.98078740157482,
+          "height": 397.43989501312336
+        }
+      },
+      {
+        "id": "26",
+        "text": "Escalation inbox",
+        "position": {
+          "left": 989.76,
+          "top": 641.28,
+          "width": 198.54078740157482,
+          "height": 40.32
+        }
+      }
+    ],
+    "images": [
+      {
+        "id": "27",
+        "frame": {
+          "left": 542.4,
+          "top": 240,
+          "width": 179.34089238845144,
+          "height": 388.8
+        }
+      },
+      {
+        "id": "28",
+        "frame": {
+          "left": 770.88,
+          "top": 240,
+          "width": 179.34089238845144,
+          "height": 388.8
+        }
+      },
+      {
+        "id": "29",
+        "frame": {
+          "left": 999.36,
+          "top": 240,
+          "width": 179.34089238845144,
+          "height": 388.8
+        }
+      }
+    ]
+  },
+  {
+    "slide": 9,
+    "shapes": [
+      {
+        "id": "2",
+        "text": "",
+        "position": {
+          "left": 0,
+          "top": 0,
+          "width": 13.440000000000001,
+          "height": 720
+        }
+      },
+      {
+        "id": "3",
+        "text": "FAMILY EXPERIENCE",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 31.68,
+          "width": 1056,
+          "height": 28.8
+        }
+      },
+      {
+        "id": "4",
+        "text": "Keep parents part of the care loop",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 86.4,
+          "width": 1171.2,
+          "height": 96
+        }
+      },
+      {
+        "id": "5",
+        "text": "The parent app brings health, medication, and document workflows into a familiar mobile experience.",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 175.68,
+          "width": 1161.6000000000001,
+          "height": 67.2
+        }
+      },
+      {
+        "id": "6",
+        "text": "",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 673.9200000000001,
+          "width": 1171.2,
+          "height": 1.1519160104986876
+        }
+      },
+      {
+        "id": "7",
+        "text": "SchooKeep  |  Product pitch  |  05 October 2026",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 686.4,
+          "width": 960,
+          "height": 19.2
+        }
+      },
+      {
+        "id": "8",
+        "text": "09",
+        "position": {
+          "left": 1161.6000000000001,
+          "top": 683.52,
+          "width": 57.6,
+          "height": 24
+        }
+      },
+      {
+        "id": "9",
+        "text": "",
+        "position": {
+          "left": 55.68,
+          "top": 254.4,
+          "width": 8.64,
+          "height": 52.800000000000004
+        }
+      },
+      {
+        "id": "10",
+        "text": "A family-facing home",
+        "position": {
+          "left": 82.56,
+          "top": 254.4,
+          "width": 432,
+          "height": 33.6
+        }
+      },
+      {
+        "id": "11",
+        "text": "Give guardians a clear starting point for the school day.",
+        "position": {
+          "left": 82.56,
+          "top": 295.68,
+          "width": 427.2,
+          "height": 62.400000000000006
+        }
+      },
+      {
+        "id": "12",
+        "text": "",
+        "position": {
+          "left": 55.68,
+          "top": 364.8,
+          "width": 8.64,
+          "height": 52.800000000000004
+        }
+      },
+      {
+        "id": "13",
+        "text": "Health and medication history",
+        "position": {
+          "left": 82.56,
+          "top": 364.8,
+          "width": 432,
+          "height": 33.6
+        }
+      },
+      {
+        "id": "14",
+        "text": "Keep the child's care activity visible to the family.",
+        "position": {
+          "left": 82.56,
+          "top": 406.07989501312335,
+          "width": 427.2,
+          "height": 62.400000000000006
+        }
+      },
+      {
+        "id": "15",
+        "text": "",
+        "position": {
+          "left": 55.68,
+          "top": 475.19989501312335,
+          "width": 8.64,
+          "height": 52.800000000000004
+        }
+      },
+      {
+        "id": "16",
+        "text": "Documents in one place",
+        "position": {
+          "left": 82.56,
+          "top": 475.19989501312335,
+          "width": 432,
+          "height": 33.6
+        }
+      },
+      {
+        "id": "17",
+        "text": "Provide an accessible path for school health paperwork.",
+        "position": {
+          "left": 82.56,
+          "top": 516.4798950131234,
+          "width": 427.2,
+          "height": 62.400000000000006
+        }
+      },
+      {
+        "id": "18",
+        "text": "",
+        "position": {
+          "left": 538.08,
+          "top": 235.68,
+          "width": 187.98078740157482,
+          "height": 397.43989501312336
+        }
+      },
+      {
+        "id": "20",
+        "text": "Parent home",
+        "position": {
+          "left": 532.8000000000001,
+          "top": 641.28,
+          "width": 198.54078740157482,
+          "height": 40.32
+        }
+      },
+      {
+        "id": "21",
+        "text": "",
+        "position": {
+          "left": 766.5600000000001,
+          "top": 235.68,
+          "width": 187.98078740157482,
+          "height": 397.43989501312336
+        }
+      },
+      {
+        "id": "23",
+        "text": "Health history",
+        "position": {
+          "left": 761.28,
+          "top": 641.28,
+          "width": 198.54078740157482,
+          "height": 40.32
+        }
+      },
+      {
+        "id": "24",
+        "text": "",
+        "position": {
+          "left": 995.0400000000001,
+          "top": 235.68,
+          "width": 187.98078740157482,
+          "height": 397.43989501312336
+        }
+      },
+      {
+        "id": "26",
+        "text": "Documents",
+        "position": {
+          "left": 989.76,
+          "top": 641.28,
+          "width": 198.54078740157482,
+          "height": 40.32
+        }
+      }
+    ],
+    "images": [
+      {
+        "id": "27",
+        "frame": {
+          "left": 542.4,
+          "top": 240,
+          "width": 179.34089238845144,
+          "height": 388.8
+        }
+      },
+      {
+        "id": "28",
+        "frame": {
+          "left": 770.88,
+          "top": 240,
+          "width": 179.34089238845144,
+          "height": 388.8
+        }
+      },
+      {
+        "id": "29",
+        "frame": {
+          "left": 999.36,
+          "top": 240,
+          "width": 179.34089238845144,
+          "height": 388.8
+        }
+      }
+    ]
+  },
+  {
+    "slide": 10,
+    "shapes": [
+      {
+        "id": "2",
+        "text": "",
+        "position": {
+          "left": 0,
+          "top": 0,
+          "width": 13.440000000000001,
+          "height": 720
+        }
+      },
+      {
+        "id": "3",
+        "text": "CONSENT AND HANDOFFS",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 31.68,
+          "width": 1056,
+          "height": 28.8
+        }
+      },
+      {
+        "id": "4",
+        "text": "Connect a request to a response",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 86.4,
+          "width": 1171.2,
+          "height": 96
+        }
+      },
+      {
+        "id": "5",
+        "text": "Consent and authorized pickup screens show the link between school operations and guardians.",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 175.68,
+          "width": 1161.6000000000001,
+          "height": 67.2
+        }
+      },
+      {
+        "id": "6",
+        "text": "",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 673.9200000000001,
+          "width": 1171.2,
+          "height": 1.1519160104986876
+        }
+      },
+      {
+        "id": "7",
+        "text": "SchooKeep  |  Product pitch  |  05 October 2026",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 686.4,
+          "width": 960,
+          "height": 19.2
+        }
+      },
+      {
+        "id": "8",
+        "text": "10",
+        "position": {
+          "left": 1161.6000000000001,
+          "top": 683.52,
+          "width": 57.6,
+          "height": 24
+        }
+      },
+      {
+        "id": "9",
+        "text": "",
+        "position": {
+          "left": 55.68,
+          "top": 254.4,
+          "width": 8.64,
+          "height": 52.800000000000004
+        }
+      },
+      {
+        "id": "10",
+        "text": "Emergency response",
+        "position": {
+          "left": 82.56,
+          "top": 254.4,
+          "width": 432,
+          "height": 33.6
+        }
+      },
+      {
+        "id": "11",
+        "text": "Provide a dedicated parent consent screen.",
+        "position": {
+          "left": 82.56,
+          "top": 295.68,
+          "width": 427.2,
+          "height": 62.400000000000006
+        }
+      },
+      {
+        "id": "12",
+        "text": "",
+        "position": {
+          "left": 55.68,
+          "top": 364.8,
+          "width": 8.64,
+          "height": 52.800000000000004
+        }
+      },
+      {
+        "id": "13",
+        "text": "Authorized persons",
+        "position": {
+          "left": 82.56,
+          "top": 364.8,
+          "width": 432,
+          "height": 33.6
+        }
+      },
+      {
+        "id": "14",
+        "text": "Organize the people approved for pickup.",
+        "position": {
+          "left": 82.56,
+          "top": 406.07989501312335,
+          "width": 427.2,
+          "height": 62.400000000000006
+        }
+      },
+      {
+        "id": "15",
+        "text": "",
+        "position": {
+          "left": 55.68,
+          "top": 475.19989501312335,
+          "width": 8.64,
+          "height": 52.800000000000004
+        }
+      },
+      {
+        "id": "16",
+        "text": "QR presentation",
+        "position": {
+          "left": 82.56,
+          "top": 475.19989501312335,
+          "width": 432,
+          "height": 33.6
+        }
+      },
+      {
+        "id": "17",
+        "text": "Represent a scannable pickup identity in the family app.",
+        "position": {
+          "left": 82.56,
+          "top": 516.4798950131234,
+          "width": 427.2,
+          "height": 62.400000000000006
+        }
+      },
+      {
+        "id": "18",
+        "text": "",
+        "position": {
+          "left": 538.08,
+          "top": 235.68,
+          "width": 187.98078740157482,
+          "height": 397.43989501312336
+        }
+      },
+      {
+        "id": "20",
+        "text": "Consent response",
+        "position": {
+          "left": 532.8000000000001,
+          "top": 641.28,
+          "width": 198.54078740157482,
+          "height": 40.32
+        }
+      },
+      {
+        "id": "21",
+        "text": "",
+        "position": {
+          "left": 766.5600000000001,
+          "top": 235.68,
+          "width": 187.98078740157482,
+          "height": 397.43989501312336
+        }
+      },
+      {
+        "id": "23",
+        "text": "Authorized persons",
+        "position": {
+          "left": 761.28,
+          "top": 641.28,
+          "width": 198.54078740157482,
+          "height": 40.32
+        }
+      },
+      {
+        "id": "24",
+        "text": "",
+        "position": {
+          "left": 995.0400000000001,
+          "top": 235.68,
+          "width": 187.98078740157482,
+          "height": 397.43989501312336
+        }
+      },
+      {
+        "id": "26",
+        "text": "Pickup QR code",
+        "position": {
+          "left": 989.76,
+          "top": 641.28,
+          "width": 198.54078740157482,
+          "height": 40.32
+        }
+      }
+    ],
+    "images": [
+      {
+        "id": "27",
+        "frame": {
+          "left": 542.4,
+          "top": 240,
+          "width": 179.34089238845144,
+          "height": 388.8
+        }
+      },
+      {
+        "id": "28",
+        "frame": {
+          "left": 770.88,
+          "top": 240,
+          "width": 179.34089238845144,
+          "height": 388.8
+        }
+      },
+      {
+        "id": "29",
+        "frame": {
+          "left": 999.36,
+          "top": 240,
+          "width": 179.34089238845144,
+          "height": 388.8
+        }
+      }
+    ]
+  },
+  {
+    "slide": 11,
+    "shapes": [
+      {
+        "id": "2",
+        "text": "",
+        "position": {
+          "left": 0,
+          "top": 0,
+          "width": 13.440000000000001,
+          "height": 720
+        }
+      },
+      {
+        "id": "3",
+        "text": "CLASSROOM AWARENESS",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 31.68,
+          "width": 1056,
+          "height": 28.8
+        }
+      },
+      {
+        "id": "4",
+        "text": "Bring health context into the school day",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 86.4,
+          "width": 1171.2,
+          "height": 96
+        }
+      },
+      {
+        "id": "5",
+        "text": "Teachers have focused views for attendance, health considerations, referrals, and exemptions.",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 175.68,
+          "width": 1161.6000000000001,
+          "height": 67.2
+        }
+      },
+      {
+        "id": "6",
+        "text": "",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 673.9200000000001,
+          "width": 1171.2,
+          "height": 1.1519160104986876
+        }
+      },
+      {
+        "id": "7",
+        "text": "SchooKeep  |  Product pitch  |  05 October 2026",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 686.4,
+          "width": 960,
+          "height": 19.2
+        }
+      },
+      {
+        "id": "8",
+        "text": "11",
+        "position": {
+          "left": 1161.6000000000001,
+          "top": 683.52,
+          "width": 57.6,
+          "height": 24
+        }
+      },
+      {
+        "id": "9",
+        "text": "",
+        "position": {
+          "left": 55.68,
+          "top": 254.4,
+          "width": 8.64,
+          "height": 52.800000000000004
+        }
+      },
+      {
+        "id": "10",
+        "text": "Attendance context",
+        "position": {
+          "left": 82.56,
+          "top": 254.4,
+          "width": 432,
+          "height": 33.6
+        }
+      },
+      {
+        "id": "11",
+        "text": "A classroom view supports daily operational awareness.",
+        "position": {
+          "left": 82.56,
+          "top": 295.68,
+          "width": 427.2,
+          "height": 62.400000000000006
+        }
+      },
+      {
+        "id": "12",
+        "text": "",
+        "position": {
+          "left": 55.68,
+          "top": 364.8,
+          "width": 8.64,
+          "height": 52.800000000000004
+        }
+      },
+      {
+        "id": "13",
+        "text": "Health considerations",
+        "position": {
+          "left": 82.56,
+          "top": 364.8,
+          "width": 432,
+          "height": 33.6
+        }
+      },
+      {
+        "id": "14",
+        "text": "Keep relevant student needs visible to the teacher.",
+        "position": {
+          "left": 82.56,
+          "top": 406.07989501312335,
+          "width": 427.2,
+          "height": 62.400000000000006
+        }
+      },
+      {
+        "id": "15",
+        "text": "",
+        "position": {
+          "left": 55.68,
+          "top": 475.19989501312335,
+          "width": 8.64,
+          "height": 52.800000000000004
+        }
+      },
+      {
+        "id": "16",
+        "text": "Referral workflow",
+        "position": {
+          "left": 82.56,
+          "top": 475.19989501312335,
+          "width": 432,
+          "height": 33.6
+        }
+      },
+      {
+        "id": "17",
+        "text": "Offer a structured route into the school clinic.",
+        "position": {
+          "left": 82.56,
+          "top": 516.4798950131234,
+          "width": 427.2,
+          "height": 62.400000000000006
+        }
+      },
+      {
+        "id": "18",
+        "text": "",
+        "position": {
+          "left": 538.08,
+          "top": 235.68,
+          "width": 187.98078740157482,
+          "height": 397.43989501312336
+        }
+      },
+      {
+        "id": "20",
+        "text": "Attendance",
+        "position": {
+          "left": 532.8000000000001,
+          "top": 641.28,
+          "width": 198.54078740157482,
+          "height": 40.32
+        }
+      },
+      {
+        "id": "21",
+        "text": "",
+        "position": {
+          "left": 766.5600000000001,
+          "top": 235.68,
+          "width": 187.98078740157482,
+          "height": 397.43989501312336
+        }
+      },
+      {
+        "id": "23",
+        "text": "Health considerations",
+        "position": {
+          "left": 761.28,
+          "top": 641.28,
+          "width": 198.54078740157482,
+          "height": 40.32
+        }
+      },
+      {
+        "id": "24",
+        "text": "",
+        "position": {
+          "left": 995.0400000000001,
+          "top": 235.68,
+          "width": 187.98078740157482,
+          "height": 397.43989501312336
+        }
+      },
+      {
+        "id": "26",
+        "text": "Clinic referral",
+        "position": {
+          "left": 989.76,
+          "top": 641.28,
+          "width": 198.54078740157482,
+          "height": 40.32
+        }
+      }
+    ],
+    "images": [
+      {
+        "id": "27",
+        "frame": {
+          "left": 542.4,
+          "top": 240,
+          "width": 179.34089238845144,
+          "height": 388.8
+        }
+      },
+      {
+        "id": "28",
+        "frame": {
+          "left": 770.88,
+          "top": 240,
+          "width": 179.34089238845144,
+          "height": 388.8
+        }
+      },
+      {
+        "id": "29",
+        "frame": {
+          "left": 999.36,
+          "top": 240,
+          "width": 179.34089238845144,
+          "height": 388.8
+        }
+      }
+    ]
+  },
+  {
+    "slide": 12,
+    "shapes": [
+      {
+        "id": "2",
+        "text": "",
+        "position": {
+          "left": 0,
+          "top": 0,
+          "width": 13.440000000000001,
+          "height": 720
+        }
+      },
+      {
+        "id": "3",
+        "text": "STUDENT SAFETY",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 31.68,
+          "width": 1056,
+          "height": 28.8
+        }
+      },
+      {
+        "id": "4",
+        "text": "Support arrival and departure handoffs",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 86.4,
+          "width": 1171.2,
+          "height": 96
+        }
+      },
+      {
+        "id": "5",
+        "text": "Security and transport have dedicated operational views.",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 175.68,
+          "width": 1161.6000000000001,
+          "height": 67.2
+        }
+      },
+      {
+        "id": "6",
+        "text": "",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 673.9200000000001,
+          "width": 1171.2,
+          "height": 1.1519160104986876
+        }
+      },
+      {
+        "id": "7",
+        "text": "SchooKeep  |  Product pitch  |  05 October 2026",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 686.4,
+          "width": 960,
+          "height": 19.2
+        }
+      },
+      {
+        "id": "8",
+        "text": "12",
+        "position": {
+          "left": 1161.6000000000001,
+          "top": 683.52,
+          "width": 57.6,
+          "height": 24
+        }
+      },
+      {
+        "id": "9",
+        "text": "",
+        "position": {
+          "left": 55.68,
+          "top": 254.4,
+          "width": 8.64,
+          "height": 52.800000000000004
+        }
+      },
+      {
+        "id": "10",
+        "text": "Pickup verification",
+        "position": {
+          "left": 82.56,
+          "top": 254.4,
+          "width": 432,
+          "height": 33.6
+        }
+      },
+      {
+        "id": "11",
+        "text": "Queue and manual verification screens organize gate activity.",
+        "position": {
+          "left": 82.56,
+          "top": 295.68,
+          "width": 427.2,
+          "height": 62.400000000000006
+        }
+      },
+      {
+        "id": "12",
+        "text": "",
+        "position": {
+          "left": 55.68,
+          "top": 364.8,
+          "width": 8.64,
+          "height": 52.800000000000004
+        }
+      },
+      {
+        "id": "13",
+        "text": "Transport operations",
+        "position": {
+          "left": 82.56,
+          "top": 364.8,
+          "width": 432,
+          "height": 33.6
+        }
+      },
+      {
+        "id": "14",
+        "text": "Route, boarding, and history workflows support the driver.",
+        "position": {
+          "left": 82.56,
+          "top": 406.07989501312335,
+          "width": 427.2,
+          "height": 62.400000000000006
+        }
+      },
+      {
+        "id": "15",
+        "text": "",
+        "position": {
+          "left": 55.68,
+          "top": 475.19989501312335,
+          "width": 8.64,
+          "height": 52.800000000000004
+        }
+      },
+      {
+        "id": "16",
+        "text": "Shared responsibility",
+        "position": {
+          "left": 82.56,
+          "top": 475.19989501312335,
+          "width": 432,
+          "height": 33.6
+        }
+      },
+      {
+        "id": "17",
+        "text": "Connect the school, transport staff, and authorized guardians.",
+        "position": {
+          "left": 82.56,
+          "top": 516.4798950131234,
+          "width": 427.2,
+          "height": 62.400000000000006
+        }
+      },
+      {
+        "id": "18",
+        "text": "",
+        "position": {
+          "left": 538.08,
+          "top": 235.68,
+          "width": 187.98078740157482,
+          "height": 397.43989501312336
+        }
+      },
+      {
+        "id": "20",
+        "text": "Pickup queue",
+        "position": {
+          "left": 532.8000000000001,
+          "top": 641.28,
+          "width": 198.54078740157482,
+          "height": 40.32
+        }
+      },
+      {
+        "id": "21",
+        "text": "",
+        "position": {
+          "left": 766.5600000000001,
+          "top": 235.68,
+          "width": 187.98078740157482,
+          "height": 397.43989501312336
+        }
+      },
+      {
+        "id": "23",
+        "text": "Manual verification",
+        "position": {
+          "left": 761.28,
+          "top": 641.28,
+          "width": 198.54078740157482,
+          "height": 40.32
+        }
+      },
+      {
+        "id": "24",
+        "text": "",
+        "position": {
+          "left": 995.0400000000001,
+          "top": 235.68,
+          "width": 187.98078740157482,
+          "height": 397.43989501312336
+        }
+      },
+      {
+        "id": "26",
+        "text": "Bus route",
+        "position": {
+          "left": 989.76,
+          "top": 641.28,
+          "width": 198.54078740157482,
+          "height": 40.32
+        }
+      }
+    ],
+    "images": [
+      {
+        "id": "27",
+        "frame": {
+          "left": 542.4,
+          "top": 240,
+          "width": 179.34089238845144,
+          "height": 388.8
+        }
+      },
+      {
+        "id": "28",
+        "frame": {
+          "left": 770.88,
+          "top": 240,
+          "width": 179.34089238845144,
+          "height": 388.8
+        }
+      },
+      {
+        "id": "29",
+        "frame": {
+          "left": 999.36,
+          "top": 240,
+          "width": 179.34089238845144,
+          "height": 388.8
+        }
+      }
+    ]
+  },
+  {
+    "slide": 13,
+    "shapes": [
+      {
+        "id": "2",
+        "text": "",
+        "position": {
+          "left": 0,
+          "top": 0,
+          "width": 13.440000000000001,
+          "height": 720
+        }
+      },
+      {
+        "id": "3",
+        "text": "FOOD SAFETY",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 31.68,
+          "width": 1056,
+          "height": 28.8
+        }
+      },
+      {
+        "id": "4",
+        "text": "Make cafeteria decisions more informed",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 86.4,
+          "width": 1171.2,
+          "height": 96
+        }
+      },
+      {
+        "id": "5",
+        "text": "Allergen alerts and point-of-sale workflows extend the product beyond the clinic.",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 175.68,
+          "width": 1161.6000000000001,
+          "height": 67.2
+        }
+      },
+      {
+        "id": "6",
+        "text": "",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 673.9200000000001,
+          "width": 1171.2,
+          "height": 1.1519160104986876
+        }
+      },
+      {
+        "id": "7",
+        "text": "SchooKeep  |  Product pitch  |  05 October 2026",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 686.4,
+          "width": 960,
+          "height": 19.2
+        }
+      },
+      {
+        "id": "8",
+        "text": "13",
+        "position": {
+          "left": 1161.6000000000001,
+          "top": 683.52,
+          "width": 57.6,
+          "height": 24
+        }
+      },
+      {
+        "id": "9",
+        "text": "",
+        "position": {
+          "left": 55.68,
+          "top": 254.4,
+          "width": 8.64,
+          "height": 52.800000000000004
+        }
+      },
+      {
+        "id": "10",
+        "text": "Allergen awareness",
+        "position": {
+          "left": 82.56,
+          "top": 254.4,
+          "width": 432,
+          "height": 33.6
+        }
+      },
+      {
+        "id": "11",
+        "text": "Provide the cafeteria with dedicated alert screens.",
+        "position": {
+          "left": 82.56,
+          "top": 295.68,
+          "width": 427.2,
+          "height": 62.400000000000006
+        }
+      },
+      {
+        "id": "12",
+        "text": "",
+        "position": {
+          "left": 55.68,
+          "top": 364.8,
+          "width": 8.64,
+          "height": 52.800000000000004
+        }
+      },
+      {
+        "id": "13",
+        "text": "Daily operations",
+        "position": {
+          "left": 82.56,
+          "top": 364.8,
+          "width": 432,
+          "height": 33.6
+        }
+      },
+      {
+        "id": "14",
+        "text": "Bring point of sale into the staff experience.",
+        "position": {
+          "left": 82.56,
+          "top": 406.07989501312335,
+          "width": 427.2,
+          "height": 62.400000000000006
+        }
+      },
+      {
+        "id": "15",
+        "text": "",
+        "position": {
+          "left": 55.68,
+          "top": 475.19989501312335,
+          "width": 8.64,
+          "height": 52.800000000000004
+        }
+      },
+      {
+        "id": "16",
+        "text": "Family budget visibility",
+        "position": {
+          "left": 82.56,
+          "top": 475.19989501312335,
+          "width": 432,
+          "height": 33.6
+        }
+      },
+      {
+        "id": "17",
+        "text": "Represent cafeteria budgets in the parent app.",
+        "position": {
+          "left": 82.56,
+          "top": 516.4798950131234,
+          "width": 427.2,
+          "height": 62.400000000000006
+        }
+      },
+      {
+        "id": "18",
+        "text": "",
+        "position": {
+          "left": 538.08,
+          "top": 235.68,
+          "width": 187.98078740157482,
+          "height": 397.43989501312336
+        }
+      },
+      {
+        "id": "20",
+        "text": "Cafeteria alerts",
+        "position": {
+          "left": 532.8000000000001,
+          "top": 641.28,
+          "width": 198.54078740157482,
+          "height": 40.32
+        }
+      },
+      {
+        "id": "21",
+        "text": "",
+        "position": {
+          "left": 766.5600000000001,
+          "top": 235.68,
+          "width": 187.98078740157482,
+          "height": 397.43989501312336
+        }
+      },
+      {
+        "id": "23",
+        "text": "Point of sale",
+        "position": {
+          "left": 761.28,
+          "top": 641.28,
+          "width": 198.54078740157482,
+          "height": 40.32
+        }
+      },
+      {
+        "id": "24",
+        "text": "",
+        "position": {
+          "left": 995.0400000000001,
+          "top": 235.68,
+          "width": 187.98078740157482,
+          "height": 397.43989501312336
+        }
+      },
+      {
+        "id": "26",
+        "text": "Family budget",
+        "position": {
+          "left": 989.76,
+          "top": 641.28,
+          "width": 198.54078740157482,
+          "height": 40.32
+        }
+      }
+    ],
+    "images": [
+      {
+        "id": "27",
+        "frame": {
+          "left": 542.4,
+          "top": 240,
+          "width": 179.34089238845144,
+          "height": 388.8
+        }
+      },
+      {
+        "id": "28",
+        "frame": {
+          "left": 770.88,
+          "top": 240,
+          "width": 179.34089238845144,
+          "height": 388.8
+        }
+      },
+      {
+        "id": "29",
+        "frame": {
+          "left": 999.36,
+          "top": 240,
+          "width": 179.34089238845144,
+          "height": 388.8
+        }
+      }
+    ]
+  },
+  {
+    "slide": 14,
+    "shapes": [
+      {
+        "id": "2",
+        "text": "",
+        "position": {
+          "left": 0,
+          "top": 0,
+          "width": 13.440000000000001,
+          "height": 720
+        }
+      },
+      {
+        "id": "3",
+        "text": "SCHOOL SUPPORT",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 31.68,
+          "width": 1056,
+          "height": 28.8
+        }
+      },
+      {
+        "id": "4",
+        "text": "Support the people behind each handoff",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 86.4,
+          "width": 1171.2,
+          "height": 96
+        }
+      },
+      {
+        "id": "5",
+        "text": "Counselor and secretary screens broaden the operational footprint.",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 175.68,
+          "width": 1161.6000000000001,
+          "height": 67.2
+        }
+      },
+      {
+        "id": "6",
+        "text": "",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 673.9200000000001,
+          "width": 1171.2,
+          "height": 1.1519160104986876
+        }
+      },
+      {
+        "id": "7",
+        "text": "SchooKeep  |  Product pitch  |  05 October 2026",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 686.4,
+          "width": 960,
+          "height": 19.2
+        }
+      },
+      {
+        "id": "8",
+        "text": "14",
+        "position": {
+          "left": 1161.6000000000001,
+          "top": 683.52,
+          "width": 57.6,
+          "height": 24
+        }
+      },
+      {
+        "id": "9",
+        "text": "",
+        "position": {
+          "left": 55.68,
+          "top": 254.4,
+          "width": 8.64,
+          "height": 52.800000000000004
+        }
+      },
+      {
+        "id": "10",
+        "text": "Student support",
+        "position": {
+          "left": 82.56,
+          "top": 254.4,
+          "width": 432,
+          "height": 33.6
+        }
+      },
+      {
+        "id": "11",
+        "text": "Counselor records and report workflows represent ongoing care.",
+        "position": {
+          "left": 82.56,
+          "top": 295.68,
+          "width": 427.2,
+          "height": 62.400000000000006
+        }
+      },
+      {
+        "id": "12",
+        "text": "",
+        "position": {
+          "left": 55.68,
+          "top": 364.8,
+          "width": 8.64,
+          "height": 52.800000000000004
+        }
+      },
+      {
+        "id": "13",
+        "text": "Office coordination",
+        "position": {
+          "left": 82.56,
+          "top": 364.8,
+          "width": 432,
+          "height": 33.6
+        }
+      },
+      {
+        "id": "14",
+        "text": "The secretary has student, messaging, and import views.",
+        "position": {
+          "left": 82.56,
+          "top": 406.07989501312335,
+          "width": 427.2,
+          "height": 62.400000000000006
+        }
+      },
+      {
+        "id": "15",
+        "text": "",
+        "position": {
+          "left": 55.68,
+          "top": 475.19989501312335,
+          "width": 8.64,
+          "height": 52.800000000000004
+        }
+      },
+      {
+        "id": "16",
+        "text": "Triage and follow-up",
+        "position": {
+          "left": 82.56,
+          "top": 475.19989501312335,
+          "width": 432,
+          "height": 33.6
+        }
+      },
+      {
+        "id": "17",
+        "text": "Queue screens make outstanding work visible.",
+        "position": {
+          "left": 82.56,
+          "top": 516.4798950131234,
+          "width": 427.2,
+          "height": 62.400000000000006
+        }
+      },
+      {
+        "id": "18",
+        "text": "",
+        "position": {
+          "left": 538.08,
+          "top": 235.68,
+          "width": 187.98078740157482,
+          "height": 397.43989501312336
+        }
+      },
+      {
+        "id": "20",
+        "text": "Counselor dashboard",
+        "position": {
+          "left": 532.8000000000001,
+          "top": 641.28,
+          "width": 198.54078740157482,
+          "height": 40.32
+        }
+      },
+      {
+        "id": "21",
+        "text": "",
+        "position": {
+          "left": 766.5600000000001,
+          "top": 235.68,
+          "width": 187.98078740157482,
+          "height": 397.43989501312336
+        }
+      },
+      {
+        "id": "23",
+        "text": "Office messaging",
+        "position": {
+          "left": 761.28,
+          "top": 641.28,
+          "width": 198.54078740157482,
+          "height": 40.32
+        }
+      },
+      {
+        "id": "24",
+        "text": "",
+        "position": {
+          "left": 995.0400000000001,
+          "top": 235.68,
+          "width": 187.98078740157482,
+          "height": 397.43989501312336
+        }
+      },
+      {
+        "id": "26",
+        "text": "Chatbot queue",
+        "position": {
+          "left": 989.76,
+          "top": 641.28,
+          "width": 198.54078740157482,
+          "height": 40.32
+        }
+      }
+    ],
+    "images": [
+      {
+        "id": "27",
+        "frame": {
+          "left": 542.4,
+          "top": 240,
+          "width": 179.34089238845144,
+          "height": 388.8
+        }
+      },
+      {
+        "id": "28",
+        "frame": {
+          "left": 770.88,
+          "top": 240,
+          "width": 179.34089238845144,
+          "height": 388.8
+        }
+      },
+      {
+        "id": "29",
+        "frame": {
+          "left": 999.36,
+          "top": 240,
+          "width": 179.34089238845144,
+          "height": 388.8
+        }
+      }
+    ]
+  },
+  {
+    "slide": 15,
+    "shapes": [
+      {
+        "id": "2",
+        "text": "",
+        "position": {
+          "left": 0,
+          "top": 0,
+          "width": 13.440000000000001,
+          "height": 720
+        }
+      },
+      {
+        "id": "3",
+        "text": "GOVERNANCE",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 31.68,
+          "width": 1056,
+          "height": 28.8
+        }
+      },
+      {
+        "id": "4",
+        "text": "Make access and readiness visible",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 86.4,
+          "width": 1171.2,
+          "height": 96
+        }
+      },
+      {
+        "id": "5",
+        "text": "Permission, audit, and readiness views support accountable school operations.",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 175.68,
+          "width": 1161.6000000000001,
+          "height": 67.2
+        }
+      },
+      {
+        "id": "6",
+        "text": "",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 673.9200000000001,
+          "width": 1171.2,
+          "height": 1.1519160104986876
+        }
+      },
+      {
+        "id": "7",
+        "text": "SchooKeep  |  Product pitch  |  05 October 2026",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 686.4,
+          "width": 960,
+          "height": 19.2
+        }
+      },
+      {
+        "id": "8",
+        "text": "15",
+        "position": {
+          "left": 1161.6000000000001,
+          "top": 683.52,
+          "width": 57.6,
+          "height": 24
+        }
+      },
+      {
+        "id": "9",
+        "text": "",
+        "position": {
+          "left": 55.68,
+          "top": 254.4,
+          "width": 8.64,
+          "height": 52.800000000000004
+        }
+      },
+      {
+        "id": "10",
+        "text": "Role permissions",
+        "position": {
+          "left": 82.56,
+          "top": 254.4,
+          "width": 432,
+          "height": 33.6
+        }
+      },
+      {
+        "id": "11",
+        "text": "Show the access model in a dedicated matrix.",
+        "position": {
+          "left": 82.56,
+          "top": 295.68,
+          "width": 427.2,
+          "height": 62.400000000000006
+        }
+      },
+      {
+        "id": "12",
+        "text": "",
+        "position": {
+          "left": 55.68,
+          "top": 364.8,
+          "width": 8.64,
+          "height": 52.800000000000004
+        }
+      },
+      {
+        "id": "13",
+        "text": "Audit visibility",
+        "position": {
+          "left": 82.56,
+          "top": 364.8,
+          "width": 432,
+          "height": 33.6
+        }
+      },
+      {
+        "id": "14",
+        "text": "Provide a view of recorded system activity.",
+        "position": {
+          "left": 82.56,
+          "top": 406.07989501312335,
+          "width": 427.2,
+          "height": 62.400000000000006
+        }
+      },
+      {
+        "id": "15",
+        "text": "",
+        "position": {
+          "left": 55.68,
+          "top": 475.19989501312335,
+          "width": 8.64,
+          "height": 52.800000000000004
+        }
+      },
+      {
+        "id": "16",
+        "text": "Clinic readiness",
+        "position": {
+          "left": 82.56,
+          "top": 475.19989501312335,
+          "width": 432,
+          "height": 33.6
+        }
+      },
+      {
+        "id": "17",
+        "text": "Give school operations a readiness and equipment workflow.",
+        "position": {
+          "left": 82.56,
+          "top": 516.4798950131234,
+          "width": 427.2,
+          "height": 62.400000000000006
+        }
+      },
+      {
+        "id": "18",
+        "text": "",
+        "position": {
+          "left": 538.08,
+          "top": 235.68,
+          "width": 187.98078740157482,
+          "height": 397.43989501312336
+        }
+      },
+      {
+        "id": "20",
+        "text": "Permissions",
+        "position": {
+          "left": 532.8000000000001,
+          "top": 641.28,
+          "width": 198.54078740157482,
+          "height": 40.32
+        }
+      },
+      {
+        "id": "21",
+        "text": "",
+        "position": {
+          "left": 766.5600000000001,
+          "top": 235.68,
+          "width": 187.98078740157482,
+          "height": 397.43989501312336
+        }
+      },
+      {
+        "id": "23",
+        "text": "Audit log",
+        "position": {
+          "left": 761.28,
+          "top": 641.28,
+          "width": 198.54078740157482,
+          "height": 40.32
+        }
+      },
+      {
+        "id": "24",
+        "text": "",
+        "position": {
+          "left": 995.0400000000001,
+          "top": 235.68,
+          "width": 187.98078740157482,
+          "height": 397.43989501312336
+        }
+      },
+      {
+        "id": "26",
+        "text": "Clinic readiness",
+        "position": {
+          "left": 989.76,
+          "top": 641.28,
+          "width": 198.54078740157482,
+          "height": 40.32
+        }
+      }
+    ],
+    "images": [
+      {
+        "id": "27",
+        "frame": {
+          "left": 542.4,
+          "top": 240,
+          "width": 179.34089238845144,
+          "height": 388.8
+        }
+      },
+      {
+        "id": "28",
+        "frame": {
+          "left": 770.88,
+          "top": 240,
+          "width": 179.34089238845144,
+          "height": 388.8
+        }
+      },
+      {
+        "id": "29",
+        "frame": {
+          "left": 999.36,
+          "top": 240,
+          "width": 179.34089238845144,
+          "height": 388.8
+        }
+      }
+    ]
+  },
+  {
+    "slide": 16,
+    "shapes": [
+      {
+        "id": "2",
+        "text": "",
+        "position": {
+          "left": 0,
+          "top": 0,
+          "width": 13.440000000000001,
+          "height": 720
+        }
+      },
+      {
+        "id": "3",
+        "text": "REGIONAL PRODUCT DESIGN",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 31.68,
+          "width": 1056,
+          "height": 28.8
+        }
+      },
+      {
+        "id": "4",
+        "text": "Designed for the school context",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 86.4,
+          "width": 1171.2,
+          "height": 96
+        }
+      },
+      {
+        "id": "5",
+        "text": "The app includes English/Arabic localization and contextual school system states.",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 175.68,
+          "width": 1161.6000000000001,
+          "height": 67.2
+        }
+      },
+      {
+        "id": "6",
+        "text": "",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 673.9200000000001,
+          "width": 1171.2,
+          "height": 1.1519160104986876
+        }
+      },
+      {
+        "id": "7",
+        "text": "SchooKeep  |  Product pitch  |  05 October 2026",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 686.4,
+          "width": 960,
+          "height": 19.2
+        }
+      },
+      {
+        "id": "8",
+        "text": "16",
+        "position": {
+          "left": 1161.6000000000001,
+          "top": 683.52,
+          "width": 57.6,
+          "height": 24
+        }
+      },
+      {
+        "id": "9",
+        "text": "",
+        "position": {
+          "left": 55.68,
+          "top": 254.4,
+          "width": 8.64,
+          "height": 52.800000000000004
+        }
+      },
+      {
+        "id": "10",
+        "text": "Bilingual foundation",
+        "position": {
+          "left": 82.56,
+          "top": 254.4,
+          "width": 432,
+          "height": 33.6
+        }
+      },
+      {
+        "id": "11",
+        "text": "English and Arabic strings and right-to-left layouts are present in the codebase.",
+        "position": {
+          "left": 82.56,
+          "top": 295.68,
+          "width": 427.2,
+          "height": 62.400000000000006
+        }
+      },
+      {
+        "id": "12",
+        "text": "",
+        "position": {
+          "left": 55.68,
+          "top": 364.8,
+          "width": 8.64,
+          "height": 52.800000000000004
+        }
+      },
+      {
+        "id": "13",
+        "text": "School-wide advisories",
+        "position": {
+          "left": 82.56,
+          "top": 364.8,
+          "width": 432,
+          "height": 33.6
+        }
+      },
+      {
+        "id": "14",
+        "text": "Weather advisory screens represent shared restrictions.",
+        "position": {
+          "left": 82.56,
+          "top": 406.07989501312335,
+          "width": 427.2,
+          "height": 62.400000000000006
+        }
+      },
+      {
+        "id": "15",
+        "text": "",
+        "position": {
+          "left": 55.68,
+          "top": 475.19989501312335,
+          "width": 8.64,
+          "height": 52.800000000000004
+        }
+      },
+      {
+        "id": "16",
+        "text": "Contextual operating modes",
+        "position": {
+          "left": 82.56,
+          "top": 475.19989501312335,
+          "width": 432,
+          "height": 33.6
+        }
+      },
+      {
+        "id": "17",
+        "text": "Ramadan and after-hours states are part of the experience.",
+        "position": {
+          "left": 82.56,
+          "top": 516.4798950131234,
+          "width": 427.2,
+          "height": 62.400000000000006
+        }
+      },
+      {
+        "id": "18",
+        "text": "",
+        "position": {
+          "left": 538.08,
+          "top": 235.68,
+          "width": 187.98078740157482,
+          "height": 397.43989501312336
+        }
+      },
+      {
+        "id": "20",
+        "text": "Weather advisory",
+        "position": {
+          "left": 532.8000000000001,
+          "top": 641.28,
+          "width": 198.54078740157482,
+          "height": 40.32
+        }
+      },
+      {
+        "id": "21",
+        "text": "",
+        "position": {
+          "left": 766.5600000000001,
+          "top": 235.68,
+          "width": 187.98078740157482,
+          "height": 397.43989501312336
+        }
+      },
+      {
+        "id": "23",
+        "text": "Ramadan mode",
+        "position": {
+          "left": 761.28,
+          "top": 641.28,
+          "width": 198.54078740157482,
+          "height": 40.32
+        }
+      },
+      {
+        "id": "24",
+        "text": "",
+        "position": {
+          "left": 995.0400000000001,
+          "top": 235.68,
+          "width": 187.98078740157482,
+          "height": 397.43989501312336
+        }
+      },
+      {
+        "id": "26",
+        "text": "After-hours state",
+        "position": {
+          "left": 989.76,
+          "top": 641.28,
+          "width": 198.54078740157482,
+          "height": 40.32
+        }
+      }
+    ],
+    "images": [
+      {
+        "id": "27",
+        "frame": {
+          "left": 542.4,
+          "top": 240,
+          "width": 179.34089238845144,
+          "height": 388.8
+        }
+      },
+      {
+        "id": "28",
+        "frame": {
+          "left": 770.88,
+          "top": 240,
+          "width": 179.34089238845144,
+          "height": 388.8
+        }
+      },
+      {
+        "id": "29",
+        "frame": {
+          "left": 999.36,
+          "top": 240,
+          "width": 179.34089238845144,
+          "height": 388.8
+        }
+      }
+    ]
+  },
+  {
+    "slide": 17,
+    "shapes": [
+      {
+        "id": "2",
+        "text": "",
+        "position": {
+          "left": 0,
+          "top": 0,
+          "width": 13.440000000000001,
+          "height": 720
+        }
+      },
+      {
+        "id": "3",
+        "text": "COMMERCIAL HYPOTHESIS",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 31.68,
+          "width": 1056,
+          "height": 28.8
+        }
+      },
+      {
+        "id": "4",
+        "text": "Start with a school-level subscription",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 86.4,
+          "width": 1171.2,
+          "height": 96
+        }
+      },
+      {
+        "id": "5",
+        "text": "A proposed model for validation, rather than committed pricing.",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 175.68,
+          "width": 1161.6000000000001,
+          "height": 67.2
+        }
+      },
+      {
+        "id": "6",
+        "text": "",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 673.9200000000001,
+          "width": 1171.2,
+          "height": 1.1519160104986876
+        }
+      },
+      {
+        "id": "7",
+        "text": "SchooKeep  |  Product pitch  |  05 October 2026",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 686.4,
+          "width": 960,
+          "height": 19.2
+        }
+      },
+      {
+        "id": "8",
+        "text": "17",
+        "position": {
+          "left": 1161.6000000000001,
+          "top": 683.52,
+          "width": 57.6,
+          "height": 24
+        }
+      },
+      {
+        "id": "9",
+        "text": "01",
+        "position": {
+          "left": 62.400000000000006,
+          "top": 259.2,
+          "width": 342.40000000000003,
+          "height": 67.2
+        }
+      },
+      {
+        "id": "10",
+        "text": "School license",
+        "position": {
+          "left": 62.400000000000006,
+          "top": 350.40000000000003,
+          "width": 342.40000000000003,
+          "height": 76.8
+        }
+      },
+      {
+        "id": "11",
+        "text": "An annual subscription priced by school size or student band. Validate willingness to pay in pilots.",
+        "position": {
+          "left": 62.400000000000006,
+          "top": 446.40000000000003,
+          "width": 332.8,
+          "height": 182.4
+        }
+      },
+      {
+        "id": "12",
+        "text": "02",
+        "position": {
+          "left": 443.2,
+          "top": 259.2,
+          "width": 342.40000000000003,
+          "height": 67.2
+        }
+      },
+      {
+        "id": "13",
+        "text": "Implementation",
+        "position": {
+          "left": 443.2,
+          "top": 350.40000000000003,
+          "width": 342.40000000000003,
+          "height": 76.8
+        }
+      },
+      {
+        "id": "14",
+        "text": "Offer setup, training, and rollout support. Scope integration work separately.",
+        "position": {
+          "left": 443.2,
+          "top": 446.40000000000003,
+          "width": 332.8,
+          "height": 182.4
+        }
+      },
+      {
+        "id": "15",
+        "text": "03",
+        "position": {
+          "left": 824,
+          "top": 259.2,
+          "width": 342.40000000000003,
+          "height": 67.2
+        }
+      },
+      {
+        "id": "16",
+        "text": "Group expansion",
+        "position": {
+          "left": 824,
+          "top": 350.40000000000003,
+          "width": 342.40000000000003,
+          "height": 76.8
+        }
+      },
+      {
+        "id": "17",
+        "text": "Expand from one school to a school group after demonstrating adoption and operating value.",
+        "position": {
+          "left": 824,
+          "top": 446.40000000000003,
+          "width": 332.8,
+          "height": 182.4
+        }
+      }
+    ],
+    "images": []
+  },
+  {
+    "slide": 18,
+    "shapes": [
+      {
+        "id": "2",
+        "text": "",
+        "position": {
+          "left": 0,
+          "top": 0,
+          "width": 13.440000000000001,
+          "height": 720
+        }
+      },
+      {
+        "id": "3",
+        "text": "PILOT PROPOSAL",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 31.68,
+          "width": 1056,
+          "height": 28.8
+        }
+      },
+      {
+        "id": "4",
+        "text": "Prove the workflow before scaling",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 86.4,
+          "width": 1171.2,
+          "height": 96
+        }
+      },
+      {
+        "id": "5",
+        "text": "An illustrative eight-week pilot with agreed measures and owners.",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 175.68,
+          "width": 1161.6000000000001,
+          "height": 67.2
+        }
+      },
+      {
+        "id": "6",
+        "text": "",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 673.9200000000001,
+          "width": 1171.2,
+          "height": 1.1519160104986876
+        }
+      },
+      {
+        "id": "7",
+        "text": "SchooKeep  |  Product pitch  |  05 October 2026",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 686.4,
+          "width": 960,
+          "height": 19.2
+        }
+      },
+      {
+        "id": "8",
+        "text": "18",
+        "position": {
+          "left": 1161.6000000000001,
+          "top": 683.52,
+          "width": 57.6,
+          "height": 24
+        }
+      },
+      {
+        "id": "9",
+        "text": "01",
+        "position": {
+          "left": 62.400000000000006,
+          "top": 259.2,
+          "width": 342.40000000000003,
+          "height": 67.2
+        }
+      },
+      {
+        "id": "10",
+        "text": "Weeks 1-2: Prepare",
+        "position": {
+          "left": 62.400000000000006,
+          "top": 350.40000000000003,
+          "width": 342.40000000000003,
+          "height": 76.8
+        }
+      },
+      {
+        "id": "11",
+        "text": "Map current workflows, confirm roles, review data handling, and establish a baseline.",
+        "position": {
+          "left": 62.400000000000006,
+          "top": 446.40000000000003,
+          "width": 332.8,
+          "height": 182.4
+        }
+      },
+      {
+        "id": "12",
+        "text": "02",
+        "position": {
+          "left": 443.2,
+          "top": 259.2,
+          "width": 342.40000000000003,
+          "height": 67.2
+        }
+      },
+      {
+        "id": "13",
+        "text": "Weeks 3-6: Operate",
+        "position": {
+          "left": 443.2,
+          "top": 350.40000000000003,
+          "width": 342.40000000000003,
+          "height": 76.8
+        }
+      },
+      {
+        "id": "14",
+        "text": "Pilot clinic, consent, and parent communications with a defined cohort and support cadence.",
+        "position": {
+          "left": 443.2,
+          "top": 446.40000000000003,
+          "width": 332.8,
+          "height": 182.4
+        }
+      },
+      {
+        "id": "15",
+        "text": "03",
+        "position": {
+          "left": 824,
+          "top": 259.2,
+          "width": 342.40000000000003,
+          "height": 67.2
+        }
+      },
+      {
+        "id": "16",
+        "text": "Weeks 7-8: Evaluate",
+        "position": {
+          "left": 824,
+          "top": 350.40000000000003,
+          "width": 342.40000000000003,
+          "height": 76.8
+        }
+      },
+      {
+        "id": "17",
+        "text": "Measure adoption, documentation completeness, consent response time, and handoff follow-through.",
+        "position": {
+          "left": 824,
+          "top": 446.40000000000003,
+          "width": 332.8,
+          "height": 182.4
+        }
+      }
+    ],
+    "images": []
+  },
+  {
+    "slide": 19,
+    "shapes": [
+      {
+        "id": "2",
+        "text": "",
+        "position": {
+          "left": 0,
+          "top": 0,
+          "width": 13.440000000000001,
+          "height": 720
+        }
+      },
+      {
+        "id": "3",
+        "text": "THE NEXT STEP",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 31.68,
+          "width": 1056,
+          "height": 28.8
+        }
+      },
+      {
+        "id": "4",
+        "text": "Find the right pilot school",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 86.4,
+          "width": 1171.2,
+          "height": 96
+        }
+      },
+      {
+        "id": "5",
+        "text": "Validate the value with the people who will use the system every day.",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 175.68,
+          "width": 1161.6000000000001,
+          "height": 67.2
+        }
+      },
+      {
+        "id": "6",
+        "text": "",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 673.9200000000001,
+          "width": 1171.2,
+          "height": 1.1519160104986876
+        }
+      },
+      {
+        "id": "7",
+        "text": "SchooKeep  |  Product pitch  |  05 October 2026",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 686.4,
+          "width": 960,
+          "height": 19.2
+        }
+      },
+      {
+        "id": "8",
+        "text": "19",
+        "position": {
+          "left": 1161.6000000000001,
+          "top": 683.52,
+          "width": 57.6,
+          "height": 24
+        }
+      },
+      {
+        "id": "9",
+        "text": "Seeking a design partner",
+        "position": {
+          "left": 67.2,
+          "top": 273.6,
+          "width": 672,
+          "height": 62.400000000000006
+        }
+      },
+      {
+        "id": "10",
+        "text": "A school leadership team, nurse, and parent cohort willing to shape the rollout and define success.",
+        "position": {
+          "left": 67.2,
+          "top": 364.8,
+          "width": 681.6,
+          "height": 115.2
+        }
+      },
+      {
+        "id": "11",
+        "text": "Agree the pilot scope.\nName an operational owner.\nChoose the measures that matter.",
+        "position": {
+          "left": 67.2,
+          "top": 499.20000000000005,
+          "width": 691.2,
+          "height": 129.6
+        }
+      },
+      {
+        "id": "12",
+        "text": "",
+        "position": {
+          "left": 907.6800000000001,
+          "top": 226.08,
+          "width": 199.05123359580054,
+          "height": 421.43989501312336
+        }
+      }
+    ],
+    "images": [
+      {
+        "id": "13",
+        "frame": {
+          "left": 912,
+          "top": 230.4,
+          "width": 190.41123359580052,
+          "height": 412.8
+        }
+      }
+    ]
+  },
+  {
+    "slide": 20,
+    "shapes": [
+      {
+        "id": "2",
+        "text": "",
+        "position": {
+          "left": 0,
+          "top": 0,
+          "width": 13.440000000000001,
+          "height": 720
+        }
+      },
+      {
+        "id": "3",
+        "text": "EVIDENCE AND SCOPE",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 31.68,
+          "width": 1056,
+          "height": 28.8
+        }
+      },
+      {
+        "id": "4",
+        "text": "What this presentation demonstrates",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 86.4,
+          "width": 1171.2,
+          "height": 96
+        }
+      },
+      {
+        "id": "5",
+        "text": "Product screenshots are evidence of the current app experience, not commercial or clinical outcomes.",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 175.68,
+          "width": 1161.6000000000001,
+          "height": 67.2
+        }
+      },
+      {
+        "id": "6",
+        "text": "",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 673.9200000000001,
+          "width": 1171.2,
+          "height": 1.1519160104986876
+        }
+      },
+      {
+        "id": "7",
+        "text": "SchooKeep  |  Product pitch  |  05 October 2026",
+        "position": {
+          "left": 52.800000000000004,
+          "top": 686.4,
+          "width": 960,
+          "height": 19.2
+        }
+      },
+      {
+        "id": "8",
+        "text": "20",
+        "position": {
+          "left": 1161.6000000000001,
+          "top": 683.52,
+          "width": 57.6,
+          "height": 24
+        }
+      },
+      {
+        "id": "9",
+        "text": "Capture method",
+        "position": {
+          "left": 67.2,
+          "top": 259.2,
+          "width": 480,
+          "height": 38.4
+        }
+      },
+      {
+        "id": "10",
+        "text": "Flutter release web build; 393 x 852 mobile viewport; local seeded Laravel backend; supplied admin account. Original icon assets, with Arial fallback for network-loaded text fonts.",
+        "position": {
+          "left": 67.2,
+          "top": 314.88,
+          "width": 523.2,
+          "height": 201.6
+        }
+      },
+      {
+        "id": "11",
+        "text": "Presentation boundaries",
+        "position": {
+          "left": 672,
+          "top": 259.2,
+          "width": 528,
+          "height": 38.4
+        }
+      },
+      {
+        "id": "12",
+        "text": "Demo data is shown. Some flows use sample IDs or static states. External maps and services were not verified. Production deployment, clinical outcomes, security certification, traction, pricing, and integrations are not claimed.",
+        "position": {
+          "left": 672,
+          "top": 314.88,
+          "width": 523.2,
+          "height": 240
+        }
+      },
+      {
+        "id": "13",
+        "text": "Included: route-indexed screenshot library, browser gallery, and editable PowerPoint deck.",
+        "position": {
+          "left": 67.2,
+          "top": 590.4,
+          "width": 1104,
+          "height": 52.800000000000004
+        }
+      }
+    ],
+    "images": []
+  }
+]

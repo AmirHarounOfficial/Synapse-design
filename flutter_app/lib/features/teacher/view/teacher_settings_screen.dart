@@ -339,8 +339,8 @@ class _TeacherSettingsScreenState extends State<TeacherSettingsScreen> {
                       children: [
                         Text(
                           context.tr(
-                            en: 'Confidentiality agreement (UAE PDPL Compliant)',
-                            ar: 'اتفاقية سرية المعلومات (وفق قانون حماية البيانات الإماراتي)',
+                            en: 'Confidentiality agreement (Saudi PDPL Compliant)',
+                            ar: 'اتفاقية سرية المعلومات (وفق نظام حماية البيانات السعودي)',
                           ),
                           style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
                         ),

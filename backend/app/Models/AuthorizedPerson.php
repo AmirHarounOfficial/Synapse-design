@@ -10,7 +10,7 @@ class AuthorizedPerson extends Model
     protected $table = 'authorized_persons';
 
     protected $fillable = [
-        'student_id', 'name', 'relationship', 'phone', 'emirates_id',
+        'student_id', 'name', 'relationship', 'phone', 'national_id',
         'photo_url', 'qr_token', 'is_active',
     ];
 

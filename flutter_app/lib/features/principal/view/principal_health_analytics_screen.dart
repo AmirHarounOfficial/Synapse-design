@@ -274,7 +274,7 @@ class _PrincipalHealthAnalyticsViewState extends State<_PrincipalHealthAnalytics
               ),
               Flexible(
                 child: Text(
-                  context.tr(en: 'Source: UAE NCM', ar: 'المصدر: المركز الوطني للأرصاد'),
+                  context.tr(en: 'Source: Saudi NCM', ar: 'المصدر: المركز الوطني للأرصاد'),
                   textAlign: TextAlign.end,
                   style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: Color(0xFF94A3B8)),
                 ),
@@ -380,7 +380,7 @@ class _PrincipalHealthAnalyticsViewState extends State<_PrincipalHealthAnalytics
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  context.tr(en: 'Weather Correlation (UAE NCM)', ar: 'ربط الأحوال الجوية (المركز الوطني للأرصاد)'),
+                  context.tr(en: 'Weather Correlation (Saudi NCM)', ar: 'ربط الأحوال الجوية (المركز الوطني للأرصاد)'),
                   style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Color(0xFF92400E)),
                 ),
                 const SizedBox(height: 4),

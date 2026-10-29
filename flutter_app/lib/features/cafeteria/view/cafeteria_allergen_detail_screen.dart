@@ -308,7 +308,7 @@ class _CafeteriaAllergenDetailViewState extends State<_CafeteriaAllergenDetailVi
             TextSpan(
               text: isRTL
                   ? 'أنت تستعرض قيود الوجبات الخاصة بالطالب فقط لدواعي السلامة. تعتبر السجلات الطبية الكاملة سرية للغاية ومحمية بموجب قانون حماية البيانات (PDPL).'
-                  : 'You are viewing meal restrictions only for student safety. Comprehensive medical records are strictly confidential and protected under UAE PDPL.',
+                  : 'You are viewing meal restrictions only for student safety. Comprehensive medical records are strictly confidential and protected under Saudi PDPL.',
             ),
           ],
         ),

@@ -242,7 +242,7 @@ class _SecretarySettingsScreenState extends State<SecretarySettingsScreen> {
         title: context.tr(en: 'Import history', ar: 'سجل عمليات الاستيراد'),
         body: [
           _para(context.tr(en: 'Recent student imports:', ar: 'عمليات استيراد الطلاب الأخيرة:')),
-          _para('• students_uae_2026.xlsx — 45 ${context.tr(en: 'students', ar: 'طالباً')} — 28 May 2026 — ${context.tr(en: 'Completed', ar: 'مكتمل')}'),
+          _para('• students_ksa_2026.xlsx — 45 ${context.tr(en: 'students', ar: 'طالباً')} — 28 May 2026 — ${context.tr(en: 'Completed', ar: 'مكتمل')}'),
           _para('• transfers_q1.csv — 8 ${context.tr(en: 'students', ar: 'طالباً')} — 12 Apr 2026 — ${context.tr(en: 'Completed', ar: 'مكتمل')}'),
           _para(context.tr(
             en: 'Every Excel/CSV import is logged with its row count and validation result for audit purposes.',
@@ -257,7 +257,7 @@ class _SecretarySettingsScreenState extends State<SecretarySettingsScreen> {
         body: [
           _para('${context.tr(en: 'Signed', ar: 'تاريخ التوقيع')}: 01/05/2026'),
           _para(context.tr(
-            en: 'As school secretary, you agree to keep all student information strictly confidential under UAE Federal Decree-Law No. 45 of 2021 (PDPL), to access only the data needed for your duties, and to report any suspected breach to the Data Protection Officer immediately.',
+            en: 'As school secretary, you agree to keep all student information strictly confidential under Saudi Personal Data Protection Law (PDPL), to access only the data needed for your duties, and to report any suspected breach to the Data Protection Officer immediately.',
             ar: 'بصفتك سكرتير/ة مدرسة، فإنك تتعهد بالحفاظ على السرية التامة لبيانات الطلاب بموجب المرسوم بقانون إتحادي رقم 45 لسنة 2021 (PDPL)، وعدم استخدام البيانات إلا لأغراض العمل المصرح بها.',
           )),
         ],
@@ -319,14 +319,14 @@ class _SecretarySettingsScreenState extends State<SecretarySettingsScreen> {
 
   void _showPdplInfo() => _showInfoSheet(
         icon: LucideIcons.book,
-        title: context.tr(en: 'UAE PDPL Privacy Declaration', ar: 'إعلان سياسة الخصوصية بموجب قانون PDPL الإمارات'),
+        title: context.tr(en: 'Saudi PDPL Privacy Declaration', ar: 'إعلان خصوصية البيانات'),
         body: [
           _para(context.tr(
-            en: 'Governed by Federal Decree-Law No. 45 of 2021 on the Protection of Personal Data.',
-            ar: 'تخضع كافة البيانات للمرسوم بقانون إتحادي رقم 45 لسنة 2021 بشأن حماية البيانات الشخصية بالدولة.',
+            en: 'Governed by the Saudi Personal Data Protection Law.',
+            ar: 'تخضع كافة البيانات لنظام حماية البيانات الشخصية السعودي.',
           )),
           _para(context.tr(
-            en: 'SchooKeep processes student health and personal data solely to support school health and safety operations. Data is stored within the UAE, access is role-scoped, and all access is logged.',
+            en: 'SchooKeep processes student health and personal data solely to support school health and safety operations. Data is stored within the Kingdom of Saudi Arabia, access is role-scoped, and all access is logged.',
             ar: 'تتم معالجة البيانات فقط لأغراض السلامة والرعاية الصحية المدرسية وتخزن داخل مراكز بيانات داخل الدولة.',
           )),
         ],
@@ -486,8 +486,8 @@ class _SecretarySettingsScreenState extends State<SecretarySettingsScreen> {
             _group([
               _infoRow(LucideIcons.info, context.tr(en: 'App version', ar: 'إصدار التطبيق'), 'SchooKeep v1.0.0'),
               _navRow(LucideIcons.headphones, context.tr(en: 'Contact support', ar: 'التواصل مع الدعم الفني'), null, onTap: _showContactSupportInfo),
-              _navRow(LucideIcons.book, context.tr(en: 'UAE PDPL Privacy Declaration', ar: 'إعلان خصوصية PDPL الإمارات'),
-                  context.tr(en: 'Governed by Federal Decree-Law No. 45 of 2021', ar: 'بموجب المرسوم بقانون إتحادي رقم 45 لسنة 2021'), onTap: _showPdplInfo),
+              _navRow(LucideIcons.book, context.tr(en: 'Saudi PDPL Privacy Declaration', ar: 'إعلان خصوصية البيانات'),
+                  context.tr(en: 'Governed by Saudi Personal Data Protection Law', ar: 'بموجب نظام حماية البيانات الشخصية السعودي'), onTap: _showPdplInfo),
             ]),
             const SizedBox(height: 16),
 

@@ -176,7 +176,7 @@ class _NurseSettingsScreenState extends State<NurseSettingsScreen> {
         ),
         _SessionRow(
           label: context.tr(en: 'Location', ar: 'الموقع'),
-          value: context.tr(en: 'Dubai, United Arab Emirates', ar: 'دبي، الإمارات العربية المتحدة'),
+          value: context.tr(en: 'Riyadh, Saudi Arabia', ar: 'الرياض، المملكة العربية السعودية'),
         ),
         _SessionRow(
           label: context.tr(en: 'IP address', ar: 'عنوان IP'),
@@ -255,12 +255,12 @@ class _NurseSettingsScreenState extends State<NurseSettingsScreen> {
 
   void _showPdplSheet() {
     _showInfoSheet(
-      title: context.tr(en: 'UAE PDPL Privacy Declaration', ar: 'إعلان خصوصية قانون حماية البيانات الإماراتي'),
+      title: context.tr(en: 'Saudi PDPL Privacy Declaration', ar: 'نظام حماية البيانات الشخصية السعودي'),
       children: [
         Text(
           context.tr(
-            en: 'Governed by Federal Decree-Law No. 45 of 2021 on the Protection of Personal Data (PDPL).',
-            ar: 'خاضع للمرسوم بقانون اتحادي رقم 45 لسنة 2021 بشأن حماية البيانات الشخصية.',
+            en: 'Governed by Saudi Personal Data Protection Law (PDPL).',
+            ar: 'خاضع لنظام حماية البيانات الشخصية السعودي.',
           ),
           style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: SchooKeepColors.textPrimary, height: 1.6),
         ),
@@ -275,7 +275,7 @@ class _NurseSettingsScreenState extends State<NurseSettingsScreen> {
         const SizedBox(height: 14),
         Text(
           context.tr(
-            en: 'Data is stored within the UAE and is not shared with third parties without explicit consent, except where required by law. Unauthorized disclosure or modification of these records violates Federal law and may result in legal action.',
+            en: 'Data is stored within the Kingdom of Saudi Arabia and is not shared with third parties without explicit consent, except where required by law. Unauthorized disclosure or modification of these records violates Federal law and may result in legal action.',
             ar: 'تخزن البيانات داخل دولة الإمارات العربية المتحدة ولا تتم مشاركتها مع أطراف ثالثة دون موافقة صريحة، باستثناء ما ينص عليه القانون. الإفصاح غير المصرح به أو التعديل على هذه السجلات يخالف القانون الاتحادي ويستوجب الملاحقة القانونية.',
           ),
           style: const TextStyle(fontSize: 12, color: Color(0xFF374151), height: 1.6),
@@ -516,8 +516,8 @@ class _NurseSettingsScreenState extends State<NurseSettingsScreen> {
               ),
               _navRow(
                 LucideIcons.shield,
-                context.tr(en: 'UAE PDPL Privacy Declaration', ar: 'إعلان خصوصية قانون حماية البيانات الإماراتي'),
-                context.tr(en: 'Governed by Federal Decree-Law No. 45 of 2021', ar: 'خاضع للمرسوم بقانون اتحادي رقم 45 لسنة 2021'),
+                context.tr(en: 'Saudi PDPL Privacy Declaration', ar: 'نظام حماية البيانات الشخصية السعودي'),
+                context.tr(en: 'Governed by Saudi PDPL', ar: 'خاضع لنظام حماية البيانات السعودي'),
                 onTap: _showPdplSheet,
               ),
               Padding(

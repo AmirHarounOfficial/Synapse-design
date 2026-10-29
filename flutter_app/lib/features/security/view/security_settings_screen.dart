@@ -214,8 +214,8 @@ class SecuritySettingsScreen extends StatelessWidget {
                 paragraphs: [
                   context.tr(en: 'Signed on May 15, 2026 — Active.', ar: 'موقعة بتاريخ 15 مايو 2026 — نشطة.'),
                   context.tr(
-                    en: 'As a security officer, you agree to keep all pickup-verification and student-identity information strictly confidential under UAE Federal Decree-Law No. 45 of 2021 (PDPL).',
-                    ar: 'بصفتك مسؤول أمن، فإنك تتعهد بالحفاظ على سرية معلومات التحقق من استلام الطلاب بموجب قانون حماية البيانات الإماراتي.',
+                    en: 'As a security officer, you agree to keep all pickup-verification and student-identity information strictly confidential under Saudi Personal Data Protection Law (PDPL).',
+                    ar: 'بصفتك مسؤول أمن، فإنك تتعهد بالحفاظ على سرية معلومات التحقق من استلام الطلاب بموجب نظام حماية البيانات الشخصية السعودي.',
                   ),
                   context.tr(
                     en: 'Your digital signature is on file and this agreement remains active for the duration of your assignment.',

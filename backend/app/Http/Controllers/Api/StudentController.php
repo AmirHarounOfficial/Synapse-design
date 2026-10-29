@@ -29,7 +29,7 @@ class StudentController extends Controller
             $query->where(fn ($w) => $w
                 ->where('name', 'like', "%{$q}%")
                 ->orWhere('name_ar', 'like', "%{$q}%")
-                ->orWhere('emirates_id', 'like', "%{$q}%"));
+                ->orWhere('national_id', 'like', "%{$q}%"));
         }
 
         return StudentResource::collection($query->orderBy('name')->paginate(50));
@@ -48,7 +48,7 @@ class StudentController extends Controller
             'name_ar' => ['nullable', 'string'],
             'grade' => ['nullable', 'string'],
             'section' => ['nullable', 'string'],
-            'emirates_id' => ['nullable', 'string', 'unique:students,emirates_id'],
+            'national_id' => ['nullable', 'string', 'unique:students,national_id'],
             'date_of_birth' => ['nullable', 'date'],
             'gender' => ['nullable', 'string'],
             'blood_type' => ['nullable', 'string'],

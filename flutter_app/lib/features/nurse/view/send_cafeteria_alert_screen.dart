@@ -294,7 +294,7 @@ class _SendCafeteriaAlertViewState extends State<_SendCafeteriaAlertView> {
                         child: Text(
                           isRTL
                               ? 'سيرى موظفو الكافتيريا القيود المفروضة فقط دون إظهار التشخيص الطبي للطالب حماية للخصوصية بموجب قانون حماية البيانات الإماراتي (PDPL).'
-                              : 'Cafeteria staff will only see the dietary restriction — not the medical reason. This protects student privacy per UAE PDPL.',
+                              : 'Cafeteria staff will only see the dietary restriction — not the medical reason. This protects student privacy per Saudi PDPL.',
                           style: const TextStyle(fontSize: 12, color: Color(0xFF1E40AF), height: 1.5),
                         ),
                       ),

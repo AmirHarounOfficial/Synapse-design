@@ -23,10 +23,10 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'Al Noor International School',
                 'name_ar' => 'مدرسة النور الدولية',
-                'emirate' => 'Dubai',
+                'region' => 'Riyadh',
                 'curriculum' => 'British',
-                'license_authority' => 'DHA',
-                'phone' => '+971 4 123 4567',
+                'license_authority' => 'MOH KSA',
+                'phone' => '+966 11 123 4567',
                 'ramadan_mode' => false,
             ],
         );
@@ -69,7 +69,7 @@ class DatabaseSeeder extends Seeder
 
         foreach ($students as $i => [$name, $grade, $section, $blood]) {
             Student::updateOrCreate(
-                ['emirates_id' => '784-2015-100000'.$i.'-1'],
+                ['national_id' => '1' . str_pad((string)$i, 9, '0', STR_PAD_LEFT)],
                 [
                     'school_id' => $school->id,
                     'name' => $name,

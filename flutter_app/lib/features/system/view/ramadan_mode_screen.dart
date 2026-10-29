@@ -180,8 +180,8 @@ class _RamadanModeScreenState extends State<RamadanModeScreen> {
           const SizedBox(height: 12),
           Text(
             context.tr(
-              en: 'Under regulations from the UAE Federal Authority for Government Human Resources and Dubai KHDA, daily school operational timings are compressed to support fasting.',
-              ar: 'بموجب قرارات الهيئة الاتحادية للموارد البشرية وهيئة المعرفة والتنمية البشرية في دبي، يتم تعديل ساعات العمل المدرسي اليومية لتسهيل الصيام والالتزام بالأنشطة الروحية.',
+              en: 'Under regulations from the Saudi Ministry of Education and relevant authorities, daily school operational timings are compressed to support fasting.',
+              ar: 'بموجب قرارات وزارة التعليم السعودية والجهات المختصة، يتم تعديل ساعات العمل المدرسي اليومية لتسهيل الصيام والالتزام بالأنشطة الروحية.',
             ),
             style: const TextStyle(fontSize: 12, height: 1.5, color: SimColors.slate500),
           ),

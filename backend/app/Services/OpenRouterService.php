@@ -61,10 +61,10 @@ class OpenRouterService
             if (Schema::hasTable('users')) {
                 $nurses = \App\Models\User::whereIn('role', ['nurse', 'physician'])->get();
                 if ($nurses->isNotEmpty()) {
-                    $staffList = $nurses->map(fn($u) => "{$u->name} ({$u->title ?? 'School Nurse'}, License: {$u->license_number ?? 'DHA-ACTIVE'})")->join(', ');
+                    $staffList = $nurses->map(fn($u) => "{$u->name} ({$u->title ?? 'School Nurse'}, License: {$u->license_number ?? 'MOH-LICENSED'})")->join(', ');
                     $summaryParts[] = "Active Medical Staff on Duty: {$staffList}";
                 } else {
-                    $summaryParts[] = "Active Medical Staff on Duty: Registered Senior School Nurse & Duty Physician (DHA/DOH Licensed)";
+                    $summaryParts[] = "Active Medical Staff on Duty: Registered Senior School Nurse & Duty Physician (MOH KSA Licensed)";
                 }
             }
 
@@ -74,7 +74,7 @@ class OpenRouterService
                 "  • Morning Shift (Student Triage & Consultation): 08:00 AM – 11:30 AM\n" .
                 "  • Midday Shift (Medication & Dose Administration): 11:30 AM – 01:30 PM\n" .
                 "  • Afternoon Shift (Documentation & Parent Follow-ups): 01:30 PM – 03:30 PM\n" .
-                "  • Emergency Coverage: 24/7 On-Call Triage (Dial UAE Ambulance 998 for severe emergencies)";
+                "  • Emergency Coverage: 24/7 On-Call Triage (Dial Saudi Ambulance 997 for severe emergencies)";
         } catch (\Throwable $e) {
             Log::warning('Error generating database summary for AI: ' . $e->getMessage());
         }
@@ -97,23 +97,23 @@ class OpenRouterService
     public function chat(string $userMessage, array $history = [], string $role = 'parent'): string
     {
         $roleContext = match (strtolower($role)) {
-            'physician' => 'School Physician Assistant. Guide on clinical diagnosis logs, medication prescriptions, DHA/DOH UAE medical compliance, emergency triage, and health clearance certificates.',
+            'physician' => 'School Physician Assistant. Guide on clinical diagnosis logs, medication prescriptions, MOH KSA medical compliance, emergency triage, and health clearance certificates.',
             'nurse' => 'School Nurse Assistant. Guide on daily clinic visits, student vital signs, first-aid administration, immunization tracking, and parent notifications.',
             'teacher' => 'Teacher Health & Safety Assistant. Guide on classroom illness isolation, student medical action plans (asthma/allergies), emergency assembly, and health excusals.',
-            'principal', 'viceprincipal', 'vice_principal' => 'School Principal Executive Assistant. Guide on campus health compliance audits, incident escalation logs, clinic staffing reports, and UAE health authority inspections.',
+            'principal', 'viceprincipal', 'vice_principal' => 'School Principal Executive Assistant. Guide on campus health compliance audits, incident escalation logs, clinic staffing reports, and Saudi health authority inspections.',
             'counselor' => 'School Mental Health & Counseling Assistant. Guide on student wellness protocols, anti-bullying guidelines, emotional support resources, and confidential referral workflows.',
             'secretary' => 'School Administrative Assistant. Guide on appointment scheduling, parent communication logs, student sick leave documentation, and health record transfers.',
             'security' => 'Campus Safety & Security Assistant. Guide on perimeter health screening, visitor check-in safety protocols, emergency assembly points, and ambulance access control.',
             'busdriver', 'bus_driver' => 'School Transportation Health & Safety Assistant. Guide on bus medical emergency procedures, motion sickness protocols, heat exhaustion prevention, and first-aid kit management.',
             'cafeteria' => 'School Nutrition & Cafeteria Assistant. Guide on 100% Halal food certification, food allergen isolation (nuts, dairy, gluten), hygienic meal preparation, and student dietary plans.',
-            default => 'School Health & Safety AI Assistant for Parents and Guardians. Guide on clinic operating hours, medication submissions, sick leave notices, and UAE health protocols.',
+            default => 'School Health & Safety AI Assistant for Parents and Guardians. Guide on clinic operating hours, medication submissions, sick leave notices, and Saudi health protocols.',
         };
 
         $dbSummary = $this->getLiveDatabaseSummary();
         $currentDateStr = now()->format('l, F j, Y');
 
         $systemPrompt = <<<PROMPT
-You are SchooKeep AI — an intelligent, empathetic K-12 School Health & Safety AI Assistant for schools in the UAE.
+You are SchooKeep AI — an intelligent, empathetic K-12 School Health & Safety AI Assistant for schools in the Kingdom of Saudi Arabia.
 
 Today's Date: $currentDateStr.
 Active User Role Context: "$roleContext".

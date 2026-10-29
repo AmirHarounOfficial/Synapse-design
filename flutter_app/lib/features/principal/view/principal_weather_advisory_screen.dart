@@ -57,7 +57,7 @@ class _PrincipalWeatherAdvisoryViewState extends State<_PrincipalWeatherAdvisory
     super.didChangeDependencies();
     if (_message.text.isEmpty) {
       _message.text = context.tr(
-        en: 'Due to an active Haboob (sandstorm) warning from UAE NCM, students with respiratory conditions must remain indoors. Outdoor recess suspended.',
+        en: 'Due to an active Haboob (sandstorm) warning from Saudi NCM, students with respiratory conditions must remain indoors. Outdoor recess suspended.',
         ar: 'نظراً لتنبيه العواصف الرملية النشطة من المركز الوطني للأرصاد، يرجى إبقاء الطلاب المصابين بأمراض تنفسية داخل المبنى وتعليق الأنشطة الخارجية.',
       );
     }
@@ -249,8 +249,8 @@ class _PrincipalWeatherAdvisoryViewState extends State<_PrincipalWeatherAdvisory
             ),
             child: Text(
               context.tr(
-                en: 'Haboob / Active Sandstorm Advisory (Source: UAE NCM)',
-                ar: 'عاصفة رملية نشطة / تنبيه من المركز الوطني للأرصاد الإماراتي',
+                en: 'Haboob / Active Sandstorm Advisory (Source: Saudi NCM)',
+                ar: 'عاصفة رملية نشطة / تنبيه من المركز الوطني للأرصاد السعودي',
               ),
               style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: _aqiText),
             ),
@@ -258,7 +258,7 @@ class _PrincipalWeatherAdvisoryViewState extends State<_PrincipalWeatherAdvisory
           const SizedBox(height: 12),
           GestureDetector(
             onTap: () => ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(context.tr(en: 'Opening UAE NCM forecast…', ar: 'جاري فتح نشرة الأرصاد الجوية...'))),
+              SnackBar(content: Text(context.tr(en: 'Opening Saudi NCM forecast…', ar: 'جاري فتح نشرة الأرصاد الجوية السعودية...'))),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
@@ -590,7 +590,7 @@ class _PrincipalWeatherAdvisoryViewState extends State<_PrincipalWeatherAdvisory
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                   decoration: BoxDecoration(color: const Color(0xFFECFEFF), borderRadius: BorderRadius.circular(4)),
-                  child: Text('🇦🇪 ${isRTL ? 'موصى به للإمارات' : 'Recommended for UAE'}',
+                  child: Text('🇸🇦 ${isRTL ? 'موصى به للسعودية' : 'Recommended for KSA'}',
                       style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: Color(0xFF0E7490))),
                 ),
               ],

@@ -104,7 +104,7 @@ class SystemRepository {
     AuditLog(
       id: 1,
       userId: 12,
-      action: 'DHA Health Record Accessed',
+      action: 'MOH KSA Health Record Accessed',
       entityType: 'StudentMedicalRecord',
       entityId: 1042,
       ip: '192.168.1.45',

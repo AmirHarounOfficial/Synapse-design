@@ -11,7 +11,7 @@ class PhysicianApprovalCard extends StatefulWidget {
     super.key,
     required this.status,
     this.approvedBy = 'Dr. Amina Al-Hashimi',
-    this.licenseNumber = 'DHA MD-4029',
+    this.licenseNumber = 'MOH KSA MD-4029',
     this.approvedAt = '15/06/2026 at 09:45:12',
     this.onNotify,
   });

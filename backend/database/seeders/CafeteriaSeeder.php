@@ -87,7 +87,7 @@ class CafeteriaSeeder extends Seeder
                 'certificate_no' => 'HC-2026-0001',
             ],
             [
-                'supplier' => 'Emirates Halal Foods LLC',
+                'supplier' => 'Saudi Halal Foods Co.',
                 'issued_date' => $today->copy()->subMonths(6)->toDateString(),
                 'expiry_date' => $today->copy()->addMonths(6)->toDateString(),
                 'status' => 'valid',

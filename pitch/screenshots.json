@@ -1,0 +1,890 @@
+[
+  {
+    "label": "Splash Screen",
+    "route": "/splash",
+    "name": "splash",
+    "file": "splash.png"
+  },
+  {
+    "label": "Login",
+    "route": "/login",
+    "name": "login",
+    "file": "login.png"
+  },
+  {
+    "label": "2FA Verify",
+    "route": "/verify",
+    "name": "verify",
+    "file": "verify.png"
+  },
+  {
+    "label": "Biometric Verification",
+    "route": "/biometric",
+    "name": "biometric",
+    "file": "biometric.png"
+  },
+  {
+    "label": "Confidentiality Agreement",
+    "route": "/agreement",
+    "name": "agreement",
+    "file": "agreement.png"
+  },
+  {
+    "label": "E-Signature",
+    "route": "/signature",
+    "name": "signature",
+    "file": "signature.png"
+  },
+  {
+    "label": "Principal Dashboard",
+    "route": "/principal/home",
+    "name": "principal-home",
+    "file": "principal-home.png"
+  },
+  {
+    "label": "Staff Management",
+    "route": "/principal/staff",
+    "name": "principal-staff",
+    "file": "principal-staff.png"
+  },
+  {
+    "label": "Add Staff Member",
+    "route": "/principal/add-staff",
+    "name": "principal-add-staff",
+    "file": "principal-add-staff.png"
+  },
+  {
+    "label": "Edit Staff Member",
+    "route": "/principal/edit-staff/staff-1",
+    "name": "principal-edit-staff-staff-1",
+    "file": "principal-edit-staff-staff-1.png"
+  },
+  {
+    "label": "Permission Matrix",
+    "route": "/principal/permission-matrix",
+    "name": "principal-permission-matrix",
+    "file": "principal-permission-matrix.png"
+  },
+  {
+    "label": "Health Analytics",
+    "route": "/principal/analytics",
+    "name": "principal-analytics",
+    "file": "principal-analytics.png"
+  },
+  {
+    "label": "Weather Advisory Mgmt",
+    "route": "/principal/weather-advisory",
+    "name": "principal-weather-advisory",
+    "file": "principal-weather-advisory.png"
+  },
+  {
+    "label": "Audit Log",
+    "route": "/principal/audit",
+    "name": "principal-audit",
+    "file": "principal-audit.png"
+  },
+  {
+    "label": "SMS Wallet & Quota",
+    "route": "/principal/sms-wallet",
+    "name": "principal-sms-wallet",
+    "file": "principal-sms-wallet.png"
+  },
+  {
+    "label": "After-Hours Access",
+    "route": "/principal/after-hours-access",
+    "name": "principal-after-hours-access",
+    "file": "principal-after-hours-access.png"
+  },
+  {
+    "label": "Annual Health Report",
+    "route": "/principal/annual-report",
+    "name": "principal-annual-report",
+    "file": "principal-annual-report.png"
+  },
+  {
+    "label": "Student Health Promotion",
+    "route": "/principal/student-promotion",
+    "name": "principal-student-promotion",
+    "file": "principal-student-promotion.png"
+  },
+  {
+    "label": "School Setup Wizard",
+    "route": "/principal/school-setup",
+    "name": "principal-school-setup",
+    "file": "principal-school-setup.png"
+  },
+  {
+    "label": "Legal & Compliance Docs",
+    "route": "/principal/legal-documents",
+    "name": "principal-legal-documents",
+    "file": "principal-legal-documents.png"
+  },
+  {
+    "label": "Principal Settings",
+    "route": "/principal/settings",
+    "name": "principal-settings",
+    "file": "principal-settings.png"
+  },
+  {
+    "label": "Vice Principal Dashboard",
+    "route": "/vice-principal/home",
+    "name": "vice-principal-home",
+    "file": "vice-principal-home.png"
+  },
+  {
+    "label": "VP Health Analytics",
+    "route": "/vice-principal/analytics",
+    "name": "vice-principal-analytics",
+    "file": "vice-principal-analytics.png"
+  },
+  {
+    "label": "Clinic Readiness Overview",
+    "route": "/vice-principal/clinic-readiness",
+    "name": "vice-principal-clinic-readiness",
+    "file": "vice-principal-clinic-readiness.png"
+  },
+  {
+    "label": "Messages Inbox",
+    "route": "/vice-principal/messages",
+    "name": "vice-principal-messages",
+    "file": "vice-principal-messages.png"
+  },
+  {
+    "label": "Permissions Matrix",
+    "route": "/vice-principal/permissions",
+    "name": "vice-principal-permissions",
+    "file": "vice-principal-permissions.png"
+  },
+  {
+    "label": "Clinic Equipment Checklist",
+    "route": "/vice-principal/equipment-checklist",
+    "name": "vice-principal-equipment-checklist",
+    "file": "vice-principal-equipment-checklist.png"
+  },
+  {
+    "label": "Vice Principal Settings",
+    "route": "/vice-principal/settings",
+    "name": "vice-principal-settings",
+    "file": "vice-principal-settings.png"
+  },
+  {
+    "label": "Nurse Dashboard",
+    "route": "/nurse/dashboard",
+    "name": "nurse-dashboard",
+    "file": "nurse-dashboard.png"
+  },
+  {
+    "label": "Daily Dose View",
+    "route": "/nurse/daily-doses",
+    "name": "nurse-daily-doses",
+    "file": "nurse-daily-doses.png"
+  },
+  {
+    "label": "Medications List",
+    "route": "/nurse/medications",
+    "name": "nurse-medications",
+    "file": "nurse-medications.png"
+  },
+  {
+    "label": "Pharmacy Inventory (CRUD)",
+    "route": "/nurse/medications/inventory",
+    "name": "nurse-medications-inventory",
+    "file": "nurse-medications-inventory.png"
+  },
+  {
+    "label": "Add Medication (Step 1)",
+    "route": "/nurse/medications/add/step1",
+    "name": "nurse-medications-add-step1",
+    "file": "nurse-medications-add-step1.png"
+  },
+  {
+    "label": "Add Medication (Step 2)",
+    "route": "/nurse/medications/add/step2",
+    "name": "nurse-medications-add-step2",
+    "file": "nurse-medications-add-step2.png"
+  },
+  {
+    "label": "Add Medication (Step 3)",
+    "route": "/nurse/medications/add/step3",
+    "name": "nurse-medications-add-step3",
+    "file": "nurse-medications-add-step3.png"
+  },
+  {
+    "label": "Dose Confirmation",
+    "route": "/nurse/medications/dose-confirmation",
+    "name": "nurse-medications-dose-confirmation",
+    "file": "nurse-medications-dose-confirmation.png"
+  },
+  {
+    "label": "Dose Conflict Alert",
+    "route": "/nurse/medications/dose-conflict",
+    "name": "nurse-medications-dose-conflict",
+    "file": "nurse-medications-dose-conflict.png"
+  },
+  {
+    "label": "Low Supply Alert",
+    "route": "/nurse/medications/low-supply",
+    "name": "nurse-medications-low-supply",
+    "file": "nurse-medications-low-supply.png"
+  },
+  {
+    "label": "Medication Detail View",
+    "route": "/nurse/medications/med-1",
+    "name": "nurse-medications-med-1",
+    "file": "nurse-medications-med-1.png"
+  },
+  {
+    "label": "Clinic Visits List",
+    "route": "/nurse/clinic",
+    "name": "nurse-clinic",
+    "file": "nurse-clinic.png"
+  },
+  {
+    "label": "Clinic Visit Detail",
+    "route": "/nurse/clinic/visit/visit-1",
+    "name": "nurse-clinic-visit-visit-1",
+    "file": "nurse-clinic-visit-visit-1.png"
+  },
+  {
+    "label": "New Clinic Visit Entry",
+    "route": "/nurse/clinic/new-visit",
+    "name": "nurse-clinic-new-visit",
+    "file": "nurse-clinic-new-visit.png"
+  },
+  {
+    "label": "Emergency Photo Upload",
+    "route": "/nurse/clinic/emergency-photo",
+    "name": "nurse-clinic-emergency-photo",
+    "file": "nurse-clinic-emergency-photo.png"
+  },
+  {
+    "label": "Emergency Consent Request",
+    "route": "/nurse/clinic/emergency-consent",
+    "name": "nurse-clinic-emergency-consent",
+    "file": "nurse-clinic-emergency-consent.png"
+  },
+  {
+    "label": "Emergency Escalation",
+    "route": "/nurse/clinic/emergency-escalation",
+    "name": "nurse-clinic-emergency-escalation",
+    "file": "nurse-clinic-emergency-escalation.png"
+  },
+  {
+    "label": "Student Health Search",
+    "route": "/nurse/students",
+    "name": "nurse-students",
+    "file": "nurse-students.png"
+  },
+  {
+    "label": "Student Health Profile",
+    "route": "/nurse/students/stu-1",
+    "name": "nurse-students-stu-1",
+    "file": "nurse-students-stu-1.png"
+  },
+  {
+    "label": "Document Review Queue",
+    "route": "/nurse/documents/review",
+    "name": "nurse-documents-review",
+    "file": "nurse-documents-review.png"
+  },
+  {
+    "label": "Document Viewer",
+    "route": "/nurse/documents/review/doc-1",
+    "name": "nurse-documents-review-doc-1",
+    "file": "nurse-documents-review-doc-1.png"
+  },
+  {
+    "label": "Send Cafeteria Alert",
+    "route": "/nurse/cafeteria-alert",
+    "name": "nurse-cafeteria-alert",
+    "file": "nurse-cafeteria-alert.png"
+  },
+  {
+    "label": "Clinical Reports",
+    "route": "/nurse/reports",
+    "name": "nurse-reports",
+    "file": "nurse-reports.png"
+  },
+  {
+    "label": "Generate Clinical Report",
+    "route": "/nurse/reports/generate",
+    "name": "nurse-reports-generate",
+    "file": "nurse-reports-generate.png"
+  },
+  {
+    "label": "Clinical Report Preview",
+    "route": "/nurse/reports/preview",
+    "name": "nurse-reports-preview",
+    "file": "nurse-reports-preview.png"
+  },
+  {
+    "label": "Nurse Settings",
+    "route": "/nurse/settings",
+    "name": "nurse-settings",
+    "file": "nurse-settings.png"
+  },
+  {
+    "label": "Nurse Notifications",
+    "route": "/nurse/notifications",
+    "name": "nurse-notifications",
+    "file": "nurse-notifications.png"
+  },
+  {
+    "label": "Physician Dashboard",
+    "route": "/physician/dashboard",
+    "name": "physician-dashboard",
+    "file": "physician-dashboard.png"
+  },
+  {
+    "label": "Protocol Review List",
+    "route": "/physician/protocols",
+    "name": "physician-protocols",
+    "file": "physician-protocols.png"
+  },
+  {
+    "label": "Protocol Detail Review",
+    "route": "/physician/protocols/proto-1",
+    "name": "physician-protocols-proto-1",
+    "file": "physician-protocols-proto-1.png"
+  },
+  {
+    "label": "Clinical Escalation Inbox",
+    "route": "/physician/escalations",
+    "name": "physician-escalations",
+    "file": "physician-escalations.png"
+  },
+  {
+    "label": "Report Co-Signature",
+    "route": "/physician/co-sign/report-1",
+    "name": "physician-co-sign-report-1",
+    "file": "physician-co-sign-report-1.png"
+  },
+  {
+    "label": "Schedule Configuration",
+    "route": "/physician/schedule",
+    "name": "physician-schedule",
+    "file": "physician-schedule.png"
+  },
+  {
+    "label": "Physician Settings",
+    "route": "/physician/settings",
+    "name": "physician-settings",
+    "file": "physician-settings.png"
+  },
+  {
+    "label": "Parent App Home",
+    "route": "/parent/app/home",
+    "name": "parent-app-home",
+    "file": "parent-app-home.png"
+  },
+  {
+    "label": "Clinic & Health History",
+    "route": "/parent/app/health",
+    "name": "parent-app-health",
+    "file": "parent-app-health.png"
+  },
+  {
+    "label": "Medication Log",
+    "route": "/parent/app/medications",
+    "name": "parent-app-medications",
+    "file": "parent-app-medications.png"
+  },
+  {
+    "label": "Health Documents",
+    "route": "/parent/app/docs",
+    "name": "parent-app-docs",
+    "file": "parent-app-docs.png"
+  },
+  {
+    "label": "Chat & Messages",
+    "route": "/parent/app/chat",
+    "name": "parent-app-chat",
+    "file": "parent-app-chat.png"
+  },
+  {
+    "label": "Emergency Consent Response",
+    "route": "/parent/app/emergency-consent",
+    "name": "parent-app-emergency-consent",
+    "file": "parent-app-emergency-consent.png"
+  },
+  {
+    "label": "Report Home Dose",
+    "route": "/parent/app/report-home-dose",
+    "name": "parent-app-report-home-dose",
+    "file": "parent-app-report-home-dose.png"
+  },
+  {
+    "label": "Suspend School Dose",
+    "route": "/parent/app/suspend-school-dose",
+    "name": "parent-app-suspend-school-dose",
+    "file": "parent-app-suspend-school-dose.png"
+  },
+  {
+    "label": "Authorized Persons Manager",
+    "route": "/parent/app/authorized-persons",
+    "name": "parent-app-authorized-persons",
+    "file": "parent-app-authorized-persons.png"
+  },
+  {
+    "label": "Add Authorized Person",
+    "route": "/parent/app/add-authorized-person",
+    "name": "parent-app-add-authorized-person",
+    "file": "parent-app-add-authorized-person.png"
+  },
+  {
+    "label": "Notification Settings",
+    "route": "/parent/app/notifications",
+    "name": "parent-app-notifications",
+    "file": "parent-app-notifications.png"
+  },
+  {
+    "label": "AI Chatbot Assistant",
+    "route": "/parent/app/chatbot-assistant",
+    "name": "parent-app-chatbot-assistant",
+    "file": "parent-app-chatbot-assistant.png"
+  },
+  {
+    "label": "Document Upload",
+    "route": "/parent/app/document-upload",
+    "name": "parent-app-document-upload",
+    "file": "parent-app-document-upload.png"
+  },
+  {
+    "label": "Full QR Code View",
+    "route": "/parent/app/full-qrcode/person-1",
+    "name": "parent-app-full-qrcode-person-1",
+    "file": "parent-app-full-qrcode-person-1.png"
+  },
+  {
+    "label": "Document Expiry Alert",
+    "route": "/parent/app/document-expiry-alert",
+    "name": "parent-app-document-expiry-alert",
+    "file": "parent-app-document-expiry-alert.png"
+  },
+  {
+    "label": "Bus Live Tracking",
+    "route": "/parent/app/bus-tracking",
+    "name": "parent-app-bus-tracking",
+    "file": "parent-app-bus-tracking.png"
+  },
+  {
+    "label": "Cafeteria Budget & Allowance",
+    "route": "/parent/app/cafeteria-budget",
+    "name": "parent-app-cafeteria-budget",
+    "file": "parent-app-cafeteria-budget.png"
+  },
+  {
+    "label": "Parent Profile Settings",
+    "route": "/parent/app/profile-settings",
+    "name": "parent-app-profile-settings",
+    "file": "parent-app-profile-settings.png"
+  },
+  {
+    "label": "School Code Entry",
+    "route": "/parent/onboarding/code",
+    "name": "parent-onboarding-code",
+    "file": "parent-onboarding-code.png"
+  },
+  {
+    "label": "Child Confirmation",
+    "route": "/parent/onboarding/confirm-child",
+    "name": "parent-onboarding-confirm-child",
+    "file": "parent-onboarding-confirm-child.png"
+  },
+  {
+    "label": "Emergency Consent Grant",
+    "route": "/parent/onboarding/emergency-consent",
+    "name": "parent-onboarding-emergency-consent",
+    "file": "parent-onboarding-emergency-consent.png"
+  },
+  {
+    "label": "Privacy & Consent Agreement",
+    "route": "/parent/onboarding/privacy-agreement",
+    "name": "parent-onboarding-privacy-agreement",
+    "file": "parent-onboarding-privacy-agreement.png"
+  },
+  {
+    "label": "Onboarding Document Upload",
+    "route": "/parent/onboarding/documents",
+    "name": "parent-onboarding-documents",
+    "file": "parent-onboarding-documents.png"
+  },
+  {
+    "label": "Authorized Pickups Setup",
+    "route": "/parent/onboarding/authorized-pickups",
+    "name": "parent-onboarding-authorized-pickups",
+    "file": "parent-onboarding-authorized-pickups.png"
+  },
+  {
+    "label": "Setup Complete",
+    "route": "/parent/onboarding/complete",
+    "name": "parent-onboarding-complete",
+    "file": "parent-onboarding-complete.png"
+  },
+  {
+    "label": "Account Pending Activation",
+    "route": "/parent/onboarding/not-active",
+    "name": "parent-onboarding-not-active",
+    "file": "parent-onboarding-not-active.png"
+  },
+  {
+    "label": "Legacy Parent Dashboard",
+    "route": "/parent/dashboard",
+    "name": "parent-dashboard",
+    "file": "parent-dashboard.png"
+  },
+  {
+    "label": "Legacy Medication Tracker",
+    "route": "/parent/medications",
+    "name": "parent-medications",
+    "file": "parent-medications.png"
+  },
+  {
+    "label": "Legacy Notifications",
+    "route": "/parent/notifications",
+    "name": "parent-notifications",
+    "file": "parent-notifications.png"
+  },
+  {
+    "label": "Teacher Portal",
+    "route": "/teacher/home",
+    "name": "teacher-home",
+    "file": "teacher-home.png"
+  },
+  {
+    "label": "Class Attendance Log",
+    "route": "/teacher/attendance",
+    "name": "teacher-attendance",
+    "file": "teacher-attendance.png"
+  },
+  {
+    "label": "Report Bias / Racism Incident",
+    "route": "/teacher/report-bias",
+    "name": "teacher-report-bias",
+    "file": "teacher-report-bias.png"
+  },
+  {
+    "label": "Student Health Considerations",
+    "route": "/teacher/health-considerations",
+    "name": "teacher-health-considerations",
+    "file": "teacher-health-considerations.png"
+  },
+  {
+    "label": "Send Student to Clinic",
+    "route": "/teacher/clinic-referral",
+    "name": "teacher-clinic-referral",
+    "file": "teacher-clinic-referral.png"
+  },
+  {
+    "label": "Student Release Notice",
+    "route": "/teacher/student-release",
+    "name": "teacher-student-release",
+    "file": "teacher-student-release.png"
+  },
+  {
+    "label": "Weather Restrictions",
+    "route": "/teacher/weather-restriction",
+    "name": "teacher-weather-restriction",
+    "file": "teacher-weather-restriction.png"
+  },
+  {
+    "label": "Activity Exemptions",
+    "route": "/teacher/activity-exemptions",
+    "name": "teacher-activity-exemptions",
+    "file": "teacher-activity-exemptions.png"
+  },
+  {
+    "label": "Teacher Notifications",
+    "route": "/teacher/notifications",
+    "name": "teacher-notifications",
+    "file": "teacher-notifications.png"
+  },
+  {
+    "label": "Teacher Settings",
+    "route": "/teacher/settings",
+    "name": "teacher-settings",
+    "file": "teacher-settings.png"
+  },
+  {
+    "label": "Secretary Portal",
+    "route": "/secretary/home",
+    "name": "secretary-home",
+    "file": "secretary-home.png"
+  },
+  {
+    "label": "Student Directory",
+    "route": "/secretary/students",
+    "name": "secretary-students",
+    "file": "secretary-students.png"
+  },
+  {
+    "label": "Student Detail View",
+    "route": "/secretary/student/stu-1",
+    "name": "secretary-student-stu-1",
+    "file": "secretary-student-stu-1.png"
+  },
+  {
+    "label": "Messages Inbox",
+    "route": "/secretary/messages",
+    "name": "secretary-messages",
+    "file": "secretary-messages.png"
+  },
+  {
+    "label": "Message Detail View",
+    "route": "/secretary/message/msg-1",
+    "name": "secretary-message-msg-1",
+    "file": "secretary-message-msg-1.png"
+  },
+  {
+    "label": "Chatbot Queue",
+    "route": "/secretary/chatbot",
+    "name": "secretary-chatbot",
+    "file": "secretary-chatbot.png"
+  },
+  {
+    "label": "Chatbot Escalation Thread",
+    "route": "/secretary/chatbot-thread/thread-1",
+    "name": "secretary-chatbot-thread-thread-1",
+    "file": "secretary-chatbot-thread-thread-1.png"
+  },
+  {
+    "label": "Import Students CSV",
+    "route": "/secretary/import-students",
+    "name": "secretary-import-students",
+    "file": "secretary-import-students.png"
+  },
+  {
+    "label": "Compose Message",
+    "route": "/secretary/compose-message",
+    "name": "secretary-compose-message",
+    "file": "secretary-compose-message.png"
+  },
+  {
+    "label": "Secretary Notifications",
+    "route": "/secretary/notifications",
+    "name": "secretary-notifications",
+    "file": "secretary-notifications.png"
+  },
+  {
+    "label": "Secretary Settings",
+    "route": "/secretary/settings",
+    "name": "secretary-settings",
+    "file": "secretary-settings.png"
+  },
+  {
+    "label": "Counselor Dashboard",
+    "route": "/counselor/home",
+    "name": "counselor-home",
+    "file": "counselor-home.png"
+  },
+  {
+    "label": "Anti-Bias Incident Hub",
+    "route": "/counselor/bias-incidents",
+    "name": "counselor-bias-incidents",
+    "file": "counselor-bias-incidents.png"
+  },
+  {
+    "label": "Bias Incident Case Detail",
+    "route": "/counselor/bias-incidents/101",
+    "name": "counselor-bias-incidents-101",
+    "file": "counselor-bias-incidents-101.png"
+  },
+  {
+    "label": "Counselor Student List",
+    "route": "/counselor/students",
+    "name": "counselor-students",
+    "file": "counselor-students.png"
+  },
+  {
+    "label": "Student Tag History",
+    "route": "/counselor/student-tags/stu-1",
+    "name": "counselor-student-tags-stu-1",
+    "file": "counselor-student-tags-stu-1.png"
+  },
+  {
+    "label": "Wellbeing Tag Entry",
+    "route": "/counselor/tag-entry",
+    "name": "counselor-tag-entry",
+    "file": "counselor-tag-entry.png"
+  },
+  {
+    "label": "Counseling Reports List",
+    "route": "/counselor/reports",
+    "name": "counselor-reports",
+    "file": "counselor-reports.png"
+  },
+  {
+    "label": "Generate Counseling Report",
+    "route": "/counselor/generate-report",
+    "name": "counselor-generate-report",
+    "file": "counselor-generate-report.png"
+  },
+  {
+    "label": "Counselor Report Preview",
+    "route": "/counselor/report-preview",
+    "name": "counselor-report-preview",
+    "file": "counselor-report-preview.png"
+  },
+  {
+    "label": "Counselor Settings",
+    "route": "/counselor/settings",
+    "name": "counselor-settings",
+    "file": "counselor-settings.png"
+  },
+  {
+    "label": "Allergen Alert Dashboard",
+    "route": "/cafeteria/alerts",
+    "name": "cafeteria-alerts",
+    "file": "cafeteria-alerts.png"
+  },
+  {
+    "label": "Student POS & Allowance Lookup",
+    "route": "/cafeteria/pos",
+    "name": "cafeteria-pos",
+    "file": "cafeteria-pos.png"
+  },
+  {
+    "label": "Allergen Incident Detail",
+    "route": "/cafeteria/detail/1",
+    "name": "cafeteria-detail-1",
+    "file": "cafeteria-detail-1.png"
+  },
+  {
+    "label": "Realtime Emergency Alert",
+    "route": "/cafeteria/realtime-alert",
+    "name": "cafeteria-realtime-alert",
+    "file": "cafeteria-realtime-alert.png"
+  },
+  {
+    "label": "Daily Delivery Log",
+    "route": "/cafeteria/history",
+    "name": "cafeteria-history",
+    "file": "cafeteria-history.png"
+  },
+  {
+    "label": "No Active Alerts View",
+    "route": "/cafeteria/empty",
+    "name": "cafeteria-empty",
+    "file": "cafeteria-empty.png"
+  },
+  {
+    "label": "Cafeteria Settings",
+    "route": "/cafeteria/settings",
+    "name": "cafeteria-settings",
+    "file": "cafeteria-settings.png"
+  },
+  {
+    "label": "Pickup Queue (Dashboard)",
+    "route": "/security/pickups",
+    "name": "security-pickups",
+    "file": "security-pickups.png"
+  },
+  {
+    "label": "QR Code Scanner",
+    "route": "/security/scanner",
+    "name": "security-scanner",
+    "file": "security-scanner.png"
+  },
+  {
+    "label": "Manual Verification",
+    "route": "/security/manual-verification",
+    "name": "security-manual-verification",
+    "file": "security-manual-verification.png"
+  },
+  {
+    "label": "Authorized Confirmation",
+    "route": "/security/authorized-confirmation",
+    "name": "security-authorized-confirmation",
+    "file": "security-authorized-confirmation.png"
+  },
+  {
+    "label": "Pickup History Log",
+    "route": "/security/history",
+    "name": "security-history",
+    "file": "security-history.png"
+  },
+  {
+    "label": "Security Settings",
+    "route": "/security/settings",
+    "name": "security-settings",
+    "file": "security-settings.png"
+  },
+  {
+    "label": "Bus Route Overview",
+    "route": "/bus/route",
+    "name": "bus-route",
+    "file": "bus-route.png"
+  },
+  {
+    "label": "Report Transit Bias Incident",
+    "route": "/bus/report-bias",
+    "name": "bus-report-bias",
+    "file": "bus-report-bias.png"
+  },
+  {
+    "label": "Student Boarding Screen",
+    "route": "/bus/boarding/stu-1",
+    "name": "bus-boarding-stu-1",
+    "file": "bus-boarding-stu-1.png"
+  },
+  {
+    "label": "Student Deboarding Screen",
+    "route": "/bus/deboarding/stu-1",
+    "name": "bus-deboarding-stu-1",
+    "file": "bus-deboarding-stu-1.png"
+  },
+  {
+    "label": "Early Dismissal Alerts",
+    "route": "/bus/early-dismissal",
+    "name": "bus-early-dismissal",
+    "file": "bus-early-dismissal.png"
+  },
+  {
+    "label": "Bus Route History Log",
+    "route": "/bus/history",
+    "name": "bus-history",
+    "file": "bus-history.png"
+  },
+  {
+    "label": "Bus Driver Settings",
+    "route": "/bus/settings",
+    "name": "bus-settings",
+    "file": "bus-settings.png"
+  },
+  {
+    "label": "System Maintenance & Status",
+    "route": "/system/maintenance",
+    "name": "system-maintenance",
+    "file": "system-maintenance.png"
+  },
+  {
+    "label": "Mobile App Update Required",
+    "route": "/system/update",
+    "name": "system-update",
+    "file": "system-update.png"
+  },
+  {
+    "label": "Role Switcher & Debug Sandbox",
+    "route": "/dev/map",
+    "name": "dev-map",
+    "file": "dev-map.png"
+  },
+  {
+    "label": "Weather advisory state",
+    "route": "/system/weather-advisory",
+    "name": "system-weather-advisory",
+    "file": "system-weather-advisory.png"
+  },
+  {
+    "label": "Ramadan mode",
+    "route": "/system/ramadan",
+    "name": "system-ramadan",
+    "file": "system-ramadan.png"
+  },
+  {
+    "label": "After-hours lock",
+    "route": "/system/after-hours",
+    "name": "system-after-hours",
+    "file": "system-after-hours.png"
+  }
+]

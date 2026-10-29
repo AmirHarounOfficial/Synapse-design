@@ -9,7 +9,7 @@ import '../../../core/widgets/widgets.dart';
 
 /// Ported from `ReportCoSignature.tsx` (`/physician/co-sign/:id`). Report
 /// metadata, a scrollable document preview, physician review notes, an
-/// interactive signature pad (+ UAE Pass alternative), a PIN-gated co-signature
+/// interactive signature pad (+ Saudi Digital ID alternative), a PIN-gated co-signature
 /// (demo PIN 1234 or 9999), and export / submit CTAs once signed.
 class ReportCoSignatureScreen extends StatefulWidget {
   const ReportCoSignatureScreen({super.key, required this.id});
@@ -302,7 +302,7 @@ class _ReportCoSignatureScreenState extends State<ReportCoSignatureScreen> {
                           textAlign: TextAlign.center,
                           style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF4B5563))),
                       const SizedBox(height: 2),
-                      const Text('Compliance Ref: DHA/HRS/HPSD/ST-22',
+                      const Text('Compliance Ref: MOH KSA/SH-2024',
                           style: TextStyle(fontSize: 10, color: SchooKeepColors.textSecondary)),
                     ],
                   ),
@@ -311,7 +311,7 @@ class _ReportCoSignatureScreenState extends State<ReportCoSignatureScreen> {
                 const Divider(height: 1, color: SchooKeepColors.border),
                 const SizedBox(height: 12),
                 Text(
-                  'This report summarizes clinical activity at the ${_report.schoolName} health center for the period ${_report.dateRange}. All activities were conducted under standard DHA clinical protocols.',
+                  'This report summarizes clinical activity at the ${_report.schoolName} health center for the period ${_report.dateRange}. All activities were conducted under standard MOH KSA clinical protocols.',
                   style: const TextStyle(fontSize: 12, color: Color(0xFF1F2937), height: 1.6),
                 ),
                 const SizedBox(height: 12),
@@ -514,7 +514,7 @@ class _ReportCoSignatureScreenState extends State<ReportCoSignatureScreen> {
               ),
             ),
             const SizedBox(height: 16),
-            _uaePassOption(isRTL),
+            _saudiDigitalIdOption(isRTL),
           ] else
             Container(
               padding: const EdgeInsets.all(12),
@@ -548,8 +548,8 @@ class _ReportCoSignatureScreenState extends State<ReportCoSignatureScreen> {
     );
   }
 
-  /// Inline port of `UAEPassSignOption.tsx`.
-  Widget _uaePassOption(bool isRTL) {
+  /// Inline port of `SaudiDigitalIdOption.tsx`.
+  Widget _saudiDigitalIdOption(bool isRTL) {
     return Column(
       children: [
         const Divider(height: 1, color: SchooKeepColors.border),
@@ -575,8 +575,8 @@ class _ReportCoSignatureScreenState extends State<ReportCoSignatureScreen> {
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             ),
             onPressed: () => _toast(isRTL
-                ? 'تكامل الهوية الرقمية (UAE Pass) قيد التطوير وسيتم تفعيله قريباً.'
-                : 'UAE Pass integration is in progress and will be available soon.'),
+                ? 'تكامل الهوية الرقمية السعودية (نفاذ) قيد التطوير وسيتم تفعيله قريباً.'
+                : 'نفاذ (Saudi Digital ID) integration is in progress and will be available soon.'),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -586,14 +586,14 @@ class _ReportCoSignatureScreenState extends State<ReportCoSignatureScreen> {
                   child: const Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text('UAE', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Color(0xFF06B6D4))),
+                      Text('KSA', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Color(0xFF06B6D4))),
                       SizedBox(width: 2),
                       Text('PASS', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Color(0xFF10B981))),
                     ],
                   ),
                 ),
                 const SizedBox(width: 8),
-                Text(isRTL ? 'التوقيع الرقمي بالهوية الرقمية' : 'Sign with UAE Pass',
+                Text(isRTL ? 'التوقيع الرقمي بهوية نفاذ' : 'Sign with Saudi Digital ID',
                     style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF2563EB))),
               ],
             ),

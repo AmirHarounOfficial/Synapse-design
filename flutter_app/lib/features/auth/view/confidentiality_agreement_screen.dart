@@ -232,7 +232,7 @@ class _AgreementBody extends StatelessWidget {
           context.tr(en: 'Maintain confidentiality of all student health info', ar: 'الحفاظ على سرية جميع السجلات الصحية للطلاب'),
           context.tr(en: 'Use info solely for authorized services', ar: 'استخدام المعلومات فقط لأغراض الخدمات المصرح بها'),
           context.tr(en: 'Not disclose info with unauthorized individuals', ar: 'عدم مشاركة معلومات الطلاب مع أشخاص غير مصرح لهم'),
-          context.tr(en: 'Comply with applicable privacy laws (PDPL & DHA)', ar: 'الالتزام بقوانين حماية البيانات واللوائح الصحية'),
+          context.tr(en: 'Comply with applicable privacy laws (Saudi PDPL & MOH KSA)', ar: 'الالتزام بقوانين حماية البيانات واللوائح الصحية'),
         ]),
         _section(context.tr(en: '3. Acknowledgment', ar: '3. الإقرار والتأكيد')),
         _para(

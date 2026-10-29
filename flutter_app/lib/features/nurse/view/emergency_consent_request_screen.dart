@@ -324,7 +324,7 @@ class _EmergencyConsentRequestViewState extends State<_EmergencyConsentRequestVi
             child: Text(
               isRTL
                   ? 'إذا لم يتم الرد خلال 10 دقائق، سيتم طلب الإسعاف وتصعيد الحالة تلقائياً.'
-                  : 'If no response within 10 minutes, an emergency call (998) will be placed automatically.',
+                  : 'If no response within 10 minutes, an emergency call (997) will be placed automatically.',
               style: const TextStyle(fontSize: 13, color: SchooKeepColors.amberText, height: 1.5),
             ),
           ),

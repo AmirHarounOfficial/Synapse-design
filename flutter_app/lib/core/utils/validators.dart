@@ -1,27 +1,26 @@
-/// UAE phone + Emirates ID validation/formatting.
-/// Ported from `src/utils/phoneValidator.ts` and `src/utils/eidValidator.ts`.
+/// Saudi phone + National ID / Iqama validation/formatting.
 abstract final class Validators {
-  static final RegExp _uaePhone =
-      RegExp(r'^(\+971|00971|0)(5[024568]\d{7}|[234679]\d{7})$');
+  static final RegExp _saudiPhone =
+      RegExp(r'^(?:\+966|00966|0)(5[0-9]{8}|1[0-9]{8}|2[0-9]{8}|3[0-9]{8}|4[0-9]{8}|6[0-9]{8}|7[0-9]{8}|8[0-9]{8}|9[0-9]{8})$');
 
-  /// UAE mobile (+971 5X XXX XXXX) or landline (+971 X XXX XXXX).
-  static bool isValidUaePhone(String phone) {
+  /// Saudi mobile (+966 5X XXX XXXX) or landline (+966 X XXX XXXX).
+  static bool isValidSaudiPhone(String phone) {
     final stripped = phone.replaceAll(RegExp(r'[\s\-()]'), '');
-    return _uaePhone.hasMatch(stripped);
+    return _saudiPhone.hasMatch(stripped);
   }
 
-  /// Auto-format a phone number as the user types: `+971 50 123 4567` / `050 123 4567`.
-  static String formatUaePhone(String raw) {
+  /// Auto-format a Saudi phone number as the user types: `+966 50 123 4567` / `050 123 4567`.
+  static String formatSaudiPhone(String raw) {
     final cleaned = raw.trim();
     final digits = raw.replaceAll(RegExp(r'\D'), '');
 
     if (cleaned.startsWith('+')) {
-      if (!digits.startsWith('971')) return cleaned;
+      if (!digits.startsWith('966')) return cleaned;
       final main = digits.substring(3);
-      if (main.isEmpty) return '+971';
-      if (main.length <= 2) return '+971 $main';
-      if (main.length <= 5) return '+971 ${main.substring(0, 2)} ${main.substring(2)}';
-      return '+971 ${main.substring(0, 2)} ${main.substring(2, 5)} ${main.substring(5, main.length.clamp(5, 9))}';
+      if (main.isEmpty) return '+966';
+      if (main.length <= 2) return '+966 $main';
+      if (main.length <= 5) return '+966 ${main.substring(0, 2)} ${main.substring(2)}';
+      return '+966 ${main.substring(0, 2)} ${main.substring(2, 5)} ${main.substring(5, main.length.clamp(5, 9))}';
     } else if (cleaned.startsWith('0')) {
       if (digits.length <= 1) return '0';
       if (digits.length <= 3) return '0${digits.substring(1)}';
@@ -34,23 +33,17 @@ abstract final class Validators {
     }
   }
 
-  static final RegExp _eid = RegExp(r'^784\d{12}$');
-
-  /// Emirates ID: 784-YYYY-XXXXXXX-X.
-  static bool isValidEid(String eid) {
-    final stripped = eid.replaceAll('-', '');
-    return _eid.hasMatch(stripped);
+  /// Saudi National ID: 10 digits (1XXXXXX for citizens) or (2XXXXXX for residents/Iqama).
+  static bool isValidNationalId(String id) {
+    final stripped = id.replaceAll(RegExp(r'\D'), '');
+    if (stripped.length != 10) return false;
+    return stripped.startsWith('1') || stripped.startsWith('2');
   }
 
-  /// Auto-format an Emirates ID as the user types: `784-YYYY-XXXXXXX-X`.
-  static String formatEid(String raw) {
+  /// Auto-format Saudi National ID / Iqama: `XXXXXXXXXX` (10 digits)
+  static String formatNationalId(String raw) {
     var digits = raw.replaceAll(RegExp(r'\D'), '');
-    if (digits.length > 15) digits = digits.substring(0, 15);
-    if (digits.length <= 3) return digits;
-    if (digits.length <= 7) return '${digits.substring(0, 3)}-${digits.substring(3)}';
-    if (digits.length <= 14) {
-      return '${digits.substring(0, 3)}-${digits.substring(3, 7)}-${digits.substring(7)}';
-    }
-    return '${digits.substring(0, 3)}-${digits.substring(3, 7)}-${digits.substring(7, 14)}-${digits.substring(14)}';
+    if (digits.length > 10) digits = digits.substring(0, 10);
+    return digits;
   }
 }

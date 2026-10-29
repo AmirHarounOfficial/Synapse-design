@@ -16,7 +16,7 @@ class StudentResource extends JsonResource
             'name_ar' => $this->name_ar,
             'grade' => $this->grade,
             'section' => $this->section,
-            'emirates_id' => $this->emirates_id,
+            'national_id' => $this->national_id,
             'date_of_birth' => $this->date_of_birth?->toDateString(),
             'gender' => $this->gender,
             'photo_url' => $this->photo_url,

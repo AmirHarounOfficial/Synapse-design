@@ -551,10 +551,10 @@ class _CounselorSettingsScreenState extends State<CounselorSettingsScreen> {
         color: Colors.transparent,
         child: InkWell(
           onTap: () => _showInfo(
-            titleEn: 'UAE PDPL Privacy Declaration',
-            titleAr: 'إقرار خصوصية قانون حماية البيانات الإماراتي',
-            bodyEn: 'Student wellbeing records are processed under Federal Decree-Law No. 45 of 2021 on the Protection of Personal Data. Access is limited to authorized counseling staff.',
-            bodyAr: 'تتم معالجة سجلات رعاية الطلاب بموجب المرسوم بقانون اتحادي رقم 45 لسنة 2021 بشأن حماية البيانات الشخصية. الوصول مقصور على موظفي الإرشاد المصرح لهم.',
+            titleEn: 'Saudi PDPL Privacy Declaration',
+            titleAr: 'إقرار خصوصية نظام حماية البيانات الشخصية السعودي',
+            bodyEn: 'Student wellbeing records are processed under Saudi Personal Data Protection Law. Access is limited to authorized counseling staff.',
+            bodyAr: 'تتم معالجة سجلات رعاية الطلاب بموجب نظام حماية البيانات الشخصية السعودي. الوصول مقصور على موظفي الإرشاد المصرح لهم.',
           ),
           child: Padding(
             padding: const EdgeInsets.all(16),
@@ -567,12 +567,12 @@ class _CounselorSettingsScreenState extends State<CounselorSettingsScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        context.tr(en: 'UAE PDPL Privacy Declaration', ar: 'إعلان خصوصية قانون حماية البيانات الإماراتي (PDPL)'),
+                        context.tr(en: 'Saudi PDPL Privacy Declaration', ar: 'إعلان خصوصية نظام حماية البيانات الشخصية السعودي (PDPL)'),
                         style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
                       ),
                       const SizedBox(height: 2),
                       Text(
-                        context.tr(en: 'Governed by Federal Decree-Law No. 45 of 2021', ar: 'بموجب المرسوم بقانون إتحادي رقم 45 لسنة 2021'),
+                        context.tr(en: 'Governed by Saudi Personal Data Protection Law', ar: 'بموجب نظام حماية البيانات الشخصية السعودي'),
                         style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary),
                       ),
                     ],

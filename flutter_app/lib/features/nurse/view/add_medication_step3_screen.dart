@@ -201,7 +201,7 @@ class _AddMedicationStep3ScreenState extends State<AddMedicationStep3Screen> {
                       _checkRow(context.tr(en: 'Dose schedule set', ar: 'تم ضبط جدول المواعيد الزمنية'), _doseSchedule,
                           (v) => setState(() => _doseSchedule = v)),
                       const SizedBox(height: 12),
-                      _checkRow(context.tr(en: 'State compliance verified', ar: 'تم التدقيق بموجب شروط هيئة الصحة (DHA)'), _stateCompliance, null),
+                      _checkRow(context.tr(en: 'MOH KSA compliance verified', ar: 'تم التدقيق بموجب شروط وزارة الصحة السعودية'), _stateCompliance, null),
                     ],
                   ),
                 ),

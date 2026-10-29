@@ -13,7 +13,7 @@ class SchoolResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'name_ar' => $this->name_ar,
-            'emirate' => $this->emirate,
+            'region' => $this->region,
             'curriculum' => $this->curriculum,
             'license_authority' => $this->license_authority,
             'code' => $this->code,

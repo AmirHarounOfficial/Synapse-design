@@ -130,16 +130,16 @@ class _CafeteriaPosScreenState extends State<CafeteriaPosScreen> {
 
     if (_wallet != null && amount > _wallet!.remainingDaily) {
       setState(() => _errorMessage = context.tr(
-            en: 'Amount exceeds daily remaining limit of ${_wallet!.remainingDaily.toStringAsFixed(2)} AED',
-            ar: 'المبلغ يتجاوز الحد اليومي المتبقي للطالب وهو ${_wallet!.remainingDaily.toStringAsFixed(2)} درهم',
+            en: 'Amount exceeds daily remaining limit of ${_wallet!.remainingDaily.toStringAsFixed(2)} SAR',
+            ar: 'المبلغ يتجاوز الحد اليومي المتبقي للطالب وهو ${_wallet!.remainingDaily.toStringAsFixed(2)} ريال',
           ));
       return;
     }
 
     if (_wallet != null && amount > _wallet!.remainingMonthly) {
       setState(() => _errorMessage = context.tr(
-            en: 'Amount exceeds monthly remaining budget of ${_wallet!.remainingMonthly.toStringAsFixed(2)} AED',
-            ar: 'المبلغ يتجاوز الميزانية الشهرية المتبقية للطالب وهي ${_wallet!.remainingMonthly.toStringAsFixed(2)} درهم',
+            en: 'Amount exceeds monthly remaining budget of ${_wallet!.remainingMonthly.toStringAsFixed(2)} SAR',
+            ar: 'المبلغ يتجاوز الميزانية الشهرية المتبقية للطالب وهي ${_wallet!.remainingMonthly.toStringAsFixed(2)} ريال',
           ));
       return;
     }
@@ -315,13 +315,20 @@ class _CafeteriaPosScreenState extends State<CafeteriaPosScreen> {
                         style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary),
                       ),
                       const SizedBox(height: 2),
-                      Text(
-                        '${w.remainingDaily.toStringAsFixed(2)} AED',
-                        style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                          color: isDailyExhausted ? SchooKeepColors.error : SchooKeepColors.accent,
-                        ),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            w.remainingDaily.toStringAsFixed(2),
+                            style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                              color: isDailyExhausted ? SchooKeepColors.error : SchooKeepColors.accent,
+                            ),
+                          ),
+                          const SizedBox(width: 4),
+                          const RiyalSymbol(size: 14),
+                        ],
                       ),
                     ],
                   ),
@@ -334,9 +341,16 @@ class _CafeteriaPosScreenState extends State<CafeteriaPosScreen> {
                         style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary),
                       ),
                       const SizedBox(height: 2),
-                      Text(
-                        '${w.remainingMonthly.toStringAsFixed(2)} AED',
-                        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: SchooKeepColors.primary),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            w.remainingMonthly.toStringAsFixed(2),
+                            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: SchooKeepColors.primary),
+                          ),
+                          const SizedBox(width: 4),
+                          const RiyalSymbol(size: 14),
+                        ],
                       ),
                     ],
                   ),
@@ -348,15 +362,15 @@ class _CafeteriaPosScreenState extends State<CafeteriaPosScreen> {
                 children: [
                   Text(
                     context.tr(
-                      en: 'Daily Limit: ${w.dailyLimit.toStringAsFixed(0)} AED (Spent: ${w.todaySpent.toStringAsFixed(2)} AED)',
-                      ar: 'الحد اليومي: ${w.dailyLimit.toStringAsFixed(0)} درهم (أنفق: ${w.todaySpent.toStringAsFixed(2)} درهم)',
+                      en: 'Daily Limit: ${w.dailyLimit.toStringAsFixed(0)} SAR (Spent: ${w.todaySpent.toStringAsFixed(2)} SAR)',
+                      ar: 'الحد اليومي: ${w.dailyLimit.toStringAsFixed(0)} ريال (أنفق: ${w.todaySpent.toStringAsFixed(2)} ريال)',
                     ),
                     style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary),
                   ),
                   Text(
                     context.tr(
-                      en: 'Monthly Budget: ${w.monthlyBudget.toStringAsFixed(0)} AED',
-                      ar: 'الميزانية: ${w.monthlyBudget.toStringAsFixed(0)} درهم',
+                      en: 'Monthly Budget: ${w.monthlyBudget.toStringAsFixed(0)} SAR',
+                      ar: 'الميزانية: ${w.monthlyBudget.toStringAsFixed(0)} ريال',
                     ),
                     style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary),
                   ),
@@ -423,9 +437,16 @@ class _CafeteriaPosScreenState extends State<CafeteriaPosScreen> {
                         ],
                       ),
                       const SizedBox(height: 6),
-                      Text(
-                        '${p.price.toStringAsFixed(2)} ${context.tr(en: 'AED', ar: 'درهم')}',
-                        style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: SchooKeepColors.accent),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            p.price.toStringAsFixed(2),
+                            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: SchooKeepColors.accent),
+                          ),
+                          const SizedBox(width: 3),
+                          const RiyalSymbol(size: 12),
+                        ],
                       ),
                     ],
                   ),
@@ -462,9 +483,16 @@ class _CafeteriaPosScreenState extends State<CafeteriaPosScreen> {
             decoration: _inputDecoration(hint: 'Item name...'),
           ),
           const SizedBox(height: 12),
-          Text(
-            context.tr(en: 'Purchase Amount (AED)', ar: 'مبلغ الشراء (درهم إماراتي)'),
-            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                context.tr(en: 'Purchase Amount', ar: 'مبلغ الشراء'),
+                style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary),
+              ),
+              const SizedBox(width: 4),
+              const RiyalSymbol(size: 14),
+            ],
           ),
           const SizedBox(height: 4),
           TextField(
@@ -551,15 +579,22 @@ class _CafeteriaPosScreenState extends State<CafeteriaPosScreen> {
             ],
           ),
           const SizedBox(height: 8),
-          Text(
-            '${_lastChargedItem!} — ${_lastChargedAmount!.toStringAsFixed(2)} AED',
-            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                '${_lastChargedItem!} — ${_lastChargedAmount!.toStringAsFixed(2)}',
+                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary),
+              ),
+              const SizedBox(width: 4),
+              const RiyalSymbol(size: 14),
+            ],
           ),
           const SizedBox(height: 4),
           Text(
             context.tr(
-              en: "Remaining today: ${w.remainingDaily.toStringAsFixed(2)} AED · Remaining monthly: ${w.remainingMonthly.toStringAsFixed(2)} AED",
-              ar: "المتبقي اليوم: ${w.remainingDaily.toStringAsFixed(2)} درهم · المتبقي شهرياً: ${w.remainingMonthly.toStringAsFixed(2)} درهم",
+              en: "Remaining today: ${w.remainingDaily.toStringAsFixed(2)} SAR · Remaining monthly: ${w.remainingMonthly.toStringAsFixed(2)} SAR",
+              ar: "المتبقي اليوم: ${w.remainingDaily.toStringAsFixed(2)} ريال · المتبقي شهرياً: ${w.remainingMonthly.toStringAsFixed(2)} ريال",
             ),
             style: const TextStyle(fontSize: 12, color: SchooKeepColors.greenChipText),
           ),

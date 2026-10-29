@@ -152,7 +152,7 @@ class _ParentChatbotAssistantScreenState
     try {
       final now = DateTime.now();
       final todayDateStr = "${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}";
-      final systemPrompt = '''You are SchooKeep AI — an intelligent, empathetic K-12 School Health & Safety AI Assistant for schools in the UAE.
+      final systemPrompt = '''You are SchooKeep AI — an intelligent, empathetic K-12 School Health & Safety AI Assistant for schools in the Kingdom of Saudi Arabia.
 
 Today's Date: $todayDateStr.
 Active Role Context: "${widget.role}". Accessing system database records for school health, clinic logs, nurse duty schedules, pharmacy inventory, and emergency procedures.
@@ -302,7 +302,7 @@ CRITICAL BEHAVIORAL DIRECTIVES:
         } else {
           fallbackContent = isRTL
               ? 'أنا مساعد سكوكيب الذكي (SchooKeep AI). تمت مراجعة واستلام استفسارك وسيتم إفادتك فوراً حسب معايير الصحة المدرسية.'
-              : 'I am SchooKeep AI. Your inquiry has been processed per UAE school health standards.';
+              : 'I am SchooKeep AI. Your inquiry has been processed per Saudi school health standards.';
         }
         result = _AiResponseResult(content: fallbackContent);
       }
@@ -420,8 +420,8 @@ CRITICAL BEHAVIORAL DIRECTIVES:
             ),
             child: Text(
               isRTL
-                  ? 'المساعد الذكي يقدم معلومات إرشادية ولا يغني عن الاستشارة الطبية. في الطوارئ اتصل بـ 998.'
-                  : 'AI assistant provides informational guidance. For medical emergencies dial 998.',
+                  ? 'المساعد الذكي يقدم معلومات إرشادية ولا يغني عن الاستشارة الطبية. في الطوارئ اتصل بـ 997.'
+                  : 'AI assistant provides informational guidance. For medical emergencies dial 997.',
               textAlign: TextAlign.center,
               style: const TextStyle(
                   fontSize: 11, color: SchooKeepColors.textSecondary),

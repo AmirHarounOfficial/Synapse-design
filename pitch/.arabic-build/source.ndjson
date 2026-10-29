@@ -1,0 +1,453 @@
+{"kind":"slide","id":"sl/y90nupkv","slide":1,"title":"SCHOOL HEALTH, CONNECTED","textShapes":9}
+{"kind":"shape","id":"sh/547294r6","slide":1,"name":"Rectangle 1","bbox":[0,0,13.44,720]}
+{"kind":"textbox","id":"sh/k3yl0zql","slide":1,"name":"TextBox 2","text":"SCHOOL HEALTH, CONNECTED","textPreview":"SCHOOL HEALTH, CONNECTED","textChars":24,"textLines":1,"bbox":[52.8,31.68,1056,28.8]}
+{"kind":"textbox","id":"sh/7qp4be9c","slide":1,"name":"TextBox 3","text":"SchooKeep","textPreview":"SchooKeep","textChars":9,"textLines":1,"bbox":[52.8,86.4,1171.2,96]}
+{"kind":"textbox","id":"sh/65g3298r","slide":1,"name":"TextBox 4","text":"A shared operating layer for school health, family communication, and student safety.","textPreview":"A shared operating layer for school health, family communication, and student safety.","textChars":85,"textLines":1,"bbox":[52.8,175.68,1161.6,67.2]}
+{"kind":"shape","id":"sh/ts7md4r2","slide":1,"name":"Rectangle 5","bbox":[52.8,673.92,1171.2,1.15]}
+{"kind":"textbox","id":"sh/sryl4zqx","slide":1,"name":"TextBox 6","text":"SchooKeep  |  Product pitch  |  05 October 2026","textPreview":"SchooKeep  |  Product pitch  |  05 October 2026","textChars":47,"textLines":1,"bbox":[52.8,686.4,960,19.2]}
+{"kind":"textbox","id":"sh/fu94fe98","slide":1,"name":"TextBox 7","text":"01","textPreview":"01","textChars":2,"textLines":1,"bbox":[1161.6,683.52,57.6,24]}
+{"kind":"textbox","id":"sh/utg3698n","slide":1,"name":"TextBox 8","text":"Better handoffs.\nClearer accountability.\nOne school community.","textPreview":"Better handoffs. | Clearer accountability. | One school community.","textChars":62,"textLines":3,"bbox":[62.4,283.2,504,220.8]}
+{"kind":"textbox","id":"sh/wn6dc7eh","slide":1,"name":"TextBox 9","text":"Flutter product demonstration\nLocal demo data, captured from the running app","textPreview":"Flutter product demonstration | Local demo data, captured from the running app","textChars":76,"textLines":2,"bbox":[62.4,547.2,480,76.8]}
+{"kind":"shape","id":"sh/hofulsf2","slide":1,"name":"Rectangle 10","bbox":[600.48,230.88,196.84,416.64]}
+{"kind":"textbox","id":"sh/vmdcj2xw","slide":1,"name":"TextBox 12","text":"School leadership","textPreview":"School leadership","textChars":17,"textLines":1,"bbox":[595.2,655.68,207.4,40.32]}
+{"kind":"shape","id":"sh/4r6dg7et","slide":1,"name":"Rectangle 13","bbox":[859.68,230.88,196.84,416.64]}
+{"kind":"textbox","id":"sh/ipovexwn","slide":1,"name":"TextBox 15","text":"Parent experience","textPreview":"Parent experience","textChars":17,"textLines":1,"bbox":[854.4,655.68,207.4,40.32]}
+{"kind":"image","id":"im/wn6xcnut","slide":1,"name":"Picture 11","bbox":[604.8,235.2,188.2,408]}
+{"kind":"image","id":"im/nidwzydc","slide":1,"name":"Picture 14","bbox":[864,235.2,188.2,408]}
+{"kind":"slide","id":"sl/hwbqtkby","slide":2,"title":"THE PROBLEM","textShapes":14}
+{"kind":"shape","id":"sh/9072xkry","slide":2,"name":"Rectangle 1","bbox":[0,0,13.44,720]}
+{"kind":"textbox","id":"sh/ozy1ofad","slide":2,"name":"TextBox 2","text":"THE PROBLEM","textPreview":"THE PROBLEM","textChars":11,"textLines":1,"bbox":[52.8,31.68,1056,28.8]}
+{"kind":"textbox","id":"sh/b29kza94","slide":2,"name":"TextBox 3","text":"Care breaks down between handoffs","textPreview":"Care breaks down between handoffs","textChars":33,"textLines":1,"bbox":[52.8,86.4,1171.2,96]}
+{"kind":"textbox","id":"sh/a10jqpsj","slide":2,"name":"TextBox 4","text":"The product addresses coordination gaps across the school day.","textPreview":"The product addresses coordination gaps across the school day.","textChars":62,"textLines":1,"bbox":[52.8,175.68,1161.6,67.2]}
+{"kind":"shape","id":"sh/x4r21kru","slide":2,"name":"Rectangle 5","bbox":[52.8,673.92,1171.2,1.15]}
+{"kind":"textbox","id":"sh/w3i1sfa9","slide":2,"name":"TextBox 6","text":"SchooKeep  |  Product pitch  |  05 October 2026","textPreview":"SchooKeep  |  Product pitch  |  05 October 2026","textChars":47,"textLines":1,"bbox":[52.8,686.4,960,19.2]}
+{"kind":"textbox","id":"sh/r65knqtk","slide":2,"name":"TextBox 7","text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[1161.6,683.52,57.6,24]}
+{"kind":"textbox","id":"sh/q5wjelsz","slide":2,"name":"TextBox 8","text":"01","textPreview":"01","textChars":2,"textLines":1,"bbox":[62.4,259.2,342.4,67.2]}
+{"kind":"textbox","id":"sh/ove9o7yd","slide":2,"name":"TextBox 9","text":"Fragmented context","textPreview":"Fragmented context","textChars":18,"textLines":1,"bbox":[62.4,350.4,342.4,76.8]}
+{"kind":"textbox","id":"sh/9wnqhczy","slide":2,"name":"TextBox 10","text":"Clinic notes, consent, medication status, and pickup instructions sit in different workflows.","textPreview":"Clinic notes, consent, medication status, and pickup instructions sit in different workflows.","textChars":93,"textLines":1,"bbox":[62.4,446.4,332.8,182.4]}
+{"kind":"textbox","id":"sh/mtwrmxg7","slide":2,"name":"TextBox 11","text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[443.2,259.2,342.4,67.2]}
+{"kind":"textbox","id":"sh/nu58f2hs","slide":2,"name":"TextBox 12","text":"Time-sensitive decisions","textPreview":"Time-sensitive decisions","textChars":24,"textLines":1,"bbox":[443.2,350.4,342.4,76.8]}
+{"kind":"textbox","id":"sh/wjy9sry9","slide":2,"name":"TextBox 13","text":"A health event often requires the nurse, parent, teacher, and leadership to act on the same information.","textPreview":"A health event often requires the nurse, parent, teacher, and leadership to act on the same information.","textChars":104,"textLines":1,"bbox":[443.2,446.4,332.8,182.4]}
+{"kind":"textbox","id":"sh/xk7qlczu","slide":2,"name":"TextBox 14","text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[824,259.2,342.4,67.2]}
+{"kind":"textbox","id":"sh/ahwrqhgj","slide":2,"name":"TextBox 15","text":"Limited visibility","textPreview":"Limited visibility","textChars":18,"textLines":1,"bbox":[824,350.4,342.4,76.8]}
+{"kind":"textbox","id":"sh/bip8jmho","slide":2,"name":"TextBox 16","text":"Schools need a clear operational view and a traceable record of who acted and when.","textPreview":"Schools need a clear operational view and a traceable record of who acted and when.","textChars":83,"textLines":1,"bbox":[824,446.4,332.8,182.4]}
+{"kind":"slide","id":"sl/ofy9wn61","slide":3,"title":"THE SOLUTION","textShapes":14}
+{"kind":"shape","id":"sh/cza94vmx","slide":3,"name":"Rectangle 1","bbox":[0,0,13.44,720]}
+{"kind":"textbox","id":"sh/d0jax03i","slide":3,"name":"TextBox 2","text":"THE SOLUTION","textPreview":"THE SOLUTION","textChars":12,"textLines":1,"bbox":[52.8,31.68,1056,28.8]}
+{"kind":"textbox","id":"sh/298ryl4v","slide":3,"name":"TextBox 3","text":"A connected school health workspace","textPreview":"A connected school health workspace","textChars":35,"textLines":1,"bbox":[52.8,86.4,1171.2,96]}
+{"kind":"textbox","id":"sh/3ah8rqlg","slide":3,"name":"TextBox 4","text":"Role-specific mobile screens bring each team into the same operating model.","textPreview":"Role-specific mobile screens bring each team into the same operating model.","textChars":75,"textLines":1,"bbox":[52.8,175.68,1161.6,67.2]}
+{"kind":"shape","id":"sh/obq90bml","slide":3,"name":"Rectangle 5","bbox":[52.8,673.92,1171.2,1.15]}
+{"kind":"textbox","id":"sh/pcjqtg36","slide":3,"name":"TextBox 6","text":"SchooKeep  |  Product pitch  |  05 October 2026","textPreview":"SchooKeep  |  Product pitch  |  05 October 2026","textChars":47,"textLines":1,"bbox":[52.8,686.4,960,19.2]}
+{"kind":"textbox","id":"sh/m5cra54z","slide":3,"name":"TextBox 7","text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[1161.6,683.52,57.6,24]}
+{"kind":"textbox","id":"sh/n6ls3alk","slide":3,"name":"TextBox 8","text":"01","textPreview":"01","textChars":2,"textLines":1,"bbox":[62.4,259.2,342.4,67.2]}
+{"kind":"textbox","id":"sh/n2l4fq98","slide":3,"name":"TextBox 9","text":"Coordinate care","textPreview":"Coordinate care","textChars":15,"textLines":1,"bbox":[62.4,350.4,342.4,76.8]}
+{"kind":"textbox","id":"sh/m1c3mlsn","slide":3,"name":"TextBox 10","text":"Clinic visits, dose workflows, physician review, and student health records.","textPreview":"Clinic visits, dose workflows, physician review, and student health records.","textChars":76,"textLines":1,"bbox":[62.4,446.4,332.8,182.4]}
+{"kind":"textbox","id":"sh/943mhgre","slide":3,"name":"TextBox 11","text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[443.2,259.2,342.4,67.2]}
+{"kind":"textbox","id":"sh/83ulovat","slide":3,"name":"TextBox 12","text":"Connect families","textPreview":"Connect families","textChars":16,"textLines":1,"bbox":[443.2,350.4,342.4,76.8]}
+{"kind":"textbox","id":"sh/v6l4jq94","slide":3,"name":"TextBox 13","text":"Consent, documents, health history, medication reporting, and authorized pickups.","textPreview":"Consent, documents, health history, medication reporting, and authorized pickups.","textChars":81,"textLines":1,"bbox":[443.2,446.4,332.8,182.4]}
+{"kind":"textbox","id":"sh/a5c3ql8z","slide":3,"name":"TextBox 14","text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[824,259.2,342.4,67.2]}
+{"kind":"textbox","id":"sh/x8nml0ra","slide":3,"name":"TextBox 15","text":"Close the loop","textPreview":"Close the loop","textChars":14,"textLines":1,"bbox":[824,350.4,342.4,76.8]}
+{"kind":"textbox","id":"sh/w7ulsvqp","slide":3,"name":"TextBox 16","text":"Leadership analytics, staff permissions, school advisories, and audit views.","textPreview":"Leadership analytics, staff permissions, school advisories, and audit views.","textChars":76,"textLines":1,"bbox":[824,446.4,332.8,182.4]}
+{"kind":"slide","id":"sl/jyx0ra1s","slide":4,"title":"PRODUCT BREADTH","textShapes":17}
+{"kind":"shape","id":"sh/1cj2d8b6","slide":4,"name":"Rectangle 1","bbox":[0,0,13.44,720]}
+{"kind":"textbox","id":"sh/0ba143al","slide":4,"name":"TextBox 2","text":"PRODUCT BREADTH","textPreview":"PRODUCT BREADTH","textChars":15,"textLines":1,"bbox":[52.8,31.68,1056,28.8]}
+{"kind":"textbox","id":"sh/rm1k7yt4","slide":4,"name":"TextBox 3","text":"Built around the whole school","textPreview":"Built around the whole school","textChars":29,"textLines":1,"bbox":[52.8,86.4,1171.2,96]}
+{"kind":"textbox","id":"sh/ql8jytsj","slide":4,"name":"TextBox 4","text":"Eleven role experiences, with shared authentication and system states.","textPreview":"Eleven role experiences, with shared authentication and system states.","textChars":70,"textLines":1,"bbox":[52.8,175.68,1161.6,67.2]}
+{"kind":"shape","id":"sh/doj29oba","slide":4,"name":"Rectangle 5","bbox":[52.8,673.92,1171.2,1.15]}
+{"kind":"textbox","id":"sh/sna103ap","slide":4,"name":"TextBox 6","text":"SchooKeep  |  Product pitch  |  05 October 2026","textPreview":"SchooKeep  |  Product pitch  |  05 October 2026","textChars":47,"textLines":1,"bbox":[52.8,686.4,960,19.2]}
+{"kind":"textbox","id":"sh/3ihk3et8","slide":4,"name":"TextBox 7","text":"04","textPreview":"04","textChars":2,"textLines":1,"bbox":[1161.6,683.52,57.6,24]}
+{"kind":"shape","id":"sh/ih8ju9sn","slide":4,"name":"Rectangle 8","bbox":[67.2,254.4,36.48,36.48]}
+{"kind":"textbox","id":"sh/kbm987y5","slide":4,"name":"TextBox 9","text":"Principal","textPreview":"Principal","textChars":9,"textLines":1,"bbox":[120,252.48,230.4,57.6]}
+{"kind":"shape","id":"sh/5cva1cfq","slide":4,"name":"Rectangle 10","bbox":[364.8,254.4,36.48,36.48]}
+{"kind":"textbox","id":"sh/i94r6xgz","slide":4,"name":"TextBox 11","text":"Vice principal","textPreview":"Vice principal","textChars":14,"textLines":1,"bbox":[417.6,252.48,230.4,57.6]}
+{"kind":"shape","id":"sh/jadsz2xk","slide":4,"name":"Rectangle 12","bbox":[662.4,254.4,36.48,36.48]}
+{"kind":"textbox","id":"sh/w72947yt","slide":4,"name":"TextBox 13","text":"Nurse","textPreview":"Nurse","textChars":5,"textLines":1,"bbox":[715.2,252.48,230.4,57.6]}
+{"kind":"shape","id":"sh/x8vaxsfe","slide":4,"name":"Rectangle 14","bbox":[960,254.4,36.48,36.48]}
+{"kind":"textbox","id":"sh/a5kr2xg3","slide":4,"name":"TextBox 15","text":"Physician","textPreview":"Physician","textChars":9,"textLines":1,"bbox":[1012.8,252.48,230.4,57.6]}
+{"kind":"shape","id":"sh/v6tsv2xo","slide":4,"name":"Rectangle 16","bbox":[67.2,372.48,36.48,36.48]}
+{"kind":"textbox","id":"sh/g36tgryd","slide":4,"name":"TextBox 17","text":"Parent","textPreview":"Parent","textChars":6,"textLines":1,"bbox":[120,370.56,230.4,57.6]}
+{"kind":"shape","id":"sh/h4fa9wfy","slide":4,"name":"Rectangle 18","bbox":[364.8,372.48,36.48,36.48]}
+{"kind":"textbox","id":"sh/p0batw72","slide":4,"name":"TextBox 19","text":"Teacher","textPreview":"Teacher","textChars":7,"textLines":1,"bbox":[417.6,370.56,230.4,57.6]}
+{"kind":"shape","id":"sh/oz29krqh","slide":4,"name":"Rectangle 20","bbox":[662.4,372.48,36.48,36.48]}
+{"kind":"textbox","id":"sh/3ytsrmpw","slide":4,"name":"TextBox 21","text":"Counselor","textPreview":"Counselor","textChars":9,"textLines":1,"bbox":[715.2,370.56,230.4,57.6]}
+{"kind":"shape","id":"sh/2xkrih8b","slide":4,"name":"Rectangle 22","bbox":[960,372.48,36.48,36.48]}
+{"kind":"textbox","id":"sh/1wbapc7q","slide":4,"name":"TextBox 23","text":"Secretary","textPreview":"Secretary","textChars":9,"textLines":1,"bbox":[1012.8,370.56,230.4,57.6]}
+{"kind":"shape","id":"sh/gv29g7q5","slide":4,"name":"Rectangle 24","bbox":[67.2,490.56,36.48,36.48]}
+{"kind":"textbox","id":"sh/fu9sn2p0","slide":4,"name":"TextBox 25","text":"Cafeteria","textPreview":"Cafeteria","textChars":9,"textLines":1,"bbox":[120,488.64,230.4,57.6]}
+{"kind":"shape","id":"sh/et0reh8f","slide":4,"name":"Rectangle 26","bbox":[364.8,490.56,36.48,36.48]}
+{"kind":"textbox","id":"sh/tsrqlc7u","slide":4,"name":"TextBox 27","text":"Security","textPreview":"Security","textChars":8,"textLines":1,"bbox":[417.6,488.64,230.4,57.6]}
+{"kind":"shape","id":"sh/sri9s7q9","slide":4,"name":"Rectangle 28","bbox":[662.4,490.56,36.48,36.48]}
+{"kind":"textbox","id":"sh/ilwf69kv","slide":4,"name":"TextBox 29","text":"Bus driver","textPreview":"Bus driver","textChars":10,"textLines":1,"bbox":[715.2,488.64,230.4,57.6]}
+{"kind":"textbox","id":"sh/jm5gze1g","slide":4,"name":"TextBox 30","text":"148 route screenshots included in the product library.","textPreview":"148 route screenshots included in the product library.","textChars":54,"textLines":1,"bbox":[67.2,622.08,1056,38.4]}
+{"kind":"slide","id":"sl/i107q5of","slide":5,"title":"LEADERSHIP","textShapes":14}
+{"kind":"shape","id":"sh/dgbulwnm","slide":5,"name":"Rectangle 1","bbox":[0,0,13.44,720]}
+{"kind":"textbox","id":"sh/cf2tcr61","slide":5,"name":"TextBox 2","text":"LEADERSHIP","textPreview":"LEADERSHIP","textChars":10,"textLines":1,"bbox":[52.8,31.68,1056,28.8]}
+{"kind":"textbox","id":"sh/z2tcnm5s","slide":5,"name":"TextBox 3","text":"See the school health picture","textPreview":"See the school health picture","textChars":29,"textLines":1,"bbox":[52.8,86.4,1171.2,96]}
+{"kind":"textbox","id":"sh/yhkbe1o7","slide":5,"name":"TextBox 4","text":"A daily overview brings care activity, documents, alerts, and staff visibility together.","textPreview":"A daily overview brings care activity, documents, alerts, and staff visibility together.","textChars":88,"textLines":1,"bbox":[52.8,175.68,1161.6,67.2]}
+{"kind":"shape","id":"sh/l4bupwny","slide":5,"name":"Rectangle 5","bbox":[52.8,673.92,1171.2,1.15]}
+{"kind":"textbox","id":"sh/032tgr6d","slide":5,"name":"TextBox 6","text":"SchooKeep  |  Product pitch  |  05 October 2026","textPreview":"SchooKeep  |  Product pitch  |  05 October 2026","textChars":47,"textLines":1,"bbox":[52.8,686.4,960,19.2]}
+{"kind":"textbox","id":"sh/n6dcr65o","slide":5,"name":"TextBox 7","text":"05","textPreview":"05","textChars":2,"textLines":1,"bbox":[1161.6,683.52,57.6,24]}
+{"kind":"shape","id":"sh/m5kbi1oj","slide":5,"name":"Rectangle 8","bbox":[55.68,254.4,8.64,52.8]}
+{"kind":"textbox","id":"sh/w32dkbuh","slide":5,"name":"TextBox 9","text":"An operational home","textPreview":"An operational home","textChars":19,"textLines":1,"bbox":[82.56,254.4,432,33.6]}
+{"kind":"textbox","id":"sh/x4vedgvm","slide":5,"name":"TextBox 10","text":"Bring today's priorities into one leadership screen.","textPreview":"Bring today's priorities into one leadership screen.","textChars":52,"textLines":1,"bbox":[82.56,295.68,427.2,62.4]}
+{"kind":"shape","id":"sh/ahkvi1cb","slide":5,"name":"Rectangle 11","bbox":[55.68,364.8,8.64,52.8]}
+{"kind":"textbox","id":"sh/v2twb6dw","slide":5,"name":"TextBox 12","text":"Staff and access oversight","textPreview":"Staff and access oversight","textChars":26,"textLines":1,"bbox":[82.56,364.8,432,33.6]}
+{"kind":"textbox","id":"sh/k7mxovud","slide":5,"name":"TextBox 13","text":"Manage the people who deliver each part of the service.","textPreview":"Manage the people who deliver each part of the service.","textChars":55,"textLines":1,"bbox":[82.56,406.08,427.2,62.4]}
+{"kind":"shape","id":"sh/58vehgvy","slide":5,"name":"Rectangle 14","bbox":[55.68,475.2,8.64,52.8]}
+{"kind":"textbox","id":"sh/i54fmlc7","slide":5,"name":"TextBox 15","text":"Analytics and reporting","textPreview":"Analytics and reporting","textChars":23,"textLines":1,"bbox":[82.56,475.2,432,33.6]}
+{"kind":"textbox","id":"sh/j6dwfqds","slide":5,"name":"TextBox 16","text":"Review trends and support school-level planning.","textPreview":"Review trends and support school-level planning.","textChars":48,"textLines":1,"bbox":[82.56,516.48,427.2,62.4]}
+{"kind":"shape","id":"sh/sb6xsvu9","slide":5,"name":"Rectangle 17","bbox":[538.08,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/hgrmpwj2","slide":5,"name":"TextBox 19","text":"Daily overview","textPreview":"Daily overview","textChars":14,"textLines":1,"bbox":[532.8,641.28,198.54,40.32]}
+{"kind":"shape","id":"sh/gfi5grih","slide":5,"name":"Rectangle 20","bbox":[766.56,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/ud0ne10b","slide":5,"name":"TextBox 22","text":"Health analytics","textPreview":"Health analytics","textChars":16,"textLines":1,"bbox":[761.28,641.28,198.54,40.32]}
+{"kind":"shape","id":"sh/pkr6tgjy","slide":5,"name":"Rectangle 23","bbox":[995.04,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/3i94r61s","slide":5,"name":"TextBox 25","text":"Staff management","textPreview":"Staff management","textChars":16,"textLines":1,"bbox":[989.76,641.28,198.54,40.32]}
+{"kind":"image","id":"im/9kbyhg7e","slide":5,"name":"Picture 18","bbox":[542.4,240,179.34,388.8]}
+{"kind":"image","id":"im/ulkfaloz","slide":5,"name":"Picture 21","bbox":[770.88,240,179.34,388.8]}
+{"kind":"image","id":"im/vmdgjqpk","slide":5,"name":"Picture 24","bbox":[999.36,240,179.34,388.8]}
+{"kind":"slide","id":"sl/x8f69ofe","slide":6,"title":"CLINICAL CARE","textShapes":14}
+{"kind":"shape","id":"sh/yhg7epsj","slide":6,"name":"Rectangle 1","bbox":[0,0,13.44,720]}
+{"kind":"textbox","id":"sh/zi98nu94","slide":6,"name":"TextBox 2","text":"CLINICAL CARE","textPreview":"CLINICAL CARE","textChars":13,"textLines":1,"bbox":[52.8,31.68,1056,28.8]}
+{"kind":"textbox","id":"sh/87ipkzal","slide":6,"name":"TextBox 3","text":"Give the nurse a focused workspace","textPreview":"Give the nurse a focused workspace","textChars":34,"textLines":1,"bbox":[52.8,86.4,1171.2,96]}
+{"kind":"textbox","id":"sh/98rqt4r6","slide":6,"name":"TextBox 4","text":"Clinical operations span student lookup, visits, documentation, and emergency escalation.","textPreview":"Clinical operations span student lookup, visits, documentation, and emergency escalation.","textChars":89,"textLines":1,"bbox":[52.8,175.68,1161.6,67.2]}
+{"kind":"shape","id":"sh/ml07i9sv","slide":6,"name":"Rectangle 5","bbox":[52.8,673.92,1171.2,1.15]}
+{"kind":"textbox","id":"sh/7m98ru9g","slide":6,"name":"TextBox 6","text":"SchooKeep  |  Product pitch  |  05 October 2026","textPreview":"SchooKeep  |  Product pitch  |  05 October 2026","textChars":47,"textLines":1,"bbox":[52.8,686.4,960,19.2]}
+{"kind":"textbox","id":"sh/oryp8fah","slide":6,"name":"TextBox 7","text":"06","textPreview":"06","textChars":2,"textLines":1,"bbox":[1161.6,683.52,57.6,24]}
+{"kind":"shape","id":"sh/pc76hkr2","slide":6,"name":"Rectangle 8","bbox":[55.68,254.4,8.64,52.8]}
+{"kind":"textbox","id":"sh/h4bupgn6","slide":6,"name":"TextBox 9","text":"Student health context","textPreview":"Student health context","textChars":22,"textLines":1,"bbox":[82.56,254.4,432,33.6]}
+{"kind":"textbox","id":"sh/w32twb6l","slide":6,"name":"TextBox 10","text":"Access health information alongside the student record.","textPreview":"Access health information alongside the student record.","textChars":55,"textLines":1,"bbox":[82.56,295.68,427.2,62.4]}
+{"kind":"shape","id":"sh/v2tcn650","slide":6,"name":"Rectangle 11","bbox":[55.68,364.8,8.64,52.8]}
+{"kind":"textbox","id":"sh/u1kbu1ov","slide":6,"name":"TextBox 12","text":"Visit documentation","textPreview":"Visit documentation","textChars":19,"textLines":1,"bbox":[82.56,364.8,432,33.6]}
+{"kind":"textbox","id":"sh/5svutgni","slide":6,"name":"TextBox 13","text":"Organize routine clinic activity and visit details.","textPreview":"Organize routine clinic activity and visit details.","textChars":51,"textLines":1,"bbox":[82.56,406.08,427.2,62.4]}
+{"kind":"shape","id":"sh/47mt0b6x","slide":6,"name":"Rectangle 14","bbox":[55.68,475.2,8.64,52.8]}
+{"kind":"textbox","id":"sh/j6dcr65c","slide":6,"name":"TextBox 15","text":"Escalation paths","textPreview":"Escalation paths","textChars":16,"textLines":1,"bbox":[82.56,475.2,432,33.6]}
+{"kind":"textbox","id":"sh/i54bylor","slide":6,"name":"TextBox 16","text":"Make urgent next steps visible in the workflow.","textPreview":"Make urgent next steps visible in the workflow.","textChars":47,"textLines":1,"bbox":[82.56,516.48,427.2,62.4]}
+{"kind":"shape","id":"sh/twfux0ne","slide":6,"name":"Rectangle 17","bbox":[538.08,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/cbe5g3ih","slide":6,"name":"TextBox 19","text":"Clinic visits","textPreview":"Clinic visits","textChars":13,"textLines":1,"bbox":[532.8,641.28,198.54,40.32]}
+{"kind":"shape","id":"sh/dcnm98zm","slide":6,"name":"Rectangle 20","bbox":[766.56,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/bq547yhw","slide":6,"name":"TextBox 22","text":"New visit","textPreview":"New visit","textChars":9,"textLines":1,"bbox":[761.28,641.28,198.54,40.32]}
+{"kind":"shape","id":"sh/0fy5k3id","slide":6,"name":"Rectangle 23","bbox":[995.04,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/ydgnit07","slide":6,"name":"TextBox 25","text":"Emergency escalation","textPreview":"Emergency escalation","textChars":20,"textLines":1,"bbox":[989.76,641.28,198.54,40.32]}
+{"kind":"image","id":"im/ofq9wfal","slide":6,"name":"Picture 18","bbox":[542.4,240,179.34,388.8]}
+{"kind":"image","id":"im/3id8b69w","slide":6,"name":"Picture 21","bbox":[770.88,240,179.34,388.8]}
+{"kind":"image","id":"im/2h47i1sb","slide":6,"name":"Picture 24","bbox":[999.36,240,179.34,388.8]}
+{"kind":"slide","id":"sl/gnmp4jqx","slide":7,"title":"MEDICATION WORKFLOW","textShapes":14}
+{"kind":"shape","id":"sh/cb2tkvap","slide":7,"name":"Rectangle 1","bbox":[0,0,13.44,720]}
+{"kind":"textbox","id":"sh/dcbud0ra","slide":7,"name":"TextBox 2","text":"MEDICATION WORKFLOW","textPreview":"MEDICATION WORKFLOW","textChars":19,"textLines":1,"bbox":[52.8,31.68,1056,28.8]}
+{"kind":"textbox","id":"sh/ydkbm5sv","slide":7,"name":"TextBox 3","text":"Make each dose a deliberate action","textPreview":"Make each dose a deliberate action","textChars":34,"textLines":1,"bbox":[52.8,86.4,1171.2,96]}
+{"kind":"textbox","id":"sh/zedcfa9g","slide":7,"name":"TextBox 4","text":"Daily doses, conflict states, and inventory are represented in the clinical experience.","textPreview":"Daily doses, conflict states, and inventory are represented in the clinical experience.","textChars":87,"textLines":1,"bbox":[52.8,175.68,1161.6,67.2]}
+{"kind":"shape","id":"sh/kzmdova1","slide":7,"name":"Rectangle 5","bbox":[52.8,673.92,1171.2,1.15]}
+{"kind":"textbox","id":"sh/l0vuh0rm","slide":7,"name":"TextBox 6","text":"SchooKeep  |  Product pitch  |  05 October 2026","textPreview":"SchooKeep  |  Product pitch  |  05 October 2026","textChars":47,"textLines":1,"bbox":[52.8,686.4,960,19.2]}
+{"kind":"textbox","id":"sh/eh0ba1sr","slide":7,"name":"TextBox 7","text":"07","textPreview":"07","textChars":2,"textLines":1,"bbox":[1161.6,683.52,57.6,24]}
+{"kind":"shape","id":"sh/fi9c369c","slide":7,"name":"Rectangle 8","bbox":[55.68,254.4,8.64,52.8]}
+{"kind":"textbox","id":"sh/baxkjqlk","slide":7,"name":"TextBox 9","text":"Plan the day","textPreview":"Plan the day","textChars":12,"textLines":1,"bbox":[82.56,254.4,432,33.6]}
+{"kind":"textbox","id":"sh/a9ojq5kz","slide":7,"name":"TextBox 10","text":"Review medication work in a dedicated dose view.","textPreview":"Review medication work in a dedicated dose view.","textChars":48,"textLines":1,"bbox":[82.56,295.68,427.2,62.4]}
+{"kind":"shape","id":"sh/xcz2l03q","slide":7,"name":"Rectangle 11","bbox":[55.68,364.8,8.64,52.8]}
+{"kind":"textbox","id":"sh/cbq1sv25","slide":7,"name":"TextBox 12","text":"Confirm and flag","textPreview":"Confirm and flag","textChars":16,"textLines":1,"bbox":[82.56,364.8,432,33.6]}
+{"kind":"textbox","id":"sh/n6x0fqlo","slide":7,"name":"TextBox 13","text":"Use confirmation and dose-conflict screens to structure the handoff.","textPreview":"Use confirmation and dose-conflict screens to structure the handoff.","textChars":68,"textLines":1,"bbox":[82.56,406.08,427.2,62.4]}
+{"kind":"shape","id":"sh/25ojml43","slide":7,"name":"Rectangle 14","bbox":[55.68,475.2,8.64,52.8]}
+{"kind":"textbox","id":"sh/p8fih03e","slide":7,"name":"TextBox 15","text":"Track supplies","textPreview":"Track supplies","textChars":14,"textLines":1,"bbox":[82.56,475.2,432,33.6]}
+{"kind":"textbox","id":"sh/o761ov2t","slide":7,"name":"TextBox 16","text":"Give medication stock its own operational view.","textPreview":"Give medication stock its own operational view.","textChars":47,"textLines":1,"bbox":[82.56,516.48,427.2,62.4]}
+{"kind":"shape","id":"sh/f2d0b6lc","slide":7,"name":"Rectangle 17","bbox":[538.08,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/id4ju1oz","slide":7,"name":"TextBox 19","text":"Medication list","textPreview":"Medication list","textChars":15,"textLines":1,"bbox":[532.8,641.28,198.54,40.32]}
+{"kind":"shape","id":"sh/jedkn654","slide":7,"name":"Rectangle 20","bbox":[766.56,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/50v2pgna","slide":7,"name":"TextBox 22","text":"Conflict alert","textPreview":"Conflict alert","textChars":14,"textLines":1,"bbox":[761.28,641.28,198.54,40.32]}
+{"kind":"shape","id":"sh/q143ylov","slide":7,"name":"Rectangle 23","bbox":[995.04,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/s3ml0v61","slide":7,"name":"TextBox 25","text":"Pharmacy inventory","textPreview":"Pharmacy inventory","textChars":18,"textLines":1,"bbox":[989.76,641.28,198.54,40.32]}
+{"kind":"image","id":"im/ix4nytoz","slide":7,"name":"Picture 18","bbox":[542.4,240,179.34,388.8]}
+{"kind":"image","id":"im/l4rmh4n6","slide":7,"name":"Picture 21","bbox":[770.88,240,179.34,388.8]}
+{"kind":"image","id":"im/k3i5oz61","slide":7,"name":"Picture 24","bbox":[999.36,240,179.34,388.8]}
+{"kind":"slide","id":"sl/fu1gfa1s","slide":8,"title":"PHYSICIAN OVERSIGHT","textShapes":14}
+{"kind":"shape","id":"sh/18byd4zy","slide":8,"name":"Rectangle 1","bbox":[0,0,13.44,720]}
+{"kind":"textbox","id":"sh/g72x4zyd","slide":8,"name":"TextBox 2","text":"PHYSICIAN OVERSIGHT","textPreview":"PHYSICIAN OVERSIGHT","textChars":19,"textLines":1,"bbox":[52.8,31.68,1056,28.8]}
+{"kind":"textbox","id":"sh/ri9g7uhw","slide":8,"name":"TextBox 3","text":"Extend care beyond the clinic desk","textPreview":"Extend care beyond the clinic desk","textChars":34,"textLines":1,"bbox":[52.8,86.4,1171.2,96]}
+{"kind":"textbox","id":"sh/6h0fypgb","slide":8,"name":"TextBox 4","text":"A physician workspace supports protocol review, escalations, and scheduling.","textPreview":"A physician workspace supports protocol review, escalations, and scheduling.","textChars":76,"textLines":1,"bbox":[52.8,175.68,1161.6,67.2]}
+{"kind":"shape","id":"sh/tkby9kzm","slide":8,"name":"Rectangle 5","bbox":[52.8,673.92,1171.2,1.15]}
+{"kind":"textbox","id":"sh/sjix0zy1","slide":8,"name":"TextBox 6","text":"SchooKeep  |  Product pitch  |  05 October 2026","textPreview":"SchooKeep  |  Product pitch  |  05 October 2026","textChars":47,"textLines":1,"bbox":[52.8,686.4,960,19.2]}
+{"kind":"textbox","id":"sh/je9g3ahk","slide":8,"name":"TextBox 7","text":"08","textPreview":"08","textChars":2,"textLines":1,"bbox":[1161.6,683.52,57.6,24]}
+{"kind":"shape","id":"sh/id0fu50z","slide":8,"name":"Rectangle 8","bbox":[55.68,254.4,8.64,52.8]}
+{"kind":"textbox","id":"sh/o7ydoret","slide":8,"name":"TextBox 9","text":"Protocol review","textPreview":"Protocol review","textChars":15,"textLines":1,"bbox":[82.56,254.4,432,33.6]}
+{"kind":"textbox","id":"sh/98rehwve","slide":8,"name":"TextBox 10","text":"Provide a dedicated review area for medication protocols.","textPreview":"Provide a dedicated review area for medication protocols.","textChars":57,"textLines":1,"bbox":[82.56,295.68,427.2,62.4]}
+{"kind":"shape","id":"sh/m5gvmhwn","slide":8,"name":"Rectangle 11","bbox":[55.68,364.8,8.64,52.8]}
+{"kind":"textbox","id":"sh/n6pwfmd8","slide":8,"name":"TextBox 12","text":"Clinical escalation inbox","textPreview":"Clinical escalation inbox","textChars":25,"textLines":1,"bbox":[82.56,364.8,432,33.6]}
+{"kind":"textbox","id":"sh/0jydkreh","slide":8,"name":"TextBox 13","text":"Surface cases that need additional clinical attention.","textPreview":"Surface cases that need additional clinical attention.","textChars":54,"textLines":1,"bbox":[82.56,406.08,427.2,62.4]}
+{"kind":"shape","id":"sh/1k7edwv2","slide":8,"name":"Rectangle 14","bbox":[55.68,475.2,8.64,52.8]}
+{"kind":"textbox","id":"sh/ehgvihwr","slide":8,"name":"TextBox 15","text":"Availability planning","textPreview":"Availability planning","textChars":21,"textLines":1,"bbox":[82.56,475.2,432,33.6]}
+{"kind":"textbox","id":"sh/zipwbmdc","slide":8,"name":"TextBox 16","text":"Represent physician schedules in the app.","textPreview":"Represent physician schedules in the app.","textChars":41,"textLines":1,"bbox":[82.56,516.48,427.2,62.4]}
+{"kind":"shape","id":"sh/kfixwbe1","slide":8,"name":"Rectangle 17","bbox":[538.08,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/tw7e9gnq","slide":8,"name":"TextBox 19","text":"Physician home","textPreview":"Physician home","textChars":14,"textLines":1,"bbox":[532.8,641.28,198.54,40.32]}
+{"kind":"shape","id":"sh/svydgb65","slide":8,"name":"Rectangle 20","bbox":[766.56,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/6twve1oz","slide":8,"name":"TextBox 22","text":"Protocol review","textPreview":"Protocol review","textChars":15,"textLines":1,"bbox":[761.28,641.28,198.54,40.32]}
+{"kind":"shape","id":"sh/5sne5wne","slide":8,"name":"Rectangle 23","bbox":[995.04,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/jq5w365o","slide":8,"name":"TextBox 25","text":"Escalation inbox","textPreview":"Escalation inbox","textChars":16,"textLines":1,"bbox":[989.76,641.28,198.54,40.32]}
+{"kind":"image","id":"im/xoza9s3m","slide":8,"name":"Picture 18","bbox":[542.4,240,179.34,388.8]}
+{"kind":"image","id":"im/uhsbqhkf","slide":8,"name":"Picture 21","bbox":[770.88,240,179.34,388.8]}
+{"kind":"image","id":"im/fi1sjmlk","slide":8,"name":"Picture 24","bbox":[999.36,240,179.34,388.8]}
+{"kind":"slide","id":"sl/udsvah03","slide":9,"title":"FAMILY EXPERIENCE","textShapes":14}
+{"kind":"shape","id":"sh/1cfmhgne","slide":9,"name":"Rectangle 1","bbox":[0,0,13.44,720]}
+{"kind":"textbox","id":"sh/0b65obm9","slide":9,"name":"TextBox 2","text":"FAMILY EXPERIENCE","textPreview":"FAMILY EXPERIENCE","textChars":17,"textLines":1,"bbox":[52.8,31.68,1056,28.8]}
+{"kind":"textbox","id":"sh/nex4jq5k","slide":9,"name":"TextBox 3","text":"Keep parents part of the care loop","textPreview":"Keep parents part of the care loop","textChars":34,"textLines":1,"bbox":[52.8,86.4,1171.2,96]}
+{"kind":"textbox","id":"sh/mdonql4z","slide":9,"name":"TextBox 4","text":"The parent app brings health, medication, and document workflows into a familiar mobile experience.","textPreview":"The parent app brings health, medication, and document workflows into a familiar mobile experience.","textChars":99,"textLines":1,"bbox":[52.8,175.68,1161.6,67.2]}
+{"kind":"shape","id":"sh/9gzml0nq","slide":9,"name":"Rectangle 5","bbox":[52.8,673.92,1171.2,1.15]}
+{"kind":"textbox","id":"sh/ofq5svm5","slide":9,"name":"TextBox 6","text":"SchooKeep  |  Product pitch  |  05 October 2026","textPreview":"SchooKeep  |  Product pitch  |  05 October 2026","textChars":47,"textLines":1,"bbox":[52.8,686.4,960,19.2]}
+{"kind":"textbox","id":"sh/bih4na5w","slide":9,"name":"TextBox 7","text":"09","textPreview":"09","textChars":2,"textLines":1,"bbox":[1161.6,683.52,57.6,24]}
+{"kind":"shape","id":"sh/ah8nu54b","slide":9,"name":"Rectangle 8","bbox":[55.68,254.4,8.64,52.8]}
+{"kind":"textbox","id":"sh/oza1gfyh","slide":9,"name":"TextBox 9","text":"A family-facing home","textPreview":"A family-facing home","textChars":20,"textLines":1,"bbox":[82.56,254.4,432,33.6]}
+{"kind":"textbox","id":"sh/p0ji9kf2","slide":9,"name":"TextBox 10","text":"Give guardians a clear starting point for the school day.","textPreview":"Give guardians a clear starting point for the school day.","textChars":57,"textLines":1,"bbox":[82.56,295.68,427.2,62.4]}
+{"kind":"shape","id":"sh/2xsjepgb","slide":9,"name":"Rectangle 11","bbox":[55.68,364.8,8.64,52.8]}
+{"kind":"textbox","id":"sh/3y107axw","slide":9,"name":"TextBox 12","text":"Health and medication history","textPreview":"Health and medication history","textChars":29,"textLines":1,"bbox":[82.56,364.8,432,33.6]}
+{"kind":"textbox","id":"sh/cnu1kzyd","slide":9,"name":"TextBox 13","text":"Keep the child's care activity visible to the family.","textPreview":"Keep the child's care activity visible to the family.","textChars":53,"textLines":1,"bbox":[82.56,406.08,427.2,62.4]}
+{"kind":"shape","id":"sh/do3id4fy","slide":9,"name":"Rectangle 14","bbox":[55.68,475.2,8.64,52.8]}
+{"kind":"textbox","id":"sh/qlcjipgn","slide":9,"name":"TextBox 15","text":"Documents in one place","textPreview":"Documents in one place","textChars":22,"textLines":1,"bbox":[82.56,475.2,432,33.6]}
+{"kind":"textbox","id":"sh/bml0buxs","slide":9,"name":"TextBox 16","text":"Provide an accessible path for school health paperwork.","textPreview":"Provide an accessible path for school health paperwork.","textChars":55,"textLines":1,"bbox":[82.56,516.48,427.2,62.4]}
+{"kind":"shape","id":"sh/0ru1ozyp","slide":9,"name":"Rectangle 17","bbox":[538.08,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/98ji147e","slide":9,"name":"TextBox 19","text":"Parent home","textPreview":"Parent home","textChars":11,"textLines":1,"bbox":[532.8,641.28,198.54,40.32]}
+{"kind":"shape","id":"sh/87a18zqt","slide":9,"name":"Rectangle 20","bbox":[766.56,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/ml8j6p8n","slide":9,"name":"TextBox 22","text":"Health history","textPreview":"Health history","textChars":14,"textLines":1,"bbox":[761.28,641.28,198.54,40.32]}
+{"kind":"shape","id":"sh/hcji5o7a","slide":9,"name":"Rectangle 23","bbox":[995.04,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/va103ep4","slide":9,"name":"TextBox 25","text":"Documents","textPreview":"Documents","textChars":9,"textLines":1,"bbox":[989.76,641.28,198.54,40.32]}
+{"kind":"image","id":"im/xkfqd0fm","slide":9,"name":"Picture 18","bbox":[542.4,240,179.34,388.8]}
+{"kind":"image","id":"im/y5or65w7","slide":9,"name":"Picture 21","bbox":[770.88,240,179.34,388.8]}
+{"kind":"image","id":"im/j6x8faxs","slide":9,"name":"Picture 24","bbox":[999.36,240,179.34,388.8]}
+{"kind":"slide","id":"sl/m90b6t0r","slide":10,"title":"CONSENT AND HANDOFFS","textShapes":14}
+{"kind":"shape","id":"sh/xc3mho32","slide":10,"name":"Rectangle 1","bbox":[0,0,13.44,720]}
+{"kind":"textbox","id":"sh/cbu58j2h","slide":10,"name":"TextBox 2","text":"CONSENT AND HANDOFFS","textPreview":"CONSENT AND HANDOFFS","textChars":20,"textLines":1,"bbox":[52.8,31.68,1056,28.8]}
+{"kind":"textbox","id":"sh/zelojyl8","slide":10,"name":"TextBox 3","text":"Connect a request to a response","textPreview":"Connect a request to a response","textChars":31,"textLines":1,"bbox":[52.8,86.4,1171.2,96]}
+{"kind":"textbox","id":"sh/ydcnatkn","slide":10,"name":"TextBox 4","text":"Consent and authorized pickup screens show the link between school operations and guardians.","textPreview":"Consent and authorized pickup screens show the link between school operations and guardians.","textChars":92,"textLines":1,"bbox":[52.8,175.68,1161.6,67.2]}
+{"kind":"shape","id":"sh/l036l83y","slide":10,"name":"Rectangle 5","bbox":[52.8,673.92,1171.2,1.15]}
+{"kind":"textbox","id":"sh/kzu5c32t","slide":10,"name":"TextBox 6","text":"SchooKeep  |  Product pitch  |  05 October 2026","textPreview":"SchooKeep  |  Product pitch  |  05 October 2026","textChars":47,"textLines":1,"bbox":[52.8,686.4,960,19.2]}
+{"kind":"textbox","id":"sh/725onyl4","slide":10,"name":"TextBox 7","text":"10","textPreview":"10","textChars":2,"textLines":1,"bbox":[1161.6,683.52,57.6,24]}
+{"kind":"shape","id":"sh/m1cnetkj","slide":10,"name":"Rectangle 8","bbox":[55.68,254.4,8.64,52.8]}
+{"kind":"textbox","id":"sh/s7yt4b21","slide":10,"name":"TextBox 9","text":"Emergency response","textPreview":"Emergency response","textChars":18,"textLines":1,"bbox":[82.56,254.4,432,33.6]}
+{"kind":"textbox","id":"sh/d87uxg3m","slide":10,"name":"TextBox 10","text":"Provide a dedicated parent consent screen.","textPreview":"Provide a dedicated parent consent screen.","textChars":42,"textLines":1,"bbox":[82.56,295.68,427.2,62.4]}
+{"kind":"shape","id":"sh/q5gb21kb","slide":10,"name":"Rectangle 11","bbox":[55.68,364.8,8.64,52.8]}
+{"kind":"textbox","id":"sh/r6pcv6lw","slide":10,"name":"TextBox 12","text":"Authorized persons","textPreview":"Authorized persons","textChars":18,"textLines":1,"bbox":[82.56,364.8,432,33.6]}
+{"kind":"textbox","id":"sh/0bit8b2d","slide":10,"name":"TextBox 13","text":"Organize the people approved for pickup.","textPreview":"Organize the people approved for pickup.","textChars":40,"textLines":1,"bbox":[82.56,406.08,427.2,62.4]}
+{"kind":"shape","id":"sh/1cru1g3y","slide":10,"name":"Rectangle 14","bbox":[55.68,475.2,8.64,52.8]}
+{"kind":"textbox","id":"sh/e9gb61k7","slide":10,"name":"TextBox 15","text":"QR presentation","textPreview":"QR presentation","textChars":15,"textLines":1,"bbox":[82.56,475.2,432,33.6]}
+{"kind":"textbox","id":"sh/fapcz6ls","slide":10,"name":"TextBox 16","text":"Represent a scannable pickup identity in the family app.","textPreview":"Represent a scannable pickup identity in the family app.","textChars":56,"textLines":1,"bbox":[82.56,516.48,427.2,62.4]}
+{"kind":"shape","id":"sh/ozitcv29","slide":10,"name":"Rectangle 17","bbox":[538.08,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/xwnupgvy","slide":10,"name":"TextBox 19","text":"Consent response","textPreview":"Consent response","textChars":16,"textLines":1,"bbox":[532.8,641.28,198.54,40.32]}
+{"kind":"shape","id":"sh/wvetgbud","slide":10,"name":"Rectangle 20","bbox":[766.56,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/atwbelcn","slide":10,"name":"TextBox 22","text":"Authorized persons","textPreview":"Authorized persons","textChars":18,"textLines":1,"bbox":[761.28,641.28,198.54,40.32]}
+{"kind":"shape","id":"sh/lk7ut0va","slide":10,"name":"Rectangle 23","bbox":[995.04,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/jypcrqd4","slide":10,"name":"TextBox 25","text":"Pickup QR code","textPreview":"Pickup QR code","textChars":14,"textLines":1,"bbox":[989.76,641.28,198.54,40.32]}
+{"kind":"image","id":"im/h8fu1g7q","slide":10,"name":"Picture 18","bbox":[542.4,240,179.34,388.8]}
+{"kind":"image","id":"im/q9kbeh8v","slide":10,"name":"Picture 21","bbox":[770.88,240,179.34,388.8]}
+{"kind":"image","id":"im/batcnm9g","slide":10,"name":"Picture 24","bbox":[999.36,240,179.34,388.8]}
+{"kind":"slide","id":"sl/jetc3ut0","slide":11,"title":"CLASSROOM AWARENESS","textShapes":14}
+{"kind":"shape","id":"sh/xcryxg7y","slide":11,"name":"Rectangle 1","bbox":[0,0,13.44,720]}
+{"kind":"textbox","id":"sh/wbih4b6d","slide":11,"name":"TextBox 2","text":"CLASSROOM AWARENESS","textPreview":"CLASSROOM AWARENESS","textChars":19,"textLines":1,"bbox":[52.8,31.68,1056,28.8]}
+{"kind":"textbox","id":"sh/n69grmpw","slide":11,"name":"TextBox 3","text":"Bring health context into the school day","textPreview":"Bring health context into the school day","textChars":40,"textLines":1,"bbox":[52.8,86.4,1171.2,96]}
+{"kind":"textbox","id":"sh/250zy18b","slide":11,"name":"TextBox 4","text":"Teachers have focused views for attendance, health considerations, referrals, and exemptions.","textPreview":"Teachers have focused views for attendance, health considerations, referrals, and exemptions.","textChars":93,"textLines":1,"bbox":[52.8,175.68,1161.6,67.2]}
+{"kind":"shape","id":"sh/98rytw72","slide":11,"name":"Rectangle 5","bbox":[52.8,673.92,1171.2,1.15]}
+{"kind":"textbox","id":"sh/o7ih0r6h","slide":11,"name":"TextBox 6","text":"SchooKeep  |  Product pitch  |  05 October 2026","textPreview":"SchooKeep  |  Product pitch  |  05 October 2026","textChars":47,"textLines":1,"bbox":[52.8,686.4,960,19.2]}
+{"kind":"textbox","id":"sh/72t03qp0","slide":11,"name":"TextBox 7","text":"11","textPreview":"11","textChars":2,"textLines":1,"bbox":[1161.6,683.52,57.6,24]}
+{"kind":"shape","id":"sh/61kzalof","slide":11,"name":"Rectangle 8","bbox":[55.68,254.4,8.64,52.8]}
+{"kind":"textbox","id":"sh/ofqtgnyt","slide":11,"name":"TextBox 9","text":"Attendance context","textPreview":"Attendance context","textChars":18,"textLines":1,"bbox":[82.56,254.4,432,33.6]}
+{"kind":"textbox","id":"sh/9gza9sze","slide":11,"name":"TextBox 10","text":"A classroom view supports daily operational awareness.","textPreview":"A classroom view supports daily operational awareness.","textChars":54,"textLines":1,"bbox":[82.56,295.68,427.2,62.4]}
+{"kind":"shape","id":"sh/mdobedg3","slide":11,"name":"Rectangle 11","bbox":[55.68,364.8,8.64,52.8]}
+{"kind":"textbox","id":"sh/nehs7iho","slide":11,"name":"TextBox 12","text":"Health considerations","textPreview":"Health considerations","textChars":21,"textLines":1,"bbox":[82.56,364.8,432,33.6]}
+{"kind":"textbox","id":"sh/0b6tc3yx","slide":11,"name":"TextBox 13","text":"Keep relevant student needs visible to the teacher.","textPreview":"Keep relevant student needs visible to the teacher.","textChars":51,"textLines":1,"bbox":[82.56,406.08,427.2,62.4]}
+{"kind":"shape","id":"sh/1cfa58zi","slide":11,"name":"Rectangle 14","bbox":[55.68,475.2,8.64,52.8]}
+{"kind":"textbox","id":"sh/epobatgr","slide":11,"name":"TextBox 15","text":"Referral workflow","textPreview":"Referral workflow","textChars":17,"textLines":1,"bbox":[82.56,475.2,432,33.6]}
+{"kind":"textbox","id":"sh/zaxs3yhc","slide":11,"name":"TextBox 16","text":"Offer a structured route into the school clinic.","textPreview":"Offer a structured route into the school clinic.","textChars":48,"textLines":1,"bbox":[82.56,516.48,427.2,62.4]}
+{"kind":"shape","id":"sh/cn6t83y1","slide":11,"name":"Rectangle 17","bbox":[538.08,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/tsnip0ny","slide":11,"name":"TextBox 19","text":"Attendance","textPreview":"Attendance","textChars":10,"textLines":1,"bbox":[532.8,641.28,198.54,40.32]}
+{"kind":"shape","id":"sh/87ehgv6d","slide":11,"name":"Rectangle 20","bbox":[766.56,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/65wzelo7","slide":11,"name":"TextBox 22","text":"Health considerations","textPreview":"Health considerations","textChars":21,"textLines":1,"bbox":[761.28,641.28,198.54,40.32]}
+{"kind":"shape","id":"sh/l43ilgn2","slide":11,"name":"Rectangle 23","bbox":[995.04,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/j2lgjq5w","slide":11,"name":"TextBox 25","text":"Clinic referral","textPreview":"Clinic referral","textChars":15,"textLines":1,"bbox":[989.76,641.28,198.54,40.32]}
+{"kind":"image","id":"im/tkva143e","slide":11,"name":"Picture 18","bbox":[542.4,240,179.34,388.8]}
+{"kind":"image","id":"im/ml0re54j","slide":11,"name":"Picture 21","bbox":[770.88,240,179.34,388.8]}
+{"kind":"image","id":"im/nm98nq54","slide":11,"name":"Picture 24","bbox":[999.36,240,179.34,388.8]}
+{"kind":"slide","id":"sl/8f2psfyx","slide":12,"title":"STUDENT SAFETY","textShapes":14}
+{"kind":"shape","id":"sh/1gbm9s3a","slide":12,"name":"Rectangle 1","bbox":[0,0,13.44,720]}
+{"kind":"textbox","id":"sh/0f2lgnmp","slide":12,"name":"TextBox 2","text":"STUDENT SAFETY","textPreview":"STUDENT SAFETY","textChars":14,"textLines":1,"bbox":[52.8,31.68,1056,28.8]}
+{"kind":"textbox","id":"sh/ra943il8","slide":12,"name":"TextBox 3","text":"Support arrival and departure handoffs","textPreview":"Support arrival and departure handoffs","textChars":38,"textLines":1,"bbox":[52.8,86.4,1171.2,96]}
+{"kind":"textbox","id":"sh/q903ad4n","slide":12,"name":"TextBox 4","text":"Security and transport have dedicated operational views.","textPreview":"Security and transport have dedicated operational views.","textChars":56,"textLines":1,"bbox":[52.8,175.68,1161.6,67.2]}
+{"kind":"shape","id":"sh/dcbm583y","slide":12,"name":"Rectangle 5","bbox":[52.8,673.92,1171.2,1.15]}
+{"kind":"textbox","id":"sh/sb2lcnmd","slide":12,"name":"TextBox 6","text":"SchooKeep  |  Product pitch  |  05 October 2026","textPreview":"SchooKeep  |  Product pitch  |  05 October 2026","textChars":47,"textLines":1,"bbox":[52.8,686.4,960,19.2]}
+{"kind":"textbox","id":"sh/b6d4f2lc","slide":12,"name":"TextBox 7","text":"12","textPreview":"12","textChars":2,"textLines":1,"bbox":[1161.6,683.52,57.6,24]}
+{"kind":"shape","id":"sh/a543mx4r","slide":12,"name":"Rectangle 8","bbox":[55.68,254.4,8.64,52.8]}
+{"kind":"textbox","id":"sh/wvupgz6t","slide":12,"name":"TextBox 9","text":"Pickup verification","textPreview":"Pickup verification","textChars":19,"textLines":1,"bbox":[82.56,254.4,432,33.6]}
+{"kind":"textbox","id":"sh/xw3q94ne","slide":12,"name":"TextBox 10","text":"Queue and manual verification screens organize gate activity.","textPreview":"Queue and manual verification screens organize gate activity.","textChars":61,"textLines":1,"bbox":[82.56,295.68,427.2,62.4]}
+{"kind":"shape","id":"sh/atc7epon","slide":12,"name":"Rectangle 11","bbox":[55.68,364.8,8.64,52.8]}
+{"kind":"textbox","id":"sh/bulo7u58","slide":12,"name":"TextBox 12","text":"Transport operations","textPreview":"Transport operations","textChars":20,"textLines":1,"bbox":[82.56,364.8,432,33.6]}
+{"kind":"textbox","id":"sh/orapcf6h","slide":12,"name":"TextBox 13","text":"Route, boarding, and history workflows support the driver.","textPreview":"Route, boarding, and history workflows support the driver.","textChars":58,"textLines":1,"bbox":[82.56,406.08,427.2,62.4]}
+{"kind":"shape","id":"sh/9sj65kn2","slide":12,"name":"Rectangle 14","bbox":[55.68,475.2,8.64,52.8]}
+{"kind":"textbox","id":"sh/mps7a5or","slide":12,"name":"TextBox 15","text":"Shared responsibility","textPreview":"Shared responsibility","textChars":21,"textLines":1,"bbox":[82.56,475.2,432,33.6]}
+{"kind":"textbox","id":"sh/nq1o3a5w","slide":12,"name":"TextBox 16","text":"Connect the school, transport staff, and authorized guardians.","textPreview":"Connect the school, transport staff, and authorized guardians.","textChars":62,"textLines":1,"bbox":[82.56,516.48,427.2,62.4]}
+{"kind":"shape","id":"sh/0nap8f6l","slide":12,"name":"Rectangle 17","bbox":[538.08,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/hkbm5wzu","slide":12,"name":"TextBox 19","text":"Pickup queue","textPreview":"Pickup queue","textChars":12,"textLines":1,"bbox":[532.8,641.28,198.54,40.32]}
+{"kind":"shape","id":"sh/gj25cry9","slide":12,"name":"Rectangle 20","bbox":[766.56,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/uh0na1g3","slide":12,"name":"TextBox 22","text":"Manual verification","textPreview":"Manual verification","textChars":19,"textLines":1,"bbox":[761.28,641.28,198.54,40.32]}
+{"kind":"shape","id":"sh/tgrm1wzy","slide":12,"name":"Rectangle 23","bbox":[995.04,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/7u94zmhs","slide":12,"name":"TextBox 25","text":"Bus route","textPreview":"Bus route","textChars":9,"textLines":1,"bbox":[989.76,641.28,198.54,40.32]}
+{"kind":"image","id":"im/xsza54n2","slide":12,"name":"Picture 18","bbox":[542.4,240,179.34,388.8]}
+{"kind":"image","id":"im/2lorqpof","slide":12,"name":"Picture 21","bbox":[770.88,240,179.34,388.8]}
+{"kind":"image","id":"im/nmx8zu50","slide":12,"name":"Picture 24","bbox":[999.36,240,179.34,388.8]}
+{"kind":"slide","id":"sl/hgzapcr6","slide":13,"title":"FOOD SAFETY","textShapes":14}
+{"kind":"shape","id":"sh/q50nydsj","slide":13,"name":"Rectangle 1","bbox":[0,0,13.44,720]}
+{"kind":"textbox","id":"sh/bq9orito","slide":13,"name":"TextBox 2","text":"FOOD SAFETY","textPreview":"FOOD SAFETY","textChars":11,"textLines":1,"bbox":[52.8,31.68,1056,28.8]}
+{"kind":"textbox","id":"sh/o3i5w3ad","slide":13,"name":"TextBox 3","text":"Make cafeteria decisions more informed","textPreview":"Make cafeteria decisions more informed","textChars":38,"textLines":1,"bbox":[52.8,86.4,1171.2,96]}
+{"kind":"textbox","id":"sh/p4r6p8by","slide":13,"name":"TextBox 4","text":"Allergen alerts and point-of-sale workflows extend the product beyond the clinic.","textPreview":"Allergen alerts and point-of-sale workflows extend the product beyond the clinic.","textChars":81,"textLines":1,"bbox":[52.8,175.68,1161.6,67.2]}
+{"kind":"shape","id":"sh/21gnuts7","slide":13,"name":"Rectangle 5","bbox":[52.8,673.92,1171.2,1.15]}
+{"kind":"textbox","id":"sh/32ponyts","slide":13,"name":"TextBox 6","text":"SchooKeep  |  Product pitch  |  05 October 2026","textPreview":"SchooKeep  |  Product pitch  |  05 October 2026","textChars":47,"textLines":1,"bbox":[52.8,686.4,960,19.2]}
+{"kind":"textbox","id":"sh/gzy5s3a1","slide":13,"name":"TextBox 7","text":"13","textPreview":"13","textChars":2,"textLines":1,"bbox":[1161.6,683.52,57.6,24]}
+{"kind":"shape","id":"sh/1076lobm","slide":13,"name":"Rectangle 8","bbox":[55.68,254.4,8.64,52.8]}
+{"kind":"textbox","id":"sh/hcfy9k3u","slide":13,"name":"TextBox 9","text":"Allergen awareness","textPreview":"Allergen awareness","textChars":18,"textLines":1,"bbox":[82.56,254.4,432,33.6]}
+{"kind":"textbox","id":"sh/gb6x0zm9","slide":13,"name":"TextBox 10","text":"Provide the cafeteria with dedicated alert screens.","textPreview":"Provide the cafeteria with dedicated alert screens.","textChars":51,"textLines":1,"bbox":[82.56,295.68,427.2,62.4]}
+{"kind":"shape","id":"sh/vaxg7ulo","slide":13,"name":"Rectangle 11","bbox":[55.68,364.8,8.64,52.8]}
+{"kind":"textbox","id":"sh/u9ofyp43","slide":13,"name":"TextBox 12","text":"Daily operations","textPreview":"Daily operations","textChars":16,"textLines":1,"bbox":[82.56,364.8,432,33.6]}
+{"kind":"textbox","id":"sh/t8fy5k3i","slide":13,"name":"TextBox 13","text":"Bring point of sale into the staff experience.","textPreview":"Bring point of sale into the staff experience.","textChars":46,"textLines":1,"bbox":[82.56,406.08,427.2,62.4]}
+{"kind":"shape","id":"sh/876xwfmx","slide":13,"name":"Rectangle 14","bbox":[55.68,475.2,8.64,52.8]}
+{"kind":"textbox","id":"sh/7mdg3als","slide":13,"name":"TextBox 15","text":"Family budget visibility","textPreview":"Family budget visibility","textChars":24,"textLines":1,"bbox":[82.56,475.2,432,33.6]}
+{"kind":"textbox","id":"sh/6l4fu547","slide":13,"name":"TextBox 16","text":"Represent cafeteria budgets in the parent app.","textPreview":"Represent cafeteria budgets in the parent app.","textChars":46,"textLines":1,"bbox":[82.56,516.48,427.2,62.4]}
+{"kind":"shape","id":"sh/lkvy103m","slide":13,"name":"Rectangle 17","bbox":[538.08,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/cnqh8fux","slide":13,"name":"TextBox 19","text":"Cafeteria alerts","textPreview":"Cafeteria alerts","textChars":16,"textLines":1,"bbox":[532.8,641.28,198.54,40.32]}
+{"kind":"shape","id":"sh/xozyhkbi","slide":13,"name":"Rectangle 20","bbox":[766.56,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/bmhgfatc","slide":13,"name":"TextBox 22","text":"Point of sale","textPreview":"Point of sale","textChars":13,"textLines":1,"bbox":[761.28,641.28,198.54,40.32]}
+{"kind":"shape","id":"sh/oz6x4vul","slide":13,"name":"Rectangle 23","bbox":[995.04,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/2xof2lcv","slide":13,"name":"TextBox 25","text":"Family budget","textPreview":"Family budget","textChars":13,"textLines":1,"bbox":[989.76,641.28,198.54,40.32]}
+{"kind":"image","id":"im/cf6xwrad","slide":13,"name":"Picture 18","bbox":[542.4,240,179.34,388.8]}
+{"kind":"image","id":"im/ritwri9o","slide":13,"name":"Picture 21","bbox":[770.88,240,179.34,388.8]}
+{"kind":"image","id":"im/6hkfixs3","slide":13,"name":"Picture 24","bbox":[999.36,240,179.34,388.8]}
+{"kind":"slide","id":"sl/6lsnupw7","slide":14,"title":"SCHOOL SUPPORT","textShapes":14}
+{"kind":"shape","id":"sh/xc7eds76","slide":14,"name":"Rectangle 1","bbox":[0,0,13.44,720]}
+{"kind":"textbox","id":"sh/wbydknq1","slide":14,"name":"TextBox 2","text":"SCHOOL SUPPORT","textPreview":"SCHOOL SUPPORT","textChars":14,"textLines":1,"bbox":[52.8,31.68,1056,28.8]}
+{"kind":"textbox","id":"sh/jepwf2pc","slide":14,"name":"TextBox 3","text":"Support the people behind each handoff","textPreview":"Support the people behind each handoff","textChars":38,"textLines":1,"bbox":[52.8,86.4,1171.2,96]}
+{"kind":"textbox","id":"sh/idgvmx8r","slide":14,"name":"TextBox 4","text":"Counselor and secretary screens broaden the operational footprint.","textPreview":"Counselor and secretary screens broaden the operational footprint.","textChars":66,"textLines":1,"bbox":[52.8,175.68,1161.6,67.2]}
+{"kind":"shape","id":"sh/5grehs7i","slide":14,"name":"Rectangle 5","bbox":[52.8,673.92,1171.2,1.15]}
+{"kind":"textbox","id":"sh/kfidonqx","slide":14,"name":"TextBox 6","text":"SchooKeep  |  Product pitch  |  05 October 2026","textPreview":"SchooKeep  |  Product pitch  |  05 October 2026","textChars":47,"textLines":1,"bbox":[52.8,686.4,960,19.2]}
+{"kind":"textbox","id":"sh/zi5c3y98","slide":14,"name":"TextBox 7","text":"14","textPreview":"14","textChars":2,"textLines":1,"bbox":[1161.6,683.52,57.6,24]}
+{"kind":"shape","id":"sh/ehwvat8n","slide":14,"name":"Rectangle 8","bbox":[55.68,254.4,8.64,52.8]}
+{"kind":"textbox","id":"sh/c3e1gjyd","slide":14,"name":"TextBox 9","text":"Student support","textPreview":"Student support","textChars":15,"textLines":1,"bbox":[82.56,254.4,432,33.6]}
+{"kind":"textbox","id":"sh/x4ni9ofy","slide":14,"name":"TextBox 10","text":"Counselor records and report workflows represent ongoing care.","textPreview":"Counselor records and report workflows represent ongoing care.","textChars":62,"textLines":1,"bbox":[82.56,295.68,427.2,62.4]}
+{"kind":"shape","id":"sh/a1wze9g7","slide":14,"name":"Rectangle 11","bbox":[55.68,364.8,8.64,52.8]}
+{"kind":"textbox","id":"sh/b2507exs","slide":14,"name":"TextBox 12","text":"Office coordination","textPreview":"Office coordination","textChars":19,"textLines":1,"bbox":[82.56,364.8,432,33.6]}
+{"kind":"textbox","id":"sh/kre1k3y9","slide":14,"name":"TextBox 13","text":"The secretary has student, messaging, and import views.","textPreview":"The secretary has student, messaging, and import views.","textChars":55,"textLines":1,"bbox":[82.56,406.08,427.2,62.4]}
+{"kind":"shape","id":"sh/ls7idofu","slide":14,"name":"Rectangle 14","bbox":[55.68,475.2,8.64,52.8]}
+{"kind":"textbox","id":"sh/y5wjitgj","slide":14,"name":"TextBox 15","text":"Triage and follow-up","textPreview":"Triage and follow-up","textChars":20,"textLines":1,"bbox":[82.56,475.2,432,33.6]}
+{"kind":"textbox","id":"sh/z650byxo","slide":14,"name":"TextBox 16","text":"Queue screens make outstanding work visible.","textPreview":"Queue screens make outstanding work visible.","textChars":44,"textLines":1,"bbox":[82.56,516.48,427.2,62.4]}
+{"kind":"shape","id":"sh/0buh8zy5","slide":14,"name":"Rectangle 17","bbox":[538.08,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/hsvy50re","slide":14,"name":"TextBox 19","text":"Counselor dashboard","textPreview":"Counselor dashboard","textChars":19,"textLines":1,"bbox":[532.8,641.28,198.54,40.32]}
+{"kind":"shape","id":"sh/grmxwvqt","slide":14,"name":"Rectangle 20","bbox":[766.56,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/up4fal83","slide":14,"name":"TextBox 22","text":"Office messaging","textPreview":"Office messaging","textChars":16,"textLines":1,"bbox":[761.28,641.28,198.54,40.32]}
+{"kind":"shape","id":"sh/pwvy90rq","slide":14,"name":"Rectangle 23","bbox":[995.04,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/3udg7q9k","slide":14,"name":"TextBox 25","text":"Chatbot queue","textPreview":"Chatbot queue","textChars":13,"textLines":1,"bbox":[989.76,641.28,198.54,40.32]}
+{"kind":"image","id":"im/hory583a","slide":14,"name":"Picture 18","bbox":[542.4,240,179.34,388.8]}
+{"kind":"image","id":"im/apwfy94f","slide":14,"name":"Picture 21","bbox":[770.88,240,179.34,388.8]}
+{"kind":"image","id":"im/bq5wrul0","slide":14,"name":"Picture 24","bbox":[999.36,240,179.34,388.8]}
+{"kind":"slide","id":"sl/vaxsvy10","slide":15,"title":"GOVERNANCE","textShapes":14}
+{"kind":"shape","id":"sh/547mhg3m","slide":15,"name":"Rectangle 1","bbox":[0,0,13.44,720]}
+{"kind":"textbox","id":"sh/k3y5ov21","slide":15,"name":"TextBox 2","text":"GOVERNANCE","textPreview":"GOVERNANCE","textChars":10,"textLines":1,"bbox":[52.8,31.68,1056,28.8]}
+{"kind":"textbox","id":"sh/76p4jqls","slide":15,"name":"TextBox 3","text":"Make access and readiness visible","textPreview":"Make access and readiness visible","textChars":33,"textLines":1,"bbox":[52.8,86.4,1171.2,96]}
+{"kind":"textbox","id":"sh/65gnqlk7","slide":15,"name":"TextBox 4","text":"Permission, audit, and readiness views support accountable school operations.","textPreview":"Permission, audit, and readiness views support accountable school operations.","textChars":77,"textLines":1,"bbox":[52.8,175.68,1161.6,67.2]}
+{"kind":"shape","id":"sh/t87ml0ji","slide":15,"name":"Rectangle 5","bbox":[52.8,673.92,1171.2,1.15]}
+{"kind":"textbox","id":"sh/s7y5sv2x","slide":15,"name":"TextBox 6","text":"SchooKeep  |  Product pitch  |  05 October 2026","textPreview":"SchooKeep  |  Product pitch  |  05 October 2026","textChars":47,"textLines":1,"bbox":[52.8,686.4,960,19.2]}
+{"kind":"textbox","id":"sh/na5476l8","slide":15,"name":"TextBox 7","text":"15","textPreview":"15","textChars":2,"textLines":1,"bbox":[1161.6,683.52,57.6,24]}
+{"kind":"shape","id":"sh/m9c3e1kn","slide":15,"name":"Rectangle 8","bbox":[55.68,254.4,8.64,52.8]}
+{"kind":"textbox","id":"sh/wrm9kvep","slide":15,"name":"TextBox 9","text":"Role permissions","textPreview":"Role permissions","textChars":16,"textLines":1,"bbox":[82.56,254.4,432,33.6]}
+{"kind":"textbox","id":"sh/hsvat0fa","slide":15,"name":"TextBox 10","text":"Show the access model in a dedicated matrix.","textPreview":"Show the access model in a dedicated matrix.","textChars":44,"textLines":1,"bbox":[82.56,295.68,427.2,62.4]}
+{"kind":"shape","id":"sh/upkrilwj","slide":15,"name":"Rectangle 11","bbox":[55.68,364.8,8.64,52.8]}
+{"kind":"textbox","id":"sh/vqdsrqx4","slide":15,"name":"TextBox 12","text":"Audit visibility","textPreview":"Audit visibility","textChars":16,"textLines":1,"bbox":[82.56,364.8,432,33.6]}
+{"kind":"textbox","id":"sh/4vm9ovel","slide":15,"name":"TextBox 13","text":"Provide a view of recorded system activity.","textPreview":"Provide a view of recorded system activity.","textChars":43,"textLines":1,"bbox":[82.56,406.08,427.2,62.4]}
+{"kind":"shape","id":"sh/5wvax0f6","slide":15,"name":"Rectangle 14","bbox":[55.68,475.2,8.64,52.8]}
+{"kind":"textbox","id":"sh/it4rm5wv","slide":15,"name":"TextBox 15","text":"Clinic readiness","textPreview":"Clinic readiness","textChars":16,"textLines":1,"bbox":[82.56,475.2,432,33.6]}
+{"kind":"textbox","id":"sh/judsvqxg","slide":15,"name":"TextBox 16","text":"Give school operations a readiness and equipment workflow.","textPreview":"Give school operations a readiness and equipment workflow.","textChars":58,"textLines":1,"bbox":[82.56,516.48,427.2,62.4]}
+{"kind":"shape","id":"sh/0z29cbyh","slide":15,"name":"Rectangle 17","bbox":[538.08,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/1kjyt83e","slide":15,"name":"TextBox 19","text":"Permissions","textPreview":"Permissions","textChars":11,"textLines":1,"bbox":[532.8,641.28,198.54,40.32]}
+{"kind":"shape","id":"sh/gjax03m9","slide":15,"name":"Rectangle 20","bbox":[766.56,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/ehsfyt43","slide":15,"name":"TextBox 22","text":"Audit log","textPreview":"Audit log","textChars":9,"textLines":1,"bbox":[761.28,641.28,198.54,40.32]}
+{"kind":"shape","id":"sh/p8jyx83q","slide":15,"name":"Rectangle 23","bbox":[995.04,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/361gvilk","slide":15,"name":"TextBox 25","text":"Clinic readiness","textPreview":"Clinic readiness","textChars":16,"textLines":1,"bbox":[989.76,641.28,198.54,40.32]}
+{"kind":"image","id":"im/1wn65cb6","slide":15,"name":"Picture 18","bbox":[542.4,240,179.34,388.8]}
+{"kind":"image","id":"im/65cn6xcj","slide":15,"name":"Picture 21","bbox":[770.88,240,179.34,388.8]}
+{"kind":"image","id":"im/r6loz2t4","slide":15,"name":"Picture 24","bbox":[999.36,240,179.34,388.8]}
+{"kind":"slide","id":"sl/gny5sjyp","slide":16,"title":"REGIONAL PRODUCT DESIGN","textShapes":14}
+{"kind":"shape","id":"sh/8z2h8bq1","slide":16,"name":"Rectangle 1","bbox":[0,0,13.44,720]}
+{"kind":"textbox","id":"sh/9kby1g7m","slide":16,"name":"TextBox 2","text":"REGIONAL PRODUCT DESIGN","textPreview":"REGIONAL PRODUCT DESIGN","textChars":23,"textLines":1,"bbox":[52.8,31.68,1056,28.8]}
+{"kind":"textbox","id":"sh/ytkf2h8j","slide":16,"name":"TextBox 3","text":"Designed for the school context","textPreview":"Designed for the school context","textChars":31,"textLines":1,"bbox":[52.8,86.4,1171.2,96]}
+{"kind":"textbox","id":"sh/zutgvm94","slide":16,"name":"TextBox 4","text":"The app includes English/Arabic localization and contextual school system states.","textPreview":"The app includes English/Arabic localization and contextual school system states.","textChars":81,"textLines":1,"bbox":[52.8,175.68,1161.6,67.2]}
+{"kind":"shape","id":"sh/kv2h4rqp","slide":16,"name":"Rectangle 5","bbox":[52.8,673.92,1171.2,1.15]}
+{"kind":"textbox","id":"sh/lwbyxwra","slide":16,"name":"TextBox 6","text":"SchooKeep  |  Product pitch  |  05 October 2026","textPreview":"SchooKeep  |  Product pitch  |  05 October 2026","textChars":47,"textLines":1,"bbox":[52.8,686.4,960,19.2]}
+{"kind":"textbox","id":"sh/ip4zel83","slide":16,"name":"TextBox 7","text":"16","textPreview":"16","textChars":2,"textLines":1,"bbox":[1161.6,683.52,57.6,24]}
+{"kind":"shape","id":"sh/3qdg7qpo","slide":16,"name":"Rectangle 8","bbox":[55.68,254.4,8.64,52.8]}
+{"kind":"textbox","id":"sh/fm1gzq5o","slide":16,"name":"TextBox 9","text":"Bilingual foundation","textPreview":"Bilingual foundation","textChars":20,"textLines":1,"bbox":[82.56,254.4,432,33.6]}
+{"kind":"textbox","id":"sh/e1sf65o3","slide":16,"name":"TextBox 10","text":"English and Arabic strings and right-to-left layouts are present in the codebase.","textPreview":"English and Arabic strings and right-to-left layouts are present in the codebase.","textChars":81,"textLines":1,"bbox":[82.56,295.68,427.2,62.4]}
+{"kind":"shape","id":"sh/1ojy10ne","slide":16,"name":"Rectangle 11","bbox":[55.68,364.8,8.64,52.8]}
+{"kind":"textbox","id":"sh/gnax8v6t","slide":16,"name":"TextBox 12","text":"School-wide advisories","textPreview":"School-wide advisories","textChars":22,"textLines":1,"bbox":[82.56,364.8,432,33.6]}
+{"kind":"textbox","id":"sh/nqlg3a5k","slide":16,"name":"TextBox 13","text":"Weather advisory screens represent shared restrictions.","textPreview":"Weather advisory screens represent shared restrictions.","textChars":55,"textLines":1,"bbox":[82.56,406.08,427.2,62.4]}
+{"kind":"shape","id":"sh/2pcfa5oz","slide":16,"name":"Rectangle 14","bbox":[55.68,475.2,8.64,52.8]}
+{"kind":"textbox","id":"sh/ps3y5knq","slide":16,"name":"TextBox 15","text":"Contextual operating modes","textPreview":"Contextual operating modes","textChars":26,"textLines":1,"bbox":[82.56,475.2,432,33.6]}
+{"kind":"textbox","id":"sh/oruhcf65","slide":16,"name":"TextBox 16","text":"Ramadan and after-hours states are part of the experience.","textPreview":"Ramadan and after-hours states are part of the experience.","textChars":58,"textLines":1,"bbox":[82.56,516.48,427.2,62.4]}
+{"kind":"shape","id":"sh/bulg7u5g","slide":16,"name":"Rectangle 17","bbox":[538.08,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/mpgj6t8j","slide":16,"name":"TextBox 19","text":"Weather advisory","textPreview":"Weather advisory","textChars":16,"textLines":1,"bbox":[532.8,641.28,198.54,40.32]}
+{"kind":"shape","id":"sh/7qp0zepo","slide":16,"name":"Rectangle 20","bbox":[766.56,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/9c7i1o7u","slide":16,"name":"TextBox 22","text":"Ramadan mode","textPreview":"Ramadan mode","textChars":12,"textLines":1,"bbox":[761.28,641.28,198.54,40.32]}
+{"kind":"shape","id":"sh/ylwj2987","slide":16,"name":"Rectangle 23","bbox":[995.04,235.68,187.98,397.44]}
+{"kind":"textbox","id":"sh/kne14jqd","slide":16,"name":"TextBox 25","text":"After-hours state","textPreview":"After-hours state","textChars":17,"textLines":1,"bbox":[989.76,641.28,198.54,40.32]}
+{"kind":"image","id":"im/25grqpkb","slide":16,"name":"Picture 18","bbox":[542.4,240,179.34,388.8]}
+{"kind":"image","id":"im/147ahkjq","slide":16,"name":"Picture 21","bbox":[770.88,240,179.34,388.8]}
+{"kind":"image","id":"im/g3y9of25","slide":16,"name":"Picture 24","bbox":[999.36,240,179.34,388.8]}
+{"kind":"slide","id":"sl/14bup87q","slide":17,"title":"COMMERCIAL HYPOTHESIS","textShapes":14}
+{"kind":"shape","id":"sh/1c7e50ni","slide":17,"name":"Rectangle 1","bbox":[0,0,13.44,720]}
+{"kind":"textbox","id":"sh/gbedwfmx","slide":17,"name":"TextBox 2","text":"COMMERCIAL HYPOTHESIS","textPreview":"COMMERCIAL HYPOTHESIS","textChars":21,"textLines":1,"bbox":[52.8,31.68,1056,28.8]}
+{"kind":"textbox","id":"sh/rm5czq50","slide":17,"name":"TextBox 3","text":"Start with a school-level subscription","textPreview":"Start with a school-level subscription","textChars":38,"textLines":1,"bbox":[52.8,86.4,1171.2,96]}
+{"kind":"textbox","id":"sh/6lwvql4v","slide":17,"name":"TextBox 4","text":"A proposed model for validation, rather than committed pricing.","textPreview":"A proposed model for validation, rather than committed pricing.","textChars":63,"textLines":1,"bbox":[52.8,175.68,1161.6,67.2]}
+{"kind":"shape","id":"sh/t8ne10n6","slide":17,"name":"Rectangle 5","bbox":[52.8,673.92,1171.2,1.15]}
+{"kind":"textbox","id":"sh/snedsvml","slide":17,"name":"TextBox 6","text":"SchooKeep  |  Product pitch  |  05 October 2026","textPreview":"SchooKeep  |  Product pitch  |  05 October 2026","textChars":47,"textLines":1,"bbox":[52.8,686.4,960,19.2]}
+{"kind":"textbox","id":"sh/jilcvq54","slide":17,"name":"TextBox 7","text":"17","textPreview":"17","textChars":2,"textLines":1,"bbox":[1161.6,683.52,57.6,24]}
+{"kind":"textbox","id":"sh/ihcvml4j","slide":17,"name":"TextBox 8","text":"01","textPreview":"01","textChars":2,"textLines":1,"bbox":[62.4,259.2,342.4,67.2]}
+{"kind":"textbox","id":"sh/4by9or6l","slide":17,"name":"TextBox 9","text":"School license","textPreview":"School license","textChars":14,"textLines":1,"bbox":[62.4,350.4,342.4,76.8]}
+{"kind":"textbox","id":"sh/pc7qhwn6","slide":17,"name":"TextBox 10","text":"An annual subscription priced by school size or student band. Validate willingness to pay in pilots.","textPreview":"An annual subscription priced by school size or student band. Validate willingness to pay in pilots.","textChars":100,"textLines":1,"bbox":[62.4,446.4,332.8,182.4]}
+{"kind":"textbox","id":"sh/29grm1of","slide":17,"name":"TextBox 11","text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[443.2,259.2,342.4,67.2]}
+{"kind":"textbox","id":"sh/3ap8fm50","slide":17,"name":"TextBox 12","text":"Implementation","textPreview":"Implementation","textChars":14,"textLines":1,"bbox":[443.2,350.4,342.4,76.8]}
+{"kind":"textbox","id":"sh/gnepkr69","slide":17,"name":"TextBox 13","text":"Offer setup, training, and rollout support. Scope integration work separately.","textPreview":"Offer setup, training, and rollout support. Scope integration work separately.","textChars":78,"textLines":1,"bbox":[443.2,446.4,332.8,182.4]}
+{"kind":"textbox","id":"sh/honqdwnu","slide":17,"name":"TextBox 14","text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[824,259.2,342.4,67.2]}
+{"kind":"textbox","id":"sh/ulw7ihoj","slide":17,"name":"TextBox 15","text":"Group expansion","textPreview":"Group expansion","textChars":15,"textLines":1,"bbox":[824,350.4,342.4,76.8]}
+{"kind":"textbox","id":"sh/fm58bm54","slide":17,"name":"TextBox 16","text":"Expand from one school to a school group after demonstrating adoption and operating value.","textPreview":"Expand from one school to a school group after demonstrating adoption and operating value.","textChars":90,"textLines":1,"bbox":[824,446.4,332.8,182.4]}
+{"kind":"slide","id":"sl/y5wne50z","slide":18,"title":"PILOT PROPOSAL","textShapes":14}
+{"kind":"shape","id":"sh/wrelszu9","slide":18,"name":"Rectangle 1","bbox":[0,0,13.44,720]}
+{"kind":"textbox","id":"sh/hsn2l4bu","slide":18,"name":"TextBox 2","text":"PILOT PROPOSAL","textPreview":"PILOT PROPOSAL","textChars":14,"textLines":1,"bbox":[52.8,31.68,1056,28.8]}
+{"kind":"textbox","id":"sh/itw3upcf","slide":18,"name":"TextBox 3","text":"Prove the workflow before scaling","textPreview":"Prove the workflow before scaling","textChars":33,"textLines":1,"bbox":[52.8,86.4,1171.2,96]}
+{"kind":"textbox","id":"sh/je5knut0","slide":18,"name":"TextBox 4","text":"An illustrative eight-week pilot with agreed measures and owners.","textPreview":"An illustrative eight-week pilot with agreed measures and owners.","textChars":65,"textLines":1,"bbox":[52.8,175.68,1161.6,67.2]}
+{"kind":"shape","id":"sh/4felwzu5","slide":18,"name":"Rectangle 5","bbox":[52.8,673.92,1171.2,1.15]}
+{"kind":"textbox","id":"sh/5gnmp4bq","slide":18,"name":"TextBox 6","text":"SchooKeep  |  Product pitch  |  05 October 2026","textPreview":"SchooKeep  |  Product pitch  |  05 October 2026","textChars":47,"textLines":1,"bbox":[52.8,686.4,960,19.2]}
+{"kind":"textbox","id":"sh/6hw3y9sb","slide":18,"name":"TextBox 7","text":"18","textPreview":"18","textChars":2,"textLines":1,"bbox":[1161.6,683.52,57.6,24]}
+{"kind":"textbox","id":"sh/rip4retw","slide":18,"name":"TextBox 8","text":"01","textPreview":"01","textChars":2,"textLines":1,"bbox":[62.4,259.2,342.4,67.2]}
+{"kind":"textbox","id":"sh/fapkr6pw","slide":18,"name":"TextBox 9","text":"Weeks 1-2: Prepare","textPreview":"Weeks 1-2: Prepare","textChars":18,"textLines":1,"bbox":[62.4,350.4,342.4,76.8]}
+{"kind":"textbox","id":"sh/upg3i18r","slide":18,"name":"TextBox 10","text":"Map current workflows, confirm roles, review data handling, and establish a baseline.","textPreview":"Map current workflows, confirm roles, review data handling, and establish a baseline.","textChars":85,"textLines":1,"bbox":[62.4,446.4,332.8,182.4]}
+{"kind":"textbox","id":"sh/1cr2tg72","slide":18,"name":"TextBox 11","text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[443.2,259.2,342.4,67.2]}
+{"kind":"textbox","id":"sh/gbylkbqh","slide":18,"name":"TextBox 12","text":"Weeks 3-6: Operate","textPreview":"Weeks 3-6: Operate","textChars":18,"textLines":1,"bbox":[443.2,350.4,342.4,76.8]}
+{"kind":"textbox","id":"sh/7mpknmp0","slide":18,"name":"TextBox 13","text":"Pilot clinic, consent, and parent communications with a defined cohort and support cadence.","textPreview":"Pilot clinic, consent, and parent communications with a defined cohort and support cadence.","textChars":91,"textLines":1,"bbox":[443.2,446.4,332.8,182.4]}
+{"kind":"textbox","id":"sh/6lg3e18f","slide":18,"name":"TextBox 14","text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[824,259.2,342.4,67.2]}
+{"kind":"textbox","id":"sh/to72pw76","slide":18,"name":"TextBox 15","text":"Weeks 7-8: Evaluate","textPreview":"Weeks 7-8: Evaluate","textChars":19,"textLines":1,"bbox":[824,350.4,342.4,76.8]}
+{"kind":"textbox","id":"sh/snylgrql","slide":18,"name":"TextBox 16","text":"Measure adoption, documentation completeness, consent response time, and handoff follow-through.","textPreview":"Measure adoption, documentation completeness, consent response time, and handoff follow-through.","textChars":96,"textLines":1,"bbox":[824,446.4,332.8,182.4]}
+{"kind":"slide","id":"sl/nid43ytk","slide":19,"title":"THE NEXT STEP","textShapes":8}
+{"kind":"shape","id":"sh/9gb6xgbi","slide":19,"name":"Rectangle 1","bbox":[0,0,13.44,720]}
+{"kind":"textbox","id":"sh/8v2pobax","slide":19,"name":"TextBox 2","text":"THE NEXT STEP","textPreview":"THE NEXT STEP","textChars":13,"textLines":1,"bbox":[52.8,31.68,1056,28.8]}
+{"kind":"textbox","id":"sh/vitozqt8","slide":19,"name":"TextBox 3","text":"Find the right pilot school","textPreview":"Find the right pilot school","textChars":27,"textLines":1,"bbox":[52.8,86.4,1171.2,96]}
+{"kind":"textbox","id":"sh/ahk7qls3","slide":19,"name":"TextBox 4","text":"Validate the value with the people who will use the system every day.","textPreview":"Validate the value with the people who will use the system every day.","textChars":69,"textLines":1,"bbox":[52.8,175.68,1161.6,67.2]}
+{"kind":"shape","id":"sh/xkbq10be","slide":19,"name":"Rectangle 5","bbox":[52.8,673.92,1171.2,1.15]}
+{"kind":"textbox","id":"sh/wj2psvat","slide":19,"name":"TextBox 6","text":"SchooKeep  |  Product pitch  |  05 October 2026","textPreview":"SchooKeep  |  Product pitch  |  05 October 2026","textChars":47,"textLines":1,"bbox":[52.8,686.4,960,19.2]}
+{"kind":"textbox","id":"sh/jmd83atk","slide":19,"name":"TextBox 7","text":"19","textPreview":"19","textChars":2,"textLines":1,"bbox":[1161.6,683.52,57.6,24]}
+{"kind":"textbox","id":"sh/il47u5sz","slide":19,"name":"TextBox 8","text":"Seeking a design partner","textPreview":"Seeking a design partner","textChars":24,"textLines":1,"bbox":[67.2,273.6,672,62.4]}
+{"kind":"textbox","id":"sh/cri1gnql","slide":19,"name":"TextBox 9","text":"A school leadership team, nurse, and parent cohort willing to shape the rollout and define success.","textPreview":"A school leadership team, nurse, and parent cohort willing to shape the rollout and define success.","textChars":99,"textLines":1,"bbox":[67.2,364.8,681.6,115.2]}
+{"kind":"textbox","id":"sh/dsri9sr6","slide":19,"name":"TextBox 10","text":"Agree the pilot scope.\nName an operational owner.\nChoose the measures that matter.","textPreview":"Agree the pilot scope. | Name an operational owner. | Choose the measures that matter.","textChars":82,"textLines":3,"bbox":[67.2,499.2,691.2,129.6]}
+{"kind":"shape","id":"sh/qpgjex8f","slide":19,"name":"Rectangle 11","bbox":[907.68,226.08,199.05,421.44]}
+{"kind":"image","id":"im/0v65432t","slide":19,"name":"Picture 12","bbox":[912,230.4,190.41,412.8]}
+{"kind":"slide","id":"sl/zyxsni5k","slide":20,"title":"EVIDENCE AND SCOPE","textShapes":10}
+{"kind":"shape","id":"sh/qpwjmh8n","slide":20,"name":"Rectangle 1","bbox":[0,0,13.44,720]}
+{"kind":"textbox","id":"sh/rq50vmp8","slide":20,"name":"TextBox 2","text":"EVIDENCE AND SCOPE","textPreview":"EVIDENCE AND SCOPE","textChars":18,"textLines":1,"bbox":[52.8,31.68,1056,28.8]}
+{"kind":"textbox","id":"sh/4nu1krqh","slide":20,"name":"TextBox 3","text":"What this presentation demonstrates","textPreview":"What this presentation demonstrates","textChars":35,"textLines":1,"bbox":[52.8,86.4,1171.2,96]}
+{"kind":"textbox","id":"sh/po3itc72","slide":20,"name":"TextBox 4","text":"Product screenshots are evidence of the current app experience, not commercial or clinical outcomes.","textPreview":"Product screenshots are evidence of the current app experience, not commercial or clinical outcomes.","textChars":100,"textLines":1,"bbox":[52.8,175.68,1161.6,67.2]}
+{"kind":"shape","id":"sh/2lczih8r","slide":20,"name":"Rectangle 5","bbox":[52.8,673.92,1171.2,1.15]}
+{"kind":"textbox","id":"sh/3ml0rmpw","slide":20,"name":"TextBox 6","text":"SchooKeep  |  Product pitch  |  05 October 2026","textPreview":"SchooKeep  |  Product pitch  |  05 October 2026","textChars":47,"textLines":1,"bbox":[52.8,686.4,960,19.2]}
+{"kind":"textbox","id":"sh/gjuhg7ql","slide":20,"name":"TextBox 7","text":"20","textPreview":"20","textChars":2,"textLines":1,"bbox":[1161.6,683.52,57.6,24]}
+{"kind":"textbox","id":"sh/hk3ipcr6","slide":20,"name":"TextBox 8","text":"Capture method","textPreview":"Capture method","textChars":14,"textLines":1,"bbox":[67.2,259.2,480,38.4]}
+{"kind":"textbox","id":"sh/dkfmp4zy","slide":20,"name":"TextBox 9","text":"Flutter release web build; 393 x 852 mobile viewport; local seeded Laravel backend; supplied admin account. Original icon assets, with Arial fallback for network-loaded text fonts.","textPreview":"Flutter release web build; 393 x 852 mobile viewport; local seeded Laravel backend; supplied admin account. Original icon assets, with Ar...","textChars":180,"textLines":1,"bbox":[67.2,314.88,523.2,201.6]}
+{"kind":"textbox","id":"sh/cj65wzyd","slide":20,"name":"TextBox 10","text":"Presentation boundaries","textPreview":"Presentation boundaries","textChars":23,"textLines":1,"bbox":[672,259.2,528,38.4]}
+{"kind":"textbox","id":"sh/rid4nuhs","slide":20,"name":"TextBox 11","text":"Demo data is shown. Some flows use sample IDs or static states. External maps and services were not verified. Production deployment, clinical outcomes, security certification, traction, pricing, and integrations are not claimed.","textPreview":"Demo data is shown. Some flows use sample IDs or static states. External maps and services were not verified. Production deployment, clin...","textChars":228,"textLines":1,"bbox":[672,314.88,523.2,240]}
+{"kind":"textbox","id":"sh/qh4nupg7","slide":20,"name":"TextBox 12","text":"Included: route-indexed screenshot library, browser gallery, and editable PowerPoint deck.","textPreview":"Included: route-indexed screenshot library, browser gallery, and editable PowerPoint deck.","textChars":90,"textLines":1,"bbox":[67.2,590.4,1104,52.8]}

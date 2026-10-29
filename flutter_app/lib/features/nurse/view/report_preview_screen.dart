@@ -362,7 +362,7 @@ class _ReportPreviewScreenState extends State<ReportPreviewScreen> {
               ),
               SizedBox(height: 2),
               Text(
-                'DHA Compliance: DHA/HRS/HPSD/ST-22',
+                'MOH KSA Compliance: MOH KSA/SH-2024',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 9,
@@ -425,7 +425,7 @@ class _ReportPreviewScreenState extends State<ReportPreviewScreen> {
         ),
         const SizedBox(height: 8),
         const Text(
-          'All procedures performed complied with the UAE PDPL (المرسوم بقانون رقم 45/2021) for patient confidentiality.',
+          'All procedures performed complied with the Saudi PDPL (نظام حماية البيانات الشخصية) for patient confidentiality.',
           style: TextStyle(
             fontSize: 10,
             fontStyle: FontStyle.italic,

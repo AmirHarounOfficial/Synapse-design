@@ -1,5 +1,5 @@
 name: schookeep
-description: "SchooKeep — UAE K-12 school health management app."
+description: "SchooKeep — KSA K-12 school health & safety management platform."
 publish_to: 'none'
 
 version: 1.0.0+1
@@ -35,6 +35,9 @@ dependencies:
   lucide_icons: ^0.257.0
   google_fonts: ^6.2.1
 
+  # SVG rendering for the Saudi Riyal symbol
+  flutter_svg: ^2.0.10+1
+
   # Feature packages
   signature: ^5.5.0
   mobile_scanner: ^6.0.2
@@ -57,3 +60,4 @@ flutter:
   uses-material-design: true
   assets:
     - assets/icon.png
+    - assets/Saudi_Riyal_Symbol.svg

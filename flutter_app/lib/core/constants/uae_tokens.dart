@@ -1,4 +1,5 @@
-/// Locale/domain tokens ported from the React export (`src/tokens/uae.ts`).
+/// ⚠️ DEPRECATED — use [SaTokens] for Saudi market.
+/// This file is kept for reference only; no code should import it.
 abstract final class UaeTokens {
   // Emergency numbers
   static const String ambulanceNumber = '998';
@@ -24,5 +25,5 @@ abstract final class UaeTokens {
   static const List<String> licenseAuthorities = ['DHA', 'DoH Abu Dhabi', 'MOHAP'];
 
   // Curricula
-  static const List<String> curricula = ['UAE MoE', 'British', 'American', 'Indian', 'IB', 'Other'];
+  static const List<String> curricula = ['Saudi National', 'British', 'American', 'Indian', 'IB', 'Other'];
 }

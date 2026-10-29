@@ -105,7 +105,7 @@ class _StudentInventoryDirectoryScreenState
               textInputAction: TextInputAction.search,
               decoration: InputDecoration(
                 labelText: context.tr(
-                  en: 'Student name or Emirates ID',
+                  en: 'Student name or National ID',
                   ar: 'اسم الطالب أو رقم الهوية',
                 ),
                 prefixIcon: const Icon(LucideIcons.search),

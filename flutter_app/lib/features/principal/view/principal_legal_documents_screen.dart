@@ -11,9 +11,9 @@ class PrincipalLegalDocumentsScreen extends StatelessWidget {
   const PrincipalLegalDocumentsScreen({super.key});
 
   static const _signedDocuments = <_SignedDoc>[
-    _SignedDoc('Platform Data Processing Agreement (DPA) · UAE PDPL Compliant', '2026-05-01'),
-    _SignedDoc('UAE PDPL Controller-Processor Declaration', '2026-05-01'),
-    _SignedDoc('Dubai DHA Medical Liability Disclaimer', '2026-05-01'),
+    _SignedDoc('Platform Data Processing Agreement (DPA) · Saudi PDPL Compliant', '2026-05-01'),
+    _SignedDoc('Saudi PDPL Controller-Processor Declaration', '2026-05-01'),
+    _SignedDoc('MOH KSA Medical Liability Disclaimer', '2026-05-01'),
   ];
 
   static const _consentTotal = 487;
@@ -74,12 +74,12 @@ class PrincipalLegalDocumentsScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  context.tr(en: '🇦🇪 Emirate of Dubai', ar: '🇦🇪 إمارة دبي — الإمارات العربية المتحدة'),
+                  context.tr(en: '🇸🇦 Kingdom of Saudi Arabia', ar: '🇸🇦 المملكة العربية السعودية'),
                   style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Color(0xFF164E63)),
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  context.tr(en: 'Governed by UAE PDPL & DHA School Health Guidelines', ar: 'خاضع لقانون حماية البيانات الشخصية ولائحة صحة المدارس بهيئة الصحة بدبي'),
+                  context.tr(en: 'Governed by Saudi PDPL & MOH KSA School Health Guidelines', ar: 'خاضع لنظام حماية البيانات الشخصية ولائحة الصحة المدرسية بوزارة الصحة السعودية'),
                   style: const TextStyle(fontSize: 12, color: Color(0xFF0891B2)),
                 ),
               ],
@@ -89,7 +89,7 @@ class PrincipalLegalDocumentsScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             decoration: BoxDecoration(color: const Color(0xFF0E7490), borderRadius: BorderRadius.circular(4)),
             child: Text(
-              context.tr(en: 'DHA COMPLIANT', ar: 'معتمد DHA'),
+              context.tr(en: 'MOH KSA COMPLIANT', ar: 'معتمد وزارة الصحة السعودية'),
               style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.white),
             ),
           ),
@@ -119,12 +119,12 @@ class PrincipalLegalDocumentsScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        context.tr(en: 'HASANA Integration', ar: 'نظام حصانة (HASANA) - هيئة الصحة بدبي'),
+                        context.tr(en: 'MOH KSA Immunization Integration', ar: 'نظام التطعيمات - وزارة الصحة السعودية'),
                         style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary),
                       ),
                       const SizedBox(height: 2),
                       Text(
-                        context.tr(en: 'Dubai DHA Immunization Sync', ar: 'مزامنة سجل التطعيمات والتحصينات لطلاب دبي'),
+                        context.tr(en: 'MOH KSA Immunization Sync', ar: 'مزامنة سجل التطعيمات مع وزارة الصحة'),
                         style: const TextStyle(fontSize: 11, color: SchooKeepColors.textSecondary),
                       ),
                     ],
@@ -170,7 +170,7 @@ class PrincipalLegalDocumentsScreen extends StatelessWidget {
             ListTile(
               leading: const Icon(LucideIcons.fileText, color: SchooKeepColors.primary),
               title: Text(context.tr(en: 'Choose PDF from device', ar: 'اختيار ملف PDF من الجهاز')),
-              subtitle: Text(context.tr(en: 'UAE PDPL DPO appointment certificate · Max 5MB', ar: 'شهادة تعيين DPO طبقاً للقانون الإماراتي (الحد الأقصى 5 ميجابايت)')),
+              subtitle: Text(context.tr(en: 'Saudi PDPL DPO appointment certificate · Max 5MB', ar: 'شهادة تعيين DPO طبقاً للنظام السعودي (الحد الأقصى 5 ميجابايت)')),
               onTap: () {
                 Navigator.pop(sheetCtx);
                 _snack(context, context.tr(en: 'Certificate upload started…', ar: 'بدأ رفع الشهادة...'));
@@ -197,8 +197,8 @@ class PrincipalLegalDocumentsScreen extends StatelessWidget {
       builder: (dlgCtx) => AlertDialog(
         title: Text(context.tr(en: 'Review & Re-sign DPA', ar: 'مراجعة وإعادة توقيع اتفاقية معالجة البيانات')),
         content: Text(context.tr(
-          en: 'The Data Processing Agreement renewal is due June 1, 2026. Re-signing renews the agreement for another term under the UAE PDPL.',
-          ar: 'تجديد اتفاقية معالجة البيانات مستحق في 1 يونيو 2026. التوقيع يجدد الاتفاقية لفترة جديدة وفق قانون البيانات الإماراتي.',
+          en: 'The Data Processing Agreement renewal is due June 1, 2026. Re-signing renews the agreement for another term under the Saudi PDPL.',
+          ar: 'تجديد اتفاقية معالجة البيانات مستحق في 1 يونيو 2026. التوقيع يجدد الاتفاقية لفترة جديدة وفق نظام البيانات السعودي.',
         )),
         actions: [
           TextButton(onPressed: () => Navigator.pop(dlgCtx, false), child: Text(context.tr(en: 'Cancel', ar: 'إلغاء'))),
@@ -234,7 +234,7 @@ class PrincipalLegalDocumentsScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  context.tr(en: 'Upload your UAE PDPL DPO appointment certificate (PDF, Max 5MB)', ar: 'رفع شهادة التكليف الرسمية لمسؤول حماية البيانات (PDF, حد أقصى 5 ميجابايت)'),
+                  context.tr(en: 'Upload your Saudi PDPL DPO appointment certificate (PDF, Max 5MB)', ar: 'رفع شهادة التكليف الرسمية لمسؤول حماية البيانات (PDF, حد أقصى 5 ميجابايت)'),
                   textAlign: TextAlign.center,
                   style: const TextStyle(fontSize: 11, color: SchooKeepColors.textSecondary),
                 ),
@@ -249,7 +249,7 @@ class PrincipalLegalDocumentsScreen extends StatelessWidget {
                   child: Row(
                     children: [
                       const Expanded(
-                        child: Text('dpo_certificate_dubai.pdf',
+                        child: Text('dpo_certificate_riyadh.pdf',
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: SchooKeepColors.textPrimary)),
                       ),
@@ -506,16 +506,16 @@ class PrincipalLegalDocumentsScreen extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           _frameworkLine(
-            context.tr(en: 'UAE PDPL', ar: 'قانون حماية البيانات الإماراتي (PDPL)'),
-            context.tr(en: ' (Federal Decree-Law No. 45 of 2021) governs general data privacy protections', ar: ' (المرسوم بقانون اتحادي رقم 45 لسنة 2021) ينظم حماية البيانات الشخصية.'),
+            context.tr(en: 'Saudi PDPL', ar: 'نظام حماية البيانات الشخصية السعودي (PDPL)'),
+            context.tr(en: ' (Saudi Personal Data Protection Law) governs general data privacy protections', ar: ' (نظام حماية البيانات الشخصية السعودي) ينظم حماية البيانات الشخصية.'),
           ),
           _frameworkLine(
-            context.tr(en: 'DHA Guidelines', ar: 'لوائح هيئة الصحة بدبي'),
-            context.tr(en: ' protect student clinical data and DHA school clinic operating procedures', ar: ' تحمي البيانات الطبية وتحدد إجراءات تشغيل العيادات المدرسية.'),
+            context.tr(en: 'MOH KSA Guidelines', ar: 'لوائح وزارة الصحة السعودية'),
+            context.tr(en: ' protect student clinical data and MOH KSA school clinic operating procedures', ar: ' تحمي البيانات الطبية وتحدد إجراءات تشغيل العيادات المدرسية.'),
           ),
           _frameworkLine(
-            context.tr(en: 'HASANA Sync Protocols', ar: 'بروتوكولات ربط حصنة (HASANA)'),
-            context.tr(en: ' dictate mandatory reporting of childhood immunizations', ar: ' تنظم الإبلاغ الإلزامي عن تطعيمات الطلاب.'),
+            context.tr(en: 'MOH KSA Immunization Sync Protocols', ar: 'بروتوكولات التطعيمات - وزارة الصحة السعودية'),
+            context.tr(en: ' dictate mandatory reporting of childhood immunizations per MOH KSA', ar: ' تنظم الإبلاغ الإلزامي عن تطعيمات الطلاب.'),
           ),
         ],
       ),
@@ -565,23 +565,23 @@ class PrincipalLegalDocumentsScreen extends StatelessWidget {
           _docType(
             context.tr(en: 'Platform Data Processing Agreement (DPA)', ar: 'اتفاقية معالجة البيانات عبر المنصة (DPA)'),
             context.tr(
-              en: 'Defines how student data is processed, stored, and protected by the SchooKeep platform in accordance with the UAE PDPL.',
-              ar: 'تحدد كيفية معالجة وحفظ وحماية بيانات الطلاب من خلال منصة SchooKeep وفقاً للقانون الإماراتي.',
+              en: 'Defines how student data is processed, stored, and protected by the SchooKeep platform in accordance with the Saudi PDPL.',
+              ar: 'تحدد كيفية معالجة وحفظ وحماية بيانات الطلاب من خلال منصة SchooKeep وفقاً للنظام السعودي.',
             ),
           ),
           const SizedBox(height: 12),
           _docType(
-            context.tr(en: 'UAE PDPL Controller-Processor Declaration', ar: 'إقرار المسؤول والمعالج لحماية البيانات الإماراتي'),
+            context.tr(en: 'Saudi PDPL Controller-Processor Declaration', ar: 'إقرار المسؤول والمعالج لنظام حماية البيانات السعودي'),
             context.tr(
-              en: 'Delineates the responsibilities of the school (Controller) and SchooKeep (Processor) under the Federal Decree-Law No. 45 of 2021.',
+              en: 'Delineates the responsibilities of the school (Controller) and SchooKeep (Processor) under the Saudi Personal Data Protection Law.',
               ar: 'يحدد مسؤوليات المدرسة (المسؤول) ومنصة SchooKeep (المعالج) بموجب المرسوم بقانون اتحادي رقم 45 لسنة 2021.',
             ),
           ),
           const SizedBox(height: 12),
           _docType(
-            context.tr(en: 'DHA Medical Liability Disclaimer', ar: 'إخلاء المسؤولية الطبية بهيئة الصحة بدبي (DHA)'),
+            context.tr(en: 'MOH KSA Medical Liability Disclaimer', ar: 'إخلاء المسؤولية الطبية بوزارة الصحة السعودية'),
             context.tr(
-              en: 'Clarifies DHA clinic licensing operational protocols, emergency consent scopes, and platform disclaimer boundaries.',
+              en: 'Clarifies clinic licensing operational protocols, emergency consent scopes, and platform disclaimer boundaries.',
               ar: 'يوضح بروتوكولات ترخيص العيادة المدرسية ونطاق موافقة الطوارئ وحدود إخلاء المسؤولية.',
             ),
           ),

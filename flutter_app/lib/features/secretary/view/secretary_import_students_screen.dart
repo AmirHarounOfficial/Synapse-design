@@ -18,21 +18,21 @@ class SecretaryImportStudentsScreen extends StatefulWidget {
 class _PreviewRow {
   const _PreviewRow({
     required this.name,
-    required this.eid,
+    required this.nationalId,
     required this.grade,
     required this.dob,
     required this.parent,
-    required this.emirate,
+    required this.region,
     required this.curriculum,
     required this.insurer,
     required this.policy,
   });
   final String name;
-  final String eid;
+  final String nationalId;
   final String grade;
   final String dob;
   final String parent;
-  final String emirate;
+  final String region;
   final String curriculum;
   final String insurer;
   final String policy;
@@ -44,25 +44,25 @@ class _SecretaryImportStudentsScreenState extends State<SecretaryImportStudentsS
   bool _validationPassed = false;
 
   static const List<_PreviewRow> _previewRows = [
-    _PreviewRow(name: 'Fatima Al Mansoori', eid: '784-2016-1234567-8', grade: '4th', dob: '2016-03-15', parent: 'almansoori.j@email.ae', emirate: 'Dubai', curriculum: 'IB', insurer: 'Daman', policy: 'DM-98765-01'),
-    _PreviewRow(name: 'Zayed Al Hashimi', eid: '784-2015-7654321-0', grade: '5th', dob: '2015-07-22', parent: 'sarah.hashimi@email.ae', emirate: 'Abu Dhabi', curriculum: 'British', insurer: 'GIG Gulf', policy: 'GG-11223-04'),
-    _PreviewRow(name: 'Aisha Al Suwaidi', eid: '784-2016-5678901-2', grade: '4th', dob: '2016-05-10', parent: 'carlos.suwaidi@email.ae', emirate: 'Dubai', curriculum: 'IB', insurer: 'Oman Insurance', policy: 'OI-55443-02'),
-    _PreviewRow(name: 'Liam Chen', eid: '784-2017-9012345-6', grade: '3rd', dob: '2017-01-08', parent: 'wei.chen@email.ae', emirate: 'Dubai', curriculum: 'American', insurer: 'Nextcare', policy: 'NC-44556-09'),
-    _PreviewRow(name: 'Omar Al Marzooqi', eid: '784-2015-3456789-0', grade: '5th', dob: '2015-11-30', parent: 'michael.marzooqi@email.ae', emirate: 'Sharjah', curriculum: 'SABIS', insurer: 'Daman', policy: 'DM-77331-03'),
+    _PreviewRow(name: 'Fatima Al Mansoori', nationalId: '1123456789', grade: '4th', dob: '2016-03-15', parent: 'almansoori.j@email.ae', region: 'Riyadh', curriculum: 'IB', insurer: 'Daman', policy: 'DM-98765-01'),
+    _PreviewRow(name: 'Zayed Al Hashimi', nationalId: '1098765432', grade: '5th', dob: '2015-07-22', parent: 'sarah.hashimi@email.ae', region: 'Makkah', curriculum: 'British', insurer: 'GIG Gulf', policy: 'GG-11223-04'),
+    _PreviewRow(name: 'Aisha Al Suwaidi', nationalId: '1056789012', grade: '4th', dob: '2016-05-10', parent: 'carlos.suwaidi@email.ae', region: 'Riyadh', curriculum: 'IB', insurer: 'Oman Insurance', policy: 'OI-55443-02'),
+    _PreviewRow(name: 'Liam Chen', nationalId: '1090123456', grade: '3rd', dob: '2017-01-08', parent: 'wei.chen@email.ae', region: 'Riyadh', curriculum: 'American', insurer: 'Nextcare', policy: 'NC-44556-09'),
+    _PreviewRow(name: 'Omar Al Marzooqi', nationalId: '1034567890', grade: '5th', dob: '2015-11-30', parent: 'michael.marzooqi@email.ae', region: 'Eastern Province', curriculum: 'SABIS', insurer: 'Daman', policy: 'DM-77331-03'),
   ];
 
   void _handleFileUpload() {
     const invalidEid = '784-1234-5678-9';
     setState(() {
-      _uploadedFile = 'students_uae_2026.xlsx';
+      _uploadedFile = 'students_ksa_2026.xlsx';
       _validationErrors = [
         (row: 12, error: context.tr(en: 'Missing required field: Parent Email', ar: 'البريد الإلكتروني لولي الأمر مفقود')),
         (row: 15, error: context.tr(en: 'Invalid date format: Birth Date (Must be YYYY-MM-DD)', ar: 'صيغة تاريخ الميلاد غير صالحة (يجب أن تكون YYYY-MM-DD)')),
         (
           row: 18,
           error: context.tr(
-            en: "Invalid Emirates ID: '$invalidEid'. EID must be 15 digits in 784-YYYY-XXXXXXX-X format",
-            ar: "رقم الهوية الإماراتية غير صالح: '$invalidEid'. يجب أن تتكون الهوية من 15 رقماً بصيغة 784-YYYY-XXXXXXX-X",
+            en: "Invalid National ID: '$invalidEid'. National ID must be 10 digits",
+            ar: "رقم الهوية الوطنية غير صالح: '$invalidEid'. يجب أن يتكون رقم الهوية من 10 أرقام",
           ),
         ),
       ];
@@ -86,13 +86,13 @@ class _SecretaryImportStudentsScreenState extends State<SecretaryImportStudentsS
 
   static const List<String> _templateColumns = [
     'Name',
-    'Emirates ID (EID)',
+    'National ID',
     'Grade',
     'Date of Birth (YYYY-MM-DD)',
     'Parent Email',
-    'Emirate',
+    'Region',
     'Curriculum',
-    'UAE Insurer',
+    'Health Insurer',
     'Policy No',
   ];
 
@@ -123,13 +123,13 @@ class _SecretaryImportStudentsScreenState extends State<SecretaryImportStudentsS
                 ),
               ),
             ),
-            const Text('students_uae_template.xlsx',
+            const Text('students_ksa_template.xlsx',
                 style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: SchooKeepColors.textPrimary)),
             const SizedBox(height: 8),
             Text(
               context.tr(
-                en: 'Create your spreadsheet with these columns. The header row has been copied to your clipboard. SSN is not used — UAE schools require Emirates ID instead.',
-                ar: 'قم بإنشاء جدول البيانات الخاص بك بهذه الأعمدة. تم نسخ صف العناوين إلى الحافظة. تستخدم المدارس الإماراتية رقم الهوية الإماراتية (EID).',
+                en: 'Create your spreadsheet with these columns. The header row has been copied to your clipboard. SSN is not used — Saudi schools require National ID instead.',
+                ar: 'قم بإنشاء جدول البيانات الخاص بك بهذه الأعمدة. تم نسخ صف العناوين إلى الحافظة. تستخدم المدارس السعودية رقم الهوية الوطنية.',
               ),
               style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary, height: 1.5),
             ),
@@ -229,8 +229,8 @@ class _SecretaryImportStudentsScreenState extends State<SecretaryImportStudentsS
                         const SizedBox(height: 4),
                         Text(
                           context.tr(
-                            en: 'Get the official Excel template with UAE required fields: Emirates ID, Emirate, Curriculum, UAE Insurer, and Policy.',
-                            ar: 'احصل على نموذج Excel المعتمد المتضمن الحقول الإلزامية بالإمارات: الهوية الإماراتية، الإمارة، المنهاج، والتأمين الصحي.',
+                            en: 'Get the official Excel template with Saudi required fields: National ID, Region, Curriculum, Health Insurer, and Policy.',
+                            ar: 'احصل على نموذج Excel المعتمد المتضمن الحقول الإلزامية بالسعودية: الهوية الوطنية، المنطقة، المنهاج، والتأمين الصحي.',
                           ),
                           style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary),
                         ),
@@ -244,7 +244,7 @@ class _SecretaryImportStudentsScreenState extends State<SecretaryImportStudentsS
                               const SizedBox(width: 8),
                               Flexible(
                                 child: Text(
-                                  context.tr(en: 'Download students_uae_template.xlsx', ar: 'تنزيل students_uae_template.xlsx'),
+                                  context.tr(en: 'Download students_ksa_template.xlsx', ar: 'تنزيل students_ksa_template.xlsx'),
                                   style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: SchooKeepColors.primary),
                                 ),
                               ),
@@ -504,10 +504,10 @@ class _SecretaryImportStudentsScreenState extends State<SecretaryImportStudentsS
         dividerThickness: 1,
         columns: [
           DataColumn(label: Text(context.tr(en: 'Name', ar: 'الاسم'), style: headerStyle)),
-          DataColumn(label: Text(context.tr(en: 'Emirates ID (EID)', ar: 'الهوية الإماراتية'), style: headerStyle)),
+          DataColumn(label: Text(context.tr(en: 'National ID', ar: 'الهوية الوطنية'), style: headerStyle)),
           DataColumn(label: Text(context.tr(en: 'Grade', ar: 'الصف'), style: headerStyle)),
           DataColumn(label: Text(context.tr(en: 'DOB', ar: 'تاريخ الميلاد'), style: headerStyle)),
-          DataColumn(label: Text(context.tr(en: 'Emirate', ar: 'الإمارة'), style: headerStyle)),
+          DataColumn(label: Text(context.tr(en: 'Region', ar: 'المنطقة'), style: headerStyle)),
           DataColumn(label: Text(context.tr(en: 'Curriculum', ar: 'المنهاج'), style: headerStyle)),
           DataColumn(label: Text(context.tr(en: 'Parent Email', ar: 'إيميل ولي الأمر'), style: headerStyle)),
           DataColumn(label: Text(context.tr(en: 'Insurer', ar: 'شركة التأمين'), style: headerStyle)),
@@ -517,10 +517,10 @@ class _SecretaryImportStudentsScreenState extends State<SecretaryImportStudentsS
           for (final r in _previewRows)
             DataRow(cells: [
               DataCell(Text(r.name, style: cellStyle)),
-              DataCell(Text(r.eid, style: monoStyle)),
+              DataCell(Text(r.nationalId, style: monoStyle)),
               DataCell(Text(r.grade, style: cellStyle)),
               DataCell(Text(r.dob, style: cellStyle)),
-              DataCell(Text(r.emirate, style: cellStyle)),
+              DataCell(Text(r.region, style: cellStyle)),
               DataCell(Text(r.curriculum, style: cellStyle)),
               DataCell(Text(r.parent, style: const TextStyle(fontSize: 10, color: SchooKeepColors.textPrimary))),
               DataCell(Text(r.insurer, style: cellStyle)),

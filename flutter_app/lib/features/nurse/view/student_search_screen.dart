@@ -288,7 +288,7 @@ class _StudentSearchViewState extends State<_StudentSearchView> {
     final subtitle = [
       if ((s.grade ?? '').isNotEmpty) '${context.tr(en: 'Grade', ar: 'الصف')} ${s.grade}',
       if ((s.section ?? '').isNotEmpty) s.section,
-      if ((s.emiratesId ?? '').isNotEmpty) s.emiratesId,
+      if ((s.nationalId ?? '').isNotEmpty) s.nationalId,
     ].whereType<String>().join(' • ');
 
     return Material(
