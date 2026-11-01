@@ -29,9 +29,9 @@ class AdminUtilitiesSeeder extends Seeder
 
         $today = Carbon::today();
 
-        $principal = User::where('email', 'principal@schookeep.ae')->first();
-        $vicePrincipal = User::where('email', 'vice_principal@schookeep.ae')->first();
-        $nurse = User::where('email', 'nurse@schookeep.ae')->first();
+        $principal = User::where('email', 'principal@schookeep.sa')->first();
+        $vicePrincipal = User::where('email', 'vice_principal@schookeep.sa')->first();
+        $nurse = User::where('email', 'nurse@schookeep.sa')->first();
 
         // ── SMS wallet ────────────────────────────────────────────────────────
         SmsWallet::firstOrCreate(

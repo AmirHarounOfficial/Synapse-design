@@ -326,7 +326,7 @@ class _ProtocolReviewViewState extends State<_ProtocolReviewView> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Icon(LucideIcons.info, size: 20, color: Color(0xFF2563EB)),
+          const Icon(LucideIcons.info, size: 20, color: SchooKeepColors.primary),
           const SizedBox(width: 10),
           Expanded(
             child: Text(

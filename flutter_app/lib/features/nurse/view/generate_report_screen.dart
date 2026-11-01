@@ -197,7 +197,7 @@ class _GenerateReportScreenState extends State<GenerateReportScreen> {
                   Expanded(
                     child: Text(
                       isRTL
-                          ? 'سيتم توقيع التقرير رقمياً بواسطة: $_nurseName · ترخيص: $_licenseNumber بموجب قانون المعاملات الإلكترونية الإماراتي.'
+                          ? 'سيتم توقيع التقرير رقمياً بواسطة: $_nurseName · ترخيص: $_licenseNumber بموجب نظام المعاملات الإلكترونية السعودي.'
                           : 'Report will be digitally signed by: $_nurseName · License #$_licenseNumber under Saudi Electronic Transactions Law.',
                       style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary, height: 1.5),
                     ),

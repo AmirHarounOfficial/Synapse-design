@@ -238,7 +238,7 @@ class _ReportCoSignatureScreenState extends State<ReportCoSignatureScreen> {
                 height: 40,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(color: const Color(0xFFEFF6FF), borderRadius: BorderRadius.circular(8)),
-                child: const Icon(LucideIcons.fileText, size: 20, color: Color(0xFF2563EB)),
+                child: const Icon(LucideIcons.fileText, size: 20, color: SchooKeepColors.primary),
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -571,7 +571,7 @@ class _ReportCoSignatureScreenState extends State<ReportCoSignatureScreen> {
           height: 52,
           child: OutlinedButton(
             style: OutlinedButton.styleFrom(
-              side: const BorderSide(color: Color(0xFF2563EB), width: 2),
+              side: const BorderSide(color: SchooKeepColors.primary, width: 2),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             ),
             onPressed: () => _toast(isRTL
@@ -594,7 +594,7 @@ class _ReportCoSignatureScreenState extends State<ReportCoSignatureScreen> {
                 ),
                 const SizedBox(width: 8),
                 Text(isRTL ? 'التوقيع الرقمي بهوية نفاذ' : 'Sign with Saudi Digital ID',
-                    style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF2563EB))),
+                    style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: SchooKeepColors.primary)),
               ],
             ),
           ),

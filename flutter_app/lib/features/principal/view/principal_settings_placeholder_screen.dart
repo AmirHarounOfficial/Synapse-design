@@ -157,8 +157,8 @@ class _PrincipalSettingsPlaceholderScreenState extends State<PrincipalSettingsPl
                 onTap: () => _showInfo(
                   context.tr(en: 'Contact support', ar: 'الاتصال بالدعم الفني'),
                   context.tr(
-                    en: 'Reach the SchooKeep support team at support@schookeep.ae or call 800-SCHOOL (800-724665) during business hours.',
-                    ar: 'يمكنك التواصل مع فريق دعم SchooKeep عبر support@schookeep.ae أو الاتصال على 800-724665 خلال أوقات الدوام.',
+                    en: 'Reach the SchooKeep support team at support@schookeep.sa or call 800-SCHOOL (800-724665) during business hours.',
+                    ar: 'يمكنك التواصل مع فريق دعم SchooKeep عبر support@schookeep.sa أو الاتصال على 800-724665 خلال أوقات الدوام.',
                   ),
                 ),
               ),

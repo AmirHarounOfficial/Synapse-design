@@ -24,11 +24,11 @@ class StaffSeeder extends Seeder
 
         // (a) Extra staff so the staff list has volume.
         $extraStaff = [
-            [Role::Teacher, 'Michael Rodriguez', 'michael.rodriguez@schookeep.ae', 'Grade 5 Teacher'],
-            [Role::Teacher, 'Emily Davis', 'emily.davis@schookeep.ae', 'Grade 3 Teacher'],
-            [Role::Teacher, 'Daniel Kim', 'daniel.kim@schookeep.ae', 'PE Teacher'],
-            [Role::Nurse, 'Aisha Rahman', 'aisha.rahman@schookeep.ae', 'School Nurse'],
-            [Role::Secretary, 'Jennifer Williams', 'jennifer.williams@schookeep.ae', 'Front Office'],
+            [Role::Teacher, 'Michael Rodriguez', 'michael.rodriguez@schookeep.sa', 'Grade 5 Teacher'],
+            [Role::Teacher, 'Emily Davis', 'emily.davis@schookeep.sa', 'Grade 3 Teacher'],
+            [Role::Teacher, 'Daniel Kim', 'daniel.kim@schookeep.sa', 'PE Teacher'],
+            [Role::Nurse, 'Aisha Rahman', 'aisha.rahman@schookeep.sa', 'School Nurse'],
+            [Role::Secretary, 'Jennifer Williams', 'jennifer.williams@schookeep.sa', 'Front Office'],
         ];
 
         foreach ($extraStaff as [$role, $name, $email, $title]) {

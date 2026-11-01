@@ -18,11 +18,11 @@ class MessagingSeeder extends Seeder
     {
         $schoolId = 1;
 
-        $secretary = User::where('email', 'secretary@schookeep.ae')->first();
-        $parent = User::where('email', 'parent@schookeep.ae')->first();
-        $nurse = User::where('email', 'nurse@schookeep.ae')->first();
-        $principal = User::where('email', 'principal@schookeep.ae')->first();
-        $teacher = User::where('email', 'teacher@schookeep.ae')->first();
+        $secretary = User::where('email', 'secretary@schookeep.sa')->first();
+        $parent = User::where('email', 'parent@schookeep.sa')->first();
+        $nurse = User::where('email', 'nurse@schookeep.sa')->first();
+        $principal = User::where('email', 'principal@schookeep.sa')->first();
+        $teacher = User::where('email', 'teacher@schookeep.sa')->first();
 
         $now = Carbon::now();
 

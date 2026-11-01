@@ -17,8 +17,8 @@ class ClinicSeeder extends Seeder
      */
     public function run(): void
     {
-        $nurse = User::where('email', 'nurse@schookeep.ae')->first();
-        $parent = User::where('email', 'parent@schookeep.ae')->first();
+        $nurse = User::where('email', 'nurse@schookeep.sa')->first();
+        $parent = User::where('email', 'parent@schookeep.sa')->first();
 
         $students = Student::orderBy('id')->get();
         if ($students->isEmpty()) {

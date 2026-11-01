@@ -130,8 +130,8 @@ class _TwoFactorAuthScreenState extends State<TwoFactorAuthScreen> {
           const SizedBox(height: 8),
           Text(
             context.tr(
-              en: 'A 6-digit code was sent to admin@schookeep.ae',
-              ar: 'تم إرسال رمز مكون من 6 أرقام إلى admin@schookeep.ae',
+              en: 'A 6-digit code was sent to admin@schookeep.sa',
+              ar: 'تم إرسال رمز مكون من 6 أرقام إلى admin@schookeep.sa',
             ),
             textAlign: TextAlign.center,
             style: const TextStyle(fontSize: 14, color: SchooKeepColors.textSecondary),

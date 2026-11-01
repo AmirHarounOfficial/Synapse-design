@@ -29,7 +29,7 @@ class CafeteriaSeeder extends Seeder
         }
 
         $today = Carbon::today();
-        $cafeteriaUser = User::where('email', 'cafeteria@schookeep.ae')->first();
+        $cafeteriaUser = User::where('email', 'cafeteria@schookeep.sa')->first();
 
         // Today's meals — mix of halal-certified, one non-halal detected.
         $meals = [

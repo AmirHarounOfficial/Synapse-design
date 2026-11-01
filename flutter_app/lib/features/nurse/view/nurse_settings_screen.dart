@@ -214,7 +214,7 @@ class _NurseSettingsScreenState extends State<NurseSettingsScreen> {
           style: const TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary, height: 1.5),
         ),
         const SizedBox(height: 16),
-        _contactRow(LucideIcons.mail, 'support@schookeep.ae'),
+        _contactRow(LucideIcons.mail, 'support@schookeep.sa'),
         const SizedBox(height: 8),
         _contactRow(LucideIcons.phone, '+971 4 123 4567'),
       ],

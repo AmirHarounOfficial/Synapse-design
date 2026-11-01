@@ -543,8 +543,8 @@ class _CounselorSettingsScreenState extends State<CounselorSettingsScreen> {
         onTap: () => _showInfo(
           titleEn: 'Contact support',
           titleAr: 'تواصل مع الدعم',
-          bodyEn: 'Reach the SchooKeep support team at support@schookeep.ae or call your school IT coordinator.',
-          bodyAr: 'تواصل مع فريق دعم SchooKeep عبر support@schookeep.ae أو اتصل بمنسق تقنية المعلومات في مدرستك.',
+          bodyEn: 'Reach the SchooKeep support team at support@schookeep.sa or call your school IT coordinator.',
+          bodyAr: 'تواصل مع فريق دعم SchooKeep عبر support@schookeep.sa أو اتصل بمنسق تقنية المعلومات في مدرستك.',
         ),
       ),
       Material(

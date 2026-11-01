@@ -55,7 +55,7 @@ class _PrincipalAuditLogViewState extends State<_PrincipalAuditLogView> {
         'clinical' => const Color(0xFFDC2626),
         'security' => const Color(0xFFF59E0B),
         'login' => const Color(0xFF64748B),
-        _ => const Color(0xFF2563EB),
+        _ => SchooKeepColors.primary,
       };
 
   Future<void> _exportCsv() async {

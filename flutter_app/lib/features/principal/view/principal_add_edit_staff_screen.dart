@@ -106,7 +106,7 @@ class _PrincipalAddEditStaffViewState extends State<_PrincipalAddEditStaffView> 
     final email = _email.text;
     final valid = email.contains('@') &&
         (email.endsWith('.ae') ||
-            email.endsWith('@schookeep.ae') ||
+            email.endsWith('@schookeep.sa') ||
             email.endsWith('@school.ae') ||
             email.endsWith('@lakewood.edu'));
     setState(() => _emailValid = valid);
@@ -292,7 +292,7 @@ class _PrincipalAddEditStaffViewState extends State<_PrincipalAddEditStaffView> 
             onFocusChange: (hasFocus) {
               if (!hasFocus && _email.text.isNotEmpty) _validateEmail();
             },
-            child: _textField(_email, 'name@schookeep.ae',
+            child: _textField(_email, 'name@schookeep.sa',
                 keyboardType: TextInputType.emailAddress, onChanged: (_) => setState(() {})),
           ),
           if (_email.text.isNotEmpty && _emailValid) ...[
@@ -313,7 +313,7 @@ class _PrincipalAddEditStaffViewState extends State<_PrincipalAddEditStaffView> 
                 Icon(LucideIcons.alertTriangle, size: 16, color: SchooKeepColors.error),
                 SizedBox(width: 4),
                 Expanded(
-                  child: Text('Must use a valid school email address (.ae or @schookeep.ae)',
+                  child: Text('Must use a valid school email address (.ae or @schookeep.sa)',
                       style: TextStyle(fontSize: 12, color: SchooKeepColors.error)),
                 ),
               ],

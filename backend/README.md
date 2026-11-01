@@ -35,18 +35,18 @@ One user per role, all with password **`password`** (school: *Al Noor Internatio
 
 | Role | Email |
 |---|---|
-| Nurse | `nurse@schookeep.ae` |
-| Parent | `parent@schookeep.ae` |
-| Teacher | `teacher@schookeep.ae` |
-| Cafeteria | `cafeteria@schookeep.ae` |
-| Security | `security@schookeep.ae` |
-| Bus driver | `bus@schookeep.ae` |
-| Counselor | `counselor@schookeep.ae` |
-| Secretary | `secretary@schookeep.ae` |
-| Principal | `principal@schookeep.ae` |
-| Physician | `physician@schookeep.ae` |
-| Vice Principal | `vp@schookeep.ae` |
-| Admin | `admin@schookeep.ae` |
+| Nurse | `nurse@schookeep.sa` |
+| Parent | `parent@schookeep.sa` |
+| Teacher | `teacher@schookeep.sa` |
+| Cafeteria | `cafeteria@schookeep.sa` |
+| Security | `security@schookeep.sa` |
+| Bus driver | `bus@schookeep.sa` |
+| Counselor | `counselor@schookeep.sa` |
+| Secretary | `secretary@schookeep.sa` |
+| Principal | `principal@schookeep.sa` |
+| Physician | `physician@schookeep.sa` |
+| Vice Principal | `vp@schookeep.sa` |
+| Admin | `admin@schookeep.sa` |
 
 ## Auth
 

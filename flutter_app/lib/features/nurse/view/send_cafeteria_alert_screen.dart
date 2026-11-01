@@ -72,7 +72,7 @@ class _SendCafeteriaAlertViewState extends State<_SendCafeteriaAlertView> {
   ];
 
   static const List<Color> _avatarColors = [
-    Color(0xFF2563EB), Color(0xFF10B981), Color(0xFFF59E0B),
+    SchooKeepColors.primary, Color(0xFF10B981), Color(0xFFF59E0B),
     Color(0xFF8B5CF6), Color(0xFFEC4899), Color(0xFF06B6D4),
   ];
 
@@ -293,7 +293,7 @@ class _SendCafeteriaAlertViewState extends State<_SendCafeteriaAlertView> {
                       Expanded(
                         child: Text(
                           isRTL
-                              ? 'سيرى موظفو الكافتيريا القيود المفروضة فقط دون إظهار التشخيص الطبي للطالب حماية للخصوصية بموجب قانون حماية البيانات الإماراتي (PDPL).'
+                              ? 'سيرى موظفو الكافتيريا القيود المفروضة فقط دون إظهار التشخيص الطبي للطالب حماية للخصوصية بموجب نظام حماية البيانات الشخصية السعودي (PDPL).'
                               : 'Cafeteria staff will only see the dietary restriction — not the medical reason. This protects student privacy per Saudi PDPL.',
                           style: const TextStyle(fontSize: 12, color: Color(0xFF1E40AF), height: 1.5),
                         ),

@@ -16,8 +16,8 @@ class ChatbotSeeder extends Seeder
     public function run(): void
     {
         $schoolId = 1;
-        $parent = User::where('email', 'parent@schookeep.ae')->first();
-        $secretary = User::where('email', 'secretary@schookeep.ae')->first();
+        $parent = User::where('email', 'parent@schookeep.sa')->first();
+        $secretary = User::where('email', 'secretary@schookeep.sa')->first();
 
         $greeting = 'Hello! I am the SchooKeep Assistant. How can I help you today?';
 

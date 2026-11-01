@@ -3,8 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'app_colors.dart';
 
-/// Material 3 theme carrying the SchooKeep palette + Inter typography.
-/// The React export uses the Inter font family and 12px ("xl") card radii.
+/// Material 3 theme carrying the SchooKeep palette + KSA-adapted typography.
+/// Primary color shifted to Saudi Green for the Saudi market.
 abstract final class SchooKeepTheme {
   /// Card / surface corner radius — Tailwind `rounded-xl` == 12px.
   static const double radiusXl = 12;
@@ -36,6 +36,25 @@ abstract final class SchooKeepTheme {
       textTheme: GoogleFonts.interTextTheme(base.textTheme).apply(
         bodyColor: SchooKeepColors.textPrimary,
         displayColor: SchooKeepColors.textPrimary,
+      ),
+      appBarTheme: base.appBarTheme.copyWith(
+        backgroundColor: SchooKeepColors.saudiGreen,
+        foregroundColor: Colors.white,
+        centerTitle: true,
+        elevation: 0,
+      ),
+      bottomNavigationBarTheme: base.bottomNavigationBarTheme.copyWith(
+        selectedItemColor: SchooKeepColors.saudiGreen,
+        unselectedItemColor: SchooKeepColors.textSecondary,
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: SchooKeepColors.saudiGreen,
+          foregroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(SchooKeepTheme.radiusLg),
+          ),
+        ),
       ),
       dividerColor: SchooKeepColors.border,
       splashFactory: InkRipple.splashFactory,

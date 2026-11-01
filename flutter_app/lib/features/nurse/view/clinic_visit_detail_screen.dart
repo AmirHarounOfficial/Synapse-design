@@ -62,7 +62,7 @@ class _ClinicVisitDetailView extends StatelessWidget {
 
   static Color _avatarColor(int seed) {
     const colors = [
-      Color(0xFF2563EB),
+      SchooKeepColors.primary,
       Color(0xFF10B981),
       Color(0xFFF59E0B),
       Color(0xFF8B5CF6),

@@ -258,7 +258,7 @@ class _SecretarySettingsScreenState extends State<SecretarySettingsScreen> {
           _para('${context.tr(en: 'Signed', ar: 'تاريخ التوقيع')}: 01/05/2026'),
           _para(context.tr(
             en: 'As school secretary, you agree to keep all student information strictly confidential under Saudi Personal Data Protection Law (PDPL), to access only the data needed for your duties, and to report any suspected breach to the Data Protection Officer immediately.',
-            ar: 'بصفتك سكرتير/ة مدرسة، فإنك تتعهد بالحفاظ على السرية التامة لبيانات الطلاب بموجب المرسوم بقانون إتحادي رقم 45 لسنة 2021 (PDPL)، وعدم استخدام البيانات إلا لأغراض العمل المصرح بها.',
+            ar: 'بصفتك سكرتير/ة مدرسة، فإنك تتعهد بالحفاظ على السرية التامة لبيانات الطلاب بموجب نظام حماية البيانات الشخصية السعودي (PDPL)، وعدم استخدام البيانات إلا لأغراض العمل المصرح بها.',
           )),
         ],
       );
@@ -298,7 +298,7 @@ class _SecretarySettingsScreenState extends State<SecretarySettingsScreen> {
             en: 'SchooKeep support is available Sunday–Thursday, 8:00 AM – 5:00 PM (GST).',
             ar: 'فريق الدعم الفني متواجد من الأحد إلى الخميس، من 8:00 صباحاً حتى 5:00 مساءً (توقيت الإمارات).',
           )),
-          _para('Email: support@schookeep.ae'),
+          _para('Email: support@schookeep.sa'),
           _para('Phone: 800-SCHOOL (800-724665)'),
           Padding(
             padding: const EdgeInsets.only(bottom: 4),
@@ -306,7 +306,7 @@ class _SecretarySettingsScreenState extends State<SecretarySettingsScreen> {
               label: context.tr(en: 'Copy support email', ar: 'نسخ بريد الدعم الفني'),
               fullWidth: false,
               onPressed: () async {
-                await Clipboard.setData(const ClipboardData(text: 'support@schookeep.ae'));
+                await Clipboard.setData(const ClipboardData(text: 'support@schookeep.sa'));
                 if (!mounted) return;
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text(context.tr(en: 'Support email copied to clipboard', ar: 'تم نسخ بريد الدعم الفني للحافظة'))),

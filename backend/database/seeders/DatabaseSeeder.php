@@ -32,18 +32,18 @@ class DatabaseSeeder extends Seeder
         );
 
         $roleUsers = [
-            [Role::Nurse, 'Sarah Johnson', 'nurse@schookeep.ae'],
-            [Role::Parent, 'Ahmed Al Mansoori', 'parent@schookeep.ae'],
-            [Role::Teacher, 'Fatima Hassan', 'teacher@schookeep.ae'],
-            [Role::Cafeteria, 'Cafeteria Manager', 'cafeteria@schookeep.ae'],
-            [Role::Security, 'Security Officer', 'security@schookeep.ae'],
-            [Role::BusDriver, 'Bus Driver', 'bus@schookeep.ae'],
-            [Role::Counselor, 'Layla Ahmed', 'counselor@schookeep.ae'],
-            [Role::Secretary, 'Mariam Saeed', 'secretary@schookeep.ae'],
-            [Role::Principal, 'Dr. Khalid Rahman', 'principal@schookeep.ae'],
-            [Role::Physician, 'Dr. Jennifer Chen', 'physician@schookeep.ae'],
-            [Role::VicePrincipal, 'Omar Abdullah', 'vp@schookeep.ae'],
-            [Role::Admin, 'System Admin', 'admin@schookeep.ae'],
+            [Role::Nurse, 'Sarah Johnson', 'nurse@schookeep.sa'],
+            [Role::Parent, 'Ahmed Al Mansoori', 'parent@schookeep.sa'],
+            [Role::Teacher, 'Fatima Hassan', 'teacher@schookeep.sa'],
+            [Role::Cafeteria, 'Cafeteria Manager', 'cafeteria@schookeep.sa'],
+            [Role::Security, 'Security Officer', 'security@schookeep.sa'],
+            [Role::BusDriver, 'Bus Driver', 'bus@schookeep.sa'],
+            [Role::Counselor, 'Layla Ahmed', 'counselor@schookeep.sa'],
+            [Role::Secretary, 'Mariam Saeed', 'secretary@schookeep.sa'],
+            [Role::Principal, 'Dr. Khalid Rahman', 'principal@schookeep.sa'],
+            [Role::Physician, 'Dr. Jennifer Chen', 'physician@schookeep.sa'],
+            [Role::VicePrincipal, 'Omar Abdullah', 'vp@schookeep.sa'],
+            [Role::Admin, 'System Admin', 'admin@schookeep.sa'],
         ];
 
         foreach ($roleUsers as [$role, $name, $email]) {

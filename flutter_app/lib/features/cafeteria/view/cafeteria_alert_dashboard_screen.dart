@@ -85,7 +85,7 @@ class _CafeteriaAlertDashboardViewState extends State<_CafeteriaAlertDashboardVi
     if (a.severity == 'warning') {
       return (bg: const Color(0xFFFEF3C7), fg: const Color(0xFF92400E), border: const Color(0xFFF59E0B));
     }
-    return (bg: const Color(0xFFDBEAFE), fg: const Color(0xFF1E40AF), border: const Color(0xFF2563EB));
+    return (bg: const Color(0xFFDBEAFE), fg: const Color(0xFF1E40AF), border: SchooKeepColors.primary);
   }
 
   @override

@@ -701,7 +701,7 @@ class _CafeteriaSettingsViewState extends State<_CafeteriaSettingsView> {
   }
 
   void _showContactSupportSheet(bool isRTL) {
-    const supportEmail = 'support@schookeep.ae';
+    const supportEmail = 'support@schookeep.sa';
     _showSheet(
       title: isRTL ? 'الاتصال بالدعم الفني' : 'Contact Support',
       children: [

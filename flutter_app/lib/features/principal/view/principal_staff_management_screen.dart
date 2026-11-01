@@ -334,7 +334,7 @@ class _PrincipalStaffManagementViewState extends State<_PrincipalStaffManagement
                         spacing: 8,
                         runSpacing: 4,
                         children: [
-                          _miniBadge(_humanizeRole(context, s.role), const Color(0xFFDBEAFE), const Color(0xFF2563EB)),
+                          _miniBadge(_humanizeRole(context, s.role), const Color(0xFFDBEAFE), SchooKeepColors.primary),
                           _miniBadge(
                             suspended
                                 ? context.tr(en: 'Inactive', ar: 'غير نشط')

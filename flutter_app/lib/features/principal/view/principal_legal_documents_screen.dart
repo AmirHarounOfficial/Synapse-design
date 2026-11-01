@@ -574,7 +574,7 @@ class PrincipalLegalDocumentsScreen extends StatelessWidget {
             context.tr(en: 'Saudi PDPL Controller-Processor Declaration', ar: 'إقرار المسؤول والمعالج لنظام حماية البيانات السعودي'),
             context.tr(
               en: 'Delineates the responsibilities of the school (Controller) and SchooKeep (Processor) under the Saudi Personal Data Protection Law.',
-              ar: 'يحدد مسؤوليات المدرسة (المسؤول) ومنصة SchooKeep (المعالج) بموجب المرسوم بقانون اتحادي رقم 45 لسنة 2021.',
+              ar: 'يحدد مسؤوليات المدرسة (المسؤول) ومنصة SchooKeep (المعالج) بموجب نظام حماية البيانات الشخصية السعودي.',
             ),
           ),
           const SizedBox(height: 12),

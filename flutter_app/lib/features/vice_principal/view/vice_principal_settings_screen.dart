@@ -148,7 +148,7 @@ class _VicePrincipalSettingsScreenState extends State<VicePrincipalSettingsScree
                       style: const TextStyle(fontSize: 13, color: SchooKeepColors.textSecondary),
                     ),
                     const SizedBox(height: 8),
-                    const Text('v.davis@schookeep.ae', style: TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary)),
+                    const Text('v.davis@schookeep.sa', style: TextStyle(fontSize: 12, color: SchooKeepColors.textSecondary)),
                   ],
                 ),
               ),

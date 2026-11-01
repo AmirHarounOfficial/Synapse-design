@@ -307,7 +307,7 @@ class _NurseDashboardViewState extends State<_NurseDashboardView> {
       (
         label: isRTL ? 'مخزون الأدوية' : 'Medicine Inventory',
         icon: LucideIcons.boxes,
-        color: const Color(0xFF2563EB),
+        color: SchooKeepColors.primary,
         route: '/nurse/medications/inventory',
         filled: true,
       ),

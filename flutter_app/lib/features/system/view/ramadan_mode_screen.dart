@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 import '../../../core/localization/l10n_ext.dart';
+import '../../../core/theme/app_colors.dart';
 import '../widgets/simulator_frame.dart';
 
 /// Ported from `RamadanModeScreen.tsx` (SYS-05). A simulator showing the active
@@ -144,7 +145,7 @@ class _RamadanModeScreenState extends State<RamadanModeScreen> {
                 const SizedBox(height: 2),
                 Text(
                   context.tr(en: 'Check medication dose timings', ar: 'تحقق من مواقيت جرعات الأدوية'),
-                  style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Color(0xFF2563EB)),
+                  style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: SchooKeepColors.saudiGreen),
                 ),
               ],
             ),
@@ -277,7 +278,7 @@ class _RamadanModeScreenState extends State<RamadanModeScreen> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Icon(LucideIcons.alertCircle, size: 18, color: Color(0xFF2563EB)),
+          const Icon(LucideIcons.alertCircle, size: 18, color: SchooKeepColors.saudiGreen),
           const SizedBox(width: 10),
           Expanded(
             child: Text(

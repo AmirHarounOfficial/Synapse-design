@@ -22,9 +22,9 @@ class CounselorWellbeingSeeder extends Seeder
     public function run(): void
     {
         $school = School::first();
-        $counselor = User::where('email', 'counselor@schookeep.ae')->first();
-        $nurse = User::where('email', 'nurse@schookeep.ae')->first();
-        $principal = User::where('email', 'principal@schookeep.ae')->first();
+        $counselor = User::where('email', 'counselor@schookeep.sa')->first();
+        $nurse = User::where('email', 'nurse@schookeep.sa')->first();
+        $principal = User::where('email', 'principal@schookeep.sa')->first();
         $students = Student::orderBy('id')->take(2)->get();
 
         if ($students->isEmpty()) {
@@ -108,8 +108,8 @@ class CounselorWellbeingSeeder extends Seeder
             ['kind' => 'haboob', 'school_id' => $school?->id],
             [
                 'severity' => 'warning',
-                'message' => 'Haboob dust storm expected this afternoon. Outdoor activities suspended; keep students indoors and windows closed.',
-                'message_ar' => 'عاصفة ترابية (هبوب) متوقعة بعد الظهر. تم تعليق الأنشطة الخارجية؛ يرجى إبقاء الطلاب في الداخل وإغلاق النوافذ.',
+                'message' => 'Haboob dust storm expected this afternoon. Outdoor activities suspended per Saudi NCM advisory; keep students indoors and windows closed.',
+                'message_ar' => 'عاصفة ترابية (هبوب) متوقعة بعد الظهر. تم تعليق الأنشطة الخارجية بناءً على تحذير المركز الوطني للأرصاد؛ يرجى إبقاء الطلاب في الداخل وإغلاق النوافذ.',
                 'active' => true,
                 'starts_at' => now(),
                 'ends_at' => now()->addHours(6),

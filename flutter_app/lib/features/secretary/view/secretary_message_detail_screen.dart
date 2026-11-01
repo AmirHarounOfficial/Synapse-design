@@ -262,7 +262,7 @@ class _SecretaryMessageDetailView extends StatelessWidget {
   (Color bg, Color fg, String label) _categoryStyle(String? category, bool isRTL) {
     switch (category) {
       case 'parents':
-        return (const Color(0xFFEFF6FF), const Color(0xFF2563EB), isRTL ? 'أولياء الأمور' : 'Parents');
+        return (const Color(0xFFEFF6FF), SchooKeepColors.primary, isRTL ? 'أولياء الأمور' : 'Parents');
       case 'clinic':
         return (const Color(0xFFF0F9FF), const Color(0xFF0369A1), isRTL ? 'العيادة الطبية' : 'Clinic');
       case 'sent':
